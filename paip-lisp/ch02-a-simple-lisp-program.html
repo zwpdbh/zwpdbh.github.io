@@ -19,26 +19,6 @@
  pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
 <style type="text/css">
  pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
@@ -69,17 +49,18 @@
  <a accesskey="H" href="/"> HOME </a>
 </div><header id="top" class="status">
 <div class='intro'>
-  <h1>
+  <h2>
     <span class="gray">Zhao</span>
     <span class="black">Wei</span>
-  </h1>
+  </h2>
   <p>Emacser</p>
 </div>
 
 <div class='nav'>
-<ul>
-<li><a href='/'>Blog</a>.</li>
-</ul>
+  <ul>
+    <li><a href='/'>Blog</a>.</li>
+    <li><a href='/about/'>About</a></li>
+  </ul>
 </div>
 </header>
 <main id="content">
@@ -99,8 +80,6 @@
 </ul>
 </div>
 </nav>
-
-
 <section id="outline-container-org47abba7" class="outline-2">
 <h2 id="org47abba7">Description</h2>
 <div class="outline-text-2" id="text-org47abba7">
@@ -115,7 +94,7 @@ This chapter aims to practise the skill of combining basic functions and special
 <p>
 Given the following rule, we want to generate a sentence based on that phrase-structure grammar.
 </p>
-<pre class="example" id="org4803e68">
+<pre class="example" id="orgf1cf2c2">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
@@ -154,7 +133,7 @@ In traditional solution, the rules are expressed based on many lisp conventions,
 <p>
 Consider the rules
 </p>
-<pre class="example" id="orgb6c5f52">
+<pre class="example" id="org45ffdf3">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
