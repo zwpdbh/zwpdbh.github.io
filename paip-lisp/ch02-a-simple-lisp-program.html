@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Feb 17, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>&lrm;</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="zwpdbh">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class='intro'>
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>Emacser</p>
+</div>
+
+<div class='nav'>
+<ul>
+<li><a href='/'>Blog</a>.</li>
+</ul>
+</div>
+</header>
+<main id="content">
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org47abba7">Description</a>
+<ul>
+<li><a href="#orgcfd22c5">Derivation of a single sentence using a context-free grammar</a></li>
+<li><a href="#orgbb9240a">Traditional straightforward development</a></li>
+<li><a href="#orgc5ee3e6">Data driven development (rule-based solution)</a></li>
+<li><a href="#orgfffba8c">Things we used</a></li>
+</ul>
+</li>
+<li><a href="#org1651420">Exercise</a></li>
+</ul>
+</div>
+</nav>
+
+
+<section id="outline-container-org47abba7" class="outline-2">
+<h2 id="org47abba7">Description</h2>
+<div class="outline-text-2" id="text-org47abba7">
+<p>
+This chapter aims to practise the skill of combining basic functions and special forms of list into a complete program.
+</p>
+</div>
+
+<div id="outline-container-orgcfd22c5" class="outline-3">
+<h3 id="orgcfd22c5">Derivation of a single sentence using a context-free grammar</h3>
+<div class="outline-text-3" id="text-orgcfd22c5">
+<p>
+Given the following rule, we want to generate a sentence based on that phrase-structure grammar.
+</p>
+<pre class="example" id="org4803e68">
+Sentence =&gt; Noun-Phrase + Verb-Phrase
+Noun-Phrase =&gt; Article + Noun
+Verb-Phrase =&gt; Verb + Noun-Phrase
+Article =&gt; the, a,...
+Noun =&gt; man, ball, woman, table...
+Verb =&gt; hit, took, saw, liked...
+</pre>
+</div>
+</div>
+<div id="outline-container-orgbb9240a" class="outline-3">
+<h3 id="orgbb9240a">Traditional straightforward development</h3>
+<div class="outline-text-3" id="text-orgbb9240a">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">sentence</span> <span class="org-parenthesis">()</span>    <span class="org-parenthesis">(</span>append <span class="org-parenthesis">(</span>noun-phrase<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>verb-phrase<span class="org-parenthesis">)))</span>
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">noun-phrase</span> <span class="org-parenthesis">()</span> <span class="org-parenthesis">(</span>append <span class="org-parenthesis">(</span>Article<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>Noun<span class="org-parenthesis">)))</span>
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">verb-phrase</span> <span class="org-parenthesis">()</span> <span class="org-parenthesis">(</span>append <span class="org-parenthesis">(</span>Verb<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>noun-phrase<span class="org-parenthesis">)))</span>
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">Article</span> <span class="org-parenthesis">()</span>     <span class="org-parenthesis">(</span>one-of '<span class="org-parenthesis">(</span><span class="org-keyword">the</span> a<span class="org-parenthesis">)))</span>
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">Noun</span> <span class="org-parenthesis">()</span>        <span class="org-parenthesis">(</span>one-of '<span class="org-parenthesis">(</span>man ball woman table<span class="org-parenthesis">)))</span>
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">Verb</span> <span class="org-parenthesis">()</span>        <span class="org-parenthesis">(</span>one-of '<span class="org-parenthesis">(</span>hit took saw liked<span class="org-parenthesis">)))</span>
+</pre>
+</div>
+<p>
+In this approach, we create functions accordingto the grammar rules.
+In traditional solution, the rules are expressed based on many lisp conventions, such as: case, if, and their order in the evaluation (we use functions&rsquo;s call to express those rules.).
+</p>
+</div>
+</div>
+<div id="outline-container-orgc5ee3e6" class="outline-3">
+<h3 id="orgc5ee3e6">Data driven development (rule-based solution)</h3>
+<div class="outline-text-3" id="text-orgc5ee3e6">
+<ol class="org-ol">
+<li>Concentrate on how to make it easy to <b>express rule directly using lisp</b>.</li>
+<li>Worry later about how they will be processed.</li>
+</ol>
+
+<p>
+Consider the rules
+</p>
+<pre class="example" id="orgb6c5f52">
+Sentence =&gt; Noun-Phrase + Verb-Phrase
+Noun-Phrase =&gt; Article + Noun
+Verb-Phrase =&gt; Verb + Noun-Phrase
+Article =&gt; the, a, ...
+Noun =&gt; man, ball, woman, table...
+Verb =&gt; hit, took, saw, liked...
+</pre>
+
+<p>
+We use the following lisp code represent their rules:
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defparameter</span> <span class="org-variable-name">*simple-grammar*</span>
+  '<span class="org-parenthesis">((</span>sentence -&gt; <span class="org-parenthesis">(</span>noun-phrase verb-phrase<span class="org-parenthesis">))</span>
+    <span class="org-parenthesis">(</span>noun-phrase -&gt; <span class="org-parenthesis">(</span>Article Noun<span class="org-parenthesis">))</span>
+    <span class="org-parenthesis">(</span>verb-phrase -&gt; <span class="org-parenthesis">(</span>Verb noun-phrase<span class="org-parenthesis">))</span>
+    <span class="org-parenthesis">(</span>Article -&gt; the a<span class="org-parenthesis">)</span>
+    <span class="org-parenthesis">(</span>Noun -&gt; man ball woman table<span class="org-parenthesis">)</span>
+    <span class="org-parenthesis">(</span>Verb -&gt; hit took saw liked<span class="org-parenthesis">))</span>
+  <span class="org-doc">"A grammar for a trivial subset of English."</span><span class="org-parenthesis">)</span>
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">*grammar*</span> *simple-grammar*
+  <span class="org-doc">"The grammar used by generate.  Initially, this is</span>
+<span class="org-doc">  *simple-grammar*, but we can switch to other grammars."</span><span class="org-parenthesis">)</span>
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">rule-lhs</span> <span class="org-parenthesis">(</span>rule<span class="org-parenthesis">)</span>
+  <span class="org-doc">"The left hand side of a rule."</span>
+  <span class="org-parenthesis">(</span>first rule<span class="org-parenthesis">))</span>
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">rule-rhs</span> <span class="org-parenthesis">(</span>rule<span class="org-parenthesis">)</span>
+  <span class="org-doc">"The right hand side of a rule."</span>
+  <span class="org-parenthesis">(</span>rest <span class="org-parenthesis">(</span>rest rule<span class="org-parenthesis">)))</span>
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">rewrites</span> <span class="org-parenthesis">(</span>category<span class="org-parenthesis">)</span>
+  <span class="org-doc">"Return a list of the possible rewrites for this category."</span>
+  <span class="org-parenthesis">(</span>rule-rhs <span class="org-parenthesis">(</span>assoc category *grammar*<span class="org-parenthesis">)))</span>
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">generate</span> <span class="org-parenthesis">(</span>phrase<span class="org-parenthesis">)</span>
+  <span class="org-doc">"Generate a random sentence or phrase"</span>
+  <span class="org-parenthesis">(</span><span class="org-keyword">cond</span> <span class="org-parenthesis">((</span>listp phrase<span class="org-parenthesis">)</span>
+         <span class="org-parenthesis">(</span>mappend #'generate phrase<span class="org-parenthesis">))</span>
+        <span class="org-parenthesis">((</span>rewrites phrase<span class="org-parenthesis">)</span>
+         <span class="org-parenthesis">(</span>generate <span class="org-parenthesis">(</span>random-elt <span class="org-parenthesis">(</span>rewrites phrase<span class="org-parenthesis">))))</span>
+        <span class="org-parenthesis">(</span>t <span class="org-parenthesis">(</span>list phrase<span class="org-parenthesis">))))</span> 
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">mappend</span> <span class="org-parenthesis">(</span>fn lst<span class="org-parenthesis">)</span>
+  <span class="org-parenthesis">(</span>apply #'append <span class="org-parenthesis">(</span>mapcar fn lst<span class="org-parenthesis">)))</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfffba8c" class="outline-3">
+<h3 id="orgfffba8c">Things we used</h3>
+<div class="outline-text-3" id="text-orgfffba8c">
+<ul class="org-ul">
+<li>append</li>
+<li><p>
+elt
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>elt '<span class="org-parenthesis">(</span>1 2 3 4 5<span class="org-parenthesis">)</span> 2<span class="org-parenthesis">)</span>
+</pre>
+</div></li>
+<li><p>
+random, we use it to implement one-of and random-element
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">one-of</span> <span class="org-parenthesis">(</span>lst<span class="org-parenthesis">)</span>
+  <span class="org-parenthesis">(</span>list <span class="org-parenthesis">(</span>random-element lst<span class="org-parenthesis">)))</span>
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">random-element</span> <span class="org-parenthesis">(</span>lst<span class="org-parenthesis">)</span>
+  <span class="org-parenthesis">(</span>elt lst <span class="org-parenthesis">(</span>random <span class="org-parenthesis">(</span>length lst<span class="org-parenthesis">))))</span>
+</pre>
+</div></li>
+<li><p>
+assoc
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>assoc '1 '<span class="org-parenthesis">((</span>1 -&gt; first<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>2 -&gt; second<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>3 -&gt; third<span class="org-parenthesis">)))</span>
+</pre>
+</div></li>
+
+<li>By convention, <code>defvar</code> is used to define var and <code>defparameter</code> is used to define constant. They are all used to define <b>global variable</b>.</li>
+
+<li>To define <b>local variable</b>, use <code>let</code>.</li>
+
+<li><b>By comparing traditional and data-driven development</b>
+<ul class="org-ul">
+<li>The traditional approach construct different functions and compose them to express the rule directly. It becomes hard to maintain once the rule become complex. Because we are doing straightforward mapping of the problem description into lisp code.</li>
+<li>The rule bsed approach (data-driven) on the other hand: 
+<ul class="org-ul">
+<li>First, focus on how to express rules as natual as possible with lisp code.</li>
+<li>Then, define a layer of tools to help to operate on those rules.
+<b>In this step, we are actually writing a simple interpreter for notation introduced from first step.</b></li>
+<li>Finally, with those tools, we define our final function according to the rules. (These rules are not the primitive rules; they are the rules expressed in lisp code from first step.)</li>
+</ul></li>
+<li>The idea behind second approach is to work with the problem as much as possible in its own terms, and to minimize the part of the solution that is written directly in Lisp.</li>
+<li>The extra advantages of representing information in declarative form (rules or facts) rather than lisp function is that it can be easier to use the information for multiple purpose. This is called <b>one-data/multiple-program</b>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org1651420" class="outline-2">
+<h2 id="org1651420">Exercise</h2>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Feb 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Feb 17, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>&lrm;</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="zwpdbh">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class='intro'>
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>Emacser</p>
+</div>
+
+<div class='nav'>
+<ul>
+<li><a href='/'>Blog</a>.</li>
+</ul>
+</div>
+</header>
+<main id="content">
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgc5abbb1">Overview of Lisp</a>
+<ul>
+<li><a href="#org18648fd">Guide to lisp style</a></li>
+<li><a href="#orgbff5982">Special forms</a>
+<ul>
+<li><a href="#org0889f69">Special forms for definitions</a></li>
+<li><a href="#orgb05bcbe">Special forms for conditionals</a></li>
+<li><a href="#orge95dcce">Special forms for dealing with variables and places</a></li>
+<li><a href="#org013048c">Functions and Special forms for repeatation</a></li>
+<li><a href="#org10371b3">Other special forms</a></li>
+<li><a href="#orgd6b9187">Macro</a></li>
+<li><a href="#org5195938">Backquote notation</a></li>
+</ul>
+</li>
+<li><a href="#org39cd671">Functions on Lists</a>
+<ul>
+<li><a href="#org6afc17c">Dotted pair notation</a></li>
+</ul>
+</li>
+<li><a href="#orgf61b1bc">Equality and internal representation</a></li>
+<li><a href="#orge846f1a">Functions on sequences</a></li>
+<li><a href="#org92bc746">Functions for maintaining tables</a>
+<ul>
+<li><a href="#orgc2ff994">Association table</a></li>
+<li><a href="#org95c3b67">Hash table</a></li>
+<li><a href="#org460e8d1">Property list</a></li>
+</ul>
+</li>
+<li><a href="#org76e8112">Functions on trees</a></li>
+<li><a href="#org50d2247">Functions on numbers</a></li>
+<li><a href="#org149ecb3">Functions on sets</a></li>
+<li><a href="#org6c2567e">Destructive functions</a></li>
+<li><a href="#org67afe3e">3.11 Overview of data types</a></li>
+<li><a href="#org2a90001">Input/output</a>
+<ul>
+<li><a href="#org719fc33">Input</a></li>
+<li><a href="#org26e76b5">Output</a></li>
+</ul>
+</li>
+<li><a href="#orgda2167d">3.13 debugging tools</a></li>
+<li><a href="#orgf234ea9">3.14 Antibugging tools</a></li>
+<li><a href="#org800fa2f">Evaluation</a></li>
+<li><a href="#org9a2f7f6">3.16 Closure</a></li>
+<li><a href="#org4904292">3.17 special variables</a></li>
+<li><a href="#orgf85e5d6">3.18 Multiple values</a></li>
+<li><a href="#orge52bad9">3.19 More about parameters</a></li>
+<li><a href="#orgdeb30ab">Optional arguments</a></li>
+<li><a href="#org97cd9ed">Key arguments</a></li>
+</ul>
+</li>
+<li><a href="#org4567adb"><span class="todo TODO">TODO</span> Exercises</a></li>
+</ul>
+</div>
+</nav>
+<section id="outline-container-orgc5abbb1" class="outline-2">
+<h2 id="orgc5abbb1">Overview of Lisp</h2>
+<div class="outline-text-2" id="text-orgc5abbb1">
+<p>
+This chapter can be used as a reference source.
+</p>
+</div>
+
+<div id="outline-container-org18648fd" class="outline-3">
+<h3 id="org18648fd">Guide to lisp style</h3>
+<div class="outline-text-3" id="text-org18648fd">
+<ul class="org-ul">
+<li>Be specific.</li>
+<li>Use abstractions.</li>
+<li>Be concise.</li>
+<li>Use the provided tools.</li>
+<li>Don&rsquo;t be obscure.</li>
+<li>Be consistent.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbff5982" class="outline-3">
+<h3 id="orgbff5982">Special forms</h3>
+<div class="outline-text-3" id="text-orgbff5982">
+</div>
+<div id="outline-container-org0889f69" class="outline-4">
+<h4 id="org0889f69">Special forms for definitions</h4>
+<div class="outline-text-4" id="text-org0889f69">
+<ul class="org-ul">
+<li>defun</li>
+<li>defmacro</li>
+<li>defvar</li>
+<li>defparameter</li>
+<li>defconstant</li>
+<li>defstruct</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb05bcbe" class="outline-4">
+<h4 id="orgb05bcbe">Special forms for conditionals</h4>
+<div class="outline-text-4" id="text-orgb05bcbe">
+<p>
+It is poor style to use <code>and</code> and <code>or</code> for anything other than testing a logical condition. Use <code>when, unless, if</code> if possible.
+</p>
+<ul class="org-ul">
+<li>when</li>
+<li>unless</li>
+<li>and</li>
+<li>or</li>
+<li>case</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge95dcce" class="outline-4">
+<h4 id="orge95dcce">Special forms for dealing with variables and places</h4>
+<div class="outline-text-4" id="text-orge95dcce">
+<ul class="org-ul">
+<li><p>
+setf
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf <span class="org-parenthesis">(</span>rest list<span class="org-parenthesis">)</span> nil<span class="org-parenthesis">)</span>
+</pre>
+</div></li>
+<li>let</li>
+<li><p>
+let*
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">let*</span> <span class="org-parenthesis">((</span>x 6<span class="org-parenthesis">)</span>
+       <span class="org-parenthesis">(</span>y <span class="org-parenthesis">(</span>* x x<span class="org-parenthesis">)))</span>
+  <span class="org-parenthesis">(</span>+ x y<span class="org-parenthesis">))</span>
+</pre>
+</div></li>
+<li>treat list as stack: pop, push</li>
+<li>(incf x) = (incf x 1) = (setf x (+ x 1))</li>
+<li>(decf x) = (decf x 1) = (setf x (- x 1))</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org013048c" class="outline-4">
+<h4 id="org013048c">Functions and Special forms for repeatation</h4>
+<div class="outline-text-4" id="text-org013048c">
+<ul class="org-ul">
+<li>dolist</li>
+<li>dotimes</li>
+<li>do, do*</li>
+<li>loop</li>
+<li>mapc, mapcar</li>
+<li>some, every</li>
+<li>find, reduce, remove</li>
+<li>member</li>
+<li>count</li>
+<li>delete</li>
+<li>position</li>
+<li>substitute</li>
+<li><b>recursion</b></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org10371b3" class="outline-4">
+<h4 id="org10371b3">Other special forms</h4>
+<div class="outline-text-4" id="text-org10371b3">
+<ul class="org-ul">
+<li><code>progn</code>, can be used to evaluate a sequence of forms and return the value of the last one.
+Not used very much, probably only needed in 3 places</li>
+<li><code>'x</code> for <code>(quote x)</code></li>
+<li><code>#'f</code> for <code>(function f)</code></li>
+<li>trace and untrace</li>
+<li><code>return</code> can be used to break out of a block of code</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd6b9187" class="outline-4">
+<h4 id="orgd6b9187">Macro</h4>
+<div class="outline-text-4" id="text-orgd6b9187">
+<p>
+4 steps to write macro:
+</p>
+<ol class="org-ol">
+<li>Decide if the macro is really necesary.</li>
+<li>Write down the syntax of the macro.</li>
+<li>Figure out what the macro should expand into.</li>
+<li>Use <code>defmacro</code> to implement the syntax/expansion correspondence.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org5195938" class="outline-4">
+<h4 id="org5195938">Backquote notation</h4>
+<div class="outline-text-4" id="text-org5195938">
+<p>
+A backquote indicates that what follows is mostly a literal expression but may contain some components that are to be evaluated. Anything marked by a leading comma <code>,</code> is evaluated and inserted into the structure. And anything marked with a leading <code>,@</code> must evaluated to a list that is spliced into the structure: each element of the list is inserted, without the top-level parameters.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf test1 '<span class="org-parenthesis">(</span>a test<span class="org-parenthesis">))</span>
+
+`<span class="org-parenthesis">(</span>this is ,test1<span class="org-parenthesis">)</span>
+`<span class="org-parenthesis">(</span>this is ,@test1<span class="org-parenthesis">)</span>
+`<span class="org-parenthesis">(</span>this is . ,test1<span class="org-parenthesis">)</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">In the middle of a list, only ,@ is a possibility.</span>
+`<span class="org-parenthesis">(</span>this is ,@test1 -- this is only ,@test1<span class="org-parenthesis">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org39cd671" class="outline-3">
+<h3 id="org39cd671">Functions on Lists</h3>
+<div class="outline-text-3" id="text-org39cd671">
+<ul class="org-ul">
+<li>first</li>
+<li>second</li>
+<li>third</li>
+<li>nth</li>
+<li>rest</li>
+<li>car</li>
+<li>cdr</li>
+<li>last</li>
+<li>length</li>
+<li>reverse</li>
+<li>append</li>
+<li>list</li>
+<li>list*</li>
+<li>null</li>
+<li>listp</li>
+<li>consp</li>
+<li>equal</li>
+<li>sort</li>
+<li>subseq</li>
+</ul>
+</div>
+
+<div id="outline-container-org6afc17c" class="outline-4">
+<h4 id="org6afc17c">Dotted pair notation</h4>
+<div class="outline-text-4" id="text-org6afc17c">
+<p>
+(cons a b)
+</p>
+<ol class="org-ol">
+<li>When b is not a list. The result is an object x such that (first x) =&gt; a and (rest x) =&gt; b and where x prints as (a . b).</li>
+<li>When b is a list, the usual list notation is used for output rather than the dotted pair notation.</li>
+</ol>
+<p>
+Either notation can be used for input.       
+</p>
+
+<p>
+A <b>cons cell</b> is a data structure with two fields: a first and a rest. All proper lists have a last cons cell whose rest field is nil.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf61b1bc" class="outline-3">
+<h3 id="orgf61b1bc">Equality and internal representation</h3>
+</div>
+
+<div id="outline-container-orge846f1a" class="outline-3">
+<h3 id="orge846f1a">Functions on sequences</h3>
+</div>
+
+<div id="outline-container-org92bc746" class="outline-3">
+<h3 id="org92bc746">Functions for maintaining tables</h3>
+<div class="outline-text-3" id="text-org92bc746">
+</div>
+<div id="outline-container-orgc2ff994" class="outline-4">
+<h4 id="orgc2ff994">Association table</h4>
+<div class="outline-text-4" id="text-orgc2ff994">
+<p>
+The association list (a-list) is a type of list used to implement tables. An association list is a list of dotted pairs, where each pair consists of a key and a value.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf state-table
+      '<span class="org-parenthesis">((</span>AL . Alabama<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AK . Alaska<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AZ . Arizona<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AR . Arkansas<span class="org-parenthesis">)))</span>
+
+<span class="org-parenthesis">(</span>assoc 'AK state-table<span class="org-parenthesis">)</span>
+<span class="org-parenthesis">(</span>rassoc 'Arizona state-table<span class="org-parenthesis">)</span>
+</pre>
+</div>
+
+<p>
+But, dotted pairs could also be normal list.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf state-table
+      '<span class="org-parenthesis">((</span>AL  Alabama<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AK  Alaska<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AZ  Arizona<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AR  Arkansas<span class="org-parenthesis">)))</span>
+<span class="org-parenthesis">(</span>assoc 'ar state-table<span class="org-parenthesis">)</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">this does work</span>
+<span class="org-parenthesis">(</span>rassoc 'Arizona state-table<span class="org-parenthesis">)</span>
+</pre>
+</div>
+<p>
+Notice: Search the table by value rather than by key doesn&rsquo;t work for normal list.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org95c3b67" class="outline-4">
+<h4 id="org95c3b67">Hash table</h4>
+<div class="outline-text-4" id="text-org95c3b67">
+<ul class="org-ul">
+<li>make-hash-table</li>
+<li>gethash, retrieve the value associated with a given key.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org460e8d1" class="outline-4">
+<h4 id="org460e8d1">Property list</h4>
+<div class="outline-text-4" id="text-org460e8d1">
+<p>
+A property list (p-list) is a list of alternating key/value pairs.
+It is avoided because we have hash table.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org76e8112" class="outline-3">
+<h3 id="org76e8112">Functions on trees</h3>
+<div class="outline-text-3" id="text-org76e8112">
+<ul class="org-ul">
+<li>tree-equal</li>
+<li>copy-tree</li>
+<li>subst</li>
+<li>sublis</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org50d2247" class="outline-3">
+<h3 id="org50d2247">Functions on numbers</h3>
+<div class="outline-text-3" id="text-org50d2247">
+<ul class="org-ul">
+<li>random</li>
+<li>expt</li>
+<li>sin</li>
+<li>asin</li>
+<li>min</li>
+<li>abs</li>
+<li>sqrt</li>
+<li>round</li>
+<li><p>
+rem
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>rem 11 5<span class="org-parenthesis">)</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org149ecb3" class="outline-3">
+<h3 id="org149ecb3">Functions on sets</h3>
+<div class="outline-text-3" id="text-org149ecb3">
+<p>
+One of the important uses of lists is to represent sets. There are some functions that treat lists in just that way.
+</p>
+<ul class="org-ul">
+<li>intersection</li>
+<li>union</li>
+<li>set-difference</li>
+<li>member</li>
+<li>subsetp</li>
+<li>adjoin</li>
+</ul>
+
+<p>
+Functions on bit vectors and integers:
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">lists</th>
+<th scope="col" class="org-left">integers</th>
+<th scope="col" class="org-left">bit vectors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">intersection</td>
+<td class="org-left">logand</td>
+<td class="org-left">bit-and</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">union</td>
+<td class="org-left">logior</td>
+<td class="org-left">bit-ior</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">set-difference</td>
+<td class="org-left">logandc2</td>
+<td class="org-left">bit-andc2</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">member</td>
+<td class="org-left">logbitp</td>
+<td class="org-left">bit</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">length</td>
+<td class="org-left">logcount</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org6c2567e" class="outline-3">
+<h3 id="org6c2567e">Destructive functions</h3>
+<div class="outline-text-3" id="text-org6c2567e">
+<p>
+Functions has side effect
+</p>
+<ul class="org-ul">
+<li>nconc</li>
+<li>nreverse</li>
+<li>nintersection</li>
+<li>nunion</li>
+<li>nset-difference</li>
+<li>nsubst</li>
+<li>delete, the destructive version of <code>remove</code>.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org67afe3e" class="outline-3">
+<h3 id="org67afe3e">3.11 Overview of data types</h3>
+</div>
+
+
+<div id="outline-container-org2a90001" class="outline-3">
+<h3 id="org2a90001">Input/output</h3>
+<div class="outline-text-3" id="text-org2a90001">
+</div>
+<div id="outline-container-org719fc33" class="outline-4">
+<h4 id="org719fc33">Input</h4>
+<div class="outline-text-4" id="text-org719fc33">
+<ul class="org-ul">
+<li>read, it is a complete lexical and syntactic parser. It is used to read and return a single lisp expression.</li>
+<li>read-char, read a single character</li>
+<li>read-line, read everything up to the next newline and returns it as a string.</li>
+<li>open</li>
+<li>with-open-stream</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org26e76b5" class="outline-4">
+<h4 id="org26e76b5">Output</h4>
+<div class="outline-text-4" id="text-org26e76b5">
+<ul class="org-ul">
+<li>print</li>
+<li>prin1</li>
+<li>princ</li>
+<li>write</li>
+<li>with-open-file</li>
+<li>terpri</li>
+<li>fresh-line</li>
+<li>format</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgda2167d" class="outline-3">
+<h3 id="orgda2167d">3.13 debugging tools</h3>
+<div class="outline-text-3" id="text-orgda2167d">
+<ul class="org-ul">
+<li>trace, untrace</li>
+<li>step</li>
+<li>describe</li>
+<li>inspect</li>
+<li>documentation</li>
+<li>apropos</li>
+<li>break</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgf234ea9" class="outline-3">
+<h3 id="orgf234ea9">3.14 Antibugging tools</h3>
+<div class="outline-text-3" id="text-orgf234ea9">
+<ul class="org-ul">
+<li>error</li>
+<li>cerror</li>
+<li>check-type</li>
+<li>assert</li>
+<li>time</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org800fa2f" class="outline-3">
+<h3 id="org800fa2f">Evaluation</h3>
+<div class="outline-text-3" id="text-org800fa2f">
+<ul class="org-ul">
+<li>funcall</li>
+<li>apply</li>
+<li>eval</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9a2f7f6" class="outline-3">
+<h3 id="org9a2f7f6">3.16 Closure</h3>
+<div class="outline-text-3" id="text-org9a2f7f6">
+<ul class="org-ul">
+<li><p>
+Ex01, c is the captured clojure
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">adder</span> <span class="org-parenthesis">(</span>c<span class="org-parenthesis">)</span>
+  <span class="org-doc">"Return a function that adds c to its argument."</span>
+  #'<span class="org-parenthesis">(</span><span class="org-keyword">lambda</span> <span class="org-parenthesis">(</span>x<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>+ x c<span class="org-parenthesis">)))</span>
+</pre>
+</div></li>
+<li><p>
+Ex02, returns a clojure that can be used as representation of a bank accound.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">bank-account</span> <span class="org-parenthesis">(</span>balance<span class="org-parenthesis">)</span>
+  <span class="org-doc">"Open a bank account starting with the given balance."</span>
+  #'<span class="org-parenthesis">(</span><span class="org-keyword">lambda</span> <span class="org-parenthesis">(</span>action amount<span class="org-parenthesis">)</span>
+      <span class="org-parenthesis">(</span><span class="org-keyword">case</span> action
+        <span class="org-parenthesis">(</span>deposit  <span class="org-parenthesis">(</span>setf balance <span class="org-parenthesis">(</span>+ balance amount<span class="org-parenthesis">)))</span>
+        <span class="org-parenthesis">(</span>withdraw <span class="org-parenthesis">(</span>setf balance <span class="org-parenthesis">(</span>- balance amount<span class="org-parenthesis">))))))</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org4904292" class="outline-3">
+<h3 id="org4904292">3.17 special variables</h3>
+<div class="outline-text-3" id="text-org4904292">
+<ul class="org-ul">
+<li>lexical variables
+By default, Common Lisp variables are lexical variables. They are introduced by syntactic construct like let or defun.</li>
+<li>special variables
+<ul class="org-ul">
+<li>A variable is made special by <code>defvar</code> or <code>defparameter</code>.</li>
+<li><p>
+It is just like global variable except: the global binding can be shadowed by a local binding for that variable.
+</p>
+<pre class="example" id="orge964ac6">
+(defun report ()
+  (format t "Counter = ~d" *counter*))
+
+&gt; (report)
+Counter = 0
+NIL
+
+&gt; (let ((*counter* 100))
+    (report))
+Counter = 100
+NIL
+
+&gt; (report)
+Counter = 0
+NIL
+</pre>
+<p>
+<b>A lexical variable has lexical scope and indefinite extent. A special variable has indefinite scope and dynamic extent.</b>
+</p></li>
+<li>symbol-value
+To set a special variable, the following are equivalent:
+<ul class="org-ul">
+<li>(setf (symbol-value var) value)</li>
+<li>(set var value)</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgf85e5d6" class="outline-3">
+<h3 id="orgf85e5d6">3.18 Multiple values</h3>
+<div class="outline-text-3" id="text-orgf85e5d6">
+<p>
+You can write functions of your own that return multiple values using the function <code>values</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span>values 1 2 3<span class="org-parenthesis">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge52bad9" class="outline-3">
+<h3 id="orge52bad9">3.19 More about parameters</h3>
+<div class="outline-text-3" id="text-orge52bad9">
+<p>
+Consider how could we improve the following function&rsquo;s signature
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> <span class="org-parenthesis">(</span>op range n<span class="org-parenthesis">)</span>
+  <span class="org-doc">"Ask the user a series of math problems."</span>
+  <span class="org-parenthesis">(</span><span class="org-keyword">dotimes</span> <span class="org-parenthesis">(</span>i n<span class="org-parenthesis">)</span>
+    <span class="org-parenthesis">(</span>problem <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">)</span> op <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">))))</span>
+
+<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">problem</span> <span class="org-parenthesis">(</span>x op y<span class="org-parenthesis">)</span>
+  <span class="org-doc">"Ask a math problem, read a reply, and say if it is correct."</span>
+  <span class="org-parenthesis">(</span>format t <span class="org-string">"~&amp;How much is ~d ~a ~d?"</span> x op y<span class="org-parenthesis">)</span>
+  <span class="org-parenthesis">(</span><span class="org-keyword">if</span> <span class="org-parenthesis">(</span>eql <span class="org-parenthesis">(</span>read<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>funcall op x y<span class="org-parenthesis">))</span>
+      <span class="org-parenthesis">(</span>princ <span class="org-string">"Correct!"</span><span class="org-parenthesis">)</span>
+      <span class="org-parenthesis">(</span>princ <span class="org-string">"Sorry, that's not right."</span><span class="org-parenthesis">)))</span>
+</pre>
+</div>
+<p>
+The user of math-quiz has to provide all 3 arguments in order, with op is quoted.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdeb30ab" class="outline-3">
+<h3 id="orgdeb30ab">Optional arguments</h3>
+<div class="outline-text-3" id="text-orgdeb30ab">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> <span class="org-parenthesis">(</span><span class="org-type">&amp;optional</span> <span class="org-parenthesis">(</span>op '+<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>range 100<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>n 10<span class="org-parenthesis">))</span>
+  <span class="org-doc">"Ask the user a series of math problems."</span>
+  <span class="org-parenthesis">(</span><span class="org-keyword">dotimes</span> <span class="org-parenthesis">(</span>i n<span class="org-parenthesis">)</span>
+    <span class="org-parenthesis">(</span>problem <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">)</span> op <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">))))</span>
+
+<span class="org-parenthesis">(</span>math-quiz<span class="org-parenthesis">)</span>
+<span class="org-parenthesis">(</span>math-quiz '+ 100 2<span class="org-parenthesis">)</span>
+</pre>
+</div>
+<p>
+Optional arguments are still position dependent.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org97cd9ed" class="outline-3">
+<h3 id="org97cd9ed">Key arguments</h3>
+<div class="outline-text-3" id="text-org97cd9ed">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> <span class="org-parenthesis">(</span><span class="org-type">&amp;key</span> <span class="org-parenthesis">(</span>op '+<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>range 100<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>n 10<span class="org-parenthesis">))</span>
+  <span class="org-doc">"Ask the user a series of math problems."</span>
+  <span class="org-parenthesis">(</span><span class="org-keyword">dotimes</span> <span class="org-parenthesis">(</span>i n<span class="org-parenthesis">)</span>
+    <span class="org-parenthesis">(</span>problem <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">)</span> op <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">))))</span>
+
+<span class="org-parenthesis">(</span>math-quiz <span class="org-builtin">:n</span> 5<span class="org-parenthesis">)</span>
+<span class="org-parenthesis">(</span>math-quiz <span class="org-builtin">:op</span> '+ <span class="org-builtin">:n</span> 5 <span class="org-builtin">:range</span> 100<span class="org-parenthesis">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>A symbol starting with a <code>:</code> is called a keyword.</li>
+<li>Keywords are constant, and cannot be used as names of variables.</li>
+</ul>
+</div>
+</div>
+</section>
+
+
+
+
+<section id="outline-container-org4567adb" class="outline-2">
+<h2 id="org4567adb"><span class="todo TODO">TODO</span> Exercises</h2>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Feb 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+</div>
+</footer>
+</body>
+</html>

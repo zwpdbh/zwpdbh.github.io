@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Feb 17, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWS Notes</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="zwpdbh">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<style type="text/css">
+ pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class='intro'>
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>Emacser</p>
+</div>
+
+<div class='nav'>
+<ul>
+<li><a href='/'>Blog</a>.</li>
+</ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">AWS Notes</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org495fc09">ECS</a>
+<ul>
+<li><a href="#orged0e652">Refs</a></li>
+<li><a href="#org78ebded">Concepts</a>
+<ul>
+<li><a href="#org78194ed">ECS</a></li>
+<li><a href="#org3c12dea">EC2</a></li>
+<li><a href="#orgd54a9f0">Farget and EC2</a></li>
+<li><a href="#org5b4381f">Task Definitions</a></li>
+<li><a href="#orgb50548e">Cluster</a></li>
+</ul>
+</li>
+<li><a href="#org1e576dc">Features of ECS</a></li>
+<li><a href="#org12dd16d">Steps to use ECS</a></li>
+<li><a href="#orga91f3d8"><span class="todo TODO">TODO</span> About AutoScaling of EC2</a>
+<ul>
+<li><a href="#org3133a1e">Similar example from Atlas-worker-manager</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org2b92941">Route53</a>
+<ul>
+<li><a href="#orgd2ebbda">Switch traffic to different domain name as failover</a></li>
+<li><a href="#org58a0bca">LoadBalancer in ECS</a></li>
+</ul>
+</li>
+<li><a href="#org33ee870">AWS Security</a>
+<ul>
+<li><a href="#orgeb99c31">refs</a></li>
+<li><a href="#orgbc17a29">My notes</a>
+<ul>
+<li><a href="#org80baac4">Office building analogy</a></li>
+<li><a href="#org7010443">VPC</a></li>
+<li><a href="#org626ec57">Subnets</a></li>
+<li><a href="#org72d5b8f">Security Group</a></li>
+<li><a href="#org1135891">Launch instance into VPC</a></li>
+<li><a href="#orge62d561">Bastion host</a></li>
+</ul>
+</li>
+<li><a href="#org618dae1">My summary</a></li>
+</ul>
+</li>
+<li><a href="#org4d77d8e">ECR</a></li>
+<li><a href="#orgc689dd9">Troubleshootings</a></li>
+<li><a href="#org37c396a"><span class="todo TODO">TODO</span> VPC</a>
+<ul>
+<li><a href="#org2f96431">Refs</a></li>
+<li><a href="#org1e1033a">VPC networking components</a></li>
+</ul>
+</li>
+<li><a href="#org5c7a5c1">CloudFormation Skills</a>
+<ul>
+<li><a href="#org224d6d5">Use FindInMap to customize environment variables based on keys</a></li>
+</ul>
+</li>
+<li><a href="#org5833450">My notes</a>
+<ul>
+<li><a href="#org5b641bc">Network Fundamentals</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-org495fc09" class="outline-2">
+<h2 id="org495fc09">ECS</h2>
+<div class="outline-text-2" id="text-org495fc09">
+</div>
+<div id="outline-container-orged0e652" class="outline-3">
+<h3 id="orged0e652">Refs</h3>
+<div class="outline-text-3" id="text-orged0e652">
+<ul class="org-ul">
+<li><a href="https://stackoverflow.com/questions/42960678/what-is-the-difference-between-a-task-and-a-service-in-aws-ecs">What is the difference between a task and a service in AWS ECS?</a></li>
+<li><a href="https://medium.com/boltops/gentle-introduction-to-how-aws-ecs-works-with-example-tutorial-cea3d27ce63d">Gentle Introduction to How AWS ECS Works with Example Tutorial</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org78ebded" class="outline-3">
+<h3 id="org78ebded">Concepts</h3>
+<div class="outline-text-3" id="text-org78ebded">
+</div>
+<div id="outline-container-org78194ed" class="outline-4">
+<h4 id="org78194ed">ECS</h4>
+<div class="outline-text-4" id="text-org78194ed">
+<ul class="org-ul">
+<li>abbreviation  for <b>Elastic Container Service</b>. It is a container <b>management</b> service for containers on a cluster.</li>
+<li><b>Task Definition</b> defines one or multiple containers to construct as a application.</li>
+<li>A <b>Task</b> is an instance of task definition.</li>
+<li>A <b>Service</b> is used to guarantee that you always have some number of Tasks running at all times. Such as, make sure there are always 3 running task across different zones.</li>
+<li>A <b>Cluster</b> is used to manage a collection of resources such as CPU, memory, etc.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3c12dea" class="outline-4">
+<h4 id="org3c12dea">EC2</h4>
+<div class="outline-text-4" id="text-org3c12dea">
+<ul class="org-ul">
+<li>Short for <b>Elastic Compute Cloud (Amazon EC2)</b></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd54a9f0" class="outline-4">
+<h4 id="orgd54a9f0">Farget and EC2</h4>
+<div class="outline-text-4" id="text-orgd54a9f0">
+<ul class="org-ul">
+<li>Both are cluster service types.</li>
+<li>Farget doesn&rsquo;t need server. It still need docker image.</li>
+<li>EC2 need server and allow you to have more control on it.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5b4381f" class="outline-4">
+<h4 id="org5b4381f"><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definitions</a></h4>
+<div class="outline-text-4" id="text-org5b4381f">
+<ul class="org-ul">
+<li>describes one or more <b>containers</b>, up to 10</li>
+<li>blueprint for your application:
+<ul class="org-ul">
+<li>which containers/image to use</li>
+<li>which launch type ?</li>
+<li>which port</li>
+<li>what data volumes should be used with the containers</li>
+</ul></li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html">Different task examples</a></li>
+<li>A <b>task is the instantiation of a task definition within a cluster</b>.</li>
+<li>A <b>Service runs and maintains a specified number of tasks</b>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb50548e" class="outline-4">
+<h4 id="orgb50548e">Cluster</h4>
+<div class="outline-text-4" id="text-orgb50548e">
+<ul class="org-ul">
+<li>A logical grouping of resources.</li>
+<li>For Fargate type, AWS ECS manages cluster resources automatically.</li>
+<li>For EC2, you need to manage a group of container instances.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1e576dc" class="outline-3">
+<h3 id="org1e576dc">Features of ECS</h3>
+<div class="outline-text-3" id="text-org1e576dc">
+<ul class="org-ul">
+<li>provide high available manner for
+<ul class="org-ul">
+<li>across multiple zones</li>
+<li>within one Region</li>
+</ul></li>
+<li>schedule the placement of containers across your cluster based on:
+<ul class="org-ul">
+<li>your resource needs</li>
+<li>isolation policies</li>
+<li>availability requirements</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org12dd16d" class="outline-3">
+<h3 id="org12dd16d">Steps to use ECS</h3>
+<div class="outline-text-3" id="text-org12dd16d">
+<ul class="org-ul">
+<li>Define VPC</li>
+<li>Create clusters within a new or existing VPC.</li>
+<li>Create tasks (from task definition) to run in Service in Cluster.
+<ul class="org-ul">
+<li>Running task is instance of task definition.</li>
+</ul></li>
+<li>For ECS, you need to group task definition with service description.
+<ul class="org-ul">
+<li>Running task is instance of Service which is {task definition, Service description}</li>
+</ul></li>
+<li>Docker image is created for tasks, and it is prepared in AWS ECR or Docker-Hub</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga91f3d8" class="outline-3">
+<h3 id="orga91f3d8"><span class="todo TODO">TODO</span> About AutoScaling of EC2</h3>
+<div class="outline-text-3" id="text-orga91f3d8">
+<ul class="org-ul">
+<li>ref: <a href="https://aws.amazon.com/blogs/containers/deep-dive-on-amazon-ecs-cluster-auto-scaling/">Deep Dive on Amazon ECS Cluster Auto Scaling</a></li>
+</ul>
+</div>
+
+<div id="outline-container-org3133a1e" class="outline-4">
+<h4 id="org3133a1e">Similar example from Atlas-worker-manager</h4>
+<div class="outline-text-4" id="text-org3133a1e">
+<p>
+Worker manager relies on two tables.
+</p>
+<ul class="org-ul">
+<li><p>
+<code>atlas-modeling-service-task-definitions-drdev</code>, its schema:
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Pooling</td>
+<td class="org-left">ScaleTo</td>
+<td class="org-left">TaskArn</td>
+<td class="org-left">TaskDef</td>
+</tr>
+</tbody>
+</table>
+<ul class="org-ul">
+<li>It manages pool. Pool lists all the workers available to use.</li>
+<li>It acts as a <b>plan table</b> (like how much memory I should need). It records:
+<ul class="org-ul">
+<li>For a specific version, how many I should keep it in hot pool.</li>
+<li>For a speicif version, it is used/defined in which ECS task definition.</li>
+</ul></li>
+<li>The value for TaskArn and TaskDef is generated from <b>worker-pipeline</b>:
+<ul class="org-ul">
+<li>After pushing worker into ECR, a new ECS task definition for worker is generated for new available worker. Worker manager will use this worker-task-definition to star worker.</li>
+</ul></li>
+</ul></li>
+<li><p>
+<code>atlas-worker-manager-hotpool-drdev</code>, its schema:
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">UUID</td>
+<td class="org-left">DT</td>
+<td class="org-left">Available</td>
+<td class="org-left">Ip</td>
+<td class="org-left">Port</td>
+<td class="org-left">ServiceApiId</td>
+<td class="org-left">TaskArn</td>
+<td class="org-left">TaskDefArn</td>
+<td class="org-left">WorkerVersion</td>
+</tr>
+</tbody>
+</table>
+<ul class="org-ul">
+<li>It acts as a <b>implementation/progress table</b> for the <code>atlas-modeling-service-task-definitions-drdev</code>, plan table.
+<ul class="org-ul">
+<li>How to allocate those memory(worker), or which worker version is used in which ECS task instance.</li>
+<li>For example, if the plan table set <code>ScaleTo=6</code> and <code>Pooling=Y</code> for <code>TaskDef=NX119</code>. Then, this implementation table will add 6 records. They show where those 6 workers have been used in which ECS task instances.</li>
+</ul></li>
+<li>After &ldquo;the memory has been allocated&rdquo;, if there are clients coming in and used those worker (consume some/all those memory). Then, in the next checking point (every 15mins), worker manager will need to allocate new workers as planed.</li>
+</ul></li>
+<li>A related table, <code>atlas-modeling-service-data-drdev</code>.
+<ul class="org-ul">
+<li>This table records all the client activities which also includes which worker has been used for what purpose.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="outline-container-org2b92941" class="outline-2">
+<h2 id="org2b92941">Route53</h2>
+<div class="outline-text-2" id="text-org2b92941">
+<ul class="org-ul">
+<li>To make Route53 works, you need to create 2 records: one is type A, another is CNAME which is created during validate certificate.</li>
+</ul>
+</div>
+<div id="outline-container-orgd2ebbda" class="outline-3">
+<h3 id="orgd2ebbda">Switch traffic to different domain name as failover</h3>
+<div class="outline-text-3" id="text-orgd2ebbda">
+<ul class="org-ul">
+<li>Task description
+<ul class="org-ul">
+<li>Given two domains: <code>lb.dev.nxatlas.com</code> as primary service and <code>lb.drdev.nxatlas.com</code> secondary service, we want to create another hosted zone in Route53 <code>acs.nxatlas.com</code>.</li>
+<li>In normal case, we let <code>dev.acs.nxatlas.com</code> to route traffice to <code>lb.dev.nxatlas.com</code>.</li>
+<li>In disaster case, we let <code>dev.acs.nxatlas.com</code> to route traffice to <code>lb.drdev.nxatlas.com</code>.</li>
+</ul></li>
+<li>Steps
+<ul class="org-ul">
+<li>Create new hosted zone <code>acs.nxatlas.com</code> in Route53.
+<ul class="org-ul">
+<li><b>If public hosted zone is a third level domain, then add the NS records of this zone to the parent hosted zone</b>.</li>
+</ul></li>
+<li>Within <code>acs.nxatlas.com</code>, create record
+<ul class="org-ul">
+<li>Routing policy -&gt; Simple routing, next</li>
+<li>Define simple record:
+<ul class="org-ul">
+<li>Record name: <code>dev.acs.nxatlas.com</code></li>
+<li>Record type: <code>CNAME -- Routes traffice to another domain name and to some AWS resources</code></li>
+<li>Value/Route traffice to:
+<ul class="org-ul">
+<li><code>IP address or another value depending on the record type</code></li>
+<li><code>lb.dev.nxatlas.com</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Troubleshooting01: Could not resolve host: dev.acs.nxatlas.com
+<ul class="org-ul">
+<li><p>
+After created CNAME <code>dev.acs.nxatlas.com</code> to <code>lb.dev.nxatlas.com</code>, we should be able to visit resources under <code>dev.acs.nxatlas.com</code> as we visit <code>lb.dev.nxatlas.com</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">curl https://lb.dev.nxatlas.com/atlas/health
+{<span class="org-string">"status"</span>:<span class="org-string">"ok"</span>,<span class="org-string">"ts"</span>:1598240637924,<span class="org-string">"local"</span>:<span class="org-string">"8/24/2020, 3:43:57 AM"</span>,<span class="org-string">"utc"</span>:<span class="org-string">"Mon, 24 Aug 2020 03:43:57 GMT"</span>}
+
+curl https://dev.acs.nxatlas.com/atlas/health
+curl: (6) Could not resolve host: dev.acs.nxatlas.com
+</pre>
+</div>
+<ul class="org-ul">
+<li>I forget to add the NS records of hosted zone <code>acs.nxatlas.com</code> to its parent hosted zone <code>nxatlas.com</code>. After doing so, the DNS resolution shows the following result.</li>
+</ul></li>
+<li>Domain name resolve in Ubuntu
+<ul class="org-ul">
+<li><p>
+Resolve <code>lb.dev.nxatlas.com</code> (endpoint for atlas-dev)
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">dig lb.dev.nxatlas.com
+
+; &lt;&lt;&gt;&gt; DiG 9.11.3-1ubuntu1.13-Ubuntu &lt;&lt;&gt;&gt; lb.dev.nxatlas.com
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 14519
+<span class="org-sh-heredoc">;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1</span>
+
+<span class="org-sh-heredoc">;; OPT PSEUDOSECTION:</span>
+<span class="org-sh-heredoc">; EDNS: version: 0, flags:; udp: 65494</span>
+<span class="org-sh-heredoc">;; QUESTION SECTION:</span>
+<span class="org-sh-heredoc">;lb.dev.nxatlas.com.            IN      A</span>
+
+<span class="org-sh-heredoc">;; ANSWER SECTION:</span>
+<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.195.245.88</span>
+<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.197.127.0</span>
+<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       52.7.50.34</span>
+
+<span class="org-sh-heredoc">;; Query time: 80 msec</span>
+<span class="org-sh-heredoc">;; SERVER: 127.0.0.53#53(127.0.0.53)</span>
+<span class="org-sh-heredoc">;; WHEN: Mon Aug 24 13:27:16 CST 2020</span>
+<span class="org-sh-heredoc">;; MSG SIZE  rcvd: 95</span>
+</pre>
+</div></li>
+<li><p>
+Resolve <code>dev.acs.nxatlas.com</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">dig dev.acs.nxatlas.com
+
+; &lt;&lt;&gt;&gt; DiG 9.11.3-1ubuntu1.13-Ubuntu &lt;&lt;&gt;&gt; dev.acs.nxatlas.com
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 39460
+<span class="org-sh-heredoc">;; flags: qr rd ra; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1</span>
+
+<span class="org-sh-heredoc">;; OPT PSEUDOSECTION:</span>
+<span class="org-sh-heredoc">; EDNS: version: 0, flags:; udp: 65494</span>
+<span class="org-sh-heredoc">;; QUESTION SECTION:</span>
+<span class="org-sh-heredoc">;dev.acs.nxatlas.com.           IN      A</span>
+
+<span class="org-sh-heredoc">;; ANSWER SECTION:</span>
+<span class="org-sh-heredoc">dev.acs.nxatlas.com.    0       IN      CNAME   lb.dev.nxatlas.com.</span>
+<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       52.7.50.34</span>
+<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.197.127.0</span>
+<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.195.245.88</span>
+
+<span class="org-sh-heredoc">;; Query time: 81 msec</span>
+<span class="org-sh-heredoc">;; SERVER: 127.0.0.53#53(127.0.0.53)</span>
+<span class="org-sh-heredoc">;; WHEN: Mon Aug 24 13:29:06 CST 2020</span>
+<span class="org-sh-heredoc">;; MSG SIZE  rcvd: 117</span>
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org58a0bca" class="outline-3">
+<h3 id="org58a0bca">LoadBalancer in ECS</h3>
+<div class="outline-text-3" id="text-org58a0bca">
+<p>
+#+begin<sub>src</sub> yaml
+    AppService:
+      Type: AWS::ECS::Service
+      DependsOn:
+</p>
+<ul class="org-ul">
+<li>ALBListenerRule</li>
+</ul>
+<p>
+  #- ServiceRole
+Properties:
+  Cluster: !ImportValue
+    Fn::Sub: ${ECSStackName}-ECSCluster
+  DesiredCount: !FindInMap
+</p>
+<ul class="org-ul">
+<li>EnvironmentMap</li>
+<li>!Ref &rsquo;ConfigEnvironment&rsquo;</li>
+<li>DesiredCount</li>
+</ul>
+<p>
+LoadBalancers:
+</p>
+<ul class="org-ul">
+<li>ContainerName: altas-service
+ContainerPort: &rsquo;8080&rsquo;
+TargetGroupArn: !Ref &rsquo;ECSTG&rsquo;</li>
+<li>ContainerName: altas-service
+ContainerPort: &rsquo;8080&rsquo;
+TargetGroupArn: !Ref &rsquo;ECSTGALB&rsquo;</li>
+</ul>
+<p>
+#Role: !Ref &rsquo;ServiceRole&rsquo;
+TaskDefinition: !Ref &rsquo;TaskDefinition&rsquo;
+PlacementStrategies:
+</p>
+<ul class="org-ul">
+<li>Field: attribute:ecs.availability-zone
+Type: spread</li>
+<li>Field: memory
+Type: binpack</li>
+</ul>
+<p>
+ECSTGALB:
+  Type: AWS::ElasticLoadBalancingV2::TargetGroup
+  Properties:
+    HealthCheckIntervalSeconds: 10
+    HealthCheckPath: /health
+    HealthCheckProtocol: HTTP
+    HealthyThresholdCount: 2
+    Port: 80
+    Protocol: HTTP
+    UnhealthyThresholdCount: 2
+    VpcId: !ImportValue
+      Fn::Sub: ${VPCStackName}-VPCId
+    TargetGroupAttributes:
+</p>
+<ul class="org-ul">
+<li>Key: deregistration<sub>delay.timeout</sub><sub>seconds</sub>
+Value: &rsquo;20&rsquo;</li>
+</ul>
+<p>
+ALBListenerRule:  
+  Type: AWS::ElasticLoadBalancingV2::ListenerRule
+  DependsOn:
+</p>
+<ul class="org-ul">
+<li>ECSTGALB</li>
+</ul>
+<p>
+Properties:
+  Actions:
+</p>
+<ul class="org-ul">
+<li>Type: forward
+TargetGroupArn: !Ref &rsquo;ECSTGALB&rsquo;</li>
+</ul>
+<p>
+Conditions:
+</p>
+<ul class="org-ul">
+<li>Field: path-pattern
+Values:
+<ul class="org-ul">
+<li>/atlas/*</li>
+</ul></li>
+</ul>
+<p>
+    ListenerArn: !ImportValue
+      Fn::Sub: atlas-alb-${StackEnvironment}-AtlasPubALBListenerArn
+    Priority: '5'
+ALBListener:
+  Type: AWS::ElasticLoadBalancingV2::Listener
+  #DependsOn: ServiceRole
+  Properties:
+    DefaultActions:
+</p>
+<ul class="org-ul">
+<li>Type: forward
+TargetGroupArn: !Ref &rsquo;ECSTG&rsquo;</li>
+</ul>
+<p>
+    LoadBalancerArn: !Ref 'ECSALB'
+    Port: '80'
+    Protocol: TCP
+ECSALB:
+  Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+  Properties:
+    Type: network
+    Scheme: internal
+    Name: !Sub '${VPCStackName}-NLB'
+    Subnets: !If
+</p>
+<ul class="org-ul">
+<li>ThirdAZ</li>
+<li>- !ImportValue
+Fn::Sub: ${VPCStackName}-PrivateSubnet1
+<ul class="org-ul">
+<li>!ImportValue
+Fn::Sub: ${VPCStackName}-PrivateSubnet2</li>
+<li>!ImportValue
+Fn::Sub: ${VPCStackName}-PrivateSubnet3</li>
+</ul></li>
+<li>- !ImportValue
+Fn::Sub: ${VPCStackName}-PrivateSubnet1
+<ul class="org-ul">
+<li>!ImportValue
+Fn::Sub: ${VPCStackName}-PrivateSubnet2</li>
+</ul></li>
+</ul>
+<p>
+LoadBalancerAttributes:
+</p>
+<ul class="org-ul">
+<li>Key: load<sub>balancing.cross</sub><sub>zone.enabled</sub>
+Value: &rsquo;true&rsquo;</li>
+</ul>
+<p>
+ECSTG:
+  Type: AWS::ElasticLoadBalancingV2::TargetGroup
+  DependsOn: ECSALB
+  Properties:
+    HealthCheckIntervalSeconds: 10
+    HealthCheckPath: /health
+    HealthCheckProtocol: HTTP
+    HealthyThresholdCount: 2
+    Port: 80
+    Protocol: TCP
+    UnhealthyThresholdCount: 2
+    VpcId: !ImportValue
+      Fn::Sub: ${VPCStackName}-VPCId
+    TargetGroupAttributes:
+</p>
+<ul class="org-ul">
+<li>Key: deregistration<sub>delay.timeout</sub><sub>seconds</sub>
+Value: &rsquo;20&rsquo;</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org33ee870" class="outline-2">
+<h2 id="org33ee870">AWS Security</h2>
+<div class="outline-text-2" id="text-org33ee870">
+</div>
+<div id="outline-container-orgeb99c31" class="outline-3">
+<h3 id="orgeb99c31">refs</h3>
+<div class="outline-text-3" id="text-orgeb99c31">
+<ul class="org-ul">
+<li><a href="https://cloudacademy.com/blog/aws-shared-responsibility-model-security/">AWS Shared Responsibility Model: Cloud Security</a></li>
+<li><a href="https://cloudacademy.com/blog/aws-security-groups-instance-level-security/">AWS Security Groups: Instance Level Security</a></li>
+<li><a href="https://cloudacademy.com/blog/aws-network-acl-vpc-subnets-network-security/">AWS Network ACL and subnets: network level security</a></li>
+<li><a href="https://cloudacademy.com/blog/aws-bastion-host-nat-instances-vpc-peering-security/">AWS Security: Bastion Hosts, NAT instances and VPC Peering</a></li>
+<li><a href="https://www.rackspace.com/blog/aws-201-understanding-the-default-virtual-private-cloud">Understanding the Default Virtual Private Cloud (VPC)</a></li>
+<li><a href="https://www.infoq.com/articles/aws-vpc-explained/">AWS VPC Subnets</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbc17a29" class="outline-3">
+<h3 id="orgbc17a29">My notes</h3>
+<div class="outline-text-3" id="text-orgbc17a29">
+<ul class="org-ul">
+<li>Different models have differences on how security responsibility are devided (where AWS and customer responsibility start and end)
+<ul class="org-ul">
+<li>model for infrastructure services</li>
+<li>model for container services</li>
+<li>model for abstrac services</li>
+</ul></li>
+<li>In <b>infrastructure services</b>, customer needs to look after:
+<ul class="org-ul">
+<li>client and server side encryption</li>
+<li>network traffic protection</li>
+<li>security of the operating system</li>
+<li>network</li>
+<li>firewall configuration</li>
+<li>application security</li>
+<li>identity and access management</li>
+</ul></li>
+<li>Container services model has much less requirement for customer</li>
+<li>Abstract  services model has least requirement for customer</li>
+</ul>
+</div>
+
+<div id="outline-container-org80baac4" class="outline-4">
+<h4 id="org80baac4">Office building analogy</h4>
+<div class="outline-text-4" id="text-org80baac4">
+<ul class="org-ul">
+<li>Think of your office as a multi-story building</li>
+<li>Each floor has multiple suites</li>
+<li>Each department like HR, Payroll can sit in one floor (or) multiple floors</li>
+<li>Every suite has few rooms</li>
+<li>Each room has couple of desk where employees work</li>
+</ul>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">AWS</th>
+<th scope="col" class="org-left">Company</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Region</td>
+<td class="org-left">Office building</td>
+</tr>
+
+<tr>
+<td class="org-left">Availability Zone</td>
+<td class="org-left">Each floor</td>
+</tr>
+
+<tr>
+<td class="org-left">VPC</td>
+<td class="org-left">Each department</td>
+</tr>
+
+<tr>
+<td class="org-left">Subnet</td>
+<td class="org-left">Each suite</td>
+</tr>
+
+<tr>
+<td class="org-left">IP</td>
+<td class="org-left">Each desk</td>
+</tr>
+</tbody>
+</table>
+<ul class="org-ul">
+<li><p>
+When company assign desk to employee vs Launch AWS EC2 instance
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Assign desk</th>
+<th scope="col" class="org-left">Launch EC2 instance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Which department this employee belongs to</td>
+<td class="org-left">We need to pick which VPC this instance should be deployed to</td>
+</tr>
+
+<tr>
+<td class="org-left">Then identifies which floors the department spans across</td>
+<td class="org-left">Then we pick which availability zone (if not, default availability zone)</td>
+</tr>
+
+<tr>
+<td class="org-left">Then identifies which suites have open desks</td>
+<td class="org-left">Then we pick the subnet (if not default subnet)</td>
+</tr>
+
+<tr>
+<td class="org-left">Assigns one of the open desks to the employee</td>
+<td class="org-left">Then an IP from this subnet gets assigned to our EC2 instance (as private IP)</td>
+</tr>
+</tbody>
+</table></li>
+<li>Other associated terminologies 
+<ul class="org-ul">
+<li>Security groups like access card</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<div id="outline-container-org7010443" class="outline-4">
+<h4 id="org7010443">VPC</h4>
+<div class="outline-text-4" id="text-org7010443">
+<ul class="org-ul">
+<li>What is it?
+<ul class="org-ul">
+<li>Whenever you launch an instance within your AWS account, by default it will be launched into a default VPC and gets public IP and private IP.</li>
+<li>A logical virtual network spanning an entire AWS region (one region &#x2013; one default VPC, can create multiple VPCs in a region).</li>
+</ul></li>
+<li>Six components are created as default parts of VPC
+<ul class="org-ul">
+<li>VPC CIDR block
+<ul class="org-ul">
+<li>Every VPC is associated with an IP address range that is part of a <b>Classless Inter-Domain Routing (CIDR)</b> block which will be used to allocated private IP addresses to EC2 instances.</li>
+</ul></li>
+<li><a href="#org626ec57">Subnets</a>
+<ul class="org-ul">
+<li>a subnet is associated with only one availability zone (can not span multiple zones)</li>
+<li>However, a zone can host multiple subnets.</li>
+<li>Each subnet in a VPC is associated with an IPv4 CIDR block that is a a subset of the /16 CIDR block of its VPC.</li>
+</ul></li>
+<li>Internet gateway
+<ul class="org-ul">
+<li>Provide connectivity to outside AWS (internet)</li>
+<li>A VPC must be attached to an Internet gateway to communicate with internet. Only one IGW can be attached to a VPC at a time.</li>
+<li>Bi-direction source and destination network address translation for your EC2 instances.</li>
+</ul></li>
+<li>Route table
+<ul class="org-ul">
+<li>Every subnet must be associated with a route table.</li>
+<li>If the association is not explicitly defined, then a subnet will be implicitly associated with the main route table.</li>
+</ul></li>
+<li>Network access control lists (ACLs)</li>
+<li><a href="#org72d5b8f">Security Group</a></li>
+<li>VPC endpoint</li>
+</ul></li>
+<li>AWS provides security mechanisms for your instances in the form of <b>network ACLs and security groups</b>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org626ec57" class="outline-4">
+<h4 id="org626ec57">Subnets</h4>
+<div class="outline-text-4" id="text-org626ec57">
+<ul class="org-ul">
+<li>A subnet is a distinct network segment with its own IP address range within the larger VPC CIDR (Classless Inter-Domain Routing) range.</li>
+<li>A VPC and have all public or public/private subnet combination.
+<ul class="org-ul">
+<li>A public subnet is defined by its connection (through a Routing Table) to an <b>Internet Gateway (IGW)</b> within your VPC.</li>
+<li>Any subnet without a route to the IGW is considered private.</li>
+</ul></li>
+<li>A private subnet is a subnet which doesn&rsquo;t have a route to the internet gateway.</li>
+<li><b>Steps to create a public subnet</b>
+<ol class="org-ol">
+<li>VPC &#x2013;&gt; create subnet 
+<ul class="org-ul">
+<li>select the VPC within which you want to create the subnet</li>
+<li>select availability zone</li>
+<li>enter CIDR block</li>
+</ul></li>
+<li>Add an IGW</li>
+<li>Attach IGW to a VPC</li>
+<li>Add a route to the IGW from your subnet
+<ul class="org-ul">
+<li>Route Tables &#x2013;&gt; Create Route Table</li>
+<li>Select your VPC, select &ldquo;Create&rdquo;</li>
+<li>Edit the Route Table just created, give it a route to the outside world
+<ul class="org-ul">
+<li>Add another route</li>
+<li>Enter &rsquo;0.0.0.0/0&rsquo; in Destination (to allow access to any Internet address)</li>
+<li>Enter your IGW ID in the &rsquo;Target&rsquo; field.  Save it.</li>
+</ul></li>
+</ul></li>
+<li>Associate your route table with your subnet
+<ul class="org-ul">
+<li>Select &rsquo;Subnet Associations&rsquo; (while selecting the route table you created, the sections below show different sections)</li>
+<li>Select the subnets you wish to associate with this route table using the check box and click &ldquo;save&rdquo;.</li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org72d5b8f" class="outline-4">
+<h4 id="org72d5b8f">Security Group</h4>
+<div class="outline-text-4" id="text-org72d5b8f">
+<ul class="org-ul">
+<li>AWS security groups (SGs) are associated with <b>EC2 instances</b> and provide security at the <b>protocol and port access level</b>.</li>
+<li>Working much the same way as a firewall:
+<ul class="org-ul">
+<li>a set of rules filter traffic coming into and out of an EC2 instance.</li>
+</ul></li>
+<li>Security groups are specific to a VPC (which VPC the SG will reside).</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1135891" class="outline-4">
+<h4 id="org1135891">Launch instance into VPC</h4>
+<div class="outline-text-4" id="text-org1135891">
+<ul class="org-ul">
+<li>Before launch
+<ol class="org-ol">
+<li>identify the subnet where this instance need to be launched into.</li>
+<li>identify an available zone.</li>
+</ol></li>
+<li>After launch (Once an instance is created within the VPC/Subnet/Availability Zone)
+<ul class="org-ul">
+<li>If the you launch the instance into a subnet that has assign public ip address attribute enabled, a public IP address is assigned to the primary network interface (eth0) of the created instance.</li>
+<li>A public IP is mapped to the primary private IP through NAT. The public IP will change whenever you stop EC2 instance and start it again.</li>
+<li>Notic: that public IP is not the AWS Elastic IP (EIP).</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orge62d561" class="outline-4">
+<h4 id="orge62d561">Bastion host</h4>
+<div class="outline-text-4" id="text-orge62d561">
+<ul class="org-ul">
+<li>Bastion hosts are instances that sit within your public subnet and are typically accessed using SSH or RDP, as jump server.</li>
+<li>Purpose: use SSH to log into other instances (within private subnets) deeper within your VPC.</li>
+<li>If you require remote connectivity with your private instances over the public internet, then you need it.</li>
+<li><b>Basic steps to create a bastion host</b>
+<ol class="org-ol">
+<li>Launch an EC2 instance as you normally would for any other instance.</li>
+<li>Apply OS hardening as required.</li>
+<li>Set up the appropriate security groups (SG).</li>
+<li>Implement either SSH-agent forwarding (Linux connectivity) or Remote Desktop Gateway (Windows connectivity).</li>
+<li>Deploy an AWS bastion host in each of the Availability Zones you&rsquo;re using.</li>
+</ol></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org618dae1" class="outline-3">
+<h3 id="org618dae1">My summary</h3>
+<div class="outline-text-3" id="text-org618dae1">
+<ul class="org-ul">
+<li>EC2 instance level security is controled by security groups which applies restrictions on instance&rsquo;s protocol and port level.</li>
+<li>Network level security is controled by applying network ACLs on subnets (equivalent of the security groups attached to EC2 instances).</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org4d77d8e" class="outline-2">
+<h2 id="org4d77d8e">ECR</h2>
+<div class="outline-text-2" id="text-org4d77d8e">
+<ul class="org-ul">
+<li><p>
+pull image from ECR 
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-builtin">eval</span> $(aws ecr get-login --no-include-email --region us-east-1 --profile=default)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Need to specify in which region you want to login.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="outline-container-orgc689dd9" class="outline-2">
+<h2 id="orgc689dd9">Troubleshootings</h2>
+<div class="outline-text-2" id="text-orgc689dd9">
+<ul class="org-ul">
+<li><a href="file:///Users/zw/code/capture-org/siemens/work-notes.html#orgb27586f">Cloudfront distribution: the domain name assigned by aws could be visited, but the cname used is not avaiable.</a></li>
+<li><a href="file:///Users/zw/code/capture-org/siemens/work-notes.html#org9b83601">Cloudfront distribution: The certificate that is attached to your distribution doesn&rsquo;t cover the alternate domain name (CNAME) that you&rsquo;re trying to add.</a></li>
+</ul>
+</div>
+</section>
+
+
+
+
+<section id="outline-container-org37c396a" class="outline-2">
+<h2 id="org37c396a"><span class="todo TODO">TODO</span> VPC</h2>
+<div class="outline-text-2" id="text-org37c396a">
+</div>
+<div id="outline-container-org2f96431" class="outline-3">
+<h3 id="org2f96431">Refs</h3>
+<div class="outline-text-3" id="text-org2f96431">
+<ul class="org-ul">
+<li><a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">Amazon Virtual Private Cloud</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1e1033a" class="outline-3">
+<h3 id="org1e1033a">VPC networking components</h3>
+<div class="outline-text-3" id="text-org1e1033a">
+<ul class="org-ul">
+<li>Networking interfaces</li>
+<li>Route tables</li>
+<li>Prefix lists</li>
+<li>NAT
+<ul class="org-ul">
+<li>NAT gateways</li>
+<li>NAT instances</li>
+</ul></li>
+<li>DHCP options sets</li>
+<li>DNS</li>
+<li>VPC peering</li>
+<li>Elastic IP address</li>
+<li>ClassicLink</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org5c7a5c1" class="outline-2">
+<h2 id="org5c7a5c1">CloudFormation Skills</h2>
+<div class="outline-text-2" id="text-org5c7a5c1">
+</div>
+<div id="outline-container-org224d6d5" class="outline-3">
+<h3 id="org224d6d5">Use FindInMap to customize environment variables based on keys</h3>
+<div class="outline-text-3" id="text-org224d6d5">
+<ul class="org-ul">
+<li>Goal: we want to form a aws resources string from environment map based on different conditions.</li>
+<li><p>
+Example:
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml"><span class="org-variable-name">AWSTemplateFormatVersion</span>: <span class="org-string">'2010-09-09'</span>
+<span class="org-variable-name">Description</span>: Resources supporting the Atlas Service
+<span class="org-variable-name">Parameters</span>:
+  <span class="org-variable-name">StackPrefix</span>:
+    <span class="org-variable-name">Type</span>: String
+    ...
+    <span class="org-variable-name">Type</span>: String
+    <span class="org-variable-name">Default</span>: <span class="org-string">'06c72675ca6d421690a21c7899631ab1'</span>
+<span class="org-variable-name">Mappings</span>:
+  <span class="org-variable-name">TableMap</span>:
+    <span class="org-variable-name">ReplicateTables</span>:
+      <span class="org-variable-name">TenantMaster</span>: <span class="org-string">'atlas-tenant-master'</span>
+      <span class="org-variable-name">ApiKeyTable</span>: <span class="org-string">'atlas-modeling-service-apikey'</span>
+      <span class="org-variable-name">UserTenantTable</span>: <span class="org-string">'atlas-modeling-service-user-tenant'</span>
+  <span class="org-variable-name">EnvironmentMap</span>:
+    <span class="org-variable-name">dev</span>:
+      <span class="org-variable-name">AtlasRootUrl</span>: <span class="org-string">"lb.dev.nxatlas.com/atlas"</span>
+      <span class="org-variable-name">DesiredCount</span>: <span class="org-string">'2'</span>
+      <span class="org-variable-name">MinCapacity</span>: 2
+      ...
+      <span class="org-variable-name">UseWMService</span>: 1
+      <span class="org-variable-name">ApiKeyValidate</span>: 1
+      <span class="org-variable-name">DRSrcEnv</span>: dev
+    <span class="org-variable-name">drdev</span>:
+      <span class="org-variable-name">AtlasRootUrl</span>: <span class="org-string">"lb.drdev.nxatlas.com/atlas"</span>
+      <span class="org-variable-name">DesiredCount</span>: <span class="org-string">'1'</span>
+      <span class="org-variable-name">MinCapacity</span>: 1
+      ...
+      <span class="org-variable-name">UseWMService</span>: 1
+      <span class="org-variable-name">ApiKeyValidate</span>: 1
+      <span class="org-variable-name">DRSrcEnv</span>: dev
+
+<span class="org-comment">...</span>
+
+                <span class="org-variable-name">Resource</span>:
+                  - <span class="org-type">!Sub</span> <span class="org-string">'arn:aws:dynamodb:*:*:table/atlas-*-${StackEnvironment}/index/*'</span>
+                  - <span class="org-variable-name">Fn::Sub</span>:
+                    - <span class="org-string">'arn:aws:dynamodb:*:*:table/${table}-${srcenv}'</span>
+                    - <span class="org-variable-name">table</span>:
+                        <span class="org-variable-name">Fn::FindInMap</span>:
+                          - TableMap
+                          - <span class="org-type">!Ref</span> <span class="org-string">'ReplicateTables'</span>
+                          - TenantMaster
+                      <span class="org-variable-name">srcenv</span>:
+                        <span class="org-variable-name">Fn::FindInMap</span>:
+                          - EnvironmentMap
+                          - <span class="org-type">!Ref</span> <span class="org-string">'ConfigEnvironment'</span>
+                          - DRSrcEnv
+                  - <span class="org-variable-name">Fn::Sub</span>:
+                    - <span class="org-string">'arn:aws:dynamodb:*:*:table/${table}-${srcenv}/index/*'</span>
+                    - <span class="org-variable-name">table</span>:
+                        <span class="org-variable-name">Fn::FindInMap</span>:
+                          - TableMap
+                          - <span class="org-type">!Ref</span> <span class="org-string">'ReplicateTables'</span>
+                          - TenantMaster
+                      <span class="org-variable-name">srcenv</span>:
+                        <span class="org-variable-name">Fn::FindInMap</span>:
+                          - EnvironmentMap
+                          - <span class="org-type">!Ref</span> <span class="org-string">'ConfigEnvironment'</span>
+                          - DRSrcEnv      
+
+<span class="org-comment">...</span>
+          <span class="org-variable-name">ATLAS_ROOT_URL</span>: <span class="org-type">!FindInMap</span>
+            - EnvironmentMap
+            - <span class="org-type">!Ref</span> ConfigEnvironment
+            - AtlasRootUrl
+</pre>
+</div>
+<ul class="org-ul">
+<li>See <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html">Fn::Sub</a> for syntax rule. In general, the values is subtituded from two variable <code>table</code> and <code>srcenv</code> and each of them is referenced by the environment map defined <code>Mappings</code>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="outline-container-org5833450" class="outline-2">
+<h2 id="org5833450">My notes</h2>
+<div class="outline-text-2" id="text-org5833450">
+</div>
+<div id="outline-container-org5b641bc" class="outline-3">
+<h3 id="org5b641bc">Network Fundamentals</h3>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Feb 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+</div>
+</footer>
+</body>
+</html>
