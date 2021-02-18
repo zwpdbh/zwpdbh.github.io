@@ -12,6 +12,17 @@ figcaption {
     text-align: center;
 }
 
+body {
+    line-height: 1.4;
+}
+
+body #content {
+    margin-left: 75px;
+    margin-right: 100px;
+    max-width: 78% !important;
+    width: 78% !important;
+}
+
 /* TOC inspired by http://jashkenas.github.com/coffee-script */
 /* https://stackoverflow.com/questions/12232675/how-to-make-table-of-contents-floating */
 #table-of-contents {
