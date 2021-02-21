@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Feb 17, 2021 -->
+<!-- Feb 21, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&lrm;</title>
 <meta name="generator" content="Org mode">
-<meta name="author" content="zwpdbh">
+<meta name="author" content="DESKTOP-TTOPQ58">
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
@@ -47,17 +43,18 @@
  <a accesskey="H" href="/"> HOME </a>
 </div><header id="top" class="status">
 <div class='intro'>
-  <h2>
+  <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
+  <h1>
     <span class="gray">Zhao</span>
     <span class="black">Wei</span>
-  </h2>
-  <p>Emacser</p>
+  </h1>
+  <p>How can man die better than facing fearful odds, for the ashes of his fathers and the temples of his Gods? -- By Horatius.</p>
 </div>
 
 <div class='nav'>
   <ul>
     <li><a href='/'>Blog</a>.</li>
-    <li><a href='/about/'>About</a></li>
+    <li><a href='/about/'>About</a>.</li>
   </ul>
 </div>
 </header>
@@ -66,30 +63,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8c6f649">Chatper 04: The general problem solver (GPS)</a>
+<li><a href="#org399c24d">Chatper 04: The general problem solver (GPS)</a>
 <ul>
-<li><a href="#org743c08d">Five stages in the development of an AI program.</a></li>
-<li><a href="#orge269932">How to specify?</a></li>
-<li><a href="#org0f1b17e">Implementation01</a></li>
-<li><a href="#org7cbc862">Problems of implementation01</a></li>
-<li><a href="#org2c26400">Implementation02</a></li>
-<li><a href="#orgb773de8">Problems of implementation02</a></li>
+<li><a href="#orgd8ad266">Five stages in the development of an AI program.</a></li>
+<li><a href="#org2ebb861">How to specify?</a></li>
+<li><a href="#orgb14acee">Implementation01</a></li>
+<li><a href="#org385b267">Problems of implementation01</a></li>
+<li><a href="#orge42302c">Implementation02</a></li>
+<li><a href="#org232b63c">Problems of implementation02</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org8c6f649" class="outline-2">
-<h2 id="org8c6f649">Chatper 04: The general problem solver (GPS)</h2>
-<div class="outline-text-2" id="text-org8c6f649">
+<section id="outline-container-org399c24d" class="outline-2">
+<h2 id="org399c24d">Chatper 04: The general problem solver (GPS)</h2>
+<div class="outline-text-2" id="text-org399c24d">
 <p>
 It was the first program to seperate its problem solving strategy from its knowledge of particular problems.
 </p>
 </div>
 
-<div id="outline-container-org743c08d" class="outline-3">
-<h3 id="org743c08d">Five stages in the development of an AI program.</h3>
-<div class="outline-text-3" id="text-org743c08d">
+<div id="outline-container-orgd8ad266" class="outline-3">
+<h3 id="orgd8ad266">Five stages in the development of an AI program.</h3>
+<div class="outline-text-3" id="text-orgd8ad266">
 <ol class="org-ol">
 <li>describe</li>
 <li>specify</li>
@@ -100,9 +97,9 @@ It was the first program to seperate its problem solving strategy from its knowl
 </div>
 </div>
 
-<div id="outline-container-orge269932" class="outline-3">
-<h3 id="orge269932">How to specify?</h3>
-<div class="outline-text-3" id="text-orge269932">
+<div id="outline-container-org2ebb861" class="outline-3">
+<h3 id="org2ebb861">How to specify?</h3>
+<div class="outline-text-3" id="text-org2ebb861">
 <ul class="org-ul">
 <li>Represent <b>state</b> of world
 <ul class="org-ul">
@@ -129,47 +126,47 @@ If all conditions in the goal state can all be achieved, then the problem is sol
 </div>
 </div>
 
-<div id="outline-container-org0f1b17e" class="outline-3">
-<h3 id="org0f1b17e">Implementation01</h3>
-<div class="outline-text-3" id="text-org0f1b17e">
+<div id="outline-container-orgb14acee" class="outline-3">
+<h3 id="orgb14acee">Implementation01</h3>
+<div class="outline-text-3" id="text-orgb14acee">
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">*state*</span> nil <span class="org-doc">"The current state: a list of conditions."</span><span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(<span class="org-keyword">defvar</span> <span class="org-variable-name">*state*</span> nil <span class="org-doc">"The current state: a list of conditions."</span>)
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">*ops*</span> nil <span class="org-doc">"A list of available operators."</span><span class="org-parenthesis">)</span>
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">*ops*</span> nil <span class="org-doc">"A list of available operators."</span>)
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defstruct</span> <span class="org-type">op</span> <span class="org-doc">"An operation"</span>
-           <span class="org-parenthesis">(</span>action nil<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>preconds nil<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>add-list nil<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>del-list nil<span class="org-parenthesis">))</span>
+(<span class="org-keyword">defstruct</span> <span class="org-type">op</span> <span class="org-doc">"An operation"</span>
+           (action nil) (preconds nil) (add-list nil) (del-list nil))
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">GPS</span> <span class="org-parenthesis">(</span>*state* goals *ops*<span class="org-parenthesis">)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">GPS</span> (*state* goals *ops*)
   <span class="org-doc">"General Problem Solver: achieve all goals using *ops*."</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">if</span> <span class="org-parenthesis">(</span>every #'achieve goals<span class="org-parenthesis">)</span> 'solved<span class="org-parenthesis">))</span>
+  (<span class="org-keyword">if</span> (every #'achieve goals) 'solved))
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">achieve</span> <span class="org-parenthesis">(</span>goal<span class="org-parenthesis">)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">achieve</span> (goal)
   <span class="org-doc">"A goal is achieved if it already holds,</span>
 <span class="org-doc">  or if there is an appropriate op for it that is applicable."</span>
-  <span class="org-parenthesis">(</span>or <span class="org-parenthesis">(</span>member goal *state*<span class="org-parenthesis">)</span>
-      <span class="org-parenthesis">(</span>some #'apply-op
-            <span class="org-parenthesis">(</span>find-all goal *ops* <span class="org-builtin">:test</span> #'appropriate-p<span class="org-parenthesis">))))</span>
+  (or (member goal *state*)
+      (some #'apply-op
+            (find-all goal *ops* <span class="org-builtin">:test</span> #'appropriate-p))))
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">appropriate-p</span> <span class="org-parenthesis">(</span>goal op<span class="org-parenthesis">)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">appropriate-p</span> (goal op)
   <span class="org-doc">"An op is appropriate to a goal if it is in its add list."</span>
-  <span class="org-parenthesis">(</span>member goal <span class="org-parenthesis">(</span>op-add-list op<span class="org-parenthesis">)))</span>
+  (member goal (op-add-list op)))
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">apply-op</span> <span class="org-parenthesis">(</span>op<span class="org-parenthesis">)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">apply-op</span> (op)
   <span class="org-doc">"Print a message and update *state* if op is applicable."</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">when</span> <span class="org-parenthesis">(</span>every #'achieve <span class="org-parenthesis">(</span>op-preconds op<span class="org-parenthesis">))</span>
-    <span class="org-parenthesis">(</span>print <span class="org-parenthesis">(</span>list 'executing <span class="org-parenthesis">(</span>op-action op<span class="org-parenthesis">)))</span>
-    <span class="org-parenthesis">(</span>setf *state* <span class="org-parenthesis">(</span>set-difference *state* <span class="org-parenthesis">(</span>op-del-list op<span class="org-parenthesis">)))</span>
-    <span class="org-parenthesis">(</span>setf *state* <span class="org-parenthesis">(</span>union *state* <span class="org-parenthesis">(</span>op-add-list op<span class="org-parenthesis">)))</span>
-    t<span class="org-parenthesis">))</span>
+  (<span class="org-keyword">when</span> (every #'achieve (op-preconds op))
+    (print (list 'executing (op-action op)))
+    (setf *state* (set-difference *state* (op-del-list op)))
+    (setf *state* (union *state* (op-add-list op)))
+    t))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org7cbc862" class="outline-3">
-<h3 id="org7cbc862">Problems of implementation01</h3>
-<div class="outline-text-3" id="text-org7cbc862">
+<div id="outline-container-org385b267" class="outline-3">
+<h3 id="org385b267">Problems of implementation01</h3>
+<div class="outline-text-3" id="text-org385b267">
 <ul class="org-ul">
 <li>The clobbered sibling goal problem.</li>
 <li>The leaping before you look problem.</li>
@@ -180,13 +177,13 @@ If all conditions in the goal state can all be achieved, then the problem is sol
 </div>
 
 
-<div id="outline-container-org2c26400" class="outline-3">
-<h3 id="org2c26400">Implementation02</h3>
+<div id="outline-container-orge42302c" class="outline-3">
+<h3 id="orge42302c">Implementation02</h3>
 </div>
 
 
-<div id="outline-container-orgb773de8" class="outline-3">
-<h3 id="orgb773de8">Problems of implementation02</h3>
+<div id="outline-container-org232b63c" class="outline-3">
+<h3 id="org232b63c">Problems of implementation02</h3>
 </div>
 </section>
 </main>
@@ -194,7 +191,7 @@ If all conditions in the goal state can all be achieved, then the problem is sol
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Feb 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+  Last updated on Feb 21, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
 </div>
 </footer>
 </body>

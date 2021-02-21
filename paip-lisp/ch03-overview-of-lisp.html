@@ -1,34 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Feb 17, 2021 -->
+<!-- Feb 21, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&lrm;</title>
 <meta name="generator" content="Org mode">
-<meta name="author" content="zwpdbh">
+<meta name="author" content="DESKTOP-TTOPQ58">
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
@@ -59,17 +43,19 @@
  <a accesskey="H" href="/"> HOME </a>
 </div><header id="top" class="status">
 <div class='intro'>
+  <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
   <h1>
     <span class="gray">Zhao</span>
     <span class="black">Wei</span>
   </h1>
-  <p>Emacser</p>
+  <p>How can man die better than facing fearful odds, for the ashes of his fathers and the temples of his Gods? -- By Horatius.</p>
 </div>
 
 <div class='nav'>
-<ul>
-<li><a href='/'>Blog</a>.</li>
-</ul>
+  <ul>
+    <li><a href='/'>Blog</a>.</li>
+    <li><a href='/about/'>About</a>.</li>
+  </ul>
 </div>
 </header>
 <main id="content">
@@ -77,71 +63,71 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc5abbb1">Overview of Lisp</a>
+<li><a href="#org6cbc2cb">Overview of Lisp</a>
 <ul>
-<li><a href="#org18648fd">Guide to lisp style</a></li>
-<li><a href="#orgbff5982">Special forms</a>
+<li><a href="#org5c83f5c">Guide to lisp style</a></li>
+<li><a href="#org5219223">Special forms</a>
 <ul>
-<li><a href="#org0889f69">Special forms for definitions</a></li>
-<li><a href="#orgb05bcbe">Special forms for conditionals</a></li>
-<li><a href="#orge95dcce">Special forms for dealing with variables and places</a></li>
-<li><a href="#org013048c">Functions and Special forms for repeatation</a></li>
-<li><a href="#org10371b3">Other special forms</a></li>
-<li><a href="#orgd6b9187">Macro</a></li>
-<li><a href="#org5195938">Backquote notation</a></li>
+<li><a href="#orgc66d12e">Special forms for definitions</a></li>
+<li><a href="#orgb5b7456">Special forms for conditionals</a></li>
+<li><a href="#org9d9ee40">Special forms for dealing with variables and places</a></li>
+<li><a href="#org023a128">Functions and Special forms for repeatation</a></li>
+<li><a href="#org314118b">Other special forms</a></li>
+<li><a href="#orgbe52b8f">Macro</a></li>
+<li><a href="#orgeca328a">Backquote notation</a></li>
 </ul>
 </li>
-<li><a href="#org39cd671">Functions on Lists</a>
+<li><a href="#org57ac6de">Functions on Lists</a>
 <ul>
-<li><a href="#org6afc17c">Dotted pair notation</a></li>
+<li><a href="#org99fc286">Dotted pair notation</a></li>
 </ul>
 </li>
-<li><a href="#orgf61b1bc">Equality and internal representation</a></li>
-<li><a href="#orge846f1a">Functions on sequences</a></li>
-<li><a href="#org92bc746">Functions for maintaining tables</a>
+<li><a href="#org4c14bb1">Equality and internal representation</a></li>
+<li><a href="#org8dd618b">Functions on sequences</a></li>
+<li><a href="#orgda51be3">Functions for maintaining tables</a>
 <ul>
-<li><a href="#orgc2ff994">Association table</a></li>
-<li><a href="#org95c3b67">Hash table</a></li>
-<li><a href="#org460e8d1">Property list</a></li>
+<li><a href="#org3b4e88a">Association table</a></li>
+<li><a href="#orgb639c9c">Hash table</a></li>
+<li><a href="#org31fffc5">Property list</a></li>
 </ul>
 </li>
-<li><a href="#org76e8112">Functions on trees</a></li>
-<li><a href="#org50d2247">Functions on numbers</a></li>
-<li><a href="#org149ecb3">Functions on sets</a></li>
-<li><a href="#org6c2567e">Destructive functions</a></li>
-<li><a href="#org67afe3e">3.11 Overview of data types</a></li>
-<li><a href="#org2a90001">Input/output</a>
+<li><a href="#orge11ee38">Functions on trees</a></li>
+<li><a href="#org84a6975">Functions on numbers</a></li>
+<li><a href="#orge481187">Functions on sets</a></li>
+<li><a href="#org921b450">Destructive functions</a></li>
+<li><a href="#org9393770">3.11 Overview of data types</a></li>
+<li><a href="#org846abdd">Input/output</a>
 <ul>
-<li><a href="#org719fc33">Input</a></li>
-<li><a href="#org26e76b5">Output</a></li>
+<li><a href="#org05a7ed8">Input</a></li>
+<li><a href="#orgd23b4e3">Output</a></li>
 </ul>
 </li>
-<li><a href="#orgda2167d">3.13 debugging tools</a></li>
-<li><a href="#orgf234ea9">3.14 Antibugging tools</a></li>
-<li><a href="#org800fa2f">Evaluation</a></li>
-<li><a href="#org9a2f7f6">3.16 Closure</a></li>
-<li><a href="#org4904292">3.17 special variables</a></li>
-<li><a href="#orgf85e5d6">3.18 Multiple values</a></li>
-<li><a href="#orge52bad9">3.19 More about parameters</a></li>
-<li><a href="#orgdeb30ab">Optional arguments</a></li>
-<li><a href="#org97cd9ed">Key arguments</a></li>
+<li><a href="#orge3ed8ae">3.13 debugging tools</a></li>
+<li><a href="#org6bfd83f">3.14 Antibugging tools</a></li>
+<li><a href="#org3d81651">Evaluation</a></li>
+<li><a href="#orgab742b7">3.16 Closure</a></li>
+<li><a href="#org346017b">3.17 special variables</a></li>
+<li><a href="#org278b662">3.18 Multiple values</a></li>
+<li><a href="#org59e949b">3.19 More about parameters</a></li>
+<li><a href="#org5e78224">Optional arguments</a></li>
+<li><a href="#org4b0dd72">Key arguments</a></li>
 </ul>
 </li>
-<li><a href="#org4567adb"><span class="todo TODO">TODO</span> Exercises</a></li>
+<li><a href="#org6798b63"><span class="todo TODO">TODO</span> Exercises</a></li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-orgc5abbb1" class="outline-2">
-<h2 id="orgc5abbb1">Overview of Lisp</h2>
-<div class="outline-text-2" id="text-orgc5abbb1">
+<section id="outline-container-org6cbc2cb" class="outline-2">
+<h2 id="org6cbc2cb">Overview of Lisp</h2>
+<div class="outline-text-2" id="text-org6cbc2cb">
 <p>
 This chapter can be used as a reference source.
 </p>
 </div>
 
-<div id="outline-container-org18648fd" class="outline-3">
-<h3 id="org18648fd">Guide to lisp style</h3>
-<div class="outline-text-3" id="text-org18648fd">
+<div id="outline-container-org5c83f5c" class="outline-3">
+<h3 id="org5c83f5c">Guide to lisp style</h3>
+<div class="outline-text-3" id="text-org5c83f5c">
 <ul class="org-ul">
 <li>Be specific.</li>
 <li>Use abstractions.</li>
@@ -153,13 +139,13 @@ This chapter can be used as a reference source.
 </div>
 </div>
 
-<div id="outline-container-orgbff5982" class="outline-3">
-<h3 id="orgbff5982">Special forms</h3>
-<div class="outline-text-3" id="text-orgbff5982">
+<div id="outline-container-org5219223" class="outline-3">
+<h3 id="org5219223">Special forms</h3>
+<div class="outline-text-3" id="text-org5219223">
 </div>
-<div id="outline-container-org0889f69" class="outline-4">
-<h4 id="org0889f69">Special forms for definitions</h4>
-<div class="outline-text-4" id="text-org0889f69">
+<div id="outline-container-orgc66d12e" class="outline-4">
+<h4 id="orgc66d12e">Special forms for definitions</h4>
+<div class="outline-text-4" id="text-orgc66d12e">
 <ul class="org-ul">
 <li>defun</li>
 <li>defmacro</li>
@@ -170,9 +156,9 @@ This chapter can be used as a reference source.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb05bcbe" class="outline-4">
-<h4 id="orgb05bcbe">Special forms for conditionals</h4>
-<div class="outline-text-4" id="text-orgb05bcbe">
+<div id="outline-container-orgb5b7456" class="outline-4">
+<h4 id="orgb5b7456">Special forms for conditionals</h4>
+<div class="outline-text-4" id="text-orgb5b7456">
 <p>
 It is poor style to use <code>and</code> and <code>or</code> for anything other than testing a logical condition. Use <code>when, unless, if</code> if possible.
 </p>
@@ -185,15 +171,15 @@ It is poor style to use <code>and</code> and <code>or</code> for anything other 
 </ul>
 </div>
 </div>
-<div id="outline-container-orge95dcce" class="outline-4">
-<h4 id="orge95dcce">Special forms for dealing with variables and places</h4>
-<div class="outline-text-4" id="text-orge95dcce">
+<div id="outline-container-org9d9ee40" class="outline-4">
+<h4 id="org9d9ee40">Special forms for dealing with variables and places</h4>
+<div class="outline-text-4" id="text-org9d9ee40">
 <ul class="org-ul">
 <li><p>
 setf
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf <span class="org-parenthesis">(</span>rest list<span class="org-parenthesis">)</span> nil<span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(setf (rest list) nil)
 </pre>
 </div></li>
 <li>let</li>
@@ -201,9 +187,9 @@ setf
 let*
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">let*</span> <span class="org-parenthesis">((</span>x 6<span class="org-parenthesis">)</span>
-       <span class="org-parenthesis">(</span>y <span class="org-parenthesis">(</span>* x x<span class="org-parenthesis">)))</span>
-  <span class="org-parenthesis">(</span>+ x y<span class="org-parenthesis">))</span>
+<pre class="src src-lisp">(<span class="org-keyword">let*</span> ((x 6)
+       (y (* x x)))
+  (+ x y))
 </pre>
 </div></li>
 <li>treat list as stack: pop, push</li>
@@ -213,9 +199,9 @@ let*
 </div>
 </div>
 
-<div id="outline-container-org013048c" class="outline-4">
-<h4 id="org013048c">Functions and Special forms for repeatation</h4>
-<div class="outline-text-4" id="text-org013048c">
+<div id="outline-container-org023a128" class="outline-4">
+<h4 id="org023a128">Functions and Special forms for repeatation</h4>
+<div class="outline-text-4" id="text-org023a128">
 <ul class="org-ul">
 <li>dolist</li>
 <li>dotimes</li>
@@ -234,9 +220,9 @@ let*
 </div>
 </div>
 
-<div id="outline-container-org10371b3" class="outline-4">
-<h4 id="org10371b3">Other special forms</h4>
-<div class="outline-text-4" id="text-org10371b3">
+<div id="outline-container-org314118b" class="outline-4">
+<h4 id="org314118b">Other special forms</h4>
+<div class="outline-text-4" id="text-org314118b">
 <ul class="org-ul">
 <li><code>progn</code>, can be used to evaluate a sequence of forms and return the value of the last one.
 Not used very much, probably only needed in 3 places</li>
@@ -248,9 +234,9 @@ Not used very much, probably only needed in 3 places</li>
 </div>
 </div>
 
-<div id="outline-container-orgd6b9187" class="outline-4">
-<h4 id="orgd6b9187">Macro</h4>
-<div class="outline-text-4" id="text-orgd6b9187">
+<div id="outline-container-orgbe52b8f" class="outline-4">
+<h4 id="orgbe52b8f">Macro</h4>
+<div class="outline-text-4" id="text-orgbe52b8f">
 <p>
 4 steps to write macro:
 </p>
@@ -263,29 +249,29 @@ Not used very much, probably only needed in 3 places</li>
 </div>
 </div>
 
-<div id="outline-container-org5195938" class="outline-4">
-<h4 id="org5195938">Backquote notation</h4>
-<div class="outline-text-4" id="text-org5195938">
+<div id="outline-container-orgeca328a" class="outline-4">
+<h4 id="orgeca328a">Backquote notation</h4>
+<div class="outline-text-4" id="text-orgeca328a">
 <p>
 A backquote indicates that what follows is mostly a literal expression but may contain some components that are to be evaluated. Anything marked by a leading comma <code>,</code> is evaluated and inserted into the structure. And anything marked with a leading <code>,@</code> must evaluated to a list that is spliced into the structure: each element of the list is inserted, without the top-level parameters.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf test1 '<span class="org-parenthesis">(</span>a test<span class="org-parenthesis">))</span>
+<pre class="src src-lisp">(setf test1 '(a test))
 
-`<span class="org-parenthesis">(</span>this is ,test1<span class="org-parenthesis">)</span>
-`<span class="org-parenthesis">(</span>this is ,@test1<span class="org-parenthesis">)</span>
-`<span class="org-parenthesis">(</span>this is . ,test1<span class="org-parenthesis">)</span>
+`(this is ,test1)
+`(this is ,@test1)
+`(this is . ,test1)
 <span class="org-comment-delimiter">;; </span><span class="org-comment">In the middle of a list, only ,@ is a possibility.</span>
-`<span class="org-parenthesis">(</span>this is ,@test1 -- this is only ,@test1<span class="org-parenthesis">)</span>
+`(this is ,@test1 -- this is only ,@test1)
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org39cd671" class="outline-3">
-<h3 id="org39cd671">Functions on Lists</h3>
-<div class="outline-text-3" id="text-org39cd671">
+<div id="outline-container-org57ac6de" class="outline-3">
+<h3 id="org57ac6de">Functions on Lists</h3>
+<div class="outline-text-3" id="text-org57ac6de">
 <ul class="org-ul">
 <li>first</li>
 <li>second</li>
@@ -309,9 +295,9 @@ A backquote indicates that what follows is mostly a literal expression but may c
 </ul>
 </div>
 
-<div id="outline-container-org6afc17c" class="outline-4">
-<h4 id="org6afc17c">Dotted pair notation</h4>
-<div class="outline-text-4" id="text-org6afc17c">
+<div id="outline-container-org99fc286" class="outline-4">
+<h4 id="org99fc286">Dotted pair notation</h4>
+<div class="outline-text-4" id="text-org99fc286">
 <p>
 (cons a b)
 </p>
@@ -331,30 +317,30 @@ A <b>cons cell</b> is a data structure with two fields: a first and a rest. All 
 </div>
 
 
-<div id="outline-container-orgf61b1bc" class="outline-3">
-<h3 id="orgf61b1bc">Equality and internal representation</h3>
+<div id="outline-container-org4c14bb1" class="outline-3">
+<h3 id="org4c14bb1">Equality and internal representation</h3>
 </div>
 
-<div id="outline-container-orge846f1a" class="outline-3">
-<h3 id="orge846f1a">Functions on sequences</h3>
+<div id="outline-container-org8dd618b" class="outline-3">
+<h3 id="org8dd618b">Functions on sequences</h3>
 </div>
 
-<div id="outline-container-org92bc746" class="outline-3">
-<h3 id="org92bc746">Functions for maintaining tables</h3>
-<div class="outline-text-3" id="text-org92bc746">
+<div id="outline-container-orgda51be3" class="outline-3">
+<h3 id="orgda51be3">Functions for maintaining tables</h3>
+<div class="outline-text-3" id="text-orgda51be3">
 </div>
-<div id="outline-container-orgc2ff994" class="outline-4">
-<h4 id="orgc2ff994">Association table</h4>
-<div class="outline-text-4" id="text-orgc2ff994">
+<div id="outline-container-org3b4e88a" class="outline-4">
+<h4 id="org3b4e88a">Association table</h4>
+<div class="outline-text-4" id="text-org3b4e88a">
 <p>
 The association list (a-list) is a type of list used to implement tables. An association list is a list of dotted pairs, where each pair consists of a key and a value.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf state-table
-      '<span class="org-parenthesis">((</span>AL . Alabama<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AK . Alaska<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AZ . Arizona<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AR . Arkansas<span class="org-parenthesis">)))</span>
+<pre class="src src-lisp">(setf state-table
+      '((AL . Alabama) (AK . Alaska) (AZ . Arizona) (AR . Arkansas)))
 
-<span class="org-parenthesis">(</span>assoc 'AK state-table<span class="org-parenthesis">)</span>
-<span class="org-parenthesis">(</span>rassoc 'Arizona state-table<span class="org-parenthesis">)</span>
+(assoc 'AK state-table)
+(rassoc 'Arizona state-table)
 </pre>
 </div>
 
@@ -362,11 +348,11 @@ The association list (a-list) is a type of list used to implement tables. An ass
 But, dotted pairs could also be normal list.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span>setf state-table
-      '<span class="org-parenthesis">((</span>AL  Alabama<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AK  Alaska<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AZ  Arizona<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>AR  Arkansas<span class="org-parenthesis">)))</span>
-<span class="org-parenthesis">(</span>assoc 'ar state-table<span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(setf state-table
+      '((AL  Alabama) (AK  Alaska) (AZ  Arizona) (AR  Arkansas)))
+(assoc 'ar state-table)
 <span class="org-comment-delimiter">;; </span><span class="org-comment">this does work</span>
-<span class="org-parenthesis">(</span>rassoc 'Arizona state-table<span class="org-parenthesis">)</span>
+(rassoc 'Arizona state-table)
 </pre>
 </div>
 <p>
@@ -376,9 +362,9 @@ Notice: Search the table by value rather than by key doesn&rsquo;t work for norm
 </div>
 
 
-<div id="outline-container-org95c3b67" class="outline-4">
-<h4 id="org95c3b67">Hash table</h4>
-<div class="outline-text-4" id="text-org95c3b67">
+<div id="outline-container-orgb639c9c" class="outline-4">
+<h4 id="orgb639c9c">Hash table</h4>
+<div class="outline-text-4" id="text-orgb639c9c">
 <ul class="org-ul">
 <li>make-hash-table</li>
 <li>gethash, retrieve the value associated with a given key.</li>
@@ -386,9 +372,9 @@ Notice: Search the table by value rather than by key doesn&rsquo;t work for norm
 </div>
 </div>
 
-<div id="outline-container-org460e8d1" class="outline-4">
-<h4 id="org460e8d1">Property list</h4>
-<div class="outline-text-4" id="text-org460e8d1">
+<div id="outline-container-org31fffc5" class="outline-4">
+<h4 id="org31fffc5">Property list</h4>
+<div class="outline-text-4" id="text-org31fffc5">
 <p>
 A property list (p-list) is a list of alternating key/value pairs.
 It is avoided because we have hash table.
@@ -398,9 +384,9 @@ It is avoided because we have hash table.
 </div>
 
 
-<div id="outline-container-org76e8112" class="outline-3">
-<h3 id="org76e8112">Functions on trees</h3>
-<div class="outline-text-3" id="text-org76e8112">
+<div id="outline-container-orge11ee38" class="outline-3">
+<h3 id="orge11ee38">Functions on trees</h3>
+<div class="outline-text-3" id="text-orge11ee38">
 <ul class="org-ul">
 <li>tree-equal</li>
 <li>copy-tree</li>
@@ -410,9 +396,9 @@ It is avoided because we have hash table.
 </div>
 </div>
 
-<div id="outline-container-org50d2247" class="outline-3">
-<h3 id="org50d2247">Functions on numbers</h3>
-<div class="outline-text-3" id="text-org50d2247">
+<div id="outline-container-org84a6975" class="outline-3">
+<h3 id="org84a6975">Functions on numbers</h3>
+<div class="outline-text-3" id="text-org84a6975">
 <ul class="org-ul">
 <li>random</li>
 <li>expt</li>
@@ -426,16 +412,16 @@ It is avoided because we have hash table.
 rem
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span>rem 11 5<span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(rem 11 5)
 </pre>
 </div></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org149ecb3" class="outline-3">
-<h3 id="org149ecb3">Functions on sets</h3>
-<div class="outline-text-3" id="text-org149ecb3">
+<div id="outline-container-orge481187" class="outline-3">
+<h3 id="orge481187">Functions on sets</h3>
+<div class="outline-text-3" id="text-orge481187">
 <p>
 One of the important uses of lists is to represent sets. There are some functions that treat lists in just that way.
 </p>
@@ -507,9 +493,9 @@ Functions on bit vectors and integers:
 </div>
 </div>
 
-<div id="outline-container-org6c2567e" class="outline-3">
-<h3 id="org6c2567e">Destructive functions</h3>
-<div class="outline-text-3" id="text-org6c2567e">
+<div id="outline-container-org921b450" class="outline-3">
+<h3 id="org921b450">Destructive functions</h3>
+<div class="outline-text-3" id="text-org921b450">
 <p>
 Functions has side effect
 </p>
@@ -526,18 +512,18 @@ Functions has side effect
 </div>
 
 
-<div id="outline-container-org67afe3e" class="outline-3">
-<h3 id="org67afe3e">3.11 Overview of data types</h3>
+<div id="outline-container-org9393770" class="outline-3">
+<h3 id="org9393770">3.11 Overview of data types</h3>
 </div>
 
 
-<div id="outline-container-org2a90001" class="outline-3">
-<h3 id="org2a90001">Input/output</h3>
-<div class="outline-text-3" id="text-org2a90001">
+<div id="outline-container-org846abdd" class="outline-3">
+<h3 id="org846abdd">Input/output</h3>
+<div class="outline-text-3" id="text-org846abdd">
 </div>
-<div id="outline-container-org719fc33" class="outline-4">
-<h4 id="org719fc33">Input</h4>
-<div class="outline-text-4" id="text-org719fc33">
+<div id="outline-container-org05a7ed8" class="outline-4">
+<h4 id="org05a7ed8">Input</h4>
+<div class="outline-text-4" id="text-org05a7ed8">
 <ul class="org-ul">
 <li>read, it is a complete lexical and syntactic parser. It is used to read and return a single lisp expression.</li>
 <li>read-char, read a single character</li>
@@ -548,9 +534,9 @@ Functions has side effect
 </div>
 </div>
 
-<div id="outline-container-org26e76b5" class="outline-4">
-<h4 id="org26e76b5">Output</h4>
-<div class="outline-text-4" id="text-org26e76b5">
+<div id="outline-container-orgd23b4e3" class="outline-4">
+<h4 id="orgd23b4e3">Output</h4>
+<div class="outline-text-4" id="text-orgd23b4e3">
 <ul class="org-ul">
 <li>print</li>
 <li>prin1</li>
@@ -565,9 +551,9 @@ Functions has side effect
 </div>
 </div>
 
-<div id="outline-container-orgda2167d" class="outline-3">
-<h3 id="orgda2167d">3.13 debugging tools</h3>
-<div class="outline-text-3" id="text-orgda2167d">
+<div id="outline-container-orge3ed8ae" class="outline-3">
+<h3 id="orge3ed8ae">3.13 debugging tools</h3>
+<div class="outline-text-3" id="text-orge3ed8ae">
 <ul class="org-ul">
 <li>trace, untrace</li>
 <li>step</li>
@@ -581,9 +567,9 @@ Functions has side effect
 </div>
 
 
-<div id="outline-container-orgf234ea9" class="outline-3">
-<h3 id="orgf234ea9">3.14 Antibugging tools</h3>
-<div class="outline-text-3" id="text-orgf234ea9">
+<div id="outline-container-org6bfd83f" class="outline-3">
+<h3 id="org6bfd83f">3.14 Antibugging tools</h3>
+<div class="outline-text-3" id="text-org6bfd83f">
 <ul class="org-ul">
 <li>error</li>
 <li>cerror</li>
@@ -594,9 +580,9 @@ Functions has side effect
 </div>
 </div>
 
-<div id="outline-container-org800fa2f" class="outline-3">
-<h3 id="org800fa2f">Evaluation</h3>
-<div class="outline-text-3" id="text-org800fa2f">
+<div id="outline-container-org3d81651" class="outline-3">
+<h3 id="org3d81651">Evaluation</h3>
+<div class="outline-text-3" id="text-org3d81651">
 <ul class="org-ul">
 <li>funcall</li>
 <li>apply</li>
@@ -605,29 +591,29 @@ Functions has side effect
 </div>
 </div>
 
-<div id="outline-container-org9a2f7f6" class="outline-3">
-<h3 id="org9a2f7f6">3.16 Closure</h3>
-<div class="outline-text-3" id="text-org9a2f7f6">
+<div id="outline-container-orgab742b7" class="outline-3">
+<h3 id="orgab742b7">3.16 Closure</h3>
+<div class="outline-text-3" id="text-orgab742b7">
 <ul class="org-ul">
 <li><p>
 Ex01, c is the captured clojure
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">adder</span> <span class="org-parenthesis">(</span>c<span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">adder</span> (c)
   <span class="org-doc">"Return a function that adds c to its argument."</span>
-  #'<span class="org-parenthesis">(</span><span class="org-keyword">lambda</span> <span class="org-parenthesis">(</span>x<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>+ x c<span class="org-parenthesis">)))</span>
+  #'(<span class="org-keyword">lambda</span> (x) (+ x c)))
 </pre>
 </div></li>
 <li><p>
 Ex02, returns a clojure that can be used as representation of a bank accound.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">bank-account</span> <span class="org-parenthesis">(</span>balance<span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">bank-account</span> (balance)
   <span class="org-doc">"Open a bank account starting with the given balance."</span>
-  #'<span class="org-parenthesis">(</span><span class="org-keyword">lambda</span> <span class="org-parenthesis">(</span>action amount<span class="org-parenthesis">)</span>
-      <span class="org-parenthesis">(</span><span class="org-keyword">case</span> action
-        <span class="org-parenthesis">(</span>deposit  <span class="org-parenthesis">(</span>setf balance <span class="org-parenthesis">(</span>+ balance amount<span class="org-parenthesis">)))</span>
-        <span class="org-parenthesis">(</span>withdraw <span class="org-parenthesis">(</span>setf balance <span class="org-parenthesis">(</span>- balance amount<span class="org-parenthesis">))))))</span>
+  #'(<span class="org-keyword">lambda</span> (action amount)
+      (<span class="org-keyword">case</span> action
+        (deposit  (setf balance (+ balance amount)))
+        (withdraw (setf balance (- balance amount))))))
 </pre>
 </div></li>
 </ul>
@@ -635,9 +621,9 @@ Ex02, returns a clojure that can be used as representation of a bank accound.
 </div>
 
 
-<div id="outline-container-org4904292" class="outline-3">
-<h3 id="org4904292">3.17 special variables</h3>
-<div class="outline-text-3" id="text-org4904292">
+<div id="outline-container-org346017b" class="outline-3">
+<h3 id="org346017b">3.17 special variables</h3>
+<div class="outline-text-3" id="text-org346017b">
 <ul class="org-ul">
 <li>lexical variables
 By default, Common Lisp variables are lexical variables. They are introduced by syntactic construct like let or defun.</li>
@@ -647,7 +633,7 @@ By default, Common Lisp variables are lexical variables. They are introduced by 
 <li><p>
 It is just like global variable except: the global binding can be shadowed by a local binding for that variable.
 </p>
-<pre class="example" id="orge964ac6">
+<pre class="example" id="org437bc5e">
 (defun report ()
   (format t "Counter = ~d" *counter*))
 
@@ -679,37 +665,37 @@ To set a special variable, the following are equivalent:
 </div>
 
 
-<div id="outline-container-orgf85e5d6" class="outline-3">
-<h3 id="orgf85e5d6">3.18 Multiple values</h3>
-<div class="outline-text-3" id="text-orgf85e5d6">
+<div id="outline-container-org278b662" class="outline-3">
+<h3 id="org278b662">3.18 Multiple values</h3>
+<div class="outline-text-3" id="text-org278b662">
 <p>
 You can write functions of your own that return multiple values using the function <code>values</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span>values 1 2 3<span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(values 1 2 3)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge52bad9" class="outline-3">
-<h3 id="orge52bad9">3.19 More about parameters</h3>
-<div class="outline-text-3" id="text-orge52bad9">
+<div id="outline-container-org59e949b" class="outline-3">
+<h3 id="org59e949b">3.19 More about parameters</h3>
+<div class="outline-text-3" id="text-org59e949b">
 <p>
 Consider how could we improve the following function&rsquo;s signature
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> <span class="org-parenthesis">(</span>op range n<span class="org-parenthesis">)</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> (op range n)
   <span class="org-doc">"Ask the user a series of math problems."</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">dotimes</span> <span class="org-parenthesis">(</span>i n<span class="org-parenthesis">)</span>
-    <span class="org-parenthesis">(</span>problem <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">)</span> op <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">))))</span>
+  (<span class="org-keyword">dotimes</span> (i n)
+    (problem (random range) op (random range))))
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">problem</span> <span class="org-parenthesis">(</span>x op y<span class="org-parenthesis">)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">problem</span> (x op y)
   <span class="org-doc">"Ask a math problem, read a reply, and say if it is correct."</span>
-  <span class="org-parenthesis">(</span>format t <span class="org-string">"~&amp;How much is ~d ~a ~d?"</span> x op y<span class="org-parenthesis">)</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">if</span> <span class="org-parenthesis">(</span>eql <span class="org-parenthesis">(</span>read<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>funcall op x y<span class="org-parenthesis">))</span>
-      <span class="org-parenthesis">(</span>princ <span class="org-string">"Correct!"</span><span class="org-parenthesis">)</span>
-      <span class="org-parenthesis">(</span>princ <span class="org-string">"Sorry, that's not right."</span><span class="org-parenthesis">)))</span>
+  (format t <span class="org-string">"~&amp;How much is ~d ~a ~d?"</span> x op y)
+  (<span class="org-keyword">if</span> (eql (read) (funcall op x y))
+      (princ <span class="org-string">"Correct!"</span>)
+      (princ <span class="org-string">"Sorry, that's not right."</span>)))
 </pre>
 </div>
 <p>
@@ -718,17 +704,17 @@ The user of math-quiz has to provide all 3 arguments in order, with op is quoted
 </div>
 </div>
 
-<div id="outline-container-orgdeb30ab" class="outline-3">
-<h3 id="orgdeb30ab">Optional arguments</h3>
-<div class="outline-text-3" id="text-orgdeb30ab">
+<div id="outline-container-org5e78224" class="outline-3">
+<h3 id="org5e78224">Optional arguments</h3>
+<div class="outline-text-3" id="text-org5e78224">
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> <span class="org-parenthesis">(</span><span class="org-type">&amp;optional</span> <span class="org-parenthesis">(</span>op '+<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>range 100<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>n 10<span class="org-parenthesis">))</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> (<span class="org-type">&amp;optional</span> (op '+) (range 100) (n 10))
   <span class="org-doc">"Ask the user a series of math problems."</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">dotimes</span> <span class="org-parenthesis">(</span>i n<span class="org-parenthesis">)</span>
-    <span class="org-parenthesis">(</span>problem <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">)</span> op <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">))))</span>
+  (<span class="org-keyword">dotimes</span> (i n)
+    (problem (random range) op (random range))))
 
-<span class="org-parenthesis">(</span>math-quiz<span class="org-parenthesis">)</span>
-<span class="org-parenthesis">(</span>math-quiz '+ 100 2<span class="org-parenthesis">)</span>
+(math-quiz)
+(math-quiz '+ 100 2)
 </pre>
 </div>
 <p>
@@ -738,17 +724,17 @@ Optional arguments are still position dependent.
 </div>
 
 
-<div id="outline-container-org97cd9ed" class="outline-3">
-<h3 id="org97cd9ed">Key arguments</h3>
-<div class="outline-text-3" id="text-org97cd9ed">
+<div id="outline-container-org4b0dd72" class="outline-3">
+<h3 id="org4b0dd72">Key arguments</h3>
+<div class="outline-text-3" id="text-org4b0dd72">
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> <span class="org-parenthesis">(</span><span class="org-type">&amp;key</span> <span class="org-parenthesis">(</span>op '+<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>range 100<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>n 10<span class="org-parenthesis">))</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> (<span class="org-type">&amp;key</span> (op '+) (range 100) (n 10))
   <span class="org-doc">"Ask the user a series of math problems."</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">dotimes</span> <span class="org-parenthesis">(</span>i n<span class="org-parenthesis">)</span>
-    <span class="org-parenthesis">(</span>problem <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">)</span> op <span class="org-parenthesis">(</span>random range<span class="org-parenthesis">))))</span>
+  (<span class="org-keyword">dotimes</span> (i n)
+    (problem (random range) op (random range))))
 
-<span class="org-parenthesis">(</span>math-quiz <span class="org-builtin">:n</span> 5<span class="org-parenthesis">)</span>
-<span class="org-parenthesis">(</span>math-quiz <span class="org-builtin">:op</span> '+ <span class="org-builtin">:n</span> 5 <span class="org-builtin">:range</span> 100<span class="org-parenthesis">)</span>
+(math-quiz <span class="org-builtin">:n</span> 5)
+(math-quiz <span class="org-builtin">:op</span> '+ <span class="org-builtin">:n</span> 5 <span class="org-builtin">:range</span> 100)
 </pre>
 </div>
 <ul class="org-ul">
@@ -762,15 +748,15 @@ Optional arguments are still position dependent.
 
 
 
-<section id="outline-container-org4567adb" class="outline-2">
-<h2 id="org4567adb"><span class="todo TODO">TODO</span> Exercises</h2>
+<section id="outline-container-org6798b63" class="outline-2">
+<h2 id="org6798b63"><span class="todo TODO">TODO</span> Exercises</h2>
 </section>
 </main>
 <footer id="postamble" class="status">
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Feb 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+  Last updated on Feb 21, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
 </div>
 </footer>
 </body>

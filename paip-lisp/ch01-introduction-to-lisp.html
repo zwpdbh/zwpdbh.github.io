@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Feb 17, 2021 -->
+<!-- Feb 21, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&lrm;</title>
 <meta name="generator" content="Org mode">
-<meta name="author" content="zwpdbh">
+<meta name="author" content="DESKTOP-TTOPQ58">
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
-<style type="text/css">
- pre.src {background-color: #1b1d1e; color: #dddddd;}</style>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
@@ -55,17 +43,19 @@
  <a accesskey="H" href="/"> HOME </a>
 </div><header id="top" class="status">
 <div class='intro'>
+  <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
   <h1>
     <span class="gray">Zhao</span>
     <span class="black">Wei</span>
   </h1>
-  <p>Emacser</p>
+  <p>How can man die better than facing fearful odds, for the ashes of his fathers and the temples of his Gods? -- By Horatius.</p>
 </div>
 
 <div class='nav'>
-<ul>
-<li><a href='/'>Blog</a>.</li>
-</ul>
+  <ul>
+    <li><a href='/'>Blog</a>.</li>
+    <li><a href='/about/'>About</a>.</li>
+  </ul>
 </div>
 </header>
 <main id="content">
@@ -73,13 +63,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3e0cfe7">exercise</a></li>
+<li><a href="#org09c8a56">exercise</a></li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org3e0cfe7" class="outline-2">
-<h2 id="org3e0cfe7">exercise</h2>
-<div class="outline-text-2" id="text-org3e0cfe7">
+<section id="outline-container-org09c8a56" class="outline-2">
+<h2 id="org09c8a56">exercise</h2>
+<div class="outline-text-2" id="text-org09c8a56">
 <p>
 ref: <a href="https://github.com/norvig/paip-lisp/blob/master/docs/chapter1.md">chapter01</a>
 </p>
@@ -88,15 +78,15 @@ ref: <a href="https://github.com/norvig/paip-lisp/blob/master/docs/chapter1.md">
 power(x n) where x and n are integers
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">power</span> <span class="org-parenthesis">(</span>x n<span class="org-parenthesis">)</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">cond</span> <span class="org-parenthesis">((</span>= n 0<span class="org-parenthesis">)</span>
-         1<span class="org-parenthesis">)</span>
-        <span class="org-parenthesis">((</span>evenp n<span class="org-parenthesis">)</span>
-         <span class="org-parenthesis">(</span>expt <span class="org-parenthesis">(</span>power x <span class="org-parenthesis">(</span>/ n 2<span class="org-parenthesis">))</span> 2<span class="org-parenthesis">))</span>
-        <span class="org-parenthesis">(</span>t
-         <span class="org-parenthesis">(</span>* x <span class="org-parenthesis">(</span>power x <span class="org-parenthesis">(</span>- n 1<span class="org-parenthesis">))))))</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">power</span> (x n)
+  (<span class="org-keyword">cond</span> ((= n 0)
+         1)
+        ((evenp n)
+         (expt (power x (/ n 2)) 2))
+        (t
+         (* x (power x (- n 1))))))
 
-<span class="org-parenthesis">(</span>power 2 13<span class="org-parenthesis">)</span>
+(power 2 13)
 </pre>
 </div>
 <p>
@@ -109,14 +99,14 @@ Write a function that count the number of atoms in an expression.
 <div class="org-src-container">
 <pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">(count-atoms '(a (b) (c))) = 3</span>
 
-<span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">count-atoms</span> <span class="org-parenthesis">(</span>exp<span class="org-parenthesis">)</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">cond</span> <span class="org-parenthesis">((</span>null exp<span class="org-parenthesis">)</span> 0<span class="org-parenthesis">)</span>
-        <span class="org-parenthesis">((</span>atom exp<span class="org-parenthesis">)</span> 1<span class="org-parenthesis">)</span>
-        <span class="org-parenthesis">(</span>t
-         <span class="org-parenthesis">(</span>+ <span class="org-parenthesis">(</span>count-atoms <span class="org-parenthesis">(</span>first exp<span class="org-parenthesis">))</span>
-            <span class="org-parenthesis">(</span>count-atoms <span class="org-parenthesis">(</span>rest exp<span class="org-parenthesis">))))))</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">count-atoms</span> (exp)
+  (<span class="org-keyword">cond</span> ((null exp) 0)
+        ((atom exp) 1)
+        (t
+         (+ (count-atoms (first exp))
+            (count-atoms (rest exp))))))
 
-<span class="org-parenthesis">(</span>count-atoms '<span class="org-parenthesis">(</span>a <span class="org-parenthesis">(</span>b<span class="org-parenthesis">)</span> <span class="org-parenthesis">(</span>c <span class="org-parenthesis">(</span>d <span class="org-parenthesis">(</span>e <span class="org-parenthesis">(</span>f<span class="org-parenthesis">))))))</span>
+(count-atoms '(a (b) (c (d (e (f))))))
 
 </pre>
 </div></li>
@@ -125,14 +115,14 @@ Write a function that count the number of atoms in an expression.
 Write a function that counts the number of times a expression occurs anywhere within another expression.
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">count-anywhere</span> <span class="org-parenthesis">(</span>item tree<span class="org-parenthesis">)</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">cond</span> <span class="org-parenthesis">((</span>equal item tree<span class="org-parenthesis">)</span> 1<span class="org-parenthesis">)</span>
-        <span class="org-parenthesis">((</span>atom tree<span class="org-parenthesis">)</span> 0<span class="org-parenthesis">)</span>
-        <span class="org-parenthesis">(</span>t
-         <span class="org-parenthesis">(</span>+ <span class="org-parenthesis">(</span>count-anywhere item <span class="org-parenthesis">(</span>first tree<span class="org-parenthesis">))</span>
-            <span class="org-parenthesis">(</span>count-anywhere item <span class="org-parenthesis">(</span>rest tree<span class="org-parenthesis">))))))</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">count-anywhere</span> (item tree)
+  (<span class="org-keyword">cond</span> ((equal item tree) 1)
+        ((atom tree) 0)
+        (t
+         (+ (count-anywhere item (first tree))
+            (count-anywhere item (rest tree))))))
 
-<span class="org-parenthesis">(</span>count-anywhere 'a '<span class="org-parenthesis">(</span>a <span class="org-parenthesis">((</span>a<span class="org-parenthesis">)</span> b<span class="org-parenthesis">)</span> a <span class="org-parenthesis">(</span>a <span class="org-parenthesis">(</span>a <span class="org-parenthesis">(</span>a<span class="org-parenthesis">)))))</span>
+(count-anywhere 'a '(a ((a) b) a (a (a (a)))))
 </pre>
 </div></li>
 
@@ -140,13 +130,13 @@ Write a function that counts the number of times a expression occurs anywhere wi
 compute dot product of two list
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="org-parenthesis">(</span><span class="org-keyword">defun</span> <span class="org-function-name">dot</span> <span class="org-parenthesis">(</span>xs ys<span class="org-parenthesis">)</span>
-  <span class="org-parenthesis">(</span><span class="org-keyword">if</span> <span class="org-parenthesis">(</span>eq <span class="org-parenthesis">(</span>length xs<span class="org-parenthesis">)</span>
-          <span class="org-parenthesis">(</span>length ys<span class="org-parenthesis">))</span>
-      <span class="org-parenthesis">(</span>apply #'+ <span class="org-parenthesis">(</span>mapcar #'* xs ys<span class="org-parenthesis">))</span>
-      nil<span class="org-parenthesis">))</span>
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">dot</span> (xs ys)
+  (<span class="org-keyword">if</span> (eq (length xs)
+          (length ys))
+      (apply #'+ (mapcar #'* xs ys))
+      nil))
 
-<span class="org-parenthesis">(</span>dot '<span class="org-parenthesis">(</span>1 2 3<span class="org-parenthesis">)</span> '<span class="org-parenthesis">(</span>2 3 4<span class="org-parenthesis">))</span>
+(dot '(1 2 3) '(2 3 4))
 </pre>
 </div></li>
 </ol>
@@ -157,7 +147,7 @@ compute dot product of two list
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Feb 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+  Last updated on Feb 21, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
 </div>
 </footer>
 </body>
