@@ -23,13 +23,20 @@ body #content {
     width: 78% !important;
 }
 
+#org-div-home-and-up {
+    position: fixed;
+    z-index: 1000000;
+    right: 0em;
+    top: 0.1em;
+}
+
 /* TOC inspired by http://jashkenas.github.com/coffee-script */
 /* https://stackoverflow.com/questions/12232675/how-to-make-table-of-contents-floating */
 #table-of-contents {
-    font-size: 10pt;
+    font-size: 11pt;
     position: fixed;
     z-index: 1000000;
-    background: rgba(255,255,255,.80);
+    background: rgba(255,255,255,.90);
     right: 0em;
     top: 3em;
     color: #dcdccc;

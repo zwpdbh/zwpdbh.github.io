@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Feb 21, 2021 -->
+<!-- Feb 22, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&lrm;</title>
@@ -63,30 +63,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org399c24d">Chatper 04: The general problem solver (GPS)</a>
+<li><a href="#orgfc41a19">Chatper 04: The general problem solver (GPS)</a>
 <ul>
-<li><a href="#orgd8ad266">Five stages in the development of an AI program.</a></li>
-<li><a href="#org2ebb861">How to specify?</a></li>
-<li><a href="#orgb14acee">Implementation01</a></li>
-<li><a href="#org385b267">Problems of implementation01</a></li>
-<li><a href="#orge42302c">Implementation02</a></li>
-<li><a href="#org232b63c">Problems of implementation02</a></li>
+<li><a href="#org805ddae">Five stages in the development of an AI program.</a></li>
+<li><a href="#org24cd66c">How to specify?</a></li>
+<li><a href="#orga5ad772">Implementation01</a></li>
+<li><a href="#org434769e">Problems of implementation01</a></li>
+<li><a href="#orgce6f465">Implementation02</a></li>
+<li><a href="#org2e2753d">Problems of implementation02</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org399c24d" class="outline-2">
-<h2 id="org399c24d">Chatper 04: The general problem solver (GPS)</h2>
-<div class="outline-text-2" id="text-org399c24d">
+<section id="outline-container-orgfc41a19" class="outline-2">
+<h2 id="orgfc41a19">Chatper 04: The general problem solver (GPS)</h2>
+<div class="outline-text-2" id="text-orgfc41a19">
 <p>
 It was the first program to seperate its problem solving strategy from its knowledge of particular problems.
 </p>
 </div>
 
-<div id="outline-container-orgd8ad266" class="outline-3">
-<h3 id="orgd8ad266">Five stages in the development of an AI program.</h3>
-<div class="outline-text-3" id="text-orgd8ad266">
+<div id="outline-container-org805ddae" class="outline-3">
+<h3 id="org805ddae">Five stages in the development of an AI program.</h3>
+<div class="outline-text-3" id="text-org805ddae">
 <ol class="org-ol">
 <li>describe</li>
 <li>specify</li>
@@ -97,9 +97,9 @@ It was the first program to seperate its problem solving strategy from its knowl
 </div>
 </div>
 
-<div id="outline-container-org2ebb861" class="outline-3">
-<h3 id="org2ebb861">How to specify?</h3>
-<div class="outline-text-3" id="text-org2ebb861">
+<div id="outline-container-org24cd66c" class="outline-3">
+<h3 id="org24cd66c">How to specify?</h3>
+<div class="outline-text-3" id="text-org24cd66c">
 <ul class="org-ul">
 <li>Represent <b>state</b> of world
 <ul class="org-ul">
@@ -126,11 +126,34 @@ If all conditions in the goal state can all be achieved, then the problem is sol
 </div>
 </div>
 
-<div id="outline-container-orgb14acee" class="outline-3">
-<h3 id="orgb14acee">Implementation01</h3>
-<div class="outline-text-3" id="text-orgb14acee">
+<div id="outline-container-orga5ad772" class="outline-3">
+<h3 id="orga5ad772">Implementation01</h3>
+<div class="outline-text-3" id="text-orga5ad772">
 <div class="org-src-container">
-<pre class="src src-lisp">(<span class="org-keyword">defvar</span> <span class="org-variable-name">*state*</span> nil <span class="org-doc">"The current state: a list of conditions."</span>)
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">some basic functions</span>
+(setf x '(a b c))
+(setf y '(1 2 3))
+
+(member 'b x)
+(some #'evenp y)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">see chapter03</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">find-all</span> (item sequence <span class="org-type">&amp;rest</span> keyword-args
+                               <span class="org-type">&amp;key</span> (test #'eql) test-not <span class="org-type">&amp;allow-other-keys</span>)
+  <span class="org-doc">"Find all those elements of sequence that match item,</span>
+<span class="org-doc">  according to the keywords.  Doesn't alter sequence."</span>
+  (<span class="org-keyword">if</span> test-not
+      (apply #'remove item sequence
+             <span class="org-builtin">:test-not</span> (complement test-not) keyword-args)
+      (apply #'remove item sequence
+             <span class="org-builtin">:test</span> (complement test) keyword-args)))
+
+(setf nums '(1 2 3 2 1))
+(find-all 1 nums <span class="org-builtin">:test</span> #'=)
+
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">GPS implementation</span>
+(<span class="org-keyword">defvar</span> <span class="org-variable-name">*state*</span> nil <span class="org-doc">"The current state: a list of conditions."</span>)
 
 (<span class="org-keyword">defvar</span> <span class="org-variable-name">*ops*</span> nil <span class="org-doc">"A list of available operators."</span>)
 
@@ -141,16 +164,17 @@ If all conditions in the goal state can all be achieved, then the problem is sol
   <span class="org-doc">"General Problem Solver: achieve all goals using *ops*."</span>
   (<span class="org-keyword">if</span> (every #'achieve goals) 'solved))
 
+(<span class="org-keyword">defun</span> <span class="org-function-name">appropriate-p</span> (goal op)
+  <span class="org-doc">"An op is appropriate to a goal if it is in its add list."</span>
+  (member goal (op-add-list op)))
+
 (<span class="org-keyword">defun</span> <span class="org-function-name">achieve</span> (goal)
   <span class="org-doc">"A goal is achieved if it already holds,</span>
 <span class="org-doc">  or if there is an appropriate op for it that is applicable."</span>
   (or (member goal *state*)
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">find all appropriate operations and apply them involved by "some"</span>
       (some #'apply-op
             (find-all goal *ops* <span class="org-builtin">:test</span> #'appropriate-p))))
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">appropriate-p</span> (goal op)
-  <span class="org-doc">"An op is appropriate to a goal if it is in its add list."</span>
-  (member goal (op-add-list op)))
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">apply-op</span> (op)
   <span class="org-doc">"Print a message and update *state* if op is applicable."</span>
@@ -161,12 +185,15 @@ If all conditions in the goal state can all be achieved, then the problem is sol
     t))
 </pre>
 </div>
+<p>
+Notice the recursion between <code>achieve</code> and <code>apply-op</code>.
+</p>
 </div>
 </div>
 
-<div id="outline-container-org385b267" class="outline-3">
-<h3 id="org385b267">Problems of implementation01</h3>
-<div class="outline-text-3" id="text-org385b267">
+<div id="outline-container-org434769e" class="outline-3">
+<h3 id="org434769e">Problems of implementation01</h3>
+<div class="outline-text-3" id="text-org434769e">
 <ul class="org-ul">
 <li>The clobbered sibling goal problem.</li>
 <li>The leaping before you look problem.</li>
@@ -177,13 +204,13 @@ If all conditions in the goal state can all be achieved, then the problem is sol
 </div>
 
 
-<div id="outline-container-orge42302c" class="outline-3">
-<h3 id="orge42302c">Implementation02</h3>
+<div id="outline-container-orgce6f465" class="outline-3">
+<h3 id="orgce6f465">Implementation02</h3>
 </div>
 
 
-<div id="outline-container-org232b63c" class="outline-3">
-<h3 id="org232b63c">Problems of implementation02</h3>
+<div id="outline-container-org2e2753d" class="outline-3">
+<h3 id="org2e2753d">Problems of implementation02</h3>
 </div>
 </section>
 </main>
@@ -191,7 +218,7 @@ If all conditions in the goal state can all be achieved, then the problem is sol
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Feb 21, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+  Last updated on Feb 22, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
 </div>
 </footer>
 </body>
