@@ -23,17 +23,20 @@
 #postamble p, #preamble p { font-size: 90%; margin: .2em; }
 p.verse { margin-left: 3%; }
 pre {
+  font-size: 12px;
   border: 1px solid #ccc;
   box-shadow: 3px 3px 3px #eee;
   padding: 8pt;
   font-family: monospace;
   overflow: auto;
-  margin: 1.2em;
+  margin: 0em;
+  padding: 0em;
 }
 pre.src {
   position: relative;
   overflow: visible;
-  padding-top: 1.2em;
+  padding-top: 0.2em;
+  margin-bottom: 0.4em;
 }
 pre.src:before {
   display: none;

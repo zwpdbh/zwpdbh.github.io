@@ -60,7 +60,7 @@ body h3 {
   font-weight: bold;
 }
 body p {
-  text-align: justify;
+  text-align: justify;  
 }
 body a {
   text-decoration: none;
@@ -73,10 +73,11 @@ body a:hover {
 body pre {
   background: white;
 }
+
 body pre.src {
   overflow-y: auto !important;
-  font-size: 16px;
 }
+
 body code {
   background: #eee;
   border: 1px solid #ccc;
