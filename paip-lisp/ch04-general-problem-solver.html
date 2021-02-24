@@ -63,30 +63,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org335fc1f">Chatper 04: The general problem solver (GPS)</a>
+<li><a href="#orgb1a3778">Chatper 04: The general problem solver (GPS)</a>
 <ul>
-<li><a href="#org5d1daf2">Five stages in the development of an AI program.</a></li>
-<li><a href="#orgba8cb1c">How to specify?</a></li>
-<li><a href="#org5df1c1b">Implementation01</a></li>
-<li><a href="#org7dfc78a">Problems of implementation01</a></li>
-<li><a href="#orge94616b">Implementation02</a></li>
-<li><a href="#org8f8c750">Problems of implementation02</a></li>
+<li><a href="#orgba90223">Five stages in the development of an AI program.</a></li>
+<li><a href="#orge17b2b4">How to specify?</a></li>
+<li><a href="#orga9d97aa">Implementation01</a></li>
+<li><a href="#orgb042359">Problems of implementation01</a></li>
+<li><a href="#org5ffcca9">Implementation02</a></li>
+<li><a href="#org773c8ee">Problems of implementation02</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org335fc1f" class="outline-2">
-<h2 id="org335fc1f">Chatper 04: The general problem solver (GPS)</h2>
-<div class="outline-text-2" id="text-org335fc1f">
+<section id="outline-container-orgb1a3778" class="outline-2">
+<h2 id="orgb1a3778">Chatper 04: The general problem solver (GPS)</h2>
+<div class="outline-text-2" id="text-orgb1a3778">
 <p>
 It was the first program to seperate its problem solving strategy from its knowledge of particular problems.
 </p>
 </div>
 
-<div id="outline-container-org5d1daf2" class="outline-3">
-<h3 id="org5d1daf2">Five stages in the development of an AI program.</h3>
-<div class="outline-text-3" id="text-org5d1daf2">
+<div id="outline-container-orgba90223" class="outline-3">
+<h3 id="orgba90223">Five stages in the development of an AI program.</h3>
+<div class="outline-text-3" id="text-orgba90223">
 <ol class="org-ol">
 <li>describe</li>
 <li>specify</li>
@@ -97,9 +97,9 @@ It was the first program to seperate its problem solving strategy from its knowl
 </div>
 </div>
 
-<div id="outline-container-orgba8cb1c" class="outline-3">
-<h3 id="orgba8cb1c">How to specify?</h3>
-<div class="outline-text-3" id="text-orgba8cb1c">
+<div id="outline-container-orge17b2b4" class="outline-3">
+<h3 id="orge17b2b4">How to specify?</h3>
+<div class="outline-text-3" id="text-orge17b2b4">
 <ul class="org-ul">
 <li>Represent <b>state</b> of world
 <ul class="org-ul">
@@ -126,9 +126,9 @@ If all conditions in the goal state can all be achieved, then the problem is sol
 </div>
 </div>
 
-<div id="outline-container-org5df1c1b" class="outline-3">
-<h3 id="org5df1c1b">Implementation01</h3>
-<div class="outline-text-3" id="text-org5df1c1b">
+<div id="outline-container-orga9d97aa" class="outline-3">
+<h3 id="orga9d97aa">Implementation01</h3>
+<div class="outline-text-3" id="text-orga9d97aa">
 <div class="org-src-container">
 <pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">some basic functions</span>
 (setf x '(a b c))
@@ -191,9 +191,9 @@ Notice the recursion between <code>achieve</code> and <code>apply-op</code>.
 </div>
 </div>
 
-<div id="outline-container-org7dfc78a" class="outline-3">
-<h3 id="org7dfc78a">Problems of implementation01</h3>
-<div class="outline-text-3" id="text-org7dfc78a">
+<div id="outline-container-orgb042359" class="outline-3">
+<h3 id="orgb042359">Problems of implementation01</h3>
+<div class="outline-text-3" id="text-orgb042359">
 <ul class="org-ul">
 <li>The clobbered sibling goal problem.</li>
 <li>The leaping before you look problem.</li>
@@ -204,13 +204,13 @@ Notice the recursion between <code>achieve</code> and <code>apply-op</code>.
 </div>
 
 
-<div id="outline-container-orge94616b" class="outline-3">
-<h3 id="orge94616b">Implementation02</h3>
+<div id="outline-container-org5ffcca9" class="outline-3">
+<h3 id="org5ffcca9">Implementation02</h3>
 </div>
 
 
-<div id="outline-container-org8f8c750" class="outline-3">
-<h3 id="org8f8c750">Problems of implementation02</h3>
+<div id="outline-container-org773c8ee" class="outline-3">
+<h3 id="org773c8ee">Problems of implementation02</h3>
 </div>
 </section>
 </main>
