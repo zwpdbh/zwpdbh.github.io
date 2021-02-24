@@ -72,18 +72,18 @@ body #content {
     padding: 0.5em;
     margin-top: -1.5em; }
 
-body p {
+section p {
     margin-top: 0.1em;
     margin-bottom: 0.1em;
 }
 
-body ul {
+section ul {
     margin-top: 0.1em;
 }
-body ol {
+section ol {
     margin-top: 0.1em;
 }
 
-body li {
+section li {
     margin-bottom: 0.1em;
 }

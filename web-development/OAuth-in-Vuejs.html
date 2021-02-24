@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Feb 24, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auth-in-Vuejs</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="DESKTOP-TTOPQ58">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class='intro'>
+  <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>How can man die better than facing fearful odds, for the ashes of his fathers and the temples of his Gods? -- By Horatius.</p>
+</div>
+
+<div class='nav'>
+  <ul>
+    <li><a href='/'>Blog</a>.</li>
+    <li><a href='/about/'>About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">Auth-in-Vuejs</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9e57080">Introduction</a></li>
+<li><a href="#orgc5c9e20">How 0Auth2.0 works?</a>
+<ul>
+<li><a href="#org47bd889">What is OAuth2.0?</a></li>
+<li><a href="#org7ab44df">An example</a></li>
+<li><a href="#org1e1be1e">Authorization code grant</a></li>
+<li><a href="#org9594be9">Obtain refreshed access-token</a></li>
+</ul>
+</li>
+<li><a href="#org425234b">How authentication and authorization are implemented in Vuejs?</a>
+<ul>
+<li><a href="#orgd60e50d">Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
+<li><a href="#org4908c0b"><span class="todo TODO">TODO</span> What does OIDC provider should do?</a></li>
+<li><a href="#orgd4d73ea">What Vuejs backend should do (provide APIs)?</a></li>
+<li><a href="#org1c41912">What Vuejs frontend should do?</a></li>
+<li><a href="#orgb0bd8b7"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
+</ul>
+</li>
+<li><a href="#org248ef34"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</a></li>
+<li><a href="#org3616a4c"><span class="todo TODO">TODO</span> Summary</a></li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-org9e57080" class="outline-2">
+<h2 id="org9e57080">Introduction</h2>
+<div class="outline-text-2" id="text-org9e57080">
+<p>
+This article introduce how I implement authentication and authorization for Vuejs app. The whole Vuejs project consist of 4 parts:
+</p>
+<ul class="org-ul">
+<li>Vuejs-frontend, for rendering html pages.</li>
+<li>Vuejs-backend, our APIs service.</li>
+<li>oidc-provider, authorization server for delegation.</li>
+<li>postgres, for storing RBA models and user credentials.</li>
+</ul>
+</div>
+</section>
+
+
+<section id="outline-container-orgc5c9e20" class="outline-2">
+<h2 id="orgc5c9e20">How 0Auth2.0 works?</h2>
+<div class="outline-text-2" id="text-orgc5c9e20">
+</div>
+<div id="outline-container-org47bd889" class="outline-3">
+<h3 id="org47bd889">What is OAuth2.0?</h3>
+<div class="outline-text-3" id="text-org47bd889">
+<ul class="org-ul">
+<li>It is a delegation protocol. It enable a 3rd party application to obtain limited access to an HTTP service.</li>
+<li>Its related components:
+<ul class="org-ul">
+<li><b>resource ower</b>, usually a person has access to an API and can delegate access to that API.</li>
+<li><b>protected resources</b>, the component that the resource ower has access to. Usually these protected resources are some APIs.</li>
+<li><b>client</b>, an application or a software that want to access the protected resources on behalf of resource owner.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7ab44df" class="outline-3">
+<h3 id="org7ab44df">An example</h3>
+<div class="outline-text-3" id="text-org7ab44df">
+<p>
+Suppose We have a cloud photo-storage service and a photo print service. We want to use the print service to print photo stored in phote-storage. Howerver, those two services are running by different companies.
+</p>
+<ul class="org-ul">
+<li><b>resource owner</b>, some user (the browser to visit print service).</li>
+<li><b>protected resource</b>, APIs (photos in photo-storage).</li>
+<li><b>client</b>, print-service which needs to call APIs of photo-storage (to access photos).</li>
+</ul>
+
+<p>
+OAuth introduce an additional component into the picture: <b>authorization server(AS)</b>.
+</p>
+<ul class="org-ul">
+<li>AS is trusted by the protected resources. So, protected resource delegate its credentails verification to AS.</li>
+<li>AS issue special security credentials &#x2013; called <b>access-token</b> to client. This access-token is then used by client(photo-storage APIs).</li>
+</ul>
+
+<p>
+General steps to acquire an access-token:
+</p>
+<ol class="org-ol">
+<li>The client first sends the resource owner to the authorization server in order to request that the resource owner authorize this client.</li>
+<li>The resource owner authenticates to the authorization server and is generally presented with a choice of whether to authorize the client making the request.</li>
+<li>The client is able to ask for a subset of functionality, or scopes.</li>
+<li>Once the authorization grant has been made, the client can then request an access token from the authorization server.
+<ul class="org-ul">
+<li>An <b>authorziation grant</b> is the means by which an OAuth client is given access to a protected resource using the OAuth Protocol, and if successful it ultimately results in the client getting a token.</li>
+<li>Don&rsquo;t misunderstand authorization code as it, the <b>entire OAuth process</b> is the authorization grant.</li>
+</ul></li>
+<li>This access token can be used at the protected resource to access the API, as granted by the resource owner.</li>
+</ol>
+<p>
+Based on how the client request an access-token (step 4), there could be different <b>grant types</b>. The most commonly used are:
+</p>
+<ul class="org-ul">
+<li>Authorization Code (the one I used in Vuejs development).</li>
+<li>Password</li>
+<li>Client credentials</li>
+<li>Implicit</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1e1be1e" class="outline-3">
+<h3 id="org1e1be1e">Authorization code grant</h3>
+<div class="outline-text-3" id="text-org1e1be1e">
+<p>
+<b>Authorization code</b> is a temporary code (authorization code) that the client will exchange for an access-token. This code is obtained from authorization server when user agree on what the information(usually permissions) the client is requesting.
+</p>
+
+<figure id="orgb08c438">
+<img src="authorization-code-grant.png" alt="authorization-code-grant.png">
+
+</figure>
+
+<ul class="org-ul">
+<li>step2&rsquo;s response is an HTTP redirect, it causes step 3: cause the browser to send an HTTP GET to the autorization server. step2 have the following query parameters:
+<ul class="org-ul">
+<li><code>response_type</code></li>
+<li><code>scope</code></li>
+<li><code>client_id</code></li>
+<li><code>redirect_uri</code></li>
+<li><code>state</code></li>
+</ul></li>
+<li>step5, the client could receive
+<ul class="org-ul">
+<li><code>code</code>, known as <b>authorization code</b>.</li>
+<li><code>state</code>, matches the value that it sent in the step 2.</li>
+</ul></li>
+<li><p>
+step6, POST request with passing its <code>client_id</code> and <code>client_secret</code> as an HTTP Basic authorization header.
+</p>
+<pre class="example" id="orgba69ef6">
+Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
+</pre>
+<ul class="org-ul">
+<li>This separation between different HTTP connections ensures that the client can   authenticate itself directly without other components being able to see or manipulate  the token request.</li>
+</ul></li>
+<li>step7, authorization server need to ensure the request from step6 is legitimate, issue accessToken if valid.
+<ul class="org-ul">
+<li>check the client&rsquo;s credentials (passed in the authentication header) to see which client is requesting acess.</li>
+<li>check code (authorization code) from the body. It incldues
+<ol class="org-ol">
+<li>which client made the initial authorization request</li>
+<li>which user authorized it</li>
+<li>what it is authorized for.</li>
+</ol></li>
+<li><p>
+if the code has not been used previously and the client making this request is the same as the client that made the original request, then the authorization server generates and returns a new access token for the client
+</p>
+<pre class="example" id="orgf58b9a2">
+HTTP 200 OK
+Date: Fri, 31 Jul 2015 21:19:03 GMT
+Content-type: application/json
+
+{
+  “access_token”: “987tghjkiu6trfghjuytrghj”,
+  “token_type”: “Bearer”
+}
+</pre>
+<ul class="org-ul">
+<li>The response could also include a <b>refresh token</b> (used to get new access tokens without asking for authorization again)</li>
+<li>additional info could be <b>scopes and expiration time</b>.</li>
+</ul></li>
+</ul></li>
+<li>step8, the client get the access token from step7 response and present it to the protect resource
+<ul class="org-ul">
+<li><p>
+present the access token as <b>OAuth Bearer token</b>
+</p>
+<pre class="example" id="org151a516">
+GET /resource HTTP/1.1
+Host: localhost:9002
+Accept: application/json
+Connection: keep-alive
+Authorization: Bearer 987tghjkiu6trfghjuytrghj
+</pre></li>
+<li>can <b>store this access token in a secure place</b> for as long as it wants to use the token, even after the user has left.</li>
+</ul></li>
+<li>step9, protected resource use the access token to determine whether it is still valid
+<ul class="org-ul">
+<li><b>HOW to validate?</b> A protected resource has a number of options for doing this token lookup. The simplest option is for the resource server and the authorization server to share a database that contains the token information. The authorization server writes new tokens into the database when they are generated, and the resource server reads tokens from the store when they are presented.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9594be9" class="outline-3">
+<h3 id="org9594be9">Obtain refreshed access-token</h3>
+<div class="outline-text-3" id="text-org9594be9">
+<p>
+Client could request refreshed access-token when the access-token expired. This time, the token is never sent to the protected resources. So, the client uses the refresh token to request new access token without involving the resource owner (user or browser).
+</p>
+
+<figure id="org744f766">
+<img src="refresh-token.png" alt="refresh-token.png">
+
+</figure>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org425234b" class="outline-2">
+<h2 id="org425234b">How authentication and authorization are implemented in Vuejs?</h2>
+<div class="outline-text-2" id="text-org425234b">
+</div>
+<div id="outline-container-orgd60e50d" class="outline-3">
+<h3 id="orgd60e50d">Define our Role-based-access(RBA) control model in PostgreSQL</h3>
+<div class="outline-text-3" id="text-orgd60e50d">
+<p>
+We define User, Role, Permission 3 basic entities as 3 tables
+</p>
+<ul class="org-ul">
+<li><p>
+<code>user_master</code>
+<b>Notice</b>: when store username and password, we should NEVER store plain password. Instead, we should store password hash.
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">salt</span> = bcrypt.genSaltSync(10);
+<span class="org-keyword">const</span> <span class="org-variable-name">passwordHash</span> = bcrypt.hashSync(<span class="org-string">"&lt;user_password&gt;"</span>, salt);
+</pre>
+</div>
+
+<p>
+To validate password:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">isMatch</span> = <span class="org-keyword">await</span> bcrypt.compare(plainPasswordGotFromLoginForm, passwordHashReadFromDB)
+</pre>
+</div></li>
+<li><code>role_master</code></li>
+<li><code>permission_master</code></li>
+</ul>
+
+<p>
+For their associations, we define UserRole, RolePermission as many-to-many relationships.
+</p>
+<ul class="org-ul">
+<li><p>
+<code>user_role</code> table
+</p>
+<div class="org-src-container">
+<pre class="src src-sql"><span class="org-keyword">CREATE</span> <span class="org-keyword">TABLE</span> <span class="org-function-name">user_role</span> (
+       user_id <span class="org-type">varchar</span>(36) REFERENCE user_master (user_id) <span class="org-keyword">ON</span> <span class="org-keyword">UPDATE</span> <span class="org-keyword">CASCADE</span>,
+       role_id <span class="org-type">varchar</span>(36) REFERENCE role_master (role_id) <span class="org-keyword">ON</span> <span class="org-keyword">UPDATE</span> <span class="org-keyword">CASCADE</span>,
+       <span class="org-keyword">PRIMARY</span> <span class="org-keyword">KEY</span> (user_id, role_id)
+);
+</pre>
+</div></li>
+<li><p>
+<code>role_permission</code> table
+</p>
+<div class="org-src-container">
+<pre class="src src-sql"><span class="org-keyword">CREATE</span> <span class="org-keyword">TABLE</span> <span class="org-function-name">role_permission</span> (
+       role_id <span class="org-type">varchar</span>(36) REFERENCE role_master (role_id) <span class="org-keyword">ON</span> <span class="org-keyword">UPDATE</span> <span class="org-keyword">CASCADE</span>,
+       permission_id <span class="org-type">varchar</span>(36) REFERENCE permission_master (permission_id) <span class="org-keyword">ON</span> <span class="org-keyword">UPDATE</span> <span class="org-keyword">CASCADE</span>,
+       <span class="org-keyword">PRIMARY</span> <span class="org-keyword">KEY</span> (role_id, permission_id)
+);
+</pre>
+</div></li>
+</ul>
+
+<p>
+Multiple examples to use such models like:  
+</p>
+<ul class="org-ul">
+<li><p>
+Add permission into a role
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">addPermissionToRole</span> = <span class="org-keyword">async</span> (permissionId, roleId) =&gt; {
+  <span class="org-keyword">const</span> <span class="org-variable-name">role</span> = <span class="org-keyword">await</span> findRoleById(roleId);
+  <span class="org-keyword">const</span> <span class="org-variable-name">permission</span> = <span class="org-keyword">await</span> findPermissionById(permissionId);
+
+  <span class="org-keyword">if</span> (!role) {
+    console.log(<span class="org-string">"&gt;&gt; no such role"</span>);
+    <span class="org-keyword">return</span> <span class="org-constant">false</span>;
+  }
+  <span class="org-keyword">if</span> (permission) {
+    console.log(<span class="org-string">"&gt;&gt; no such permission"</span>);
+    <span class="org-keyword">return</span> <span class="org-constant">false</span>;
+  }
+
+  <span class="org-keyword">let</span> <span class="org-variable-name">text</span> = <span class="org-string">"insert into role_permission (role_id, permission_id) values ($1, $2)"</span>;
+  <span class="org-keyword">let</span> <span class="org-variable-name">values</span> = [roleId, permissionId];
+
+  <span class="org-keyword">try</span> {
+    <span class="org-keyword">await</span> client.query(text, values);
+    <span class="org-keyword">return</span> <span class="org-constant">true</span>;
+  } <span class="org-keyword">catch</span> (err) {
+    console.log(<span class="org-string">'error='</span>, err);
+    <span class="org-keyword">return</span> <span class="org-constant">false</span>;
+  }
+}
+</pre>
+</div></li>
+<li><p>
+Find a user&rsquo;s associated roles (using js)
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">findUserRoles</span> = <span class="org-keyword">async</span> (userId) =&gt; {
+  <span class="org-keyword">const</span> <span class="org-variable-name">text</span> = <span class="org-string">"select role_master.role_id, role_master.role_name from role_master inner join user_role on user_role.user_id = role_master.role_id inner join user_master on user_master.user_id = user_role.user_id where user_master.user_id = $1"</span>;
+
+  <span class="org-keyword">try</span> {
+    <span class="org-keyword">return</span> <span class="org-keyword">await</span> client.query(text, [userId]);
+  } <span class="org-keyword">catch</span> (err) {
+    <span class="org-keyword">return</span> <span class="org-constant">null</span>;
+  }
+}
+</pre>
+</div></li>
+<li><p>
+Remove permission from a role
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">removePermissionFromRole</span> = <span class="org-keyword">async</span> (permissionId, roleId) =&gt; {
+  <span class="org-keyword">const</span> <span class="org-variable-name">text</span> = <span class="org-string">"delete from role_permission where (role_id, permission_id) = ((select role_master.role_id from role_master where role_master.role_id = $1), (select permission_master.permission_id from permission_master where permission_master.permission_id =$2))"</span>;
+
+  <span class="org-keyword">const</span> <span class="org-variable-name">values</span> = [roleId, permissionId];
+  <span class="org-keyword">let</span> <span class="org-variable-name">result</span> = <span class="org-constant">null</span>;
+
+  <span class="org-keyword">try</span> {
+    result = <span class="org-keyword">await</span> client.query(text, values);
+  } <span class="org-keyword">catch</span> (err) {
+    console.log(<span class="org-string">'error='</span>, err);
+  } <span class="org-keyword">finally</span> {
+    <span class="org-keyword">return</span> result.rowCount == 1;
+  }
+}
+</pre>
+</div></li>
+<li><p>
+Delete role with transactions
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">deleteRole</span> = <span class="org-keyword">async</span> (roleId) =&gt; {
+  <span class="org-keyword">let</span> <span class="org-variable-name">result</span> = <span class="org-constant">false</span>;
+
+  <span class="org-keyword">try</span> {
+    <span class="org-keyword">await</span> client.query(<span class="org-string">'BEGIN'</span>);
+
+    <span class="org-comment-delimiter">// </span><span class="org-comment">need to delete many-to-many relationships before delete that role</span>
+    <span class="org-keyword">let</span> <span class="org-variable-name">text</span> = <span class="org-string">"delete from role_permission where role_permission.role_id = $1"</span>;
+    <span class="org-keyword">await</span> client.query(text. [roleId]);
+
+    text = <span class="org-string">"delete from user_role where user_role.role_id = $1"</span>;
+    <span class="org-keyword">await</span> client.query(text, [roleId]);
+
+    text = <span class="org-string">"delete from role_master where role_master.role_id = $1"</span>;
+    <span class="org-keyword">await</span> client.query(text, [roleId]);
+
+    <span class="org-keyword">await</span> client.query(<span class="org-string">'COMMIT'</span>);
+
+    <span class="org-keyword">return</span> = <span class="org-constant">true</span>;
+
+  } <span class="org-keyword">catch</span> (err) {
+    console.log(<span class="org-string">'error='</span>, err);
+    <span class="org-keyword">await</span> client.query(<span class="org-string">'ROLLBACK'</span>);
+    result = <span class="org-constant">false</span>;
+  } <span class="org-keyword">finally</span> {
+    <span class="org-keyword">return</span> result;
+  }
+}
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4908c0b" class="outline-3">
+<h3 id="org4908c0b"><span class="todo TODO">TODO</span> What does OIDC provider should do?</h3>
+<div class="outline-text-3" id="text-org4908c0b">
+<p>
+For OIDC provider, I am using <a href="https://github.com/panva/node-oidc-provider">node-oidc-provider</a>. It implements the OAuth2.0 protocol.
+</p>
+<ul class="org-ul">
+<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#org1e1be1e">step-3</a> in authorization code grant).</li>
+<li>Check <a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> and <a href="https://oauth.net/2/">OAuth 2.0</a></li>
+<li>Check <a href="https://tools.ietf.org/html/rfc6749#section-3">OAuth2.0 &#x2013; 3.Protocol Endpoints</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd4d73ea" class="outline-3">
+<h3 id="orgd4d73ea">What Vuejs backend should do (provide APIs)?</h3>
+<div class="outline-text-3" id="text-orgd4d73ea">
+<ul class="org-ul">
+<li><p>
+Generate login URL for Vuejs-frontend to direct user to authorization server for login. 
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">scopes</span> =[<span class="org-string">'openid'</span>, <span class="org-string">'profile'</span>];
+<span class="org-keyword">let</span> <span class="org-variable-name">url</span> = [
+  <span class="org-string">`${authorizationProviderAddress}/auth`</span>,
+  <span class="org-string">`?client_id=${clientId}`</span>,
+  <span class="org-string">`&amp;redirect_uri=${encodeURIComponent(redirectUri)}`</span>,
+  <span class="org-string">`&amp;response_type=code`</span>,
+  <span class="org-string">`&amp;scope=${encodeURIComponent(scopes.json(' '))}`</span>,
+  <span class="org-string">`&amp;state=${crypto.randomBytes(16).toString('hex')}`</span>,
+  <span class="org-string">`&amp;nonce=${crypto.randomBytes(8).toString('hex')}`</span>
+];
+<span class="org-keyword">return</span> url.join(<span class="org-string">''</span>);
+</pre>
+</div>
+<p>
+See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.1"> The OAuth 2.0 Authorization Framework &#x2013; 4.1.1</a>.
+</p></li>
+<li><p>
+Generate logout URL
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">options</span> = [
+  <span class="org-string">`client_id=${clientId}`</span>,
+  <span class="org-string">`returnTo=${encodeURIComponent(redirectUri.substring(0, redirectUri.indexOf('auth/callback')))}`</span>,
+  <span class="org-string">'federated'</span>
+];
+<span class="org-keyword">return</span> <span class="org-string">`${authUrl}/session/end?${options.join('&amp;')}`</span>;
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice, the options are common to different authorization provider implementations. However, their logout endpoints(Here, the node-oidc-provider use <code>${authUrl}/session/end</code>) are probably different.</li>
+</ul></li>
+<li><p>
+Use authorization-code to obtain access-token.
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">This authCode is obtained from parsing callback parameters after login in frontend</span>
+<span class="org-keyword">let</span> <span class="org-variable-name">authCode</span> = req.body.code
+<span class="org-keyword">let</span> <span class="org-variable-name">authHeader</span> = <span class="org-string">'Basic '</span> + Buffer.from(client_id + <span class="org-string">':'</span> + client_secret, <span class="org-string">'utf8'</span>).toString(<span class="org-string">'base64'</span>);
+<span class="org-keyword">let</span> <span class="org-variable-name">options</span> = {
+  method: <span class="org-string">'POST'</span>,
+  url: <span class="org-string">`${authProviderUrl}/token`</span>,
+  headers: {
+    Authorization: authHeader
+  },
+  form: {
+    code: authCode,
+    client_id: clientId,
+    grant_type: <span class="org-string">'authorization_code'</span>,
+    redirect_uri: redirectUri
+  }
+};
+</pre>
+</div></li>
+<li>Need to validate access-token.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1c41912" class="outline-3">
+<h3 id="org1c41912">What Vuejs frontend should do?</h3>
+<div class="outline-text-3" id="text-org1c41912">
+<ul class="org-ul">
+<li>Register client in authorization provider for:
+<ul class="org-ul">
+<li><code>client_id</code></li>
+<li><code>client_secret</code></li>
+<li><code>grant_types</code></li>
+<li><code>redirect_uris</code></li>
+</ul></li>
+<li>Provide <code>callback endpoint</code> which is the <code>redirectUri</code> described above. Someting like <code>&lt;https://&lt;address&gt;/auth/callback</code>.</li>
+<li>Handle callback after login from auth provider to get authorization-code, then use it to send post request to Vuejs backend to get access-token immediately.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb0bd8b7" class="outline-3">
+<h3 id="orgb0bd8b7"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
+<div class="outline-text-3" id="text-orgb0bd8b7">
+
+<figure id="orgfc3df9d">
+<img src="vuejs-oauth.png" alt="vuejs-oauth.png">
+
+</figure>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org248ef34" class="outline-2">
+<h2 id="org248ef34"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</h2>
+</section>
+<section id="outline-container-org3616a4c" class="outline-2">
+<h2 id="org3616a4c"><span class="todo TODO">TODO</span> Summary</h2>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Feb 24, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+</div>
+</footer>
+</body>
+</html>
