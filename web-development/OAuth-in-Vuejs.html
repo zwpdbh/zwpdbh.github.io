@@ -65,33 +65,33 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3deef7f">Introduction</a></li>
-<li><a href="#org2348f0d">How 0Auth2.0 works?</a>
+<li><a href="#orgdbe07cc">Introduction</a></li>
+<li><a href="#orgd7fb557">How 0Auth2.0 works?</a>
 <ul>
-<li><a href="#orge1eb4e4">What is OAuth2.0?</a></li>
-<li><a href="#org3b12b0c">An example</a></li>
-<li><a href="#orgb250a26">Authorization code grant</a></li>
-<li><a href="#orgba7872d">Obtain refreshed access-token</a></li>
+<li><a href="#orga0fb7af">What is OAuth2.0?</a></li>
+<li><a href="#orgd5075da">An example</a></li>
+<li><a href="#org086bf54">Authorization code grant</a></li>
+<li><a href="#orgbb86bb5">Obtain refreshed access-token</a></li>
 </ul>
 </li>
-<li><a href="#org63a3c42">How authentication and authorization are implemented in Vuejs?</a>
+<li><a href="#orga476d8b">How authentication and authorization are implemented in Vuejs?</a>
 <ul>
-<li><a href="#org85e0f16">Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
-<li><a href="#org13afc18"><span class="todo TODO">TODO</span> What does OIDC provider should do?</a></li>
-<li><a href="#org8b5fbae">What Vuejs backend should do (provide APIs)?</a></li>
-<li><a href="#org02d27a7">What Vuejs frontend should do?</a></li>
-<li><a href="#org1942564"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
+<li><a href="#org11b9fdd">Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
+<li><a href="#org57a23ea"><span class="todo TODO">TODO</span> What does OIDC provider should do?</a></li>
+<li><a href="#org0b95038">What Vuejs backend should do (provide APIs)?</a></li>
+<li><a href="#orga300563">What Vuejs frontend should do?</a></li>
+<li><a href="#org82f5564"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
 </ul>
 </li>
-<li><a href="#org6618cd4"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</a></li>
-<li><a href="#org981a9ea"><span class="todo TODO">TODO</span> Summary</a></li>
+<li><a href="#org29fa47d"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</a></li>
+<li><a href="#org8af7dba"><span class="todo TODO">TODO</span> Summary</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-org3deef7f" class="outline-2">
-<h2 id="org3deef7f">Introduction</h2>
-<div class="outline-text-2" id="text-org3deef7f">
+<section id="outline-container-orgdbe07cc" class="outline-2">
+<h2 id="orgdbe07cc">Introduction</h2>
+<div class="outline-text-2" id="text-orgdbe07cc">
 <p>
 This article introduce how I implement authentication and authorization for Vuejs app. The whole Vuejs project consist of 4 parts:
 </p>
@@ -105,13 +105,13 @@ This article introduce how I implement authentication and authorization for Vuej
 </section>
 
 
-<section id="outline-container-org2348f0d" class="outline-2">
-<h2 id="org2348f0d">How 0Auth2.0 works?</h2>
-<div class="outline-text-2" id="text-org2348f0d">
+<section id="outline-container-orgd7fb557" class="outline-2">
+<h2 id="orgd7fb557">How 0Auth2.0 works?</h2>
+<div class="outline-text-2" id="text-orgd7fb557">
 </div>
-<div id="outline-container-orge1eb4e4" class="outline-3">
-<h3 id="orge1eb4e4">What is OAuth2.0?</h3>
-<div class="outline-text-3" id="text-orge1eb4e4">
+<div id="outline-container-orga0fb7af" class="outline-3">
+<h3 id="orga0fb7af">What is OAuth2.0?</h3>
+<div class="outline-text-3" id="text-orga0fb7af">
 <ul class="org-ul">
 <li>It is a delegation protocol. It enable a 3rd party application to obtain limited access to an HTTP service.</li>
 <li>Its related components:
@@ -124,9 +124,9 @@ This article introduce how I implement authentication and authorization for Vuej
 </div>
 </div>
 
-<div id="outline-container-org3b12b0c" class="outline-3">
-<h3 id="org3b12b0c">An example</h3>
-<div class="outline-text-3" id="text-org3b12b0c">
+<div id="outline-container-orgd5075da" class="outline-3">
+<h3 id="orgd5075da">An example</h3>
+<div class="outline-text-3" id="text-orgd5075da">
 <p>
 Suppose We have a cloud photo-storage service and a photo print service. We want to use the print service to print photo stored in phote-storage. Howerver, those two services are running by different companies.
 </p>
@@ -170,14 +170,14 @@ Based on how the client request an access-token (step 4), there could be differe
 </div>
 </div>
 
-<div id="outline-container-orgb250a26" class="outline-3">
-<h3 id="orgb250a26">Authorization code grant</h3>
-<div class="outline-text-3" id="text-orgb250a26">
+<div id="outline-container-org086bf54" class="outline-3">
+<h3 id="org086bf54">Authorization code grant</h3>
+<div class="outline-text-3" id="text-org086bf54">
 <p>
 <b>Authorization code</b> is a temporary code (authorization code) that the client will exchange for an access-token. This code is obtained from authorization server when user agree on what the information(usually permissions) the client is requesting.
 </p>
 
-<figure id="orgcb6c035">
+<figure id="org740847d">
 <img src="authorization-code-grant.png" alt="authorization-code-grant.png">
 
 </figure>
@@ -199,7 +199,7 @@ Based on how the client request an access-token (step 4), there could be differe
 <li><p>
 step6, POST request with passing its <code>client_id</code> and <code>client_secret</code> as an HTTP Basic authorization header.
 </p>
-<pre class="example" id="org812d14a">
+<pre class="example" id="org24cc139">
 Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 </pre>
 <ul class="org-ul">
@@ -217,7 +217,7 @@ Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 <li><p>
 if the code has not been used previously and the client making this request is the same as the client that made the original request, then the authorization server generates and returns a new access token for the client
 </p>
-<pre class="example" id="org43d8ef3">
+<pre class="example" id="org17f909c">
 HTTP 200 OK
 Date: Fri, 31 Jul 2015 21:19:03 GMT
 Content-type: application/json
@@ -237,7 +237,7 @@ Content-type: application/json
 <li><p>
 present the access token as <b>OAuth Bearer token</b>
 </p>
-<pre class="example" id="orgbb90912">
+<pre class="example" id="org876cf97">
 GET /resource HTTP/1.1
 Host: localhost:9002
 Accept: application/json
@@ -254,14 +254,14 @@ Authorization: Bearer 987tghjkiu6trfghjuytrghj
 </div>
 </div>
 
-<div id="outline-container-orgba7872d" class="outline-3">
-<h3 id="orgba7872d">Obtain refreshed access-token</h3>
-<div class="outline-text-3" id="text-orgba7872d">
+<div id="outline-container-orgbb86bb5" class="outline-3">
+<h3 id="orgbb86bb5">Obtain refreshed access-token</h3>
+<div class="outline-text-3" id="text-orgbb86bb5">
 <p>
 Client could request refreshed access-token when the access-token expired. This time, the token is never sent to the protected resources. So, the client uses the refresh token to request new access token without involving the resource owner (user or browser).
 </p>
 
-<figure id="org9c2276b">
+<figure id="org07d17ea">
 <img src="refresh-token.png" alt="refresh-token.png">
 
 </figure>
@@ -270,13 +270,13 @@ Client could request refreshed access-token when the access-token expired. This 
 </section>
 
 
-<section id="outline-container-org63a3c42" class="outline-2">
-<h2 id="org63a3c42">How authentication and authorization are implemented in Vuejs?</h2>
-<div class="outline-text-2" id="text-org63a3c42">
+<section id="outline-container-orga476d8b" class="outline-2">
+<h2 id="orga476d8b">How authentication and authorization are implemented in Vuejs?</h2>
+<div class="outline-text-2" id="text-orga476d8b">
 </div>
-<div id="outline-container-org85e0f16" class="outline-3">
-<h3 id="org85e0f16">Define our Role-based-access(RBA) control model in PostgreSQL</h3>
-<div class="outline-text-3" id="text-org85e0f16">
+<div id="outline-container-org11b9fdd" class="outline-3">
+<h3 id="org11b9fdd">Define our Role-based-access(RBA) control model in PostgreSQL</h3>
+<div class="outline-text-3" id="text-org11b9fdd">
 <p>
 We define User, Role, Permission 3 basic entities as 3 tables
 </p>
@@ -437,23 +437,23 @@ Delete role with transactions
 </div>
 </div>
 
-<div id="outline-container-org13afc18" class="outline-3">
-<h3 id="org13afc18"><span class="todo TODO">TODO</span> What does OIDC provider should do?</h3>
-<div class="outline-text-3" id="text-org13afc18">
+<div id="outline-container-org57a23ea" class="outline-3">
+<h3 id="org57a23ea"><span class="todo TODO">TODO</span> What does OIDC provider should do?</h3>
+<div class="outline-text-3" id="text-org57a23ea">
 <p>
 For OIDC provider, I am using <a href="https://github.com/panva/node-oidc-provider">node-oidc-provider</a>. It implements the OAuth2.0 protocol.
 </p>
 <ul class="org-ul">
-<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#orgb250a26">step-3</a> in authorization code grant).</li>
+<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#org086bf54">step-3</a> in authorization code grant).</li>
 <li>Check <a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> and <a href="https://oauth.net/2/">OAuth 2.0</a></li>
 <li>Check <a href="https://tools.ietf.org/html/rfc6749#section-3">OAuth2.0 &#x2013; 3.Protocol Endpoints</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8b5fbae" class="outline-3">
-<h3 id="org8b5fbae">What Vuejs backend should do (provide APIs)?</h3>
-<div class="outline-text-3" id="text-org8b5fbae">
+<div id="outline-container-org0b95038" class="outline-3">
+<h3 id="org0b95038">What Vuejs backend should do (provide APIs)?</h3>
+<div class="outline-text-3" id="text-org0b95038">
 <ul class="org-ul">
 <li><p>
 Generate login URL for Vuejs-frontend to direct user to authorization server for login. 
@@ -516,9 +516,9 @@ Use authorization-code to obtain access-token.
 </ul>
 </div>
 </div>
-<div id="outline-container-org02d27a7" class="outline-3">
-<h3 id="org02d27a7">What Vuejs frontend should do?</h3>
-<div class="outline-text-3" id="text-org02d27a7">
+<div id="outline-container-orga300563" class="outline-3">
+<h3 id="orga300563">What Vuejs frontend should do?</h3>
+<div class="outline-text-3" id="text-orga300563">
 <ul class="org-ul">
 <li>Register client in authorization provider for:
 <ul class="org-ul">
@@ -533,11 +533,11 @@ Use authorization-code to obtain access-token.
 </div>
 </div>
 
-<div id="outline-container-org1942564" class="outline-3">
-<h3 id="org1942564"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
-<div class="outline-text-3" id="text-org1942564">
+<div id="outline-container-org82f5564" class="outline-3">
+<h3 id="org82f5564"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
+<div class="outline-text-3" id="text-org82f5564">
 
-<figure id="org025a64b">
+<figure id="org608bf4d">
 <img src="vuejs-oauth.png" alt="vuejs-oauth.png">
 
 </figure>
@@ -545,11 +545,11 @@ Use authorization-code to obtain access-token.
 </div>
 </section>
 
-<section id="outline-container-org6618cd4" class="outline-2">
-<h2 id="org6618cd4"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</h2>
+<section id="outline-container-org29fa47d" class="outline-2">
+<h2 id="org29fa47d"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</h2>
 </section>
-<section id="outline-container-org981a9ea" class="outline-2">
-<h2 id="org981a9ea"><span class="todo TODO">TODO</span> Summary</h2>
+<section id="outline-container-org8af7dba" class="outline-2">
+<h2 id="org8af7dba"><span class="todo TODO">TODO</span> Summary</h2>
 </section>
 </main>
 <footer id="postamble" class="status">
