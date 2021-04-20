@@ -125,7 +125,7 @@ body .tag span {
 body .pubdate {
   color: #aaa;
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: -7px;
   margin-top: -16px;
   text-align: right;
   border-bottom: 1px solid #e2e2e2;

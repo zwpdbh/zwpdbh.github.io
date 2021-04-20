@@ -70,33 +70,33 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga0ff1ee">Description</a>
+<li><a href="#org4facc6a">Description</a>
 <ul>
-<li><a href="#orgd2f6eac">Derivation of a single sentence using a context-free grammar</a></li>
-<li><a href="#org3fc3d74">Traditional straightforward development</a></li>
-<li><a href="#org4a6563a">Data driven development (rule-based solution)</a></li>
-<li><a href="#org2318d2f">Things we used</a></li>
+<li><a href="#org52224ff">Derivation of a single sentence using a context-free grammar</a></li>
+<li><a href="#orgec393cd">Traditional straightforward development</a></li>
+<li><a href="#org2206563">Data driven development (rule-based solution)</a></li>
+<li><a href="#org444aea1">Things we used</a></li>
 </ul>
 </li>
-<li><a href="#org8066fd6">Exercise</a></li>
+<li><a href="#orgc84f34c">Exercise</a></li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-orga0ff1ee" class="outline-2">
-<h2 id="orga0ff1ee">Description</h2>
-<div class="outline-text-2" id="text-orga0ff1ee">
+<section id="outline-container-org4facc6a" class="outline-2">
+<h2 id="org4facc6a">Description</h2>
+<div class="outline-text-2" id="text-org4facc6a">
 <p>
 This chapter aims to practise the skill of combining basic functions and special forms of list into a complete program.
 </p>
 </div>
 
-<div id="outline-container-orgd2f6eac" class="outline-3">
-<h3 id="orgd2f6eac">Derivation of a single sentence using a context-free grammar</h3>
-<div class="outline-text-3" id="text-orgd2f6eac">
+<div id="outline-container-org52224ff" class="outline-3">
+<h3 id="org52224ff">Derivation of a single sentence using a context-free grammar</h3>
+<div class="outline-text-3" id="text-org52224ff">
 <p>
 Given the following rule, we want to generate a sentence based on that phrase-structure grammar.
 </p>
-<pre class="example" id="org67fe8a5">
+<pre class="example" id="orga931767">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
@@ -106,9 +106,9 @@ Verb =&gt; hit, took, saw, liked...
 </pre>
 </div>
 </div>
-<div id="outline-container-org3fc3d74" class="outline-3">
-<h3 id="org3fc3d74">Traditional straightforward development</h3>
-<div class="outline-text-3" id="text-org3fc3d74">
+<div id="outline-container-orgec393cd" class="outline-3">
+<h3 id="orgec393cd">Traditional straightforward development</h3>
+<div class="outline-text-3" id="text-orgec393cd">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">sentence</span> ()    (append (noun-phrase) (verb-phrase)))
 (<span class="org-keyword">defun</span> <span class="org-function-name">noun-phrase</span> () (append (Article) (Noun)))
@@ -124,9 +124,9 @@ In traditional solution, the rules are expressed based on many lisp conventions,
 </p>
 </div>
 </div>
-<div id="outline-container-org4a6563a" class="outline-3">
-<h3 id="org4a6563a">Data driven development (rule-based solution)</h3>
-<div class="outline-text-3" id="text-org4a6563a">
+<div id="outline-container-org2206563" class="outline-3">
+<h3 id="org2206563">Data driven development (rule-based solution)</h3>
+<div class="outline-text-3" id="text-org2206563">
 <ol class="org-ol">
 <li>Concentrate on how to make it easy to <b>express rule directly using lisp</b>.</li>
 <li>Worry later about how they will be processed.</li>
@@ -135,7 +135,7 @@ In traditional solution, the rules are expressed based on many lisp conventions,
 <p>
 Consider the rules
 </p>
-<pre class="example" id="orgd463d02">
+<pre class="example" id="org5000421">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
@@ -188,9 +188,9 @@ We use the following lisp code represent their rules:
 </div>
 </div>
 
-<div id="outline-container-org2318d2f" class="outline-3">
-<h3 id="org2318d2f">Things we used</h3>
-<div class="outline-text-3" id="text-org2318d2f">
+<div id="outline-container-org444aea1" class="outline-3">
+<h3 id="org444aea1">Things we used</h3>
+<div class="outline-text-3" id="text-org444aea1">
 <ul class="org-ul">
 <li>append</li>
 <li><p>
@@ -241,8 +241,8 @@ assoc
 </div>
 </section>
 
-<section id="outline-container-org8066fd6" class="outline-2">
-<h2 id="org8066fd6">Exercise</h2>
+<section id="outline-container-orgc84f34c" class="outline-2">
+<h2 id="orgc84f34c">Exercise</h2>
 </section>
 </main>
 <footer id="postamble" class="status">
