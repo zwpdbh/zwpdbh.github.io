@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Feb 24, 2021 -->
+<!-- Apr 20, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&lrm;</title>
@@ -42,19 +42,26 @@
  |
  <a accesskey="H" href="/"> HOME </a>
 </div><header id="top" class="status">
-<div class='intro'>
-  <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
   <h1>
     <span class="gray">Zhao</span>
     <span class="black">Wei</span>
   </h1>
-  <p>How can man die better than facing fearful odds, for the ashes of his fathers and the temples of his Gods? -- By Horatius.</p>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
 </div>
 
-<div class='nav'>
+<div class="nav">
   <ul>
-    <li><a href='/'>Blog</a>.</li>
-    <li><a href='/about/'>About</a>.</li>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
   </ul>
 </div>
 </header>
@@ -63,33 +70,33 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2969a42">Description</a>
+<li><a href="#orga0ff1ee">Description</a>
 <ul>
-<li><a href="#org6ac5216">Derivation of a single sentence using a context-free grammar</a></li>
-<li><a href="#org623d4dd">Traditional straightforward development</a></li>
-<li><a href="#org2b4b824">Data driven development (rule-based solution)</a></li>
-<li><a href="#org994cee0">Things we used</a></li>
+<li><a href="#orgd2f6eac">Derivation of a single sentence using a context-free grammar</a></li>
+<li><a href="#org3fc3d74">Traditional straightforward development</a></li>
+<li><a href="#org4a6563a">Data driven development (rule-based solution)</a></li>
+<li><a href="#org2318d2f">Things we used</a></li>
 </ul>
 </li>
-<li><a href="#org1a54c6d">Exercise</a></li>
+<li><a href="#org8066fd6">Exercise</a></li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org2969a42" class="outline-2">
-<h2 id="org2969a42">Description</h2>
-<div class="outline-text-2" id="text-org2969a42">
+<section id="outline-container-orga0ff1ee" class="outline-2">
+<h2 id="orga0ff1ee">Description</h2>
+<div class="outline-text-2" id="text-orga0ff1ee">
 <p>
 This chapter aims to practise the skill of combining basic functions and special forms of list into a complete program.
 </p>
 </div>
 
-<div id="outline-container-org6ac5216" class="outline-3">
-<h3 id="org6ac5216">Derivation of a single sentence using a context-free grammar</h3>
-<div class="outline-text-3" id="text-org6ac5216">
+<div id="outline-container-orgd2f6eac" class="outline-3">
+<h3 id="orgd2f6eac">Derivation of a single sentence using a context-free grammar</h3>
+<div class="outline-text-3" id="text-orgd2f6eac">
 <p>
 Given the following rule, we want to generate a sentence based on that phrase-structure grammar.
 </p>
-<pre class="example" id="org00c22bc">
+<pre class="example" id="org67fe8a5">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
@@ -99,9 +106,9 @@ Verb =&gt; hit, took, saw, liked...
 </pre>
 </div>
 </div>
-<div id="outline-container-org623d4dd" class="outline-3">
-<h3 id="org623d4dd">Traditional straightforward development</h3>
-<div class="outline-text-3" id="text-org623d4dd">
+<div id="outline-container-org3fc3d74" class="outline-3">
+<h3 id="org3fc3d74">Traditional straightforward development</h3>
+<div class="outline-text-3" id="text-org3fc3d74">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">sentence</span> ()    (append (noun-phrase) (verb-phrase)))
 (<span class="org-keyword">defun</span> <span class="org-function-name">noun-phrase</span> () (append (Article) (Noun)))
@@ -117,9 +124,9 @@ In traditional solution, the rules are expressed based on many lisp conventions,
 </p>
 </div>
 </div>
-<div id="outline-container-org2b4b824" class="outline-3">
-<h3 id="org2b4b824">Data driven development (rule-based solution)</h3>
-<div class="outline-text-3" id="text-org2b4b824">
+<div id="outline-container-org4a6563a" class="outline-3">
+<h3 id="org4a6563a">Data driven development (rule-based solution)</h3>
+<div class="outline-text-3" id="text-org4a6563a">
 <ol class="org-ol">
 <li>Concentrate on how to make it easy to <b>express rule directly using lisp</b>.</li>
 <li>Worry later about how they will be processed.</li>
@@ -128,7 +135,7 @@ In traditional solution, the rules are expressed based on many lisp conventions,
 <p>
 Consider the rules
 </p>
-<pre class="example" id="org9cbb1f0">
+<pre class="example" id="orgd463d02">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
@@ -181,9 +188,9 @@ We use the following lisp code represent their rules:
 </div>
 </div>
 
-<div id="outline-container-org994cee0" class="outline-3">
-<h3 id="org994cee0">Things we used</h3>
-<div class="outline-text-3" id="text-org994cee0">
+<div id="outline-container-org2318d2f" class="outline-3">
+<h3 id="org2318d2f">Things we used</h3>
+<div class="outline-text-3" id="text-org2318d2f">
 <ul class="org-ul">
 <li>append</li>
 <li><p>
@@ -234,15 +241,15 @@ assoc
 </div>
 </section>
 
-<section id="outline-container-org1a54c6d" class="outline-2">
-<h2 id="org1a54c6d">Exercise</h2>
+<section id="outline-container-org8066fd6" class="outline-2">
+<h2 id="org8066fd6">Exercise</h2>
 </section>
 </main>
 <footer id="postamble" class="status">
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Feb 24, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

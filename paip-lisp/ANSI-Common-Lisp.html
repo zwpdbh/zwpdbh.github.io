@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Feb 24, 2021 -->
+<!-- Apr 20, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ANSI-Common-Lisp</title>
@@ -42,19 +42,26 @@
  |
  <a accesskey="H" href="/"> HOME </a>
 </div><header id="top" class="status">
-<div class='intro'>
-  <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
   <h1>
     <span class="gray">Zhao</span>
     <span class="black">Wei</span>
   </h1>
-  <p>How can man die better than facing fearful odds, for the ashes of his fathers and the temples of his Gods? -- By Horatius.</p>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
 </div>
 
-<div class='nav'>
+<div class="nav">
   <ul>
-    <li><a href='/'>Blog</a>.</li>
-    <li><a href='/about/'>About</a>.</li>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
   </ul>
 </div>
 </header>
@@ -65,138 +72,138 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgee7c70a"><span class="done DONE">DONE</span> Chapter2: Welecom to lisp <code>[12/12]</code></a>
+<li><a href="#org89b91e2"><span class="done DONE">DONE</span> Chapter2: Welecom to lisp <code>[12/12]</code></a>
 <ul>
-<li><a href="#org48375d3">2.3 Data</a></li>
-<li><a href="#orgcdf500e"><span class="done DONE">DONE</span> quote <code>,</code> protects a whole expression, including expressions within it.</a></li>
-<li><a href="#org810c8e1"><span class="done DONE">DONE</span> <code>list</code> is a function, its arguments are evaluated since it is a function.</a></li>
-<li><a href="#org4573a4c"><span class="done DONE">DONE</span> List operations</a></li>
-<li><a href="#orgf2232de"><span class="done DONE">DONE</span> Truth</a></li>
-<li><a href="#org6eaa680"><span class="done DONE">DONE</span> Input and Output</a></li>
-<li><a href="#org8a493c6"><span class="done DONE">DONE</span> Declare &amp; Assign Variables</a></li>
-<li><a href="#orge518664"><span class="done DONE">DONE</span> Functional programming</a></li>
-<li><a href="#org3f65be2"><span class="done DONE">DONE</span> Iteration</a></li>
-<li><a href="#org4434281"><span class="done DONE">DONE</span> Function as Objects</a></li>
-<li><a href="#org441c014"><span class="done DONE">DONE</span> Types</a></li>
+<li><a href="#org80c56fe">2.3 Data</a></li>
+<li><a href="#org74e95a3"><span class="done DONE">DONE</span> quote <code>,</code> protects a whole expression, including expressions within it.</a></li>
+<li><a href="#orgbafafcd"><span class="done DONE">DONE</span> <code>list</code> is a function, its arguments are evaluated since it is a function.</a></li>
+<li><a href="#orgf1de718"><span class="done DONE">DONE</span> List operations</a></li>
+<li><a href="#org4058730"><span class="done DONE">DONE</span> Truth</a></li>
+<li><a href="#org36a6707"><span class="done DONE">DONE</span> Input and Output</a></li>
+<li><a href="#org48cea7f"><span class="done DONE">DONE</span> Declare &amp; Assign Variables</a></li>
+<li><a href="#org7168271"><span class="done DONE">DONE</span> Functional programming</a></li>
+<li><a href="#org81755de"><span class="done DONE">DONE</span> Iteration</a></li>
+<li><a href="#org5674e06"><span class="done DONE">DONE</span> Function as Objects</a></li>
+<li><a href="#org05e0f29"><span class="done DONE">DONE</span> Types</a></li>
 </ul>
 </li>
-<li><a href="#orga7f7393"><span class="done DONE">DONE</span> Chapter3: Lists <code>[10/11]</code></a>
+<li><a href="#orgcf1358f"><span class="done DONE">DONE</span> Chapter3: Lists <code>[10/11]</code></a>
 <ul>
-<li><a href="#org1d12dc7"><span class="done DONE">DONE</span> Conses, equality, building lists, access</a></li>
-<li><a href="#orgb0feae3"><span class="done DONE">DONE</span> Mapping functions</a></li>
-<li><a href="#org1e42763"><span class="done DONE">DONE</span> Trees</a></li>
-<li><a href="#org59921c8"><span class="done DONE">DONE</span> Understanding Recursion</a></li>
-<li><a href="#orgd1f09ab"><span class="done DONE">DONE</span> Set</a></li>
-<li><a href="#org2daab64"><span class="done DONE">DONE</span> Sequence</a></li>
-<li><a href="#orgdda760e"><span class="done DONE">DONE</span> Stack</a></li>
-<li><a href="#org33fdeb0"><span class="done DONE">DONE</span> Dotted Lists</a></li>
-<li><a href="#org06c3279"><span class="done DONE">DONE</span> Assoc-lists</a></li>
-<li><a href="#org141d51c"><span class="todo TODO">TODO</span> Example: shortest path</a></li>
-<li><a href="#org1e42817"><span class="done DONE">DONE</span> Garbage</a></li>
+<li><a href="#org2b656dd"><span class="done DONE">DONE</span> Conses, equality, building lists, access</a></li>
+<li><a href="#org8ae9115"><span class="done DONE">DONE</span> Mapping functions</a></li>
+<li><a href="#org4816cc5"><span class="done DONE">DONE</span> Trees</a></li>
+<li><a href="#org7f928ce"><span class="done DONE">DONE</span> Understanding Recursion</a></li>
+<li><a href="#orgf6e3e4c"><span class="done DONE">DONE</span> Set</a></li>
+<li><a href="#orgf6d4078"><span class="done DONE">DONE</span> Sequence</a></li>
+<li><a href="#org3e4ccad"><span class="done DONE">DONE</span> Stack</a></li>
+<li><a href="#org1dee1fb"><span class="done DONE">DONE</span> Dotted Lists</a></li>
+<li><a href="#org7b41894"><span class="done DONE">DONE</span> Assoc-lists</a></li>
+<li><a href="#org7b76c2d"><span class="todo TODO">TODO</span> Example: shortest path</a></li>
+<li><a href="#org098be00"><span class="done DONE">DONE</span> Garbage</a></li>
 </ul>
 </li>
-<li><a href="#org9ba344d">REVIEWING Chapter4: Specialized data structure <code>[3/8]</code></a>
+<li><a href="#orgc799ab7">REVIEWING Chapter4: Specialized data structure <code>[3/8]</code></a>
 <ul>
-<li><a href="#orgc45f80e"><span class="done DONE">DONE</span> Array (made by vectors)</a></li>
-<li><a href="#org14a24b6"><span class="done DONE">DONE</span> Example: binary-search</a></li>
-<li><a href="#orgde41d50"><span class="done DONE">DONE</span> Strings and Characters</a></li>
-<li><a href="#org5470e44">REVIEWING Sequence</a></li>
-<li><a href="#orgb3d5f5f">REVIEWING Example: parsing dates</a>
+<li><a href="#orga3e4525"><span class="done DONE">DONE</span> Array (made by vectors)</a></li>
+<li><a href="#orgbfcd56f"><span class="done DONE">DONE</span> Example: binary-search</a></li>
+<li><a href="#org66d81f5"><span class="done DONE">DONE</span> Strings and Characters</a></li>
+<li><a href="#org5ad3627">REVIEWING Sequence</a></li>
+<li><a href="#org419982d">REVIEWING Example: parsing dates</a>
 <ul>
-<li><a href="#org86dd453">Example: read-integer</a></li>
+<li><a href="#org2525aa4">Example: read-integer</a></li>
 </ul>
 </li>
-<li><a href="#org99814fd">REVIEWING structures</a></li>
-<li><a href="#orgf860068">REVIEWING Example: binary search trees</a></li>
-<li><a href="#org3716137">DOING Hash tables</a></li>
+<li><a href="#org9c1cf54">REVIEWING structures</a></li>
+<li><a href="#org54e2ce4">REVIEWING Example: binary search trees</a></li>
+<li><a href="#orga111595">DOING Hash tables</a></li>
 </ul>
 </li>
-<li><a href="#org87c3c13">REVIEWING Chapter5: Control</a>
+<li><a href="#org2eac823">REVIEWING Chapter5: Control</a>
 <ul>
-<li><a href="#org1210eda">Blocks</a></li>
-<li><a href="#org52d8b9a">Conditionals</a></li>
-<li><a href="#orgc02e049">Interation</a></li>
-<li><a href="#org18bd60e">Multiple Values</a></li>
-<li><a href="#org70712ef">Aborts</a></li>
+<li><a href="#orgb8ebecf">Blocks</a></li>
+<li><a href="#orgc583754">Conditionals</a></li>
+<li><a href="#org08e1259">Interation</a></li>
+<li><a href="#org83ad9fe">Multiple Values</a></li>
+<li><a href="#orgc944c07">Aborts</a></li>
 </ul>
 </li>
-<li><a href="#orgf162a2c">REVIEWING Chapter6: Functions</a>
+<li><a href="#orgc94a95f">REVIEWING Chapter6: Functions</a>
 <ul>
-<li><a href="#org2ab4f5e">Global functions</a></li>
-<li><a href="#org94f80ef">Local functions</a></li>
-<li><a href="#orgd8007e6">Parameter lists</a></li>
-<li><a href="#orgea03f40"><span class="todo TODO">TODO</span> Example: utilities</a></li>
-<li><a href="#org711fb9c">DOING Closures</a></li>
-<li><a href="#org5b4cb18"><span class="todo TODO">TODO</span> Function builders</a></li>
-<li><a href="#org4f9e096">Dynamic Scope</a></li>
-<li><a href="#org17e7f23">Compilation</a></li>
-<li><a href="#org2957483">Using recursion</a></li>
+<li><a href="#org17afbdf">Global functions</a></li>
+<li><a href="#orgc8215c5">Local functions</a></li>
+<li><a href="#org46fe286">Parameter lists</a></li>
+<li><a href="#org010d916"><span class="todo TODO">TODO</span> Example: utilities</a></li>
+<li><a href="#org2460256">DOING Closures</a></li>
+<li><a href="#org4292369"><span class="todo TODO">TODO</span> Function builders</a></li>
+<li><a href="#orga09a0a0">Dynamic Scope</a></li>
+<li><a href="#org9f102ea">Compilation</a></li>
+<li><a href="#org22472d0">Using recursion</a></li>
 </ul>
 </li>
-<li><a href="#orgc4c528b">REVIEWING Chapter7: Input and Output</a>
+<li><a href="#orgcae9f2d">REVIEWING Chapter7: Input and Output</a>
 <ul>
-<li><a href="#orgdfdbce9">Streams</a></li>
-<li><a href="#orgdca1585">7.2 Input</a></li>
-<li><a href="#orgafed3d0">7.3 Output</a></li>
-<li><a href="#org118c1f7"><span class="todo TODO">TODO</span> 7.4 string substitution</a></li>
-<li><a href="#orgc780657"><span class="todo TODO">TODO</span> 7.5 Macro characters</a></li>
+<li><a href="#org8c876f9">Streams</a></li>
+<li><a href="#orgc0f09a5">7.2 Input</a></li>
+<li><a href="#orgbd4fb04">7.3 Output</a></li>
+<li><a href="#org91b38fe"><span class="todo TODO">TODO</span> 7.4 string substitution</a></li>
+<li><a href="#orgdc63402"><span class="todo TODO">TODO</span> 7.5 Macro characters</a></li>
 </ul>
 </li>
-<li><a href="#orgda1176c">REVIEWING Chapter8: Symbols</a>
+<li><a href="#org3424561">REVIEWING Chapter8: Symbols</a>
 <ul>
-<li><a href="#orgeca4183">8.1 Symbol Names</a></li>
-<li><a href="#org63ff6d6">8.2 Property Lists</a></li>
-<li><a href="#org8b8f5f4">8.3 Symbols are Big</a></li>
-<li><a href="#orgc21a2b0">8.4 Creating Symbols</a></li>
-<li><a href="#org4a04d7e">8.5 Multiple Packages</a></li>
-<li><a href="#orgda3d265">8.6 keyword</a></li>
-<li><a href="#org6a41511">8.7 Symbols and Variables</a></li>
-<li><a href="#org47db8c4"><span class="todo TODO">TODO</span> 8.8 Example: Random Text</a></li>
+<li><a href="#orgda6e218">8.1 Symbol Names</a></li>
+<li><a href="#orgf0f3b2e">8.2 Property Lists</a></li>
+<li><a href="#org7d10cd9">8.3 Symbols are Big</a></li>
+<li><a href="#org3a164b9">8.4 Creating Symbols</a></li>
+<li><a href="#orgd91d10c">8.5 Multiple Packages</a></li>
+<li><a href="#orgad5f954">8.6 keyword</a></li>
+<li><a href="#org9aaf33a">8.7 Symbols and Variables</a></li>
+<li><a href="#org24d0896"><span class="todo TODO">TODO</span> 8.8 Example: Random Text</a></li>
 </ul>
 </li>
-<li><a href="#org08fcbf4">REVIEWING Chapter9: Numbers</a>
+<li><a href="#org11433dc">REVIEWING Chapter9: Numbers</a>
 <ul>
-<li><a href="#orgfe21d1d">Example: ray-tracing</a></li>
+<li><a href="#org656fca3">Example: ray-tracing</a></li>
 </ul>
 </li>
-<li><a href="#org3cc5acc">REVIEWING Chapter10: Macro</a>
+<li><a href="#org44691ef">REVIEWING Chapter10: Macro</a>
 <ul>
-<li><a href="#org772b67b">10.2 Macros</a></li>
-<li><a href="#orgc62f3db">10.3 Backquote</a></li>
-<li><a href="#org7833bcf">10.5 Macro Design</a></li>
-<li><a href="#org4028fb3"><span class="todo TODO">TODO</span> 10.6 Generalized References</a></li>
-<li><a href="#org69fff1d">10.7 Example: Macro Utilities</a></li>
+<li><a href="#org9dc24b3">10.2 Macros</a></li>
+<li><a href="#orgf8bf96d">10.3 Backquote</a></li>
+<li><a href="#orgb6af44b">10.5 Macro Design</a></li>
+<li><a href="#org5fa7758"><span class="todo TODO">TODO</span> 10.6 Generalized References</a></li>
+<li><a href="#orgb64ac19">10.7 Example: Macro Utilities</a></li>
 </ul>
 </li>
-<li><a href="#orge092c77">REVIEWING Chapter 11 CLOS</a>
+<li><a href="#org96dd282">REVIEWING Chapter 11 CLOS</a>
 <ul>
-<li><a href="#orgc8d34ed">Superclasses</a></li>
-<li><a href="#org8ed6c4d">11.5 Precedence</a></li>
-<li><a href="#org7e63265">11.6 Generic Functions (Polymorphism)</a></li>
-<li><a href="#org5f513b3">11.7 Auxiliary Methods</a></li>
-<li><a href="#org5dabc02">11.8 Method combination</a></li>
-<li><a href="#org5b012b3">11.9 Encapsulation</a></li>
-<li><a href="#org0f6c495">11.10 Two Models</a></li>
+<li><a href="#org7a2ea06">Superclasses</a></li>
+<li><a href="#orgf3c0d69">11.5 Precedence</a></li>
+<li><a href="#org7f2caf6">11.6 Generic Functions (Polymorphism)</a></li>
+<li><a href="#org5950af4">11.7 Auxiliary Methods</a></li>
+<li><a href="#org7b37210">11.8 Method combination</a></li>
+<li><a href="#org72d87b2">11.9 Encapsulation</a></li>
+<li><a href="#org647a881">11.10 Two Models</a></li>
 </ul>
 </li>
-<li><a href="#orgff6e0e5">DOING Chapter 12: Structure</a>
+<li><a href="#orga32ae43">DOING Chapter 12: Structure</a>
 <ul>
-<li><a href="#orgaaa5e4f">12.1 shared structure</a></li>
-<li><a href="#org963be8e">12.2 Modification</a></li>
-<li><a href="#orgf25aed2">12.3 Example: Queue</a></li>
-<li><a href="#orgc2a3f75">12.4 destructive functions</a></li>
-<li><a href="#org0d8f781">12.5 Example: binary search trees</a></li>
-<li><a href="#org065e6a6"><span class="todo TODO">TODO</span> 12.6 Example: doubly-linked lists</a></li>
-<li><a href="#org93e75d9"><span class="todo TODO">TODO</span> 12.7 Circular Structure</a></li>
-<li><a href="#orgfa1ed2a"><span class="todo TODO">TODO</span> 12.8 Constant Structure</a></li>
+<li><a href="#orgf9f84a8">12.1 shared structure</a></li>
+<li><a href="#orgde7f214">12.2 Modification</a></li>
+<li><a href="#org7beab79">12.3 Example: Queue</a></li>
+<li><a href="#orgb15a5b1">12.4 destructive functions</a></li>
+<li><a href="#orga73f6d5">12.5 Example: binary search trees</a></li>
+<li><a href="#org157be8f"><span class="todo TODO">TODO</span> 12.6 Example: doubly-linked lists</a></li>
+<li><a href="#orgbe6b8fd"><span class="todo TODO">TODO</span> 12.7 Circular Structure</a></li>
+<li><a href="#org68b99d7"><span class="todo TODO">TODO</span> 12.8 Constant Structure</a></li>
 </ul>
 </li>
-<li><a href="#org32dd5af">DOING Chapter 13: Speed</a></li>
-<li><a href="#org32f8d4c">Chatper14: Advanced Topics</a>
+<li><a href="#orgc9f1090">DOING Chapter 13: Speed</a></li>
+<li><a href="#orgf548fea">Chatper14: Advanced Topics</a>
 <ul>
 <li>
 <ul>
-<li><a href="#org5572871">14.4 Packages</a></li>
+<li><a href="#org8c79cd7">14.4 Packages</a></li>
 </ul>
 </li>
 </ul>
@@ -205,35 +212,35 @@
 </div>
 </nav>
 
-<section id="outline-container-orgee7c70a" class="outline-2">
-<h2 id="orgee7c70a"><span class="done DONE">DONE</span> Chapter2: Welecom to lisp <code>[12/12]</code></h2>
-<div class="outline-text-2" id="text-orgee7c70a">
+<section id="outline-container-org89b91e2" class="outline-2">
+<h2 id="org89b91e2"><span class="done DONE">DONE</span> Chapter2: Welecom to lisp <code>[12/12]</code></h2>
+<div class="outline-text-2" id="text-org89b91e2">
 </div>
-<div id="outline-container-org48375d3" class="outline-3">
-<h3 id="org48375d3">2.3 Data</h3>
-<div class="outline-text-3" id="text-org48375d3">
+<div id="outline-container-org80c56fe" class="outline-3">
+<h3 id="org80c56fe">2.3 Data</h3>
+<div class="outline-text-3" id="text-org80c56fe">
 <ul class="org-ul">
 <li>Lisp programs are expressed as lists.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcdf500e" class="outline-3">
-<h3 id="orgcdf500e"><span class="done DONE">DONE</span> quote <code>,</code> protects a whole expression, including expressions within it.</h3>
-<div class="outline-text-3" id="text-orgcdf500e">
+<div id="outline-container-org74e95a3" class="outline-3">
+<h3 id="org74e95a3"><span class="done DONE">DONE</span> quote <code>,</code> protects a whole expression, including expressions within it.</h3>
+<div class="outline-text-3" id="text-org74e95a3">
 </div>
 </div>
-<div id="outline-container-org810c8e1" class="outline-3">
-<h3 id="org810c8e1"><span class="done DONE">DONE</span> <code>list</code> is a function, its arguments are evaluated since it is a function.</h3>
-<div class="outline-text-3" id="text-org810c8e1">
+<div id="outline-container-orgbafafcd" class="outline-3">
+<h3 id="orgbafafcd"><span class="done DONE">DONE</span> <code>list</code> is a function, its arguments are evaluated since it is a function.</h3>
+<div class="outline-text-3" id="text-orgbafafcd">
 <div class="org-src-container">
 <pre class="src src-lisp">(list '(+ 2 1) (+ 2 1))
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4573a4c" class="outline-3">
-<h3 id="org4573a4c"><span class="done DONE">DONE</span> List operations</h3>
-<div class="outline-text-3" id="text-org4573a4c">
+<div id="outline-container-orgf1de718" class="outline-3">
+<h3 id="orgf1de718"><span class="done DONE">DONE</span> List operations</h3>
+<div class="outline-text-3" id="text-orgf1de718">
 <ul class="org-ul">
 <li><code>cons</code> builds lists.</li>
 <li><p>
@@ -247,9 +254,9 @@ build up lists by consing new elements onto an empty list
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf2232de" class="outline-3">
-<h3 id="orgf2232de"><span class="done DONE">DONE</span> Truth</h3>
-<div class="outline-text-3" id="text-orgf2232de">
+<div id="outline-container-org4058730" class="outline-3">
+<h3 id="org4058730"><span class="done DONE">DONE</span> Truth</h3>
+<div class="outline-text-3" id="text-org4058730">
 <ul class="org-ul">
 <li><code>nil</code> and <code>t</code> evaluates to itself.</li>
 <li><code>(null nil)</code> returns true of the empty list.</li>
@@ -257,9 +264,9 @@ build up lists by consing new elements onto an empty list
 </ul>
 </div>
 </div>
-<div id="outline-container-org6eaa680" class="outline-3">
-<h3 id="org6eaa680"><span class="done DONE">DONE</span> Input and Output</h3>
-<div class="outline-text-3" id="text-org6eaa680">
+<div id="outline-container-org36a6707" class="outline-3">
+<h3 id="org36a6707"><span class="done DONE">DONE</span> Input and Output</h3>
+<div class="outline-text-3" id="text-org36a6707">
 <ul class="org-ul">
 <li><p>
 <code>format</code>, the most general output function
@@ -272,7 +279,7 @@ build up lists by consing new elements onto an empty list
 <li><p>
 output
 </p>
-<pre class="example" id="org17cfb8a">
+<pre class="example" id="org9fb00ce">
 2 plus 3 = 5. 
 NIL
 </pre>
@@ -294,9 +301,9 @@ NIL
 </ul>
 </div>
 </div>
-<div id="outline-container-org8a493c6" class="outline-3">
-<h3 id="org8a493c6"><span class="done DONE">DONE</span> Declare &amp; Assign Variables</h3>
-<div class="outline-text-3" id="text-org8a493c6">
+<div id="outline-container-org48cea7f" class="outline-3">
+<h3 id="org48cea7f"><span class="done DONE">DONE</span> Declare &amp; Assign Variables</h3>
+<div class="outline-text-3" id="text-org48cea7f">
 <ul class="org-ul">
 <li><code>let</code>, define local variables</li>
 <li><code>defparameter</code>, define global variable
@@ -350,17 +357,17 @@ Give even number of arguments to setf, is equivalent to multiple separate calls 
 </div>
 </div>
 
-<div id="outline-container-orge518664" class="outline-3">
-<h3 id="orge518664"><span class="done DONE">DONE</span> Functional programming</h3>
-<div class="outline-text-3" id="text-orge518664">
+<div id="outline-container-org7168271" class="outline-3">
+<h3 id="org7168271"><span class="done DONE">DONE</span> Functional programming</h3>
+<div class="outline-text-3" id="text-org7168271">
 <ul class="org-ul">
 <li>You may be surprised to discover how few you really need side-effects. And the more side-effects you do without, the better off you&rsquo;ll be.</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3f65be2" class="outline-3">
-<h3 id="org3f65be2"><span class="done DONE">DONE</span> Iteration</h3>
-<div class="outline-text-3" id="text-org3f65be2">
+<div id="outline-container-org81755de" class="outline-3">
+<h3 id="org81755de"><span class="done DONE">DONE</span> Iteration</h3>
+<div class="outline-text-3" id="text-org81755de">
 <ul class="org-ul">
 <li><p>
 <code>do</code> macro is the fundamantal iteration operator
@@ -406,9 +413,9 @@ Give even number of arguments to setf, is equivalent to multiple separate calls 
 </div>
 </div>
 
-<div id="outline-container-org4434281" class="outline-3">
-<h3 id="org4434281"><span class="done DONE">DONE</span> Function as Objects</h3>
-<div class="outline-text-3" id="text-org4434281">
+<div id="outline-container-org5674e06" class="outline-3">
+<h3 id="org5674e06"><span class="done DONE">DONE</span> Function as Objects</h3>
+<div class="outline-text-3" id="text-org5674e06">
 <p>
 By default, the function named by the first element is applied to rest of the list. And the rest of the list is evaluated by normal evaluation rule. So, if we want to refer to a function not at the start of the list, we have to use <code>#'</code> notiation.
 </p>
@@ -466,9 +473,9 @@ Or by affixing a sharp-quote to a lambda expression.
 </div>
 </div>
 
-<div id="outline-container-org441c014" class="outline-3">
-<h3 id="org441c014"><span class="done DONE">DONE</span> Types</h3>
-<div class="outline-text-3" id="text-org441c014">
+<div id="outline-container-org05e0f29" class="outline-3">
+<h3 id="org05e0f29"><span class="done DONE">DONE</span> Types</h3>
+<div class="outline-text-3" id="text-org05e0f29">
 <ul class="org-ul">
 <li><p>
 The built-in Common Lisp types form a hierarchy of subtypes and supertypes. The type <code>t</code> is the supertype of all types, so everything is of type <code>t</code>.
@@ -482,13 +489,13 @@ The built-in Common Lisp types form a hierarchy of subtypes and supertypes. The 
 </div>
 </div>
 </section>
-<section id="outline-container-orga7f7393" class="outline-2">
-<h2 id="orga7f7393"><span class="done DONE">DONE</span> Chapter3: Lists <code>[10/11]</code></h2>
-<div class="outline-text-2" id="text-orga7f7393">
+<section id="outline-container-orgcf1358f" class="outline-2">
+<h2 id="orgcf1358f"><span class="done DONE">DONE</span> Chapter3: Lists <code>[10/11]</code></h2>
+<div class="outline-text-2" id="text-orgcf1358f">
 </div>
-<div id="outline-container-org1d12dc7" class="outline-3">
-<h3 id="org1d12dc7"><span class="done DONE">DONE</span> Conses, equality, building lists, access</h3>
-<div class="outline-text-3" id="text-org1d12dc7">
+<div id="outline-container-org2b656dd" class="outline-3">
+<h3 id="org2b656dd"><span class="done DONE">DONE</span> Conses, equality, building lists, access</h3>
+<div class="outline-text-3" id="text-org2b656dd">
 <ul class="org-ul">
 <li><code>nil</code> is both an atom and a list.</li>
 <li>each call to <code>cons</code>, Lisp allocates a new piece of memory with room for two pointers.</li>
@@ -546,9 +553,9 @@ simple copy-list
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb0feae3" class="outline-3">
-<h3 id="orgb0feae3"><span class="done DONE">DONE</span> Mapping functions</h3>
-<div class="outline-text-3" id="text-orgb0feae3">
+<div id="outline-container-org8ae9115" class="outline-3">
+<h3 id="org8ae9115"><span class="done DONE">DONE</span> Mapping functions</h3>
+<div class="outline-text-3" id="text-org8ae9115">
 <ul class="org-ul">
 <li><p>
 <code>mapcar</code>, takes a function and one or more lists, and returns the result of applying the function to elements taken from each list, until some list runs out.
@@ -577,9 +584,9 @@ simple copy-list
 </div>
 </div>
 
-<div id="outline-container-org1e42763" class="outline-3">
-<h3 id="org1e42763"><span class="done DONE">DONE</span> Trees</h3>
-<div class="outline-text-3" id="text-org1e42763">
+<div id="outline-container-org4816cc5" class="outline-3">
+<h3 id="org4816cc5"><span class="done DONE">DONE</span> Trees</h3>
+<div class="outline-text-3" id="text-org4816cc5">
 <ul class="org-ul">
 <li><p>
 <code>copy-tree</code>, copies both the car and cdr of each cons, while <code>copy-list</code> copies only the cdr.
@@ -601,9 +608,9 @@ simple copy-list
 </div>
 </div>
 
-<div id="outline-container-org59921c8" class="outline-3">
-<h3 id="org59921c8"><span class="done DONE">DONE</span> Understanding Recursion</h3>
-<div class="outline-text-3" id="text-org59921c8">
+<div id="outline-container-org7f928ce" class="outline-3">
+<h3 id="org7f928ce"><span class="done DONE">DONE</span> Understanding Recursion</h3>
+<div class="outline-text-3" id="text-org7f928ce">
 <ul class="org-ul">
 <li>The advantage of recursion is precisely that it lets us view algorithm in a more abstract way.</li>
 <li>Do not use traces of all the invocation to see a recursion is correct. Use math induction.
@@ -615,9 +622,9 @@ simple copy-list
 </div>
 </div>
 
-<div id="outline-container-orgd1f09ab" class="outline-3">
-<h3 id="orgd1f09ab"><span class="done DONE">DONE</span> Set</h3>
-<div class="outline-text-3" id="text-orgd1f09ab">
+<div id="outline-container-orgf6e3e4c" class="outline-3">
+<h3 id="orgf6e3e4c"><span class="done DONE">DONE</span> Set</h3>
+<div class="outline-text-3" id="text-orgf6e3e4c">
 <ul class="org-ul">
 <li><p>
 <code>member</code>
@@ -701,9 +708,9 @@ If there an element whose car is equal to 2
 </ul>
 </div>
 </div>
-<div id="outline-container-org2daab64" class="outline-3">
-<h3 id="org2daab64"><span class="done DONE">DONE</span> Sequence</h3>
-<div class="outline-text-3" id="text-org2daab64">
+<div id="outline-container-orgf6d4078" class="outline-3">
+<h3 id="orgf6d4078"><span class="done DONE">DONE</span> Sequence</h3>
+<div class="outline-text-3" id="text-orgf6d4078">
 <ul class="org-ul">
 <li>sequence include <b>both list and vector</b>. It represents <b>a series of objects in a particular order</b>.</li>
 <li><code>length</code></li>
@@ -779,9 +786,9 @@ A function which returns the nth largest element of a list:
 </div>
 </div>
 
-<div id="outline-container-orgdda760e" class="outline-3">
-<h3 id="orgdda760e"><span class="done DONE">DONE</span> Stack</h3>
-<div class="outline-text-3" id="text-orgdda760e">
+<div id="outline-container-org3e4ccad" class="outline-3">
+<h3 id="org3e4ccad"><span class="done DONE">DONE</span> Stack</h3>
+<div class="outline-text-3" id="text-org3e4ccad">
 <ul class="org-ul">
 <li>(push obj lst) == (setf lst (cons obj lst))</li>
 <li>Use dolist and push we could build iterative version of <code>reverse</code>.</li>
@@ -800,9 +807,9 @@ A function which returns the nth largest element of a list:
 </ul>
 </div>
 </div>
-<div id="outline-container-org33fdeb0" class="outline-3">
-<h3 id="org33fdeb0"><span class="done DONE">DONE</span> Dotted Lists</h3>
-<div class="outline-text-3" id="text-org33fdeb0">
+<div id="outline-container-org1dee1fb" class="outline-3">
+<h3 id="org1dee1fb"><span class="done DONE">DONE</span> Dotted Lists</h3>
+<div class="outline-text-3" id="text-org1dee1fb">
 <ul class="org-ul">
 <li><p>
 Known as <b>proper lists</b>
@@ -832,9 +839,9 @@ Known as <b>proper lists</b>
 </div>
 </div>
 
-<div id="outline-container-org06c3279" class="outline-3">
-<h3 id="org06c3279"><span class="done DONE">DONE</span> Assoc-lists</h3>
-<div class="outline-text-3" id="text-org06c3279">
+<div id="outline-container-org7b41894" class="outline-3">
+<h3 id="org7b41894"><span class="done DONE">DONE</span> Assoc-lists</h3>
+<div class="outline-text-3" id="text-org7b41894">
 <ul class="org-ul">
 <li><b>A list of conses</b> is called an <code>assoc-list</code> or <code>alist</code>.</li>
 <li>It is natural to use conses to represent mappings.</li>
@@ -854,9 +861,9 @@ use <code>assoc</code> to retrievie the pair associated with a given key.
 </ul>
 </div>
 </div>
-<div id="outline-container-org141d51c" class="outline-3">
-<h3 id="org141d51c"><span class="todo TODO">TODO</span> Example: shortest path</h3>
-<div class="outline-text-3" id="text-org141d51c">
+<div id="outline-container-org7b76c2d" class="outline-3">
+<h3 id="org7b76c2d"><span class="todo TODO">TODO</span> Example: shortest path</h3>
+<div class="outline-text-3" id="text-org7b76c2d">
 <ul class="org-ul">
 <li><p>
 the graph
@@ -873,9 +880,9 @@ the graph
 </div>
 
 
-<div id="outline-container-org1e42817" class="outline-3">
-<h3 id="org1e42817"><span class="done DONE">DONE</span> Garbage</h3>
-<div class="outline-text-3" id="text-org1e42817">
+<div id="outline-container-org098be00" class="outline-3">
+<h3 id="org098be00"><span class="done DONE">DONE</span> Garbage</h3>
+<div class="outline-text-3" id="text-org098be00">
 <ul class="org-ul">
 <li>Allocating memory from the heap is somethimes generically known as consing.</li>
 <li>Consing will always cost something. Use destructive function which try to re-use most of the structure of the list passed to them as argument (see chapter12.4).</li>
@@ -883,13 +890,13 @@ the graph
 </div>
 </div>
 </section>
-<section id="outline-container-org9ba344d" class="outline-2">
-<h2 id="org9ba344d">REVIEWING Chapter4: Specialized data structure <code>[3/8]</code></h2>
-<div class="outline-text-2" id="text-org9ba344d">
+<section id="outline-container-orgc799ab7" class="outline-2">
+<h2 id="orgc799ab7">REVIEWING Chapter4: Specialized data structure <code>[3/8]</code></h2>
+<div class="outline-text-2" id="text-orgc799ab7">
 </div>
-<div id="outline-container-orgc45f80e" class="outline-3">
-<h3 id="orgc45f80e"><span class="done DONE">DONE</span> Array (made by vectors)</h3>
-<div class="outline-text-3" id="text-orgc45f80e">
+<div id="outline-container-orga3e4525" class="outline-3">
+<h3 id="orga3e4525"><span class="done DONE">DONE</span> Array (made by vectors)</h3>
+<div class="outline-text-3" id="text-orga3e4525">
 <ul class="org-ul">
 <li><p>
 <code>make-array</code>
@@ -951,9 +958,9 @@ vec
 </div>
 </div>
 
-<div id="outline-container-org14a24b6" class="outline-3">
-<h3 id="org14a24b6"><span class="done DONE">DONE</span> Example: binary-search</h3>
-<div class="outline-text-3" id="text-org14a24b6">
+<div id="outline-container-orgbfcd56f" class="outline-3">
+<h3 id="orgbfcd56f"><span class="done DONE">DONE</span> Example: binary-search</h3>
+<div class="outline-text-3" id="text-orgbfcd56f">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">b-search</span> (obj vec)
   (<span class="org-keyword">let</span> ((len (length vec)))
@@ -984,9 +991,9 @@ vec
 </div>
 </div>
 
-<div id="outline-container-orgde41d50" class="outline-3">
-<h3 id="orgde41d50"><span class="done DONE">DONE</span> Strings and Characters</h3>
-<div class="outline-text-3" id="text-orgde41d50">
+<div id="outline-container-org66d81f5" class="outline-3">
+<h3 id="org66d81f5"><span class="done DONE">DONE</span> Strings and Characters</h3>
+<div class="outline-text-3" id="text-org66d81f5">
 <ul class="org-ul">
 <li>Strings are <b>vectors of characters</b>.</li>
 <li>Individual character c as <code>#\c</code>.</li>
@@ -1038,9 +1045,9 @@ Replace/set element of string
 </ul>
 </div>
 </div>
-<div id="outline-container-org5470e44" class="outline-3">
-<h3 id="org5470e44">REVIEWING Sequence</h3>
-<div class="outline-text-3" id="text-org5470e44">
+<div id="outline-container-org5ad3627" class="outline-3">
+<h3 id="org5ad3627">REVIEWING Sequence</h3>
+<div class="outline-text-3" id="text-org5ad3627">
 <ul class="org-ul">
 <li>Sequence in common lisp includes
 <ul class="org-ul">
@@ -1209,9 +1216,9 @@ It takes at least two arguments
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb3d5f5f" class="outline-3">
-<h3 id="orgb3d5f5f">REVIEWING Example: parsing dates</h3>
-<div class="outline-text-3" id="text-orgb3d5f5f">
+<div id="outline-container-org419982d" class="outline-3">
+<h3 id="org419982d">REVIEWING Example: parsing dates</h3>
+<div class="outline-text-3" id="text-org419982d">
 <p>
 A program can take a string like &ldquo;16 Aug 1980&rdquo; and return a list of integers representing the day, month, and year
 </p>
@@ -1264,9 +1271,9 @@ A program can take a string like &ldquo;16 Aug 1980&rdquo; and return a list of 
 </ul>
 </div>
 
-<div id="outline-container-org86dd453" class="outline-4">
-<h4 id="org86dd453">Example: read-integer</h4>
-<div class="outline-text-4" id="text-org86dd453">
+<div id="outline-container-org2525aa4" class="outline-4">
+<h4 id="org2525aa4">Example: read-integer</h4>
+<div class="outline-text-4" id="text-org2525aa4">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">read-integer</span> (str)
   (<span class="org-keyword">if</span> (every #'digit-char-p str)
@@ -1289,9 +1296,9 @@ A program can take a string like &ldquo;16 Aug 1980&rdquo; and return a list of 
 </div>
 
 
-<div id="outline-container-org99814fd" class="outline-3">
-<h3 id="org99814fd">REVIEWING structures</h3>
-<div class="outline-text-3" id="text-org99814fd">
+<div id="outline-container-org9c1cf54" class="outline-3">
+<h3 id="org9c1cf54">REVIEWING structures</h3>
+<div class="outline-text-3" id="text-org9c1cf54">
 <ul class="org-ul">
 <li><p>
 define structure, will automatically defines helper functions for us:
@@ -1365,9 +1372,9 @@ Control how struct is displayed and the prefix used in the names of the access f
 </div>
 </div>
 
-<div id="outline-container-orgf860068" class="outline-3">
-<h3 id="orgf860068">REVIEWING Example: binary search trees</h3>
-<div class="outline-text-3" id="text-orgf860068">
+<div id="outline-container-org54e2ce4" class="outline-3">
+<h3 id="org54e2ce4">REVIEWING Example: binary search trees</h3>
+<div class="outline-text-3" id="text-org54e2ce4">
 <div class="org-src-container">
 <pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">node has 3 fields: element stored in node, left and right children of node</span>
 (<span class="org-keyword">defstruct</span> (<span class="org-type">node</span> (<span class="org-builtin">:print-function</span> (<span class="org-keyword">lambda</span> (n s d)
@@ -1418,9 +1425,9 @@ Control how struct is displayed and the prefix used in the names of the access f
 </ul>
 </div>
 </div>
-<div id="outline-container-org3716137" class="outline-3">
-<h3 id="org3716137">DOING Hash tables</h3>
-<div class="outline-text-3" id="text-org3716137">
+<div id="outline-container-orga111595" class="outline-3">
+<h3 id="orga111595">DOING Hash tables</h3>
+<div class="outline-text-3" id="text-orga111595">
 <ul class="org-ul">
 <li><p>
 <code>make-hash-table</code>, <b>create hash table</b>
@@ -1518,13 +1525,13 @@ Use hash tables instead of lists to <b>represent sets</b>.
 
 
 
-<section id="outline-container-org87c3c13" class="outline-2">
-<h2 id="org87c3c13">REVIEWING Chapter5: Control</h2>
-<div class="outline-text-2" id="text-org87c3c13">
+<section id="outline-container-org2eac823" class="outline-2">
+<h2 id="org2eac823">REVIEWING Chapter5: Control</h2>
+<div class="outline-text-2" id="text-org2eac823">
 </div>
-<div id="outline-container-org1210eda" class="outline-3">
-<h3 id="org1210eda">Blocks</h3>
-<div class="outline-text-3" id="text-org1210eda">
+<div id="outline-container-orgb8ebecf" class="outline-3">
+<h3 id="orgb8ebecf">Blocks</h3>
+<div class="outline-text-3" id="text-orgb8ebecf">
 <ul class="org-ul">
 <li><code>progn</code></li>
 <li><p>
@@ -1640,9 +1647,9 @@ It is equivalent to a series of nested lets.
 </div>
 </div>
 
-<div id="outline-container-org52d8b9a" class="outline-3">
-<h3 id="org52d8b9a">Conditionals</h3>
-<div class="outline-text-3" id="text-org52d8b9a">
+<div id="outline-container-orgc583754" class="outline-3">
+<h3 id="orgc583754">Conditionals</h3>
+<div class="outline-text-3" id="text-orgc583754">
 <ul class="org-ul">
 <li><code>if</code></li>
 <li><code>when</code>
@@ -1683,9 +1690,9 @@ It is equivalent to a series of nested lets.
 </div>
 </div>
 
-<div id="outline-container-orgc02e049" class="outline-3">
-<h3 id="orgc02e049">Interation</h3>
-<div class="outline-text-3" id="text-orgc02e049">
+<div id="outline-container-org08e1259" class="outline-3">
+<h3 id="org08e1259">Interation</h3>
+<div class="outline-text-3" id="text-org08e1259">
 <ul class="org-ul">
 <li><p>
 <code>do</code>
@@ -1773,9 +1780,9 @@ They both can traverse multiple lists in parallel.
 </div>
 </div>
 
-<div id="outline-container-org18bd60e" class="outline-3">
-<h3 id="org18bd60e">Multiple Values</h3>
-<div class="outline-text-3" id="text-org18bd60e">
+<div id="outline-container-org83ad9fe" class="outline-3">
+<h3 id="org83ad9fe">Multiple Values</h3>
+<div class="outline-text-3" id="text-org83ad9fe">
 <ul class="org-ul">
 <li>Common-lisp can return multiple values.
 <ul class="org-ul">
@@ -1840,9 +1847,9 @@ If something is expecting only one value, all but the first will be discarded.
 </div>
 
 
-<div id="outline-container-org70712ef" class="outline-3">
-<h3 id="org70712ef">Aborts</h3>
-<div class="outline-text-3" id="text-org70712ef">
+<div id="outline-container-orgc944c07" class="outline-3">
+<h3 id="orgc944c07">Aborts</h3>
+<div class="outline-text-3" id="text-orgc944c07">
 <ul class="org-ul">
 <li><p>
 <code>catch</code> and <code>throw</code>
@@ -1900,13 +1907,13 @@ x
 
 
 
-<section id="outline-container-orgf162a2c" class="outline-2">
-<h2 id="orgf162a2c">REVIEWING Chapter6: Functions</h2>
-<div class="outline-text-2" id="text-orgf162a2c">
+<section id="outline-container-orgc94a95f" class="outline-2">
+<h2 id="orgc94a95f">REVIEWING Chapter6: Functions</h2>
+<div class="outline-text-2" id="text-orgc94a95f">
 </div>
-<div id="outline-container-org2ab4f5e" class="outline-3">
-<h3 id="org2ab4f5e">Global functions</h3>
-<div class="outline-text-3" id="text-org2ab4f5e">
+<div id="outline-container-org17afbdf" class="outline-3">
+<h3 id="org17afbdf">Global functions</h3>
+<div class="outline-text-3" id="text-org17afbdf">
 <ul class="org-ul">
 <li><code>fboundp</code>, decide if a symbol is bounded to a function.</li>
 <li><code>symbol-function</code>, retrieve the associated function from symbol</li>
@@ -1927,9 +1934,9 @@ x
 </div>
 </div>
 
-<div id="outline-container-org94f80ef" class="outline-3">
-<h3 id="org94f80ef">Local functions</h3>
-<div class="outline-text-3" id="text-org94f80ef">
+<div id="outline-container-orgc8215c5" class="outline-3">
+<h3 id="orgc8215c5">Local functions</h3>
+<div class="outline-text-3" id="text-orgc8215c5">
 <ul class="org-ul">
 <li><p>
 <code>labels</code>, define local functions (<code>defun</code> defines global functions).
@@ -1958,9 +1965,9 @@ Local functions defined by a labels can refer to any other functions defined the
 </div>
 </div>
 
-<div id="outline-container-orgd8007e6" class="outline-3">
-<h3 id="orgd8007e6">Parameter lists</h3>
-<div class="outline-text-3" id="text-orgd8007e6">
+<div id="outline-container-org46fe286" class="outline-3">
+<h3 id="org46fe286">Parameter lists</h3>
+<div class="outline-text-3" id="text-org46fe286">
 <ul class="org-ul">
 <li><p>
 <code>&amp;rest</code>, make function takes varying number of arguments.
@@ -1990,9 +1997,9 @@ Local functions defined by a labels can refer to any other functions defined the
 </div>
 
 
-<div id="outline-container-orgea03f40" class="outline-3">
-<h3 id="orgea03f40"><span class="todo TODO">TODO</span> Example: utilities</h3>
-<div class="outline-text-3" id="text-orgea03f40">
+<div id="outline-container-org010d916" class="outline-3">
+<h3 id="org010d916"><span class="todo TODO">TODO</span> Example: utilities</h3>
+<div class="outline-text-3" id="text-org010d916">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">single?</span> (lst)
   <span class="org-doc">"Test if a list contains just a single element"</span>
@@ -2018,9 +2025,9 @@ Local functions defined by a labels can refer to any other functions defined the
 </div>
 </div>
 
-<div id="outline-container-org711fb9c" class="outline-3">
-<h3 id="org711fb9c">DOING Closures</h3>
-<div class="outline-text-3" id="text-org711fb9c">
+<div id="outline-container-org2460256" class="outline-3">
+<h3 id="org2460256">DOING Closures</h3>
+<div class="outline-text-3" id="text-org2460256">
 <ul class="org-ul">
 <li><p>
 code seg01
@@ -2114,9 +2121,9 @@ Closure could replace global variable, it could protect that free variable from 
 </div>
 </div>
 
-<div id="outline-container-org5b4cb18" class="outline-3">
-<h3 id="org5b4cb18"><span class="todo TODO">TODO</span> Function builders</h3>
-<div class="outline-text-3" id="text-org5b4cb18">
+<div id="outline-container-org4292369" class="outline-3">
+<h3 id="org4292369"><span class="todo TODO">TODO</span> Function builders</h3>
+<div class="outline-text-3" id="text-org4292369">
 <ul class="org-ul">
 <li><p>
 <code>complement</code>, take a predicate and returns the opposite predicate
@@ -2164,9 +2171,9 @@ Closure could replace global variable, it could protect that free variable from 
 </div>
 </div>
 
-<div id="outline-container-org4f9e096" class="outline-3">
-<h3 id="org4f9e096">Dynamic Scope</h3>
-<div class="outline-text-3" id="text-org4f9e096">
+<div id="outline-container-orga09a0a0" class="outline-3">
+<h3 id="orga09a0a0">Dynamic Scope</h3>
+<div class="outline-text-3" id="text-orga09a0a0">
 <table>
 
 
@@ -2254,7 +2261,7 @@ ex:
 <p>
 returns
 </p>
-<pre class="example" id="org6879f02">
+<pre class="example" id="orgbeeb983">
 20
 32 (6 bits, #x20, #o40, #b100000)
 </pre>
@@ -2267,9 +2274,9 @@ returns
 </div>
 
 
-<div id="outline-container-org17e7f23" class="outline-3">
-<h3 id="org17e7f23">Compilation</h3>
-<div class="outline-text-3" id="text-org17e7f23">
+<div id="outline-container-org9f102ea" class="outline-3">
+<h3 id="org9f102ea">Compilation</h3>
+<div class="outline-text-3" id="text-org9f102ea">
 <ul class="org-ul">
 <li><p>
 <code>compiled-function-p</code>
@@ -2298,9 +2305,9 @@ When the containing function is compiled, the inner function should also be comp
 </div>
 
 
-<div id="outline-container-org2957483" class="outline-3">
-<h3 id="org2957483">Using recursion</h3>
-<div class="outline-text-3" id="text-org2957483">
+<div id="outline-container-org22472d0" class="outline-3">
+<h3 id="org22472d0">Using recursion</h3>
+<div class="outline-text-3" id="text-org22472d0">
 <ul class="org-ul">
 <li>Functional programming: recursive algorithms are less likely to involve side-effects.</li>
 <li><code>Recursive data structure</code>
@@ -2314,13 +2321,13 @@ When the containing function is compiled, the inner function should also be comp
 </section>
 
 
-<section id="outline-container-orgc4c528b" class="outline-2">
-<h2 id="orgc4c528b">REVIEWING Chapter7: Input and Output</h2>
-<div class="outline-text-2" id="text-orgc4c528b">
+<section id="outline-container-orgcae9f2d" class="outline-2">
+<h2 id="orgcae9f2d">REVIEWING Chapter7: Input and Output</h2>
+<div class="outline-text-2" id="text-orgcae9f2d">
 </div>
-<div id="outline-container-orgdfdbce9" class="outline-3">
-<h3 id="orgdfdbce9">Streams</h3>
-<div class="outline-text-3" id="text-orgdfdbce9">
+<div id="outline-container-org8c876f9" class="outline-3">
+<h3 id="org8c876f9">Streams</h3>
+<div class="outline-text-3" id="text-org8c876f9">
 <ul class="org-ul">
 <li>Streams are objects representing source/destinations of characters.</li>
 <li><code>*standard-input*</code> and <code>*standard-output*</code>.</li>
@@ -2383,9 +2390,9 @@ Use <code>with-open-file</code> instead of <code>open</code>.
 </div>
 
 
-<div id="outline-container-orgdca1585" class="outline-3">
-<h3 id="orgdca1585">7.2 Input</h3>
-<div class="outline-text-3" id="text-orgdca1585">
+<div id="outline-container-orgc0f09a5" class="outline-3">
+<h3 id="orgc0f09a5">7.2 Input</h3>
+<div class="outline-text-3" id="text-orgc0f09a5">
 <ul class="org-ul">
 <li><p>
 <code>read-line</code>
@@ -2428,7 +2435,7 @@ Ex01:
 <li><p>
 returns
 </p>
-<pre class="example" id="orgd560d26">
+<pre class="example" id="orgdc8c44d">
 123 (7 bits, #x7B, #o173, #b1111011)
 4 (3 bits, #x4, #o4, #b100)
 </pre>
@@ -2441,9 +2448,9 @@ returns
 </div>
 </div>
 
-<div id="outline-container-orgafed3d0" class="outline-3">
-<h3 id="orgafed3d0">7.3 Output</h3>
-<div class="outline-text-3" id="text-orgafed3d0">
+<div id="outline-container-orgbd4fb04" class="outline-3">
+<h3 id="orgbd4fb04">7.3 Output</h3>
+<div class="outline-text-3" id="text-orgbd4fb04">
 <ul class="org-ul">
 <li><code>prin1</code>, generate output for programs.</li>
 <li><code>princ</code>, generate output for people.</li>
@@ -2481,22 +2488,22 @@ a simply example
 </div>
 
 
-<div id="outline-container-org118c1f7" class="outline-3">
-<h3 id="org118c1f7"><span class="todo TODO">TODO</span> 7.4 string substitution</h3>
+<div id="outline-container-org91b38fe" class="outline-3">
+<h3 id="org91b38fe"><span class="todo TODO">TODO</span> 7.4 string substitution</h3>
 </div>
 
-<div id="outline-container-orgc780657" class="outline-3">
-<h3 id="orgc780657"><span class="todo TODO">TODO</span> 7.5 Macro characters</h3>
+<div id="outline-container-orgdc63402" class="outline-3">
+<h3 id="orgdc63402"><span class="todo TODO">TODO</span> 7.5 Macro characters</h3>
 </div>
 </section>
 
-<section id="outline-container-orgda1176c" class="outline-2">
-<h2 id="orgda1176c">REVIEWING Chapter8: Symbols</h2>
-<div class="outline-text-2" id="text-orgda1176c">
+<section id="outline-container-org3424561" class="outline-2">
+<h2 id="org3424561">REVIEWING Chapter8: Symbols</h2>
+<div class="outline-text-2" id="text-org3424561">
 </div>
-<div id="outline-container-orgeca4183" class="outline-3">
-<h3 id="orgeca4183">8.1 Symbol Names</h3>
-<div class="outline-text-3" id="text-orgeca4183">
+<div id="outline-container-orgda6e218" class="outline-3">
+<h3 id="orgda6e218">8.1 Symbol Names</h3>
+<div class="outline-text-3" id="text-orgda6e218">
 <ul class="org-ul">
 <li><p>
 <code>symbol-name</code>, get symbol&rsquo;s name
@@ -2528,9 +2535,9 @@ Use vertical bar as special syntax to refer to symbols whose name contain whites
 </div>
 </div>
 
-<div id="outline-container-org63ff6d6" class="outline-3">
-<h3 id="org63ff6d6">8.2 Property Lists</h3>
-<div class="outline-text-3" id="text-org63ff6d6">
+<div id="outline-container-orgf0f3b2e" class="outline-3">
+<h3 id="orgf0f3b2e">8.2 Property Lists</h3>
+<div class="outline-text-3" id="text-orgf0f3b2e">
 <ul class="org-ul">
 <li><p>
 Every symbol has a property-liist, or <b>plist</b> (it is not <b>alist</b> which is a list of cons).
@@ -2554,9 +2561,9 @@ Every symbol has a property-liist, or <b>plist</b> (it is not <b>alist</b> which
 </div>
 </div>
 
-<div id="outline-container-org8b8f5f4" class="outline-3">
-<h3 id="org8b8f5f4">8.3 Symbols are Big</h3>
-<div class="outline-text-3" id="text-org8b8f5f4">
+<div id="outline-container-org7d10cd9" class="outline-3">
+<h3 id="org7d10cd9">8.3 Symbols are Big</h3>
+<div class="outline-text-3" id="text-org7d10cd9">
 <ul class="org-ul">
 <li>Symbol is a substantial object, it contains
 <ul class="org-ul">
@@ -2572,9 +2579,9 @@ Every symbol has a property-liist, or <b>plist</b> (it is not <b>alist</b> which
 </div>
 
 
-<div id="outline-container-orgc21a2b0" class="outline-3">
-<h3 id="orgc21a2b0">8.4 Creating Symbols</h3>
-<div class="outline-text-3" id="text-orgc21a2b0">
+<div id="outline-container-org3a164b9" class="outline-3">
+<h3 id="org3a164b9">8.4 Creating Symbols</h3>
+<div class="outline-text-3" id="text-org3a164b9">
 <ul class="org-ul">
 <li><b>Packages</b> are symbol tables, mapping names(strings) to symbols.</li>
 <li><p>
@@ -2594,9 +2601,9 @@ Every symbol has a property-liist, or <b>plist</b> (it is not <b>alist</b> which
 </div>
 </div>
 
-<div id="outline-container-org4a04d7e" class="outline-3">
-<h3 id="org4a04d7e">8.5 Multiple Packages</h3>
-<div class="outline-text-3" id="text-org4a04d7e">
+<div id="outline-container-orgd91d10c" class="outline-3">
+<h3 id="orgd91d10c">8.5 Multiple Packages</h3>
+<div class="outline-text-3" id="text-orgd91d10c">
 <ul class="org-ul">
 <li><code>export</code>, only symbols that you explicitly export will be visible in other packages.</li>
 <li>Those exported symbols have to be preceded (<b>qualified</b>) by the name of the packages that owns them.</li>
@@ -2621,9 +2628,9 @@ Ex01
 </div>
 </div>
 
-<div id="outline-container-orgda3d265" class="outline-3">
-<h3 id="orgda3d265">8.6 keyword</h3>
-<div class="outline-text-3" id="text-orgda3d265">
+<div id="outline-container-orgad5f954" class="outline-3">
+<h3 id="orgad5f954">8.6 keyword</h3>
+<div class="outline-text-3" id="text-orgad5f954">
 <ul class="org-ul">
 <li>Keywords are symbols in keyword package.</li>
 <li>You can refer to them <b>anywhere</b> simply as <code>:x</code> instead of <code>keyword:x</code>.</li>
@@ -2633,9 +2640,9 @@ Ex01
 
 
 
-<div id="outline-container-org6a41511" class="outline-3">
-<h3 id="org6a41511">8.7 Symbols and Variables</h3>
-<div class="outline-text-3" id="text-org6a41511">
+<div id="outline-container-org9aaf33a" class="outline-3">
+<h3 id="org9aaf33a">8.7 Symbols and Variables</h3>
+<div class="outline-text-3" id="text-org9aaf33a">
 <ul class="org-ul">
 <li><p>
 When a symbol is the name of a special variable, the value of the variable is stored in a field within the symbol.
@@ -2653,9 +2660,9 @@ When a symbol is the name of a special variable, the value of the variable is st
 </div>
 
 
-<div id="outline-container-org47db8c4" class="outline-3">
-<h3 id="org47db8c4"><span class="todo TODO">TODO</span> 8.8 Example: Random Text</h3>
-<div class="outline-text-3" id="text-org47db8c4">
+<div id="outline-container-org24d0896" class="outline-3">
+<h3 id="org24d0896"><span class="todo TODO">TODO</span> 8.8 Example: Random Text</h3>
+<div class="outline-text-3" id="text-org24d0896">
 <ul class="org-ul">
 <li>If your program operates on words, it is often a good idea to use symbol instead of string. Because symbols are conceptually atomic.
 <ul class="org-ul">
@@ -2717,9 +2724,9 @@ Generate random text based on sample text
 
 
 
-<section id="outline-container-org08fcbf4" class="outline-2">
-<h2 id="org08fcbf4">REVIEWING Chapter9: Numbers</h2>
-<div class="outline-text-2" id="text-org08fcbf4">
+<section id="outline-container-org11433dc" class="outline-2">
+<h2 id="org11433dc">REVIEWING Chapter9: Numbers</h2>
+<div class="outline-text-2" id="text-org11433dc">
 <ul class="org-ul">
 <li>4 types of numbers
 <ul class="org-ul">
@@ -2731,9 +2738,9 @@ Generate random text based on sample text
 </ul>
 </div>
 
-<div id="outline-container-orgfe21d1d" class="outline-3">
-<h3 id="orgfe21d1d">Example: ray-tracing</h3>
-<div class="outline-text-3" id="text-orgfe21d1d">
+<div id="outline-container-org656fca3" class="outline-3">
+<h3 id="org656fca3">Example: ray-tracing</h3>
+<div class="outline-text-3" id="text-org656fca3">
 <p>
 <a href="examples/ray-tracing.lisp">file:~/code/capture-org/common-lisp/examples/ray-tracing.lisp</a>
 </p>
@@ -2741,9 +2748,9 @@ Generate random text based on sample text
 </div>
 </section>
 
-<section id="outline-container-org3cc5acc" class="outline-2">
-<h2 id="org3cc5acc">REVIEWING Chapter10: Macro</h2>
-<div class="outline-text-2" id="text-org3cc5acc">
+<section id="outline-container-org44691ef" class="outline-2">
+<h2 id="org44691ef">REVIEWING Chapter10: Macro</h2>
+<div class="outline-text-2" id="text-org44691ef">
 <ul class="org-ul">
 <li>Cross the line from expressions to code.
 <ul class="org-ul">
@@ -2762,9 +2769,9 @@ Generate random text based on sample text
 </ul>
 </div>
 
-<div id="outline-container-org772b67b" class="outline-3">
-<h3 id="org772b67b">10.2 Macros</h3>
-<div class="outline-text-3" id="text-org772b67b">
+<div id="outline-container-org9dc24b3" class="outline-3">
+<h3 id="org9dc24b3">10.2 Macros</h3>
+<div class="outline-text-3" id="text-org9dc24b3">
 <ul class="org-ul">
 <li>Crossing the line at <b>compile-time</b>.</li>
 <li><code>defmacro</code>, like defun function, but instead of defining the value call should produce, it <b>defines how a call should be translated</b>.</li>
@@ -2802,9 +2809,9 @@ THe secret to understanding macros is to understand how they are implemented. Th
 </div>
 
 
-<div id="outline-container-orgc62f3db" class="outline-3">
-<h3 id="orgc62f3db">10.3 Backquote</h3>
-<div class="outline-text-3" id="text-orgc62f3db">
+<div id="outline-container-orgf8bf96d" class="outline-3">
+<h3 id="orgf8bf96d">10.3 Backquote</h3>
+<div class="outline-text-3" id="text-orgf8bf96d">
 <ul class="org-ul">
 <li><p>
 By using backquote instead of a call to <code>list</code>, we can write macro definitions that <b>look like expansions they will produce</b>.
@@ -2841,9 +2848,9 @@ its macro definition
 </div>
 </div>
 
-<div id="outline-container-org7833bcf" class="outline-3">
-<h3 id="org7833bcf">10.5 Macro Design</h3>
-<div class="outline-text-3" id="text-org7833bcf">
+<div id="outline-container-orgb6af44b" class="outline-3">
+<h3 id="orgb6af44b">10.5 Macro Design</h3>
+<div class="outline-text-3" id="text-orgb6af44b">
 <ul class="org-ul">
 <li><b>When you start writing macros, you have to start thinking like a language designer</b>.</li>
 <li><code>gensyms</code> usually print as symbole preceded by <code>#:</code> in macro expansions.</li>
@@ -2852,12 +2859,12 @@ its macro definition
 </div>
 </div>
 
-<div id="outline-container-org4028fb3" class="outline-3">
-<h3 id="org4028fb3"><span class="todo TODO">TODO</span> 10.6 Generalized References</h3>
+<div id="outline-container-org5fa7758" class="outline-3">
+<h3 id="org5fa7758"><span class="todo TODO">TODO</span> 10.6 Generalized References</h3>
 </div>
-<div id="outline-container-org69fff1d" class="outline-3">
-<h3 id="org69fff1d">10.7 Example: Macro Utilities</h3>
-<div class="outline-text-3" id="text-org69fff1d">
+<div id="outline-container-orgb64ac19" class="outline-3">
+<h3 id="orgb64ac19">10.7 Example: Macro Utilities</h3>
+<div class="outline-text-3" id="text-orgb64ac19">
 <ul class="org-ul">
 <li>Have to be  written as macros: &ldquo;because all have to control  the way in which their argument are evaluated&rdquo;.</li>
 </ul>
@@ -2866,9 +2873,9 @@ its macro definition
 </section>
 
 
-<section id="outline-container-orge092c77" class="outline-2">
-<h2 id="orge092c77">REVIEWING Chapter 11 CLOS</h2>
-<div class="outline-text-2" id="text-orge092c77">
+<section id="outline-container-org96dd282" class="outline-2">
+<h2 id="org96dd282">REVIEWING Chapter 11 CLOS</h2>
+<div class="outline-text-2" id="text-org96dd282">
 <p>
 <a href="examples/CLOS.lisp">file:~/code/capture-org/common-lisp/examples/CLOS.lisp</a>
 </p>
@@ -2950,9 +2957,9 @@ A slot definition can be <b>a list of a name followed by one or more properties 
 
 
 
-<div id="outline-container-orgc8d34ed" class="outline-3">
-<h3 id="orgc8d34ed">Superclasses</h3>
-<div class="outline-text-3" id="text-orgc8d34ed">
+<div id="outline-container-org7a2ea06" class="outline-3">
+<h3 id="org7a2ea06">Superclasses</h3>
+<div class="outline-text-3" id="text-org7a2ea06">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">graphic</span> ()
   ((color <span class="org-builtin">:accessor</span> graphic-color <span class="org-builtin">:initarg</span> <span class="org-builtin">:color</span>)
@@ -2982,9 +2989,9 @@ we could to define initform to provide default value
 </div>
 
 
-<div id="outline-container-org8ed6c4d" class="outline-3">
-<h3 id="org8ed6c4d">11.5 Precedence</h3>
-<div class="outline-text-3" id="text-org8ed6c4d">
+<div id="outline-container-orgf3c0d69" class="outline-3">
+<h3 id="orgf3c0d69">11.5 Precedence</h3>
+<div class="outline-text-3" id="text-orgf3c0d69">
 <ul class="org-ul">
 <li>The rule of traversing to create the precedence list.
 <ol class="org-ol">
@@ -3001,9 +3008,9 @@ Then instead of entering the node, retrace your step until you get to a node wit
 
 
 
-<div id="outline-container-org7e63265" class="outline-3">
-<h3 id="org7e63265">11.6 Generic Functions (Polymorphism)</h3>
-<div class="outline-text-3" id="text-org7e63265">
+<div id="outline-container-org7f2caf6" class="outline-3">
+<h3 id="org7f2caf6">11.6 Generic Functions (Polymorphism)</h3>
+<div class="outline-text-3" id="text-org7f2caf6">
 <ul class="org-ul">
 <li>A generic function is a function made up of one or more methods. Methods are defined with <code>defmethod</code>.
 <ul class="org-ul">
@@ -3080,9 +3087,9 @@ Method can even be specialized on individual objects, as determined by <code>eql
 </div>
 
 
-<div id="outline-container-org5f513b3" class="outline-3">
-<h3 id="org5f513b3">11.7 Auxiliary Methods</h3>
-<div class="outline-text-3" id="text-org5f513b3">
+<div id="outline-container-org5950af4" class="outline-3">
+<h3 id="org5950af4">11.7 Auxiliary Methods</h3>
+<div class="outline-text-3" id="text-org5950af4">
 <ul class="org-ul">
 <li><p>
 standard method combination, callinga generic function invokes
@@ -3107,9 +3114,9 @@ The value returned is the value of the around-method (case 1), or the value of t
 </div>
 
 
-<div id="outline-container-org5dabc02" class="outline-3">
-<h3 id="org5dabc02">11.8 Method combination</h3>
-<div class="outline-text-3" id="text-org5dabc02">
+<div id="outline-container-org7b37210" class="outline-3">
+<h3 id="org7b37210">11.8 Method combination</h3>
+<div class="outline-text-3" id="text-org7b37210">
 <ul class="org-ul">
 <li>Speicify the type of method combination to be used by a generic function with a <code>:method-combine</code> clause in a call to <code>defgeneric</code>.</li>
 <li>The following symbols can be used as the second argument to <code>defmethod</code> or in the <code>:method-combine</code> option to <code>defgeneric</code>.</li>
@@ -3149,9 +3156,9 @@ Example
 </div>
 
 
-<div id="outline-container-org5b012b3" class="outline-3">
-<h3 id="org5b012b3">11.9 Encapsulation</h3>
-<div class="outline-text-3" id="text-org5b012b3">
+<div id="outline-container-org72d87b2" class="outline-3">
+<h3 id="org72d87b2">11.9 Encapsulation</h3>
+<div class="outline-text-3" id="text-org72d87b2">
 <ul class="org-ul">
 <li>In common lisp, packages are the standard way to distinguish between publich and private information.</li>
 <li><p>
@@ -3179,9 +3186,9 @@ Example
 </div>
 
 
-<div id="outline-container-org0f6c495" class="outline-3">
-<h3 id="org0f6c495">11.10 Two Models</h3>
-<div class="outline-text-3" id="text-org0f6c495">
+<div id="outline-container-org647a881" class="outline-3">
+<h3 id="org647a881">11.10 Two Models</h3>
+<div class="outline-text-3" id="text-org647a881">
 <ul class="org-ul">
 <li>In the message-passing model, methods are of objects.</li>
 <li>In generic function model, they are <b>specialized</b> for objects.
@@ -3203,13 +3210,13 @@ In message-passing, we only specialize the first parameter.
 </div>
 </section>
 
-<section id="outline-container-orgff6e0e5" class="outline-2">
-<h2 id="orgff6e0e5">DOING Chapter 12: Structure</h2>
-<div class="outline-text-2" id="text-orgff6e0e5">
+<section id="outline-container-orga32ae43" class="outline-2">
+<h2 id="orga32ae43">DOING Chapter 12: Structure</h2>
+<div class="outline-text-2" id="text-orga32ae43">
 </div>
-<div id="outline-container-orgaaa5e4f" class="outline-3">
-<h3 id="orgaaa5e4f">12.1 shared structure</h3>
-<div class="outline-text-3" id="text-orgaaa5e4f">
+<div id="outline-container-orgf9f84a8" class="outline-3">
+<h3 id="orgf9f84a8">12.1 shared structure</h3>
+<div class="outline-text-3" id="text-orgf9f84a8">
 <ul class="org-ul">
 <li><p>
 <code>tailp</code>
@@ -3256,13 +3263,13 @@ In message-passing, we only specialize the first parameter.
 </div>
 </div>
 
-<div id="outline-container-org963be8e" class="outline-3">
-<h3 id="org963be8e">12.2 Modification</h3>
+<div id="outline-container-orgde7f214" class="outline-3">
+<h3 id="orgde7f214">12.2 Modification</h3>
 </div>
 
-<div id="outline-container-orgf25aed2" class="outline-3">
-<h3 id="orgf25aed2">12.3 Example: Queue</h3>
-<div class="outline-text-3" id="text-orgf25aed2">
+<div id="outline-container-org7beab79" class="outline-3">
+<h3 id="org7beab79">12.3 Example: Queue</h3>
+<div class="outline-text-3" id="text-org7beab79">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">make-queue</span> ()
   (cons nil nil))
@@ -3296,9 +3303,9 @@ In message-passing, we only specialize the first parameter.
 </div>
 </div>
 
-<div id="outline-container-orgc2a3f75" class="outline-3">
-<h3 id="orgc2a3f75">12.4 destructive functions</h3>
-<div class="outline-text-3" id="text-orgc2a3f75">
+<div id="outline-container-orgb15a5b1" class="outline-3">
+<h3 id="orgb15a5b1">12.4 destructive functions</h3>
+<div class="outline-text-3" id="text-orgb15a5b1">
 <ul class="org-ul">
 <li><b>They are not meant to be called for their side-effects</b>.</li>
 <li><code>delete</code> vs <code>remove</code></li>
@@ -3322,24 +3329,24 @@ In message-passing, we only specialize the first parameter.
 </div>
 </div>
 
-<div id="outline-container-org0d8f781" class="outline-3">
-<h3 id="org0d8f781">12.5 Example: binary search trees</h3>
+<div id="outline-container-orga73f6d5" class="outline-3">
+<h3 id="orga73f6d5">12.5 Example: binary search trees</h3>
 </div>
 
-<div id="outline-container-org065e6a6" class="outline-3">
-<h3 id="org065e6a6"><span class="todo TODO">TODO</span> 12.6 Example: doubly-linked lists</h3>
+<div id="outline-container-org157be8f" class="outline-3">
+<h3 id="org157be8f"><span class="todo TODO">TODO</span> 12.6 Example: doubly-linked lists</h3>
 </div>
-<div id="outline-container-org93e75d9" class="outline-3">
-<h3 id="org93e75d9"><span class="todo TODO">TODO</span> 12.7 Circular Structure</h3>
+<div id="outline-container-orgbe6b8fd" class="outline-3">
+<h3 id="orgbe6b8fd"><span class="todo TODO">TODO</span> 12.7 Circular Structure</h3>
 </div>
-<div id="outline-container-orgfa1ed2a" class="outline-3">
-<h3 id="orgfa1ed2a"><span class="todo TODO">TODO</span> 12.8 Constant Structure</h3>
+<div id="outline-container-org68b99d7" class="outline-3">
+<h3 id="org68b99d7"><span class="todo TODO">TODO</span> 12.8 Constant Structure</h3>
 </div>
 </section>
 
-<section id="outline-container-org32dd5af" class="outline-2">
-<h2 id="org32dd5af">DOING Chapter 13: Speed</h2>
-<div class="outline-text-2" id="text-org32dd5af">
+<section id="outline-container-orgc9f1090" class="outline-2">
+<h2 id="orgc9f1090">DOING Chapter 13: Speed</h2>
+<div class="outline-text-2" id="text-orgc9f1090">
 <ul class="org-ul">
 <li>A call is <b>tail call</b> if nothing remains to be done after it returns.
 <ul class="org-ul">
@@ -3375,13 +3382,13 @@ tail call case
 </section>
 
 
-<section id="outline-container-org32f8d4c" class="outline-2">
-<h2 id="org32f8d4c">Chatper14: Advanced Topics</h2>
-<div class="outline-text-2" id="text-org32f8d4c">
+<section id="outline-container-orgf548fea" class="outline-2">
+<h2 id="orgf548fea">Chatper14: Advanced Topics</h2>
+<div class="outline-text-2" id="text-orgf548fea">
 </div>
-<div id="outline-container-org5572871" class="outline-4">
-<h4 id="org5572871">14.4 Packages</h4>
-<div class="outline-text-4" id="text-org5572871">
+<div id="outline-container-org8c79cd7" class="outline-4">
+<h4 id="org8c79cd7">14.4 Packages</h4>
+<div class="outline-text-4" id="text-org8c79cd7">
 <ul class="org-ul">
 <li>The <b>current package</b> is always stored in the global variable <code>*package*</code>.</li>
 <li><code>find-package</code>, return the package with a given name.</li>
@@ -3428,7 +3435,7 @@ bar
 <li>Operations on packages are not usually done at toplevel.More often the calls are contained in source files.
 <ol class="org-ol">
 <li>Begin a file with a <code>defpackage</code> and an <code>in-package</code>.</li>
-<li>See <a href="#org4a04d7e">8.5 Multiple Packages</a></li>
+<li>See <a href="#orgd91d10c">8.5 Multiple Packages</a></li>
 </ol></li>
 </ul>
 </div>
@@ -3439,7 +3446,7 @@ bar
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Feb 24, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
