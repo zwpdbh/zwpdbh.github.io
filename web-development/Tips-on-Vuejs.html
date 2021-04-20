@@ -87,6 +87,7 @@
 <li><a href="#orgd830966">Authorization</a></li>
 </ul>
 </li>
+<li><a href="#org6c7b5d5">How to format Vuejs code?</a></li>
 <li><a href="#orgab25a0a">Summary</a></li>
 </ul>
 </div>
@@ -140,6 +141,17 @@ For different modules, we create them the same store folder and export them as:
 }
 </pre>
 </div>
+
+<p>
+When we refer state, we need to add module-name as its namespace. Suppose we have a module registered as permissions.
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-constant">this</span>.state.permissions.permissionDetail.permission_id
+</pre>
+</div>
+<p>
+Here, we are accessing state from an action in a state module.
+</p>
 </div>
 
 <div id="outline-container-org6a117a6" class="outline-3">
@@ -560,6 +572,96 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 </div>
 </section>
 
+
+
+<section id="outline-container-org6c7b5d5" class="outline-2">
+<h2 id="org6c7b5d5">How to format Vuejs code?</h2>
+<div class="outline-text-2" id="text-org6c7b5d5">
+<p>
+Vuejs code contains js and html tags, so it is very helpful to format code with a common configuration. So, multiple developer could work on the project with same style. Here, we choose prettier + eslint.
+</p>
+
+<ul class="org-ul">
+<li>What is prettier ?
+Prettier is used to format code.</li>
+
+<li>What is eslint?
+Linter is used to validate code to check like non-used variables.</li>
+
+<li>What is eslint-config-prettier ?
+Eslint-config-prettier turns off all rules that unnecessary or might conflict with &ldquo;Prettier&rdquo;.</li>
+
+<li>What is eslint-plugin-prettier ?
+Runs Prettier as an ESLint rule and reports differences as individual ESLint issues.</li>
+
+<li>How to use prettier and eslint to format Vuejs project
+<ol class="org-ol">
+<li><p>
+Install dependencies for your npm project
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">npm install --save-dev <span class="org-sh-escaped-newline">\</span>
+    prettier <span class="org-sh-escaped-newline">\</span>
+    eslint <span class="org-sh-escaped-newline">\</span>
+    eslint-plugin-vue <span class="org-sh-escaped-newline">\</span>
+    eslint-plugin-prettier <span class="org-sh-escaped-newline">\</span>
+    eslint-config-prettier
+</pre>
+</div></li>
+
+<li><p>
+Configure for npm project, edit/create <code>.eslintrc.js</code> in your project root.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">module.exports = {
+    <span class="org-string">"root"</span>: true,
+    <span class="org-string">"extends"</span>: [
+        <span class="org-string">"eslint:recommended"</span>
+        <span class="org-string">"plugin:vue/essential"</span>,
+        <span class="org-string">"plugin:prettier/recommended"</span>
+    ]
+}
+</pre>
+</div></li>
+
+<li><p>
+Format your JS and Vue file from terminal
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./node_modules/eslint/bin/eslint.js --fix
+</pre>
+</div></li>
+</ol></li>
+
+<li><p>
+Format vuejs code using in Emacs. 
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Searches the current files parent directories for the node_modules/.bin/ directory and adds it to the buffer local exec-path.</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This allows Emacs to find project based installs of e.g. eslint.</span>
+(<span class="org-keyword">when</span> (maybe-require-package 'add-node-modules-path)
+  (<span class="org-keyword">after-load</span> 'vue-mode
+    (add-hook 'vue-mode-hook 'add-node-modules-path)))
+
+(<span class="org-keyword">when</span> (maybe-require-package 'prettier)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">format code for vue-mode before save </span>
+  (add-hook 'vue-mode-hook
+            '(lambda ()
+               (add-hook 'before-save-hook
+                         'prettier-prettify nil 'local))))
+</pre>
+</div>
+<p>
+This will format code whenever you save file.
+</p></li>
+
+<li>References
+<ul class="org-ul">
+<li><a href="https://www.digitalocean.com/community/tutorials/vuejs-vue-eslint-prettier">Formatting Vue.js Code with ESLint &amp; Prettier</a></li>
+</ul></li>
+</ul>
+</div>
+</section>
 
 
 <section id="outline-container-orgab25a0a" class="outline-2">
