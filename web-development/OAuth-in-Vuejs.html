@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Feb 24, 2021 -->
+<!-- Apr 20, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Auth-in-Vuejs</title>
@@ -65,33 +65,33 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgdbe07cc">Introduction</a></li>
-<li><a href="#orgd7fb557">How 0Auth2.0 works?</a>
+<li><a href="#org9b2d089">Introduction</a></li>
+<li><a href="#org5b8d3da">How 0Auth2.0 works?</a>
 <ul>
-<li><a href="#orga0fb7af">What is OAuth2.0?</a></li>
-<li><a href="#orgd5075da">An example</a></li>
-<li><a href="#org086bf54">Authorization code grant</a></li>
-<li><a href="#orgbb86bb5">Obtain refreshed access-token</a></li>
+<li><a href="#orga47e784">What is OAuth2.0?</a></li>
+<li><a href="#orgb280a9b">An example</a></li>
+<li><a href="#org25fddd1">Authorization code grant</a></li>
+<li><a href="#org8930485">Obtain refreshed access-token</a></li>
 </ul>
 </li>
-<li><a href="#orga476d8b">How authentication and authorization are implemented in Vuejs?</a>
+<li><a href="#orgedcead2">How authentication and authorization are implemented in Vuejs?</a>
 <ul>
-<li><a href="#org11b9fdd">Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
-<li><a href="#org57a23ea"><span class="todo TODO">TODO</span> What does OIDC provider should do?</a></li>
-<li><a href="#org0b95038">What Vuejs backend should do (provide APIs)?</a></li>
-<li><a href="#orga300563">What Vuejs frontend should do?</a></li>
-<li><a href="#org82f5564"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
+<li><a href="#org25c4ce3">Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
+<li><a href="#org66a010d">Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
+<li><a href="#org45431de">What does OIDC provider should do?</a></li>
+<li><a href="#org3a13620">What Vuejs backend should do (provide APIs)?</a></li>
+<li><a href="#org5d0f55b">What Vuejs frontend should do?</a></li>
 </ul>
 </li>
-<li><a href="#org29fa47d"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</a></li>
-<li><a href="#org8af7dba"><span class="todo TODO">TODO</span> Summary</a></li>
+<li><a href="#org3f389e7">Summary</a></li>
+<li><a href="#orge08fc4a">References</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-orgdbe07cc" class="outline-2">
-<h2 id="orgdbe07cc">Introduction</h2>
-<div class="outline-text-2" id="text-orgdbe07cc">
+<section id="outline-container-org9b2d089" class="outline-2">
+<h2 id="org9b2d089">Introduction</h2>
+<div class="outline-text-2" id="text-org9b2d089">
 <p>
 This article introduce how I implement authentication and authorization for Vuejs app. The whole Vuejs project consist of 4 parts:
 </p>
@@ -105,13 +105,13 @@ This article introduce how I implement authentication and authorization for Vuej
 </section>
 
 
-<section id="outline-container-orgd7fb557" class="outline-2">
-<h2 id="orgd7fb557">How 0Auth2.0 works?</h2>
-<div class="outline-text-2" id="text-orgd7fb557">
+<section id="outline-container-org5b8d3da" class="outline-2">
+<h2 id="org5b8d3da">How 0Auth2.0 works?</h2>
+<div class="outline-text-2" id="text-org5b8d3da">
 </div>
-<div id="outline-container-orga0fb7af" class="outline-3">
-<h3 id="orga0fb7af">What is OAuth2.0?</h3>
-<div class="outline-text-3" id="text-orga0fb7af">
+<div id="outline-container-orga47e784" class="outline-3">
+<h3 id="orga47e784">What is OAuth2.0?</h3>
+<div class="outline-text-3" id="text-orga47e784">
 <ul class="org-ul">
 <li>It is a delegation protocol. It enable a 3rd party application to obtain limited access to an HTTP service.</li>
 <li>Its related components:
@@ -124,9 +124,9 @@ This article introduce how I implement authentication and authorization for Vuej
 </div>
 </div>
 
-<div id="outline-container-orgd5075da" class="outline-3">
-<h3 id="orgd5075da">An example</h3>
-<div class="outline-text-3" id="text-orgd5075da">
+<div id="outline-container-orgb280a9b" class="outline-3">
+<h3 id="orgb280a9b">An example</h3>
+<div class="outline-text-3" id="text-orgb280a9b">
 <p>
 Suppose We have a cloud photo-storage service and a photo print service. We want to use the print service to print photo stored in phote-storage. Howerver, those two services are running by different companies.
 </p>
@@ -170,14 +170,14 @@ Based on how the client request an access-token (step 4), there could be differe
 </div>
 </div>
 
-<div id="outline-container-org086bf54" class="outline-3">
-<h3 id="org086bf54">Authorization code grant</h3>
-<div class="outline-text-3" id="text-org086bf54">
+<div id="outline-container-org25fddd1" class="outline-3">
+<h3 id="org25fddd1">Authorization code grant</h3>
+<div class="outline-text-3" id="text-org25fddd1">
 <p>
 <b>Authorization code</b> is a temporary code (authorization code) that the client will exchange for an access-token. This code is obtained from authorization server when user agree on what the information(usually permissions) the client is requesting.
 </p>
 
-<figure id="org740847d">
+<figure id="orgacfdcdb">
 <img src="authorization-code-grant.png" alt="authorization-code-grant.png">
 
 </figure>
@@ -199,7 +199,7 @@ Based on how the client request an access-token (step 4), there could be differe
 <li><p>
 step6, POST request with passing its <code>client_id</code> and <code>client_secret</code> as an HTTP Basic authorization header.
 </p>
-<pre class="example" id="org24cc139">
+<pre class="example" id="orgdbafd25">
 Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 </pre>
 <ul class="org-ul">
@@ -217,7 +217,7 @@ Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 <li><p>
 if the code has not been used previously and the client making this request is the same as the client that made the original request, then the authorization server generates and returns a new access token for the client
 </p>
-<pre class="example" id="org17f909c">
+<pre class="example" id="orgdd07b05">
 HTTP 200 OK
 Date: Fri, 31 Jul 2015 21:19:03 GMT
 Content-type: application/json
@@ -237,7 +237,7 @@ Content-type: application/json
 <li><p>
 present the access token as <b>OAuth Bearer token</b>
 </p>
-<pre class="example" id="org876cf97">
+<pre class="example" id="org143a744">
 GET /resource HTTP/1.1
 Host: localhost:9002
 Accept: application/json
@@ -254,14 +254,14 @@ Authorization: Bearer 987tghjkiu6trfghjuytrghj
 </div>
 </div>
 
-<div id="outline-container-orgbb86bb5" class="outline-3">
-<h3 id="orgbb86bb5">Obtain refreshed access-token</h3>
-<div class="outline-text-3" id="text-orgbb86bb5">
+<div id="outline-container-org8930485" class="outline-3">
+<h3 id="org8930485">Obtain refreshed access-token</h3>
+<div class="outline-text-3" id="text-org8930485">
 <p>
 Client could request refreshed access-token when the access-token expired. This time, the token is never sent to the protected resources. So, the client uses the refresh token to request new access token without involving the resource owner (user or browser).
 </p>
 
-<figure id="org07d17ea">
+<figure id="org0d059bb">
 <img src="refresh-token.png" alt="refresh-token.png">
 
 </figure>
@@ -270,13 +270,102 @@ Client could request refreshed access-token when the access-token expired. This 
 </section>
 
 
-<section id="outline-container-orga476d8b" class="outline-2">
-<h2 id="orga476d8b">How authentication and authorization are implemented in Vuejs?</h2>
-<div class="outline-text-2" id="text-orga476d8b">
+<section id="outline-container-orgedcead2" class="outline-2">
+<h2 id="orgedcead2">How authentication and authorization are implemented in Vuejs?</h2>
+<div class="outline-text-2" id="text-orgedcead2">
 </div>
-<div id="outline-container-org11b9fdd" class="outline-3">
-<h3 id="org11b9fdd">Define our Role-based-access(RBA) control model in PostgreSQL</h3>
-<div class="outline-text-3" id="text-org11b9fdd">
+<div id="outline-container-org25c4ce3" class="outline-3">
+<h3 id="org25c4ce3">Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
+<div class="outline-text-3" id="text-org25c4ce3">
+
+<figure id="orgfb2619c">
+<img src="vuejs-oauth.png" alt="vuejs-oauth.png">
+
+</figure>
+
+<ul class="org-ul">
+<li><p>
+A simple middleware used in backend to verify <code>access_token</code> and compare required scopse:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">checkAuth</span> = (req: any, res:any, next:any) =&gt; {
+  console.log(<span class="org-string">"&gt;&gt; enAuth: "</span>, enableAuth);
+  <span class="org-keyword">if</span>(!enableAuth) {
+    next();
+  } <span class="org-keyword">else</span> {
+    console.log(<span class="org-string">"&gt;&gt; check middleware"</span>);
+    <span class="org-keyword">let</span> <span class="org-variable-name">bearerToken</span> = req.headers.authorization;
+    console.log(<span class="org-string">"&gt;&gt; bearerToken: "</span>, bearerToken);
+    <span class="org-keyword">let</span> <span class="org-variable-name">permissionsToken</span> = bearerToken.slice(bearerToken.indexOf(<span class="org-string">' '</span>) + 1);
+    console.log(<span class="org-string">"&gt;&gt; permissionsToken:"</span>, permissionsToken);
+
+    <span class="org-keyword">try</span> {
+      <span class="org-keyword">let</span> <span class="org-variable-name">result</span> = jwt.verify(permissionsToken, Buffer.from(jwtSignKey, <span class="org-string">'base64'</span>));
+      console.log(<span class="org-string">"&gt;&gt; jwt.verify result:"</span>, result);
+
+      console.log(<span class="org-string">"&gt;&gt; userPermissions:"</span>, result.scope);
+      <span class="org-keyword">let</span> <span class="org-variable-name">route</span> = req.route.path;
+      console.log(<span class="org-string">"&gt;&gt; request.route:"</span>, route);
+
+      <span class="org-keyword">let</span> <span class="org-variable-name">key</span> = route.slice(route.lastIndexOf(<span class="org-string">"/"</span>) + 1);
+      <span class="org-keyword">let</span> <span class="org-variable-name">neededPermissions</span> = authPermissionsMap[key];
+
+
+      <span class="org-keyword">if</span> (!neededPermissions) {
+        <span class="org-comment-delimiter">// </span><span class="org-comment">If we didn't specify route in authPermissionsMap, then we let it pass.</span>
+        console.log(<span class="org-string">`&gt;&gt; ${key} does not need to check permissions`</span>);
+        next();
+      } <span class="org-keyword">else</span> <span class="org-keyword">if</span> (checkPermissions(result.scope, neededPermissions)) {
+        console.log(<span class="org-string">"&gt;&gt; permission granted."</span>);
+        next();
+      } <span class="org-keyword">else</span> {
+        console.log(<span class="org-string">"&gt;&gt; You do not have enough permissions."</span>);
+        res.status(403).json({message: <span class="org-string">"You do not have enough permissions."</span>});
+      }
+    } <span class="org-keyword">catch</span>(err) {
+      console.log(<span class="org-string">"&gt;&gt; jwt.verify error:"</span>, err.message);
+      res.status(403).json({tokenVerifyError: err.message});
+    }
+  }
+};
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">where key represent the backend API path</span>
+<span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">authPermissionsMap</span>: any = {
+  <span class="org-comment-delimiter">// </span><span class="org-comment">userManagement</span>
+  <span class="org-string">"listAllUsers"</span>: <span class="org-string">"UserView"</span>,
+  <span class="org-string">"addUser"</span>: <span class="org-string">"UserModify"</span>,
+  ... 
+  <span class="org-string">"addRolesToPermission"</span>: <span class="org-string">"PermissionModify"</span>,
+}
+</pre>
+</div></li>
+<li><p>
+Use middleware for some endpoint
+</p>
+<div class="org-src-container">
+<pre class="src src-js">router.get(<span class="org-string">'/listAllRoles'</span>, checkAuth, <span class="org-keyword">async</span> (req: Request, res: Response) =&gt; {
+  <span class="org-comment-delimiter">// </span><span class="org-comment">Do something</span>
+});
+</pre>
+</div></li>
+<li><b>Notice</b>
+<ul class="org-ul">
+<li><code>jwtSignKey</code> used in the middleware is the key used to sign <code>access_token</code>.</li>
+<li>Depending on auth-server implemetation, the <code>access_token</code> maybe is proccess(re-created using that <code>jwtSignKey</code>) in backend before forward to frontend.</li>
+</ul></li>
+</ul>
+
+
+<figure id="org6c1b1a9">
+<img src="vuejs-oauth.png" alt="vuejs-oauth.png">
+
+</figure>
+</div>
+</div>
+
+<div id="outline-container-org66a010d" class="outline-3">
+<h3 id="org66a010d">Define our Role-based-access(RBA) control model in PostgreSQL</h3>
+<div class="outline-text-3" id="text-org66a010d">
 <p>
 We define User, Role, Permission 3 basic entities as 3 tables
 </p>
@@ -437,24 +526,24 @@ Delete role with transactions
 </div>
 </div>
 
-<div id="outline-container-org57a23ea" class="outline-3">
-<h3 id="org57a23ea"><span class="todo TODO">TODO</span> What does OIDC provider should do?</h3>
-<div class="outline-text-3" id="text-org57a23ea">
+<div id="outline-container-org45431de" class="outline-3">
+<h3 id="org45431de">What does OIDC provider should do?</h3>
+<div class="outline-text-3" id="text-org45431de">
 <p>
 For OIDC provider, I am using <a href="https://github.com/panva/node-oidc-provider">node-oidc-provider</a>. It implements the OAuth2.0 protocol.
 </p>
 <ul class="org-ul">
-<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#org086bf54">step-3</a> in authorization code grant).</li>
+<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#org25fddd1">step-3</a> in authorization code grant).</li>
 <li>Check <a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> and <a href="https://oauth.net/2/">OAuth 2.0</a></li>
 <li>Check <a href="https://tools.ietf.org/html/rfc6749#section-3">OAuth2.0 &#x2013; 3.Protocol Endpoints</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org0b95038" class="outline-3">
-<h3 id="org0b95038">What Vuejs backend should do (provide APIs)?</h3>
-<div class="outline-text-3" id="text-org0b95038">
-<ul class="org-ul">
+<div id="outline-container-org3a13620" class="outline-3">
+<h3 id="org3a13620">What Vuejs backend should do (provide APIs)?</h3>
+<div class="outline-text-3" id="text-org3a13620">
+<ol class="org-ol">
 <li><p>
 Generate login URL for Vuejs-frontend to direct user to authorization server for login. 
 </p>
@@ -491,7 +580,7 @@ Generate logout URL
 <li>Notice, the options are common to different authorization provider implementations. However, their logout endpoints(Here, the node-oidc-provider use <code>${authUrl}/session/end</code>) are probably different.</li>
 </ul></li>
 <li><p>
-Use authorization-code to obtain access-token.
+<b>Use authorization-code to obtain access-token</b>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">This authCode is obtained from parsing callback parameters after login in frontend</span>
@@ -512,13 +601,52 @@ Use authorization-code to obtain access-token.
 };
 </pre>
 </div></li>
-<li>Need to validate access-token.</li>
-</ul>
+<li>To verify <code>access_token</code> or <code>id_token</code> are not tampered.
+<ul class="org-ul">
+<li><p>
+Verify access-token using public JWT certificate
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-comment-delimiter">/// </span><span class="org-comment">Packages required </span>
+<span class="org-keyword">var</span> <span class="org-variable-name">jwt</span> = require(<span class="org-string">'jsonwebtoken'</span>);
+<span class="org-keyword">var</span> <span class="org-variable-name">jwksClient</span> = require(<span class="org-string">'jwks-rsa'</span>);
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">More about caching certificates: https://github.com/auth0/node-jwks-rsa as a way to fetch the keys.</span>
+<span class="org-keyword">var</span> <span class="org-variable-name">client</span> = jwksClient({
+  cache: <span class="org-constant">true</span>,
+  jwksUri: <span class="org-string">'&lt;Usually_this_is_auth_provider/certs&gt;'</span>
+});
+
+<span class="org-keyword">var</span> <span class="org-variable-name">token</span> = <span class="org-string">"ID_TOKEN / ACCESS_TOKEN"</span>;
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">Verify the token</span>
+jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span class="org-variable-name">err</span>, <span class="org-variable-name">decoded</span>) {
+  <span class="org-keyword">if</span> (decoded) {
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Here you will find decoded token</span>
+    console.log(decoded);
+  }
+  <span class="org-keyword">if</span> (err) {
+    console.log(<span class="org-string">'Unable to Verify with error '</span>, err);
+  }
+});
+
+<span class="org-keyword">function</span> <span class="org-function-name">getKey</span>(<span class="org-variable-name">header</span>, <span class="org-variable-name">callback</span>) {
+  client.getSigningKey(header.kid, <span class="org-keyword">function</span> (<span class="org-variable-name">err</span>, <span class="org-variable-name">key</span>) {
+    <span class="org-keyword">var</span> <span class="org-variable-name">signingKey</span> = key.publicKey || key.rsaPublicKey;
+    callback(<span class="org-constant">null</span>, signingKey);
+  });
+}
+</pre>
+</div></li>
+<li>Or, verify tokens from auth-provider&rsquo;s introspection endpoint. Need to check auth-provider document.</li>
+</ul></li>
+</ol>
 </div>
 </div>
-<div id="outline-container-orga300563" class="outline-3">
-<h3 id="orga300563">What Vuejs frontend should do?</h3>
-<div class="outline-text-3" id="text-orga300563">
+
+<div id="outline-container-org5d0f55b" class="outline-3">
+<h3 id="org5d0f55b">What Vuejs frontend should do?</h3>
+<div class="outline-text-3" id="text-org5d0f55b">
 <ul class="org-ul">
 <li>Register client in authorization provider for:
 <ul class="org-ul">
@@ -528,35 +656,51 @@ Use authorization-code to obtain access-token.
 <li><code>redirect_uris</code></li>
 </ul></li>
 <li>Provide <code>callback endpoint</code> which is the <code>redirectUri</code> described above. Someting like <code>&lt;https://&lt;address&gt;/auth/callback</code>.</li>
-<li>Handle callback after login from auth provider to get authorization-code, then use it to send post request to Vuejs backend to get access-token immediately.</li>
+<li>Handle callback after login from auth provider to get authorization-code</li>
+<li>Pass authorization-code (do not store it) to Vuejs-backend APIs using post.</li>
+<li>From Backend, exchange authorization-code for access-token.</li>
+<li>Don&rsquo;t forget to introspect access-token to validate it (endpoint is provided by auth-provider)</li>
+<li>After that, we could aquire login user&rsquo;s roles or permissions.</li>
+<li>At last, we could based on login user&rsquo;s permissions, hide particular section links (routes).</li>
+<li>Every request send to backend need to be embedded with <code>access_token</code></li>
 </ul>
 </div>
 </div>
+</section>
 
-<div id="outline-container-org82f5564" class="outline-3">
-<h3 id="org82f5564"><span class="todo TODO">TODO</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
-<div class="outline-text-3" id="text-org82f5564">
-
-<figure id="org608bf4d">
-<img src="vuejs-oauth.png" alt="vuejs-oauth.png">
-
-</figure>
-</div>
+<section id="outline-container-org3f389e7" class="outline-2">
+<h2 id="org3f389e7">Summary</h2>
+<div class="outline-text-2" id="text-org3f389e7">
+<ul class="org-ul">
+<li>The OAuth is not a magic: 
+<ul class="org-ul">
+<li>AS(authorization server, or auth-provider) is trusted by the protected resources. So, protected resource delegate its credentails verification to AS.</li>
+<li>AS issue special security credentials &#x2013; called <b>access-token</b> to client. This access-token is then used by client(photo-storage APIs).</li>
+</ul></li>
+<li>Actually, you still need to compare username and password (provided into AS).</li>
+<li>OAuth document doesn&rsquo;t specify how to implement AS. However, it expects AS to follow some conventions to provider several key features, such as introspect access<sub>token</sub> to introspect user profile.</li>
+<li>At last, this document is just my note from my working experience. It doesn&rsquo;t represent best practise.</li>
+</ul>
 </div>
 </section>
 
-<section id="outline-container-org29fa47d" class="outline-2">
-<h2 id="org29fa47d"><span class="todo TODO">TODO</span> Particular problem during Vuejs development</h2>
-</section>
-<section id="outline-container-org8af7dba" class="outline-2">
-<h2 id="org8af7dba"><span class="todo TODO">TODO</span> Summary</h2>
+<section id="outline-container-orge08fc4a" class="outline-2">
+<h2 id="orge08fc4a">References</h2>
+<div class="outline-text-2" id="text-orge08fc4a">
+<ul class="org-ul">
+<li><a href="https://www.amazon.com/OAuth-2-Action-Justin-Richer/dp/161729327X/ref=sr_1_2?dchild=1&amp;keywords=oauth2+in+action&amp;qid=1618846375&amp;sr=8-2">OAuth2 in Action</a></li>
+<li><a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> from <a href="https://tools.ietf.org/html/">IETF Documents</a></li>
+<li><a href="https://oauth.net/2/">OAuth2.0</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7519">JSON Web Token (JWT)</a></li>
+</ul>
+</div>
 </section>
 </main>
 <footer id="postamble" class="status">
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Feb 24, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.4).
+  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

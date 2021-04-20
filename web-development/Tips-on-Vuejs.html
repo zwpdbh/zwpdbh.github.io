@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Apr 20, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tips-on-Vuejs</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="DESKTOP-TTOPQ58">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class='intro'>
+  <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>How can man die better than facing fearful odds, for the ashes of his fathers and the temples of his Gods? -- By Horatius.</p>
+</div>
+
+<div class='nav'>
+  <ul>
+    <li><a href='/'>Blog</a>.</li>
+    <li><a href='/about/'>About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">Tips-on-Vuejs</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgfb09ac3">How to access different part from component or vice versa?</a>
+<ul>
+<li><a href="#org89d1b61">How to access state from a plain js file</a></li>
+<li><a href="#org33c1a1f">How to access state from a Vuejs component</a></li>
+<li><a href="#org33c22da">How to access store from Vuejs router</a></li>
+<li><a href="#org424d536">How to access router from Vuejs component</a></li>
+</ul>
+</li>
+<li><a href="#orgab618b2">How to create currying functions to help validation?</a></li>
+<li><a href="#org8882c9b">How to use RBA to control section visibility?</a>
+<ul>
+<li><a href="#org60cdfde">Authentication</a></li>
+<li><a href="#orga6bd856">Authorization</a></li>
+</ul>
+</li>
+<li><a href="#org6cfffbd">Summary</a></li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-orgfb09ac3" class="outline-2">
+<h2 id="orgfb09ac3">How to access different part from component or vice versa?</h2>
+<div class="outline-text-2" id="text-orgfb09ac3">
+<p>
+The core part of Vuejs application is the &ldquo;store&rdquo; which does the state management for Vuejs application. It is from using Vuex package. After install it, the standard structure of project will contain a &ldquo;store&rdquo; folder.
+Inside, there is an <code>index.js</code> in which it export the store:
+</p>
+<div class="org-src-container">
+<pre class="src src-js">Vue.use(Vuex);
+
+<span class="org-keyword">let</span> <span class="org-variable-name">store</span> = <span class="org-keyword">new</span> <span class="org-type">Vuex.Store</span>({
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage
+    })
+  ],
+  modules:{
+    ...
+    users: usersModule,
+    roles: roleModule,
+    permissions: permissionModule
+  }
+});
+
+<span class="org-keyword">export</span> <span class="org-keyword">default</span> store;
+</pre>
+</div>
+
+<p>
+For different modules, we create them the same store folder and export them as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">default</span> {
+  state: {
+    ...
+  },
+  actions: {
+    ...
+  },
+  mutations: {
+    ...
+  },
+  getters: {
+    ...
+  }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org89d1b61" class="outline-3">
+<h3 id="org89d1b61">How to access state from a plain js file</h3>
+<div class="outline-text-3" id="text-org89d1b61">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">import</span> store from <span class="org-string">'./index.js'</span>;
+</pre>
+</div>
+<p>
+Now, just use it as <code>store.state.&lt;module_name&gt;.&lt;state&gt;</code>. <b>Notice</b>: we have to refer the state with additional namespace, the module name registered in <code>store/index.js</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org33c1a1f" class="outline-3">
+<h3 id="org33c1a1f">How to access state from a Vuejs component</h3>
+<div class="outline-text-3" id="text-org33c1a1f">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">return</span> <span class="org-constant">this</span>.$store.state.roles.roleDetail;
+</pre>
+</div>
+<p>
+Need to access it with <code>this.$store</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org33c22da" class="outline-3">
+<h3 id="org33c22da">How to access store from Vuejs router</h3>
+<div class="outline-text-3" id="text-org33c22da">
+<p>
+In <code>router/index.js</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">import</span> store from <span class="org-string">'../store/index.js'</span>;
+
+router.beforeEach((to, from, next) =&gt; {
+  <span class="org-keyword">if</span> (to.matched.some(record =&gt; record.meta.requireAuth)) {
+    <span class="org-keyword">if</span> (store.getters.isAuthenticated) {
+      next();
+    } <span class="org-keyword">else</span> {      
+      store.dispatch(<span class="org-string">"login"</span>);
+    }
+  } <span class="org-keyword">else</span> {
+    next();
+  }
+});
+</pre>
+</div>
+<ul class="org-ul">
+<li>Import <code>store</code> just like in plain js file.</li>
+<li>When use its getters, since the store <b>does not</b> use namespace, we can just any action, mutation and getters without refering the namespace as we must do for state.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org424d536" class="outline-3">
+<h3 id="org424d536">How to access router from Vuejs component</h3>
+<div class="outline-text-3" id="text-org424d536">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-constant">this</span>.$router.push({ name: <span class="org-string">"Home"</span> });
+</pre>
+</div>
+<p>
+This direct user to router path &ldquo;Home&rdquo;.
+</p>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orgab618b2" class="outline-2">
+<h2 id="orgab618b2">How to create currying functions to help validation?</h2>
+<div class="outline-text-2" id="text-orgab618b2">
+<p>
+In Vuejs, we propertly need to create different kind of &ldquo;rules&rdquo; to validate forms, especially textfile. 
+</p>
+
+<p>
+For example, a rule function which takes input <code>v</code> and check if its length is over maximum range or an other rule which check if the input <code>v</code> contain some speciall characters, like space. Sometimes, we want to create rule which combine multiple simple rule: test if input oversize and contain space. This quickly become tedious. We shall use high order function to solve it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">function</span> <span class="org-function-name">makeMaxChars</span>(<span class="org-variable-name">num</span>) {
+  <span class="org-keyword">return</span> (v)=&gt;{
+    <span class="org-keyword">if</span> (v == <span class="org-constant">null</span> || v == <span class="org-constant">undefined</span>){
+      <span class="org-keyword">return</span> <span class="org-constant">true</span>;
+    };    
+    <span class="org-keyword">return</span> v.length &lt;= num || <span class="org-string">`Maximum number of characters are limited to ${num}.`</span>
+  }
+}
+
+<span class="org-keyword">const</span> <span class="org-variable-name">max16Chars</span> = makeMaxChars(16);
+<span class="org-keyword">const</span> <span class="org-variable-name">max36Chars</span> = makeMaxChars(36);
+<span class="org-keyword">const</span> <span class="org-variable-name">max40Chars</span> = makeMaxChars(40);
+<span class="org-keyword">const</span> <span class="org-variable-name">max64Chars</span> = makeMaxChars(64);
+<span class="org-keyword">const</span> <span class="org-variable-name">max80Chars</span> = makeMaxChars(80);
+</pre>
+</div>
+<p>
+Here, we created an function which returns the true function we will use to validate if the characters exceed maximum length defined by <code>num</code>. This is called &ldquo;clojure&rdquo;.
+</p>
+
+<p>
+Suppose we have a rule function <code>noSpace</code> which test if the input contains spaces.
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">noSpace</span> = (v) =&gt; {
+  <span class="org-keyword">if</span> (v == <span class="org-constant">null</span> || v == <span class="org-constant">undefined</span>){
+    <span class="org-keyword">return</span> <span class="org-constant">true</span>;
+  };
+  <span class="org-keyword">return</span> !v.includes(<span class="org-string">" "</span>) || <span class="org-string">"No spaces are allowed"</span>;
+};
+</pre>
+</div>
+
+<p>
+We want to create several different rule functions which validate no-space and not exceed maximum chars. For example, &ldquo;no space and not exceed 64 chars; no space and not exceed 80 chars&rdquo;. We need to combine different simple rule into a new rule:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">import</span> _ from <span class="org-string">'lodash'</span>;
+
+<span class="org-keyword">function</span> <span class="org-function-name">makeValidator</span>(...testFuncs) {
+  <span class="org-keyword">let</span> <span class="org-variable-name">funcs</span> = _.cloneDeep(testFuncs);
+  <span class="org-keyword">let</span> <span class="org-variable-name">numFuncs</span> = funcs.length;
+  <span class="org-keyword">let</span> <span class="org-variable-name">noError</span> = <span class="org-constant">true</span>;
+
+  <span class="org-keyword">return</span> (v) =&gt; {
+    <span class="org-keyword">for</span> (<span class="org-keyword">let</span> <span class="org-variable-name">i</span> = 0; i &lt; numFuncs; i++) {
+      noError = funcs[i](v);
+      <span class="org-keyword">if</span> (<span class="org-keyword">typeof</span> noError == <span class="org-string">"string"</span> || !noError) {
+        <span class="org-keyword">break</span>;
+      }
+    }
+
+    <span class="org-keyword">return</span> noError;
+  };
+}
+
+<span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">vId</span> = makeValidator(noSpace, max64Chars);
+<span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">vName</span> = makeValidator(noSpace, max80Chars);
+</pre>
+</div>
+<ul class="org-ul">
+<li>Here, we created a feature called &ldquo;curry&rdquo;.</li>
+<li>Notice the <b>deep-copy</b> we used from <code>lodash</code> package to save functions from parameters into local variables.</li>
+<li>This created rule will validate each rule with the order they passed from parameters. If any of them return not true, it will stop validating and return error message.</li>
+</ul>
+</div>
+</section>
+
+
+<section id="outline-container-org8882c9b" class="outline-2">
+<h2 id="org8882c9b">How to use RBA to control section visibility?</h2>
+<div class="outline-text-2" id="text-org8882c9b">
+</div>
+<div id="outline-container-org60cdfde" class="outline-3">
+<h3 id="org60cdfde">Authentication</h3>
+<div class="outline-text-3" id="text-org60cdfde">
+<p>
+This ensures the user visits certains pages must login. We control which pages need authentication from Vuejs router.
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">enableAuth</span> = <span class="org-constant">true</span>;
+
+<span class="org-keyword">const</span> <span class="org-variable-name">routes</span> = [
+  {
+    path: <span class="org-string">'/'</span>,
+    name: <span class="org-string">'Home'</span>,
+    component: Home,
+    meta: { requireAuth: <span class="org-constant">false</span> }
+  },
+  {
+    path: <span class="org-string">'/permissionManagement'</span>,
+    name: <span class="org-string">'PermissionManagement'</span>,
+    component: PermissionManagement,
+    meta: { requireAuth: enableAuth }
+  },  
+  {
+    path: <span class="org-string">'/clientManagement'</span>,
+    name: <span class="org-string">'ClientManagement'</span>,
+    component: ClientManagement,
+    meta: {requireAuth: enableAuth}
+  }  
+];
+
+<span class="org-keyword">const</span> <span class="org-variable-name">router</span> = <span class="org-keyword">new</span> <span class="org-type">VueRouter</span>({
+  mode: <span class="org-string">'history'</span>,
+  base: process.env.BASE_URL,
+  routes
+});
+
+
+router.beforeEach((to, from, next) =&gt; {
+  <span class="org-keyword">if</span> (to.matched.some(record =&gt; record.meta.requireAuth)) {
+    <span class="org-keyword">if</span> (store.getters.isAuthenticated) {
+      next();
+    } <span class="org-keyword">else</span> {      
+      store.dispatch(<span class="org-string">"login"</span>);
+    }
+  } <span class="org-keyword">else</span> {
+    next();
+  }
+});
+
+<span class="org-keyword">export</span> <span class="org-keyword">default</span> router;
+</pre>
+</div>
+<ul class="org-ul">
+<li>Here, we invoke <code>store.getters.isAuthenticated</code> to test if user has login before routing.</li>
+<li><p>
+The <code>isAuthenticated</code> is a getter from <code>store/auth.js</code>. Remember, we don&rsquo;t need to use module name as namespace except state.
+</p>
+<div class="org-src-container">
+<pre class="src src-js">isAuthenticated: state =&gt; {
+  <span class="org-keyword">return</span> <span class="org-keyword">new</span> <span class="org-type">Date</span>().getTime() &lt; state.expire_at;
+}
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga6bd856" class="outline-3">
+<h3 id="orga6bd856">Authorization</h3>
+<div class="outline-text-3" id="text-orga6bd856">
+<p>
+Authorization refers the process of check if the user has the permissions, roles or scopes to send API request to certain endpoint of backend API service.
+</p>
+
+<p>
+Therefore, this part consist of two part: frontend and backend
+</p>
+<ul class="org-ul">
+<li><p>
+For frontend, we need to ensure to pass the <code>access_token</code> or what ever JWT token which contains scopes you want to check in the request header:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">function</span> postHelper(<span class="org-variable-name">uri</span>, <span class="org-variable-name">api</span>, <span class="org-variable-name">payload</span>, <span class="org-variable-name">setAuthInfo</span> = <span class="org-constant">true</span>) {
+  <span class="org-keyword">return</span> <span class="org-keyword">new</span> <span class="org-type">Promise</span>((resolve, reject) =&gt; {
+    <span class="org-keyword">let</span> <span class="org-variable-name">headersOption</span> = {
+      <span class="org-string">'Accept'</span>: <span class="org-string">'application/json'</span>,
+      <span class="org-string">'Content-Type'</span>: <span class="org-string">'application/json'</span>,
+    };
+
+    <span class="org-keyword">if</span> (setAuthInfo) {
+      headersOption.Authorization = <span class="org-string">'Bearer '</span> + store.state.auth.selectedPermissionToken;
+    }
+
+    fetch(<span class="org-string">`${uri}${api}`</span>,{
+      method: <span class="org-string">'POST'</span>,
+      headers: headersOption,            
+      body: JSON.stringify(payload)
+    })
+      .then(handleResponse)
+      .then(json =&gt; {
+        resolve(json);
+      })
+      .<span class="org-keyword">catch</span>(error =&gt; {
+        console.log(error);
+        reject(<span class="org-string">`${uri}${api} failed. HTTP Status:`</span> + error.status + <span class="org-string">' Error: '</span> + error.statusText);
+      });
+  });
+}
+
+<span class="org-keyword">export</span> <span class="org-keyword">function</span> getHelper(<span class="org-variable-name">uri</span>, <span class="org-variable-name">api</span>, <span class="org-variable-name">payload</span>) {
+  <span class="org-keyword">return</span> <span class="org-keyword">new</span> <span class="org-type">Promise</span>((resolve, reject) =&gt; {
+    fetch(<span class="org-string">`${uri}${api}`</span>,{
+      method: <span class="org-string">'GET'</span>,
+      headers: {
+        <span class="org-string">'Accept'</span>: <span class="org-string">'application/json'</span>,
+        <span class="org-string">'Content-Type'</span>: <span class="org-string">'application/json'</span>,
+        <span class="org-string">'Authorization'</span>: <span class="org-string">'Bearer '</span> + store.state.auth.selectedPermissionToken
+      }
+    })
+      .then(handleResponse)
+      .then(json =&gt; {
+        resolve(json);
+      })
+      .<span class="org-keyword">catch</span>(error =&gt; {
+        console.log(error);
+        reject(<span class="org-string">`${uri}${api} failed. HTTP Status:`</span> + error.status + <span class="org-string">' Error: '</span> + error.statusText);
+      });
+  });
+}
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+Since send request to backend and process it is so common, we create these two helper functions to help to send request and process the response. To use them:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">return</span> <span class="org-keyword">await</span> postHelper(<span class="org-string">`${getApiUrl()}`</span>, <span class="org-string">`/api/auth/inspectMe`</span>, {
+  <span class="org-string">'access_token'</span>: <span class="org-constant">this</span>.state.auth.access_token
+}, <span class="org-constant">false</span>);
+
+<span class="org-keyword">let</span> <span class="org-variable-name">result</span> =  <span class="org-keyword">await</span> getHelper(<span class="org-string">`${getApiUrl()}`</span>, <span class="org-string">'/api/roleManagement/listAllRoles'</span>);
+commit(<span class="org-string">"setAllRoles"</span>, result);
+</pre>
+</div></li>
+<li>Embed token into <code>Authorization</code> header: <code>'Authorization': 'Bearer ' + store.state.auth.selectedPermissionToken</code>.</li>
+</ul></li>
+
+<li><p>
+For backend, we use check the token from middleware: 1) verify the token 2) check its scopes against endpoint scope defined.       
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">jwt</span> = require(<span class="org-string">'jsonwebtoken'</span>);
+<span class="org-keyword">const</span> <span class="org-variable-name">jwtSignKey</span> = process.env.jwtSignKey;
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">Defines route path and its permissions/scopes required</span>
+<span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">authPermissionsMap</span>: any = {
+  <span class="org-string">"listAllUsers"</span>: <span class="org-string">"UserView"</span>,
+  <span class="org-string">"addRolesToUser"</span>: <span class="org-string">"UserModify RoleView"</span>,
+}
+
+<span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">checkAuth</span> = (req: any, res:any, next:any) =&gt; {
+    console.log(<span class="org-string">"&gt;&gt; enAuth: "</span>, enableAuth);
+    <span class="org-keyword">if</span>(!enableAuth) {
+        next();
+    } <span class="org-keyword">else</span> {
+        console.log(<span class="org-string">"&gt;&gt; check middleware"</span>);
+        <span class="org-keyword">let</span> <span class="org-variable-name">bearerToken</span> = req.headers.authorization;
+        console.log(<span class="org-string">"&gt;&gt; bearerToken: "</span>, bearerToken);
+        <span class="org-keyword">let</span> <span class="org-variable-name">permissionsToken</span> = bearerToken.slice(bearerToken.indexOf(<span class="org-string">' '</span>) + 1);
+        console.log(<span class="org-string">"&gt;&gt; permissionsToken:"</span>, permissionsToken);
+        <span class="org-comment-delimiter">// </span><span class="org-comment">jwtSignKey is the key used to sign the token</span>
+        <span class="org-keyword">try</span> {
+            <span class="org-keyword">let</span> <span class="org-variable-name">result</span> = jwt.verify(permissionsToken, Buffer.from(jwtSignKey, <span class="org-string">'base64'</span>));
+            console.log(<span class="org-string">"&gt;&gt; jwt.verify result:"</span>, result);
+
+            console.log(<span class="org-string">"&gt;&gt; userPermissions:"</span>, result.scope);
+            <span class="org-keyword">let</span> <span class="org-variable-name">route</span> = req.route.path;
+            console.log(<span class="org-string">"&gt;&gt; request.route:"</span>, route);
+
+            <span class="org-keyword">let</span> <span class="org-variable-name">key</span> = route.slice(route.lastIndexOf(<span class="org-string">"/"</span>) + 1);
+            <span class="org-keyword">let</span> <span class="org-variable-name">neededPermissions</span> = authPermissionsMap[key];
+
+
+            <span class="org-keyword">if</span> (!neededPermissions) {
+                <span class="org-comment-delimiter">// </span><span class="org-comment">If we didn't specify route in authPermissionsMap, then we let it pass.</span>
+                console.log(<span class="org-string">`&gt;&gt; ${key} does not need to check permissions`</span>);
+                next();
+            } <span class="org-keyword">else</span> <span class="org-keyword">if</span> (checkPermissions(result.scope, neededPermissions)) {
+                console.log(<span class="org-string">"&gt;&gt; permission granted."</span>);
+                next();
+            } <span class="org-keyword">else</span> {
+                console.log(<span class="org-string">"&gt;&gt; You do not have enough permissions."</span>);
+                res.status(403).json({message: <span class="org-string">"You do not have enough permissions."</span>});
+            }
+        } <span class="org-keyword">catch</span>(err) {
+            console.log(<span class="org-string">"&gt;&gt; jwt.verify error:"</span>, err.message);
+            res.status(403).json({tokenVerifyError: err.message});
+        }
+    }
+};
+
+<span class="org-keyword">const</span> <span class="org-variable-name">checkPermissions</span> = (userPermissions: string, neededPermissions: string): <span class="org-type">boolean</span> =&gt; {
+    console.log(<span class="org-string">"&gt;&gt; userPermissions: "</span>, userPermissions);
+    console.log(<span class="org-string">"&gt;&gt; neededPermissions: "</span>, neededPermissions);
+
+    <span class="org-keyword">if</span> (!userPermissions) {
+        <span class="org-keyword">return</span> <span class="org-constant">false</span>;
+    }
+
+    <span class="org-keyword">if</span> (userPermissions.includes(<span class="org-string">"AllAccess"</span>)) {
+        <span class="org-keyword">return</span> <span class="org-constant">true</span>;
+    }
+
+    <span class="org-keyword">let</span> <span class="org-variable-name">permissions</span> = neededPermissions.split(<span class="org-string">" "</span>);
+    <span class="org-keyword">return</span> permissions.every((each: string)=&gt;{
+        <span class="org-keyword">return</span> userPermissions.includes(each);
+    });
+}
+</pre>
+</div>
+<p>
+The code self-explaines the process. However, this depends on my working experience, espeically on the auth-provider we used. 
+</p>
+
+<p>
+For different auth-provider and different <code>access_token</code> or <code>id_token</code>, you may need to use different function to do the token verification. Here is another example to verify token:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-comment-delimiter">/// </span><span class="org-comment">Packages required </span>
+<span class="org-keyword">var</span> <span class="org-variable-name">jwt</span> = require(<span class="org-string">'jsonwebtoken'</span>);
+<span class="org-keyword">var</span> <span class="org-variable-name">jwksClient</span> = require(<span class="org-string">'jwks-rsa'</span>);
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">More about caching certificates: https://github.com/auth0/node-jwks-rsa as a way to fetch the keys.</span>
+<span class="org-keyword">var</span> <span class="org-variable-name">client</span> = jwksClient({
+  cache: <span class="org-constant">true</span>,
+  jwksUri: <span class="org-string">'&lt;Usually_this_is_auth_provider/certs&gt;'</span>
+});
+
+<span class="org-keyword">var</span> <span class="org-variable-name">token</span> = <span class="org-string">"ID_TOKEN / ACCESS_TOKEN"</span>;
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">Verify the token</span>
+jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span class="org-variable-name">err</span>, <span class="org-variable-name">decoded</span>) {
+  <span class="org-keyword">if</span> (decoded) {
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Here you will find decoded token</span>
+    console.log(decoded);
+  }
+  <span class="org-keyword">if</span> (err) {
+    console.log(<span class="org-string">'Unable to Verify with error '</span>, err);
+  }
+});
+
+<span class="org-keyword">function</span> <span class="org-function-name">getKey</span>(<span class="org-variable-name">header</span>, <span class="org-variable-name">callback</span>) {
+  client.getSigningKey(header.kid, <span class="org-keyword">function</span> (<span class="org-variable-name">err</span>, <span class="org-variable-name">key</span>) {
+    <span class="org-keyword">var</span> <span class="org-variable-name">signingKey</span> = key.publicKey || key.rsaPublicKey;
+    callback(<span class="org-constant">null</span>, signingKey);
+  });
+}
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+
+<section id="outline-container-org6cfffbd" class="outline-2">
+<h2 id="org6cfffbd">Summary</h2>
+<div class="outline-text-2" id="text-org6cfffbd">
+<p>
+This document record down my problems when working with Vuejs. I will keep updating this when new one comes.</p>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+</div>
+</footer>
+</body>
+</html>
