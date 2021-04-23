@@ -72,12 +72,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2bb94dd">ECS</a>
+<li><a href="#org4cb8ec1">ECS</a>
 <ul>
-<li><a href="#orgd7c2a49">Refs</a></li>
+<li><a href="#orgdd5e038">Refs</a></li>
 <li><a href="#org85e5388">Concepts</a>
 <ul>
-<li><a href="#org732c7dc">ECS</a></li>
+<li><a href="#org2bb94dd">ECS</a></li>
 <li><a href="#orgd82cd27">EC2</a></li>
 <li><a href="#org51f17b2">Farget and EC2</a></li>
 <li><a href="#org3444717">Task Definitions</a></li>
@@ -102,10 +102,10 @@
 <li><a href="#org56fe89f">AWS Security</a>
 <ul>
 <li><a href="#orgb3cb63c">refs</a></li>
-<li><a href="#org479f93e">My notes</a>
+<li><a href="#org93e74d1">My notes</a>
 <ul>
 <li><a href="#org4643b0f">Office building analogy</a></li>
-<li><a href="#org2d1f27c">VPC</a></li>
+<li><a href="#orgf698697">VPC</a></li>
 <li><a href="#org94282f3">Subnets</a></li>
 <li><a href="#orgd7b3b4d">Security Group</a></li>
 <li><a href="#orgeca8ec2">Launch instance into VPC</a></li>
@@ -117,9 +117,9 @@
 </li>
 <li><a href="#org9670a86">ECR</a></li>
 <li><a href="#orgc8377ff">Troubleshootings</a></li>
-<li><a href="#orgf698697"><span class="todo TODO">TODO</span> VPC</a>
+<li><a href="#org39ad89c"><span class="todo TODO">TODO</span> VPC</a>
 <ul>
-<li><a href="#orgdd5e038">Refs</a></li>
+<li><a href="#org8e6d707">Refs</a></li>
 <li><a href="#orgcc312d7">VPC networking components</a></li>
 </ul>
 </li>
@@ -128,7 +128,7 @@
 <li><a href="#org40843f9">Use FindInMap to customize environment variables based on keys</a></li>
 </ul>
 </li>
-<li><a href="#org93e74d1">My notes</a>
+<li><a href="#org1ccd092">My notes</a>
 <ul>
 <li><a href="#org41d381e">Network Fundamentals</a></li>
 </ul>
@@ -137,13 +137,13 @@
 </div>
 </nav>
 
-<section id="outline-container-org2bb94dd" class="outline-2">
-<h2 id="org2bb94dd">ECS</h2>
-<div class="outline-text-2" id="text-org2bb94dd">
+<section id="outline-container-org4cb8ec1" class="outline-2">
+<h2 id="org4cb8ec1">ECS</h2>
+<div class="outline-text-2" id="text-org4cb8ec1">
 </div>
-<div id="outline-container-orgd7c2a49" class="outline-3">
-<h3 id="orgd7c2a49">Refs</h3>
-<div class="outline-text-3" id="text-orgd7c2a49">
+<div id="outline-container-orgdd5e038" class="outline-3">
+<h3 id="orgdd5e038">Refs</h3>
+<div class="outline-text-3" id="text-orgdd5e038">
 <ul class="org-ul">
 <li><a href="https://stackoverflow.com/questions/42960678/what-is-the-difference-between-a-task-and-a-service-in-aws-ecs">What is the difference between a task and a service in AWS ECS?</a></li>
 <li><a href="https://medium.com/boltops/gentle-introduction-to-how-aws-ecs-works-with-example-tutorial-cea3d27ce63d">Gentle Introduction to How AWS ECS Works with Example Tutorial</a></li>
@@ -154,9 +154,9 @@
 <h3 id="org85e5388">Concepts</h3>
 <div class="outline-text-3" id="text-org85e5388">
 </div>
-<div id="outline-container-org732c7dc" class="outline-4">
-<h4 id="org732c7dc">ECS</h4>
-<div class="outline-text-4" id="text-org732c7dc">
+<div id="outline-container-org2bb94dd" class="outline-4">
+<h4 id="org2bb94dd">ECS</h4>
+<div class="outline-text-4" id="text-org2bb94dd">
 <ul class="org-ul">
 <li>abbreviation  for <b>Elastic Container Service</b>. It is a container <b>management</b> service for containers on a cluster.</li>
 <li><b>Task Definition</b> defines one or multiple containers to construct as a application.</li>
@@ -610,9 +610,9 @@ Resolve <code>dev.acs.app.com</code>
 </div>
 </div>
 
-<div id="outline-container-org479f93e" class="outline-3">
-<h3 id="org479f93e">My notes</h3>
-<div class="outline-text-3" id="text-org479f93e">
+<div id="outline-container-org93e74d1" class="outline-3">
+<h3 id="org93e74d1">My notes</h3>
+<div class="outline-text-3" id="text-org93e74d1">
 <ul class="org-ul">
 <li>Different models have differences on how security responsibility are devided (where AWS and customer responsibility start and end)
 <ul class="org-ul">
@@ -735,9 +735,9 @@ When company assign desk to employee vs Launch AWS EC2 instance
 </div>
 
 
-<div id="outline-container-org2d1f27c" class="outline-4">
-<h4 id="org2d1f27c">VPC</h4>
-<div class="outline-text-4" id="text-org2d1f27c">
+<div id="outline-container-orgf698697" class="outline-4">
+<h4 id="orgf698697">VPC</h4>
+<div class="outline-text-4" id="text-orgf698697">
 <ul class="org-ul">
 <li>What is it?
 <ul class="org-ul">
@@ -914,13 +914,13 @@ pull image from ECR
 
 
 
-<section id="outline-container-orgf698697" class="outline-2">
-<h2 id="orgf698697"><span class="todo TODO">TODO</span> VPC</h2>
-<div class="outline-text-2" id="text-orgf698697">
+<section id="outline-container-org39ad89c" class="outline-2">
+<h2 id="org39ad89c"><span class="todo TODO">TODO</span> VPC</h2>
+<div class="outline-text-2" id="text-org39ad89c">
 </div>
-<div id="outline-container-orgdd5e038" class="outline-3">
-<h3 id="orgdd5e038">Refs</h3>
-<div class="outline-text-3" id="text-orgdd5e038">
+<div id="outline-container-org8e6d707" class="outline-3">
+<h3 id="org8e6d707">Refs</h3>
+<div class="outline-text-3" id="text-org8e6d707">
 <ul class="org-ul">
 <li><a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">Amazon Virtual Private Cloud</a></li>
 </ul>
@@ -995,38 +995,38 @@ Example:
 
 <span class="org-comment">...</span>
 
-<span class="org-yaml-tab">                </span><span class="org-variable-name">Resource</span>:
-<span class="org-yaml-tab">                </span>  - <span class="org-type">!Sub</span> <span class="org-string">'arn:aws:dynamodb:*:*:table/app-*-${StackEnvironment}/index/*'</span>
-<span class="org-yaml-tab">                </span><span class="org-variable-name">  - Fn::Sub</span>:
-<span class="org-yaml-tab">                </span>    - <span class="org-string">'arn:aws:dynamodb:*:*:table/${table}-${srcenv}'</span>
-<span class="org-yaml-tab">                </span><span class="org-variable-name">    - table</span>:
-<span class="org-yaml-tab">                        </span><span class="org-variable-name">Fn::FindInMap</span>:
-<span class="org-yaml-tab">                        </span>  - TableMap
-<span class="org-yaml-tab">                        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ReplicateTables'</span>
-<span class="org-yaml-tab">                        </span>  - TenantMaster
-<span class="org-yaml-tab">                </span><span class="org-variable-name">      srcenv</span>:
-<span class="org-yaml-tab">                        </span><span class="org-variable-name">Fn::FindInMap</span>:
-<span class="org-yaml-tab">                        </span>  - EnvironmentMap
-<span class="org-yaml-tab">                        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ConfigEnvironment'</span>
-<span class="org-yaml-tab">                        </span>  - DRSrcEnv
-<span class="org-yaml-tab">                </span><span class="org-variable-name">  - Fn::Sub</span>:
-<span class="org-yaml-tab">                </span>    - <span class="org-string">'arn:aws:dynamodb:*:*:table/${table}-${srcenv}/index/*'</span>
-<span class="org-yaml-tab">                </span><span class="org-variable-name">    - table</span>:
-<span class="org-yaml-tab">                        </span><span class="org-variable-name">Fn::FindInMap</span>:
-<span class="org-yaml-tab">                        </span>  - TableMap
-<span class="org-yaml-tab">                        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ReplicateTables'</span>
-<span class="org-yaml-tab">                        </span>  - TenantMaster
-<span class="org-yaml-tab">                </span><span class="org-variable-name">      srcenv</span>:
-<span class="org-yaml-tab">                        </span><span class="org-variable-name">Fn::FindInMap</span>:
-<span class="org-yaml-tab">                        </span>  - EnvironmentMap
-<span class="org-yaml-tab">                        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ConfigEnvironment'</span>
-<span class="org-yaml-tab">                        </span>  - DRSrcEnv      
+<span class="org-variable-name">Resource</span>:
+  - <span class="org-type">!Sub</span> <span class="org-string">'arn:aws:dynamodb:*:*:table/app-*-${StackEnvironment}/index/*'</span>
+  - <span class="org-variable-name">Fn::Sub</span>:
+    - <span class="org-string">'arn:aws:dynamodb:*:*:table/${table}-${srcenv}'</span>
+    - <span class="org-variable-name">table</span>:
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Fn::FindInMap</span>:
+<span class="org-yaml-tab">        </span>  - TableMap
+<span class="org-yaml-tab">        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ReplicateTables'</span>
+<span class="org-yaml-tab">        </span>  - TenantMaster
+      <span class="org-variable-name">srcenv</span>:
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Fn::FindInMap</span>:
+<span class="org-yaml-tab">        </span>  - EnvironmentMap
+<span class="org-yaml-tab">        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ConfigEnvironment'</span>
+<span class="org-yaml-tab">        </span>  - DRSrcEnv
+  - <span class="org-variable-name">Fn::Sub</span>:
+    - <span class="org-string">'arn:aws:dynamodb:*:*:table/${table}-${srcenv}/index/*'</span>
+    - <span class="org-variable-name">table</span>:
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Fn::FindInMap</span>:
+<span class="org-yaml-tab">        </span>  - TableMap
+<span class="org-yaml-tab">        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ReplicateTables'</span>
+<span class="org-yaml-tab">        </span>  - TenantMaster
+      <span class="org-variable-name">srcenv</span>:
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Fn::FindInMap</span>:
+<span class="org-yaml-tab">        </span>  - EnvironmentMap
+<span class="org-yaml-tab">        </span>  - <span class="org-type">!Ref</span> <span class="org-string">'ConfigEnvironment'</span>
+<span class="org-yaml-tab">        </span>  - DRSrcEnv      
 
 <span class="org-comment">...</span>
-<span class="org-yaml-tab">        </span><span class="org-variable-name">  APP_ROOT_URL</span>: <span class="org-type">!FindInMap</span>
-<span class="org-yaml-tab">        </span>    - EnvironmentMap
-<span class="org-yaml-tab">        </span>    - <span class="org-type">!Ref</span> ConfigEnvironment
-<span class="org-yaml-tab">        </span>    - AppRootUrl
+<span class="org-variable-name">APP_ROOT_URL</span>: <span class="org-type">!FindInMap</span>
+  - EnvironmentMap
+  - <span class="org-type">!Ref</span> ConfigEnvironment
+  - AppRootUrl
 </pre>
 </div>
 <ul class="org-ul">
@@ -1036,9 +1036,9 @@ Example:
 </div>
 </div>
 </section>
-<section id="outline-container-org93e74d1" class="outline-2">
-<h2 id="org93e74d1">My notes</h2>
-<div class="outline-text-2" id="text-org93e74d1">
+<section id="outline-container-org1ccd092" class="outline-2">
+<h2 id="org1ccd092">My notes</h2>
+<div class="outline-text-2" id="text-org1ccd092">
 </div>
 <div id="outline-container-org41d381e" class="outline-3">
 <h3 id="org41d381e">Network Fundamentals</h3>
