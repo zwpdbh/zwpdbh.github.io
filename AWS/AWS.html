@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 20, 2021 -->
+<!-- Apr 23, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AWS Notes</title>
@@ -72,12 +72,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org5fd89a3">ECS</a>
+<li><a href="#org732c7dc">ECS</a>
 <ul>
-<li><a href="#orga5e42ee">Refs</a></li>
+<li><a href="#orgbe808ad">Refs</a></li>
 <li><a href="#org85e5388">Concepts</a>
 <ul>
-<li><a href="#org16f272b">ECS</a></li>
+<li><a href="#org5fd89a3">ECS</a></li>
 <li><a href="#orgd82cd27">EC2</a></li>
 <li><a href="#org51f17b2">Farget and EC2</a></li>
 <li><a href="#org3444717">Task Definitions</a></li>
@@ -88,7 +88,7 @@
 <li><a href="#org48ba91f">Steps to use ECS</a></li>
 <li><a href="#orge7545b1"><span class="todo TODO">TODO</span> About AutoScaling of EC2</a>
 <ul>
-<li><a href="#org076d0aa">Similar example from Atlas-worker-manager</a></li>
+<li><a href="#orgea24e32">Similar example from App-worker-manager</a></li>
 </ul>
 </li>
 </ul>
@@ -102,10 +102,10 @@
 <li><a href="#org56fe89f">AWS Security</a>
 <ul>
 <li><a href="#orgb3cb63c">refs</a></li>
-<li><a href="#orgaf9163f">My notes</a>
+<li><a href="#org8c2991c">My notes</a>
 <ul>
 <li><a href="#org4643b0f">Office building analogy</a></li>
-<li><a href="#org573a600">VPC</a></li>
+<li><a href="#orga6c11b3">VPC</a></li>
 <li><a href="#org94282f3">Subnets</a></li>
 <li><a href="#orgd7b3b4d">Security Group</a></li>
 <li><a href="#orgeca8ec2">Launch instance into VPC</a></li>
@@ -117,9 +117,9 @@
 </li>
 <li><a href="#org9670a86">ECR</a></li>
 <li><a href="#orgc8377ff">Troubleshootings</a></li>
-<li><a href="#orga6c11b3"><span class="todo TODO">TODO</span> VPC</a>
+<li><a href="#org2d1f27c"><span class="todo TODO">TODO</span> VPC</a>
 <ul>
-<li><a href="#orgbe808ad">Refs</a></li>
+<li><a href="#orgd7c2a49">Refs</a></li>
 <li><a href="#orgcc312d7">VPC networking components</a></li>
 </ul>
 </li>
@@ -128,7 +128,7 @@
 <li><a href="#org40843f9">Use FindInMap to customize environment variables based on keys</a></li>
 </ul>
 </li>
-<li><a href="#org8c2991c">My notes</a>
+<li><a href="#org479f93e">My notes</a>
 <ul>
 <li><a href="#org41d381e">Network Fundamentals</a></li>
 </ul>
@@ -137,13 +137,13 @@
 </div>
 </nav>
 
-<section id="outline-container-org5fd89a3" class="outline-2">
-<h2 id="org5fd89a3">ECS</h2>
-<div class="outline-text-2" id="text-org5fd89a3">
+<section id="outline-container-org732c7dc" class="outline-2">
+<h2 id="org732c7dc">ECS</h2>
+<div class="outline-text-2" id="text-org732c7dc">
 </div>
-<div id="outline-container-orga5e42ee" class="outline-3">
-<h3 id="orga5e42ee">Refs</h3>
-<div class="outline-text-3" id="text-orga5e42ee">
+<div id="outline-container-orgbe808ad" class="outline-3">
+<h3 id="orgbe808ad">Refs</h3>
+<div class="outline-text-3" id="text-orgbe808ad">
 <ul class="org-ul">
 <li><a href="https://stackoverflow.com/questions/42960678/what-is-the-difference-between-a-task-and-a-service-in-aws-ecs">What is the difference between a task and a service in AWS ECS?</a></li>
 <li><a href="https://medium.com/boltops/gentle-introduction-to-how-aws-ecs-works-with-example-tutorial-cea3d27ce63d">Gentle Introduction to How AWS ECS Works with Example Tutorial</a></li>
@@ -154,9 +154,9 @@
 <h3 id="org85e5388">Concepts</h3>
 <div class="outline-text-3" id="text-org85e5388">
 </div>
-<div id="outline-container-org16f272b" class="outline-4">
-<h4 id="org16f272b">ECS</h4>
-<div class="outline-text-4" id="text-org16f272b">
+<div id="outline-container-org5fd89a3" class="outline-4">
+<h4 id="org5fd89a3">ECS</h4>
+<div class="outline-text-4" id="text-org5fd89a3">
 <ul class="org-ul">
 <li>abbreviation  for <b>Elastic Container Service</b>. It is a container <b>management</b> service for containers on a cluster.</li>
 <li><b>Task Definition</b> defines one or multiple containers to construct as a application.</li>
@@ -260,15 +260,15 @@
 </ul>
 </div>
 
-<div id="outline-container-org076d0aa" class="outline-4">
-<h4 id="org076d0aa">Similar example from Atlas-worker-manager</h4>
-<div class="outline-text-4" id="text-org076d0aa">
+<div id="outline-container-orgea24e32" class="outline-4">
+<h4 id="orgea24e32">Similar example from App-worker-manager</h4>
+<div class="outline-text-4" id="text-orgea24e32">
 <p>
 Worker manager relies on two tables.
 </p>
 <ul class="org-ul">
 <li><p>
-<code>atlas-modeling-service-task-definitions-drdev</code>, its schema:
+<code>app-dummy-service-task-definitions-drdev</code>, its schema:
 </p>
 <table>
 
@@ -304,7 +304,7 @@ Worker manager relies on two tables.
 </ul></li>
 </ul></li>
 <li><p>
-<code>atlas-worker-manager-hotpool-drdev</code>, its schema:
+<code>app-worker-manager-hotpool-drdev</code>, its schema:
 </p>
 <table>
 
@@ -343,14 +343,14 @@ Worker manager relies on two tables.
 </tbody>
 </table>
 <ul class="org-ul">
-<li>It acts as a <b>implementation/progress table</b> for the <code>atlas-modeling-service-task-definitions-drdev</code>, plan table.
+<li>It acts as a <b>implementation/progress table</b> for the <code>app-dummy-service-task-definitions-drdev</code>, plan table.
 <ul class="org-ul">
 <li>How to allocate those memory(worker), or which worker version is used in which ECS task instance.</li>
 <li>For example, if the plan table set <code>ScaleTo=6</code> and <code>Pooling=Y</code> for <code>TaskDef=NX119</code>. Then, this implementation table will add 6 records. They show where those 6 workers have been used in which ECS task instances.</li>
 </ul></li>
 <li>After &ldquo;the memory has been allocated&rdquo;, if there are clients coming in and used those worker (consume some/all those memory). Then, in the next checking point (every 15mins), worker manager will need to allocate new workers as planed.</li>
 </ul></li>
-<li>A related table, <code>atlas-modeling-service-data-drdev</code>.
+<li>A related table, <code>app-dummy-service-data-drdev</code>.
 <ul class="org-ul">
 <li>This table records all the client activities which also includes which worker has been used for what purpose.</li>
 </ul></li>
@@ -372,56 +372,56 @@ Worker manager relies on two tables.
 <ul class="org-ul">
 <li>Task description
 <ul class="org-ul">
-<li>Given two domains: <code>lb.dev.nxatlas.com</code> as primary service and <code>lb.drdev.nxatlas.com</code> secondary service, we want to create another hosted zone in Route53 <code>acs.nxatlas.com</code>.</li>
-<li>In normal case, we let <code>dev.acs.nxatlas.com</code> to route traffice to <code>lb.dev.nxatlas.com</code>.</li>
-<li>In disaster case, we let <code>dev.acs.nxatlas.com</code> to route traffice to <code>lb.drdev.nxatlas.com</code>.</li>
+<li>Given two domains: <code>lb.dev.app.com</code> as primary service and <code>lb.drdev.app.com</code> secondary service, we want to create another hosted zone in Route53 <code>acs.app.com</code>.</li>
+<li>In normal case, we let <code>dev.acs.app.com</code> to route traffice to <code>lb.dev.app.com</code>.</li>
+<li>In disaster case, we let <code>dev.acs.app.com</code> to route traffice to <code>lb.drdev.app.com</code>.</li>
 </ul></li>
 <li>Steps
 <ul class="org-ul">
-<li>Create new hosted zone <code>acs.nxatlas.com</code> in Route53.
+<li>Create new hosted zone <code>acs.app.com</code> in Route53.
 <ul class="org-ul">
 <li><b>If public hosted zone is a third level domain, then add the NS records of this zone to the parent hosted zone</b>.</li>
 </ul></li>
-<li>Within <code>acs.nxatlas.com</code>, create record
+<li>Within <code>acs.app.com</code>, create record
 <ul class="org-ul">
 <li>Routing policy -&gt; Simple routing, next</li>
 <li>Define simple record:
 <ul class="org-ul">
-<li>Record name: <code>dev.acs.nxatlas.com</code></li>
+<li>Record name: <code>dev.acs.app.com</code></li>
 <li>Record type: <code>CNAME -- Routes traffice to another domain name and to some AWS resources</code></li>
 <li>Value/Route traffice to:
 <ul class="org-ul">
 <li><code>IP address or another value depending on the record type</code></li>
-<li><code>lb.dev.nxatlas.com</code></li>
+<li><code>lb.dev.app.com</code></li>
 </ul></li>
 </ul></li>
 </ul></li>
 </ul></li>
-<li>Troubleshooting01: Could not resolve host: dev.acs.nxatlas.com
+<li>Troubleshooting01: Could not resolve host: dev.acs.app.com
 <ul class="org-ul">
 <li><p>
-After created CNAME <code>dev.acs.nxatlas.com</code> to <code>lb.dev.nxatlas.com</code>, we should be able to visit resources under <code>dev.acs.nxatlas.com</code> as we visit <code>lb.dev.nxatlas.com</code>.
+After created CNAME <code>dev.acs.app.com</code> to <code>lb.dev.app.com</code>, we should be able to visit resources under <code>dev.acs.app.com</code> as we visit <code>lb.dev.app.com</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">curl https://lb.dev.nxatlas.com/atlas/health
+<pre class="src src-sh">curl https://lb.dev.app.com/app/health
 {<span class="org-string">"status"</span>:<span class="org-string">"ok"</span>,<span class="org-string">"ts"</span>:1598240637924,<span class="org-string">"local"</span>:<span class="org-string">"8/24/2020, 3:43:57 AM"</span>,<span class="org-string">"utc"</span>:<span class="org-string">"Mon, 24 Aug 2020 03:43:57 GMT"</span>}
 
-curl https://dev.acs.nxatlas.com/atlas/health
-curl: (6) Could not resolve host: dev.acs.nxatlas.com
+curl https://dev.acs.app.com/app/health
+curl: (6) Could not resolve host: dev.acs.app.com
 </pre>
 </div>
 <ul class="org-ul">
-<li>I forget to add the NS records of hosted zone <code>acs.nxatlas.com</code> to its parent hosted zone <code>nxatlas.com</code>. After doing so, the DNS resolution shows the following result.</li>
+<li>I forget to add the NS records of hosted zone <code>acs.app.com</code> to its parent hosted zone <code>app.com</code>. After doing so, the DNS resolution shows the following result.</li>
 </ul></li>
 <li>Domain name resolve in Ubuntu
 <ul class="org-ul">
 <li><p>
-Resolve <code>lb.dev.nxatlas.com</code> (endpoint for atlas-dev)
+Resolve <code>lb.dev.app.com</code> (endpoint for app-dev)
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">dig lb.dev.nxatlas.com
+<pre class="src src-sh">dig lb.dev.app.com
 
-; &lt;&lt;&gt;&gt; DiG 9.11.3-1ubuntu1.13-Ubuntu &lt;&lt;&gt;&gt; lb.dev.nxatlas.com
+; &lt;&lt;&gt;&gt; DiG 9.11.3-1ubuntu1.13-Ubuntu &lt;&lt;&gt;&gt; lb.dev.app.com
 ;; global options: +cmd
 ;; Got answer:
 ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 14519
@@ -430,12 +430,12 @@ Resolve <code>lb.dev.nxatlas.com</code> (endpoint for atlas-dev)
 <span class="org-sh-heredoc">;; OPT PSEUDOSECTION:</span>
 <span class="org-sh-heredoc">; EDNS: version: 0, flags:; udp: 65494</span>
 <span class="org-sh-heredoc">;; QUESTION SECTION:</span>
-<span class="org-sh-heredoc">;lb.dev.nxatlas.com.            IN      A</span>
+<span class="org-sh-heredoc">;lb.dev.app.com.            IN      A</span>
 
 <span class="org-sh-heredoc">;; ANSWER SECTION:</span>
-<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.195.245.88</span>
-<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.197.127.0</span>
-<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       52.7.50.34</span>
+<span class="org-sh-heredoc">lb.dev.app.com.     0       IN      A       34.195.245.88</span>
+<span class="org-sh-heredoc">lb.dev.app.com.     0       IN      A       34.197.127.0</span>
+<span class="org-sh-heredoc">lb.dev.app.com.     0       IN      A       52.7.50.34</span>
 
 <span class="org-sh-heredoc">;; Query time: 80 msec</span>
 <span class="org-sh-heredoc">;; SERVER: 127.0.0.53#53(127.0.0.53)</span>
@@ -444,12 +444,12 @@ Resolve <code>lb.dev.nxatlas.com</code> (endpoint for atlas-dev)
 </pre>
 </div></li>
 <li><p>
-Resolve <code>dev.acs.nxatlas.com</code>
+Resolve <code>dev.acs.app.com</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-sh">dig dev.acs.nxatlas.com
+<pre class="src src-sh">dig dev.acs.app.com
 
-; &lt;&lt;&gt;&gt; DiG 9.11.3-1ubuntu1.13-Ubuntu &lt;&lt;&gt;&gt; dev.acs.nxatlas.com
+; &lt;&lt;&gt;&gt; DiG 9.11.3-1ubuntu1.13-Ubuntu &lt;&lt;&gt;&gt; dev.acs.app.com
 ;; global options: +cmd
 ;; Got answer:
 ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 39460
@@ -458,13 +458,13 @@ Resolve <code>dev.acs.nxatlas.com</code>
 <span class="org-sh-heredoc">;; OPT PSEUDOSECTION:</span>
 <span class="org-sh-heredoc">; EDNS: version: 0, flags:; udp: 65494</span>
 <span class="org-sh-heredoc">;; QUESTION SECTION:</span>
-<span class="org-sh-heredoc">;dev.acs.nxatlas.com.           IN      A</span>
+<span class="org-sh-heredoc">;dev.acs.app.com.           IN      A</span>
 
 <span class="org-sh-heredoc">;; ANSWER SECTION:</span>
-<span class="org-sh-heredoc">dev.acs.nxatlas.com.    0       IN      CNAME   lb.dev.nxatlas.com.</span>
-<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       52.7.50.34</span>
-<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.197.127.0</span>
-<span class="org-sh-heredoc">lb.dev.nxatlas.com.     0       IN      A       34.195.245.88</span>
+<span class="org-sh-heredoc">dev.acs.app.com.    0       IN      CNAME   lb.dev.app.com.</span>
+<span class="org-sh-heredoc">lb.dev.app.com.     0       IN      A       52.7.50.34</span>
+<span class="org-sh-heredoc">lb.dev.app.com.     0       IN      A       34.197.127.0</span>
+<span class="org-sh-heredoc">lb.dev.app.com.     0       IN      A       34.195.245.88</span>
 
 <span class="org-sh-heredoc">;; Query time: 81 msec</span>
 <span class="org-sh-heredoc">;; SERVER: 127.0.0.53#53(127.0.0.53)</span>
@@ -477,6 +477,7 @@ Resolve <code>dev.acs.nxatlas.com</code>
 </ul>
 </div>
 </div>
+
 <div id="outline-container-org03480a6" class="outline-3">
 <h3 id="org03480a6">LoadBalancer in ECS</h3>
 <div class="outline-text-3" id="text-org03480a6">
@@ -565,12 +566,12 @@ Conditions:
 <li>Field: path-pattern
 Values:
 <ul class="org-ul">
-<li>/atlas/*</li>
+<li>/app/*</li>
 </ul></li>
 </ul>
 <p>
     ListenerArn: !ImportValue
-      Fn::Sub: atlas-alb-${StackEnvironment}-AtlasPubALBListenerArn
+      Fn::Sub: app-alb-${StackEnvironment}-AppPubALBListenerArn
     Priority: '5'
 ALBListener:
   Type: AWS::ElasticLoadBalancingV2::Listener
@@ -660,9 +661,9 @@ Value: &rsquo;20&rsquo;</li>
 </div>
 </div>
 
-<div id="outline-container-orgaf9163f" class="outline-3">
-<h3 id="orgaf9163f">My notes</h3>
-<div class="outline-text-3" id="text-orgaf9163f">
+<div id="outline-container-org8c2991c" class="outline-3">
+<h3 id="org8c2991c">My notes</h3>
+<div class="outline-text-3" id="text-org8c2991c">
 <ul class="org-ul">
 <li>Different models have differences on how security responsibility are devided (where AWS and customer responsibility start and end)
 <ul class="org-ul">
@@ -792,9 +793,9 @@ When company assign desk to employee vs Launch AWS EC2 instance
 
 
 
-<div id="outline-container-org573a600" class="outline-4">
-<h4 id="org573a600">VPC</h4>
-<div class="outline-text-4" id="text-org573a600">
+<div id="outline-container-orga6c11b3" class="outline-4">
+<h4 id="orga6c11b3">VPC</h4>
+<div class="outline-text-4" id="text-orga6c11b3">
 <ul class="org-ul">
 <li>What is it?
 <ul class="org-ul">
@@ -971,13 +972,13 @@ pull image from ECR
 
 
 
-<section id="outline-container-orga6c11b3" class="outline-2">
-<h2 id="orga6c11b3"><span class="todo TODO">TODO</span> VPC</h2>
-<div class="outline-text-2" id="text-orga6c11b3">
+<section id="outline-container-org2d1f27c" class="outline-2">
+<h2 id="org2d1f27c"><span class="todo TODO">TODO</span> VPC</h2>
+<div class="outline-text-2" id="text-org2d1f27c">
 </div>
-<div id="outline-container-orgbe808ad" class="outline-3">
-<h3 id="orgbe808ad">Refs</h3>
-<div class="outline-text-3" id="text-orgbe808ad">
+<div id="outline-container-orgd7c2a49" class="outline-3">
+<h3 id="orgd7c2a49">Refs</h3>
+<div class="outline-text-3" id="text-orgd7c2a49">
 <ul class="org-ul">
 <li><a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">Amazon Virtual Private Cloud</a></li>
 </ul>
@@ -1019,22 +1020,22 @@ Example:
 </p>
 <div class="org-src-container">
 <pre class="src src-yaml"><span class="org-variable-name">AWSTemplateFormatVersion</span>: <span class="org-string">'2010-09-09'</span>
-<span class="org-variable-name">Description</span>: Resources supporting the Atlas Service
+<span class="org-variable-name">Description</span>: Resources supporting the App Service
 <span class="org-variable-name">Parameters</span>:
   <span class="org-variable-name">StackPrefix</span>:
     <span class="org-variable-name">Type</span>: String
     ...
     <span class="org-variable-name">Type</span>: String
-    <span class="org-variable-name">Default</span>: <span class="org-string">'06c72675ca6d421690a21c7899631ab1'</span>
+    <span class="org-variable-name">Default</span>: <span class="org-string">'dummy000000000000000001'</span>
 <span class="org-variable-name">Mappings</span>:
   <span class="org-variable-name">TableMap</span>:
     <span class="org-variable-name">ReplicateTables</span>:
-      <span class="org-variable-name">TenantMaster</span>: <span class="org-string">'atlas-tenant-master'</span>
-      <span class="org-variable-name">ApiKeyTable</span>: <span class="org-string">'atlas-modeling-service-apikey'</span>
-      <span class="org-variable-name">UserTenantTable</span>: <span class="org-string">'atlas-modeling-service-user-tenant'</span>
+      <span class="org-variable-name">TenantMaster</span>: <span class="org-string">'app-tenant-master'</span>
+      <span class="org-variable-name">ApiKeyTable</span>: <span class="org-string">'app-dummy-service-apikey'</span>
+      <span class="org-variable-name">UserTenantTable</span>: <span class="org-string">'app-dummy-service-user-tenant'</span>
   <span class="org-variable-name">EnvironmentMap</span>:
     <span class="org-variable-name">dev</span>:
-      <span class="org-variable-name">AtlasRootUrl</span>: <span class="org-string">"lb.dev.nxatlas.com/atlas"</span>
+      <span class="org-variable-name">AppRootUrl</span>: <span class="org-string">"lb.dev.nxapp.com/app"</span>
       <span class="org-variable-name">DesiredCount</span>: <span class="org-string">'2'</span>
       <span class="org-variable-name">MinCapacity</span>: 2
       ...
@@ -1042,7 +1043,7 @@ Example:
       <span class="org-variable-name">ApiKeyValidate</span>: 1
       <span class="org-variable-name">DRSrcEnv</span>: dev
     <span class="org-variable-name">drdev</span>:
-      <span class="org-variable-name">AtlasRootUrl</span>: <span class="org-string">"lb.drdev.nxatlas.com/atlas"</span>
+      <span class="org-variable-name">AppRootUrl</span>: <span class="org-string">"lb.drdev.nxapp.com/app"</span>
       <span class="org-variable-name">DesiredCount</span>: <span class="org-string">'1'</span>
       <span class="org-variable-name">MinCapacity</span>: 1
       ...
@@ -1053,7 +1054,7 @@ Example:
 <span class="org-comment">...</span>
 
 <span class="org-yaml-tab">                </span><span class="org-variable-name">Resource</span>:
-<span class="org-yaml-tab">                </span>  - <span class="org-type">!Sub</span> <span class="org-string">'arn:aws:dynamodb:*:*:table/atlas-*-${StackEnvironment}/index/*'</span>
+<span class="org-yaml-tab">                </span>  - <span class="org-type">!Sub</span> <span class="org-string">'arn:aws:dynamodb:*:*:table/app-*-${StackEnvironment}/index/*'</span>
 <span class="org-yaml-tab">                </span><span class="org-variable-name">  - Fn::Sub</span>:
 <span class="org-yaml-tab">                </span>    - <span class="org-string">'arn:aws:dynamodb:*:*:table/${table}-${srcenv}'</span>
 <span class="org-yaml-tab">                </span><span class="org-variable-name">    - table</span>:
@@ -1080,10 +1081,10 @@ Example:
 <span class="org-yaml-tab">                        </span>  - DRSrcEnv      
 
 <span class="org-comment">...</span>
-<span class="org-yaml-tab">        </span><span class="org-variable-name">  ATLAS_ROOT_URL</span>: <span class="org-type">!FindInMap</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">  APP_ROOT_URL</span>: <span class="org-type">!FindInMap</span>
 <span class="org-yaml-tab">        </span>    - EnvironmentMap
 <span class="org-yaml-tab">        </span>    - <span class="org-type">!Ref</span> ConfigEnvironment
-<span class="org-yaml-tab">        </span>    - AtlasRootUrl
+<span class="org-yaml-tab">        </span>    - AppRootUrl
 </pre>
 </div>
 <ul class="org-ul">
@@ -1093,9 +1094,9 @@ Example:
 </div>
 </div>
 </section>
-<section id="outline-container-org8c2991c" class="outline-2">
-<h2 id="org8c2991c">My notes</h2>
-<div class="outline-text-2" id="text-org8c2991c">
+<section id="outline-container-org479f93e" class="outline-2">
+<h2 id="org479f93e">My notes</h2>
+<div class="outline-text-2" id="text-org479f93e">
 </div>
 <div id="outline-container-org41d381e" class="outline-3">
 <h3 id="org41d381e">Network Fundamentals</h3>
@@ -1106,7 +1107,7 @@ Example:
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Apr 23, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

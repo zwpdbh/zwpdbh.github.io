@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 20, 2021 -->
+<!-- Apr 23, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Auth-in-Vuejs</title>
@@ -184,7 +184,7 @@ Based on how the client request an access-token (step 4), there could be differe
 <b>Authorization code</b> is a temporary code (authorization code) that the client will exchange for an access-token. This code is obtained from authorization server when user agree on what the information(usually permissions) the client is requesting.
 </p>
 
-<figure id="org98d4e28">
+<figure id="org6e19432">
 <img src="authorization-code-grant.png" alt="authorization-code-grant.png">
 
 </figure>
@@ -206,7 +206,7 @@ Based on how the client request an access-token (step 4), there could be differe
 <li><p>
 step6, POST request with passing its <code>client_id</code> and <code>client_secret</code> as an HTTP Basic authorization header.
 </p>
-<pre class="example" id="org6c19307">
+<pre class="example" id="org1c9a01d">
 Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 </pre>
 <ul class="org-ul">
@@ -224,7 +224,7 @@ Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 <li><p>
 if the code has not been used previously and the client making this request is the same as the client that made the original request, then the authorization server generates and returns a new access token for the client
 </p>
-<pre class="example" id="org688499a">
+<pre class="example" id="orga7bc1bd">
 HTTP 200 OK
 Date: Fri, 31 Jul 2015 21:19:03 GMT
 Content-type: application/json
@@ -244,7 +244,7 @@ Content-type: application/json
 <li><p>
 present the access token as <b>OAuth Bearer token</b>
 </p>
-<pre class="example" id="org534a1e0">
+<pre class="example" id="org0e4528c">
 GET /resource HTTP/1.1
 Host: localhost:9002
 Accept: application/json
@@ -268,7 +268,7 @@ Authorization: Bearer 987tghjkiu6trfghjuytrghj
 Client could request refreshed access-token when the access-token expired. This time, the token is never sent to the protected resources. So, the client uses the refresh token to request new access token without involving the resource owner (user or browser).
 </p>
 
-<figure id="orgf990c47">
+<figure id="orge9388bb">
 <img src="refresh-token.png" alt="refresh-token.png">
 
 </figure>
@@ -285,7 +285,7 @@ Client could request refreshed access-token when the access-token expired. This 
 <h3 id="orgd13ba12">Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
 <div class="outline-text-3" id="text-orgd13ba12">
 
-<figure id="org6a69a1e">
+<figure id="orgc1c6d76">
 <img src="vuejs-oauth.png" alt="vuejs-oauth.png">
 
 </figure>
@@ -363,7 +363,7 @@ Use middleware for some endpoint
 </ul>
 
 
-<figure id="org85c185a">
+<figure id="org76d2bc6">
 <img src="vuejs-oauth.png" alt="vuejs-oauth.png">
 
 </figure>
@@ -686,7 +686,7 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 </ul></li>
 <li>Actually, you still need to compare username and password (provided into AS).</li>
 <li>OAuth document doesn&rsquo;t specify how to implement AS. However, it expects AS to follow some conventions to provider several key features, such as introspect access<sub>token</sub> to introspect user profile.</li>
-<li>At last, this document is just my note from my working experience. It doesn&rsquo;t represent best practise.</li>
+<li>At last, this document is just my note from my understanding. It doesn&rsquo;t represent best practise.</li>
 </ul>
 </div>
 </section>
@@ -707,7 +707,7 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Apr 23, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

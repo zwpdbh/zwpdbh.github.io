@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Apr 23, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JWT, JWKS in Web Development</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Frank Zhao">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">JWT, JWKS in Web Development</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org652b922">Introduction</a></li>
+<li><a href="#org52d9b3a">Differences between &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo; in the Authorization header</a>
+<ul>
+<li><a href="#org6f2e0d0">Basic auth header</a></li>
+<li><a href="#orgabf03b6">Bearer auth header</a></li>
+</ul>
+</li>
+<li><a href="#org4e731ad">Basic concepts</a>
+<ul>
+<li><a href="#orgd43d861">Encryption algorithms</a>
+<ul>
+<li><a href="#orgfd2ba72">Symmetric encryption</a></li>
+<li><a href="#orgbc26e31">Asymmetric encryption</a></li>
+<li><a href="#org1b54992">How to generate key-pair</a></li>
+</ul>
+</li>
+<li><a href="#orgd3bf760">JWT and JWKS</a>
+<ul>
+<li><a href="#org44ec4c0">What is JWT?</a></li>
+<li><a href="#org346c4e3">What is JWKS?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org4e1752a">How to generate JWT?</a>
+<ul>
+<li><a href="#org1c45200">Generate JWT signed with HS256</a></li>
+<li><a href="#orgbd8871f">Generate JWT signed with RS256</a>
+<ul>
+<li><a href="#org41ec395">Sign JWT with RS256</a></li>
+<li><a href="#org7a1fbcb">Sign JWT with ES256</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgbffc526">How to verify JWT?</a>
+<ul>
+<li><a href="#orgac58c9c">Verify JWT with jsonwebtoken package</a>
+<ul>
+<li><a href="#org5b32ed0">Verify symmetric algorithm JWT</a></li>
+<li><a href="#orgce13186">Verify asymmetric algorithm signed JWT</a></li>
+</ul>
+</li>
+<li><a href="#org1ab70de">How to verify JWT using JWKS?</a></li>
+</ul>
+</li>
+<li><a href="#orge66eeea">Summary</a></li>
+<li><a href="#orgeba37ed">References</a></li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-org652b922" class="outline-2">
+<h2 id="org652b922">Introduction</h2>
+<div class="outline-text-2" id="text-org652b922">
+<p>
+It describes the concepts and steps I learned to use tokens to secure web service, especially for:
+</p>
+<ul class="org-ul">
+<li>Basic Authentication vs what is Bear Authentication</li>
+<li>What is JWT and JWKS?</li>
+<li>How JWT is used (sign and verify)?</li>
+<li>How JWKS is used to verify JWT?</li>
+</ul>
+</div>
+</section>
+
+
+<section id="outline-container-org52d9b3a" class="outline-2">
+<h2 id="org52d9b3a">Differences between &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo; in the Authorization header</h2>
+<div class="outline-text-2" id="text-org52d9b3a">
+<p>
+In web development, we usually need to configure &ldquo;Authorization&rdquo; header(I will call it auth header for short) before sending the request. If you notice, there are two kinds of auth header, &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo;.
+</p>
+</div>
+
+<div id="outline-container-org6f2e0d0" class="outline-3">
+<h3 id="org6f2e0d0">Basic auth header</h3>
+<div class="outline-text-3" id="text-org6f2e0d0">
+<p>
+It is usually needed when we request some information from auth-provider. For example, when we want to introspect access-token from oidc-provider. 
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">authHeader</span> = <span class="org-string">'Basic '</span> + Buffer.from(client_id + <span class="org-string">':'</span> + client_secret, <span class="org-string">'utf8'</span>).toString(<span class="org-string">'base64'</span>);
+<span class="org-keyword">let</span> <span class="org-variable-name">options</span> = {
+  method: <span class="org-string">'POST'</span>  ,
+  url: <span class="org-string">`${authUrl}/token/introspection`</span>,
+  headers: {Authorization: authHeader},
+  form: {
+    token: access_token
+  }
+};
+</pre>
+</div>
+<ul class="org-ul">
+<li>Its format: <code>Basic</code> + &ldquo; &rdquo; + base64-encoded string constructed from <code>id(username):password(secret)</code>.</li>
+<li>TODO:: <b>Note</b>: base64 is a reversible encoding. Does that means <code>password(secret)</code> is not secured? Does https make it secured?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgabf03b6" class="outline-3">
+<h3 id="orgabf03b6">Bearer auth header</h3>
+<div class="outline-text-3" id="text-orgabf03b6">
+<p>
+It is needed when we want to request protected resources usually are some service&rsquo;s APIs endpoints. For example, after we got access-token after login, we need to use Bearer token in request&rsquo;s header. 
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">headersOption</span> = {
+  <span class="org-string">'Accept'</span>: <span class="org-string">'application/json'</span>,
+  <span class="org-string">'Content-Type'</span>: <span class="org-string">'application/json'</span>,
+  <span class="org-string">'Authorization'</span>: <span class="org-string">'Bearer '</span> + access_token
+};
+</pre>
+</div>
+<ul class="org-ul">
+<li>&ldquo;Bearer authorization&rdquo; means &ldquo;give access to the bearer of this token&rdquo;.</li>
+<li>No matter whether it is access-token or other kind of token, the bearer token is a encrypted string. It is generated by the auth-provider in response to a login request.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org4e731ad" class="outline-2">
+<h2 id="org4e731ad">Basic concepts</h2>
+<div class="outline-text-2" id="text-org4e731ad">
+</div>
+<div id="outline-container-orgd43d861" class="outline-3">
+<h3 id="orgd43d861">Encryption algorithms</h3>
+<div class="outline-text-3" id="text-orgd43d861">
+<p>
+To make data transfered safely between network, we need to encrypt data we transfered. There are mainly two kinds of algorithms to do this: symmetric encryption and asymmetric encryption.
+</p>
+</div>
+
+<div id="outline-container-orgfd2ba72" class="outline-4">
+<h4 id="orgfd2ba72">Symmetric encryption</h4>
+<div class="outline-text-4" id="text-orgfd2ba72">
+<p>
+Symmetric encryptions use the same key for doing encryption and decryption. 
+</p>
+<ul class="org-ul">
+<li>It is fast to do encryption and decryption, so it is very useful to transmit data.</li>
+<li>However, we need to transmit the symmetric encryption key to the receiver side safely. In this case, this secret key becomes the content we need to encrypt. This is the moment we choose to use asymmetric encription.</li>
+<li>Common symmetric encryption algorithms include:
+<ul class="org-ul">
+<li>HS256(HMAC + SHA256)</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbc26e31" class="outline-4">
+<h4 id="orgbc26e31">Asymmetric encryption</h4>
+<div class="outline-text-4" id="text-orgbc26e31">
+<p>
+Instead of using the same key to do both encryption and decryption, asymmetric encryption algorithm uses a pair of key: use private key to encrypt data and use publick key to decrypt.
+</p>
+<ul class="org-ul">
+<li>We NEVER share the private key.</li>
+<li>We could share publick key safely without concern.</li>
+<li>It is much slower than symmetric encryption, so we only use it to transmit curial data.</li>
+<li>Common asymmetric encryption algorithms include:
+<ul class="org-ul">
+<li>RS256(RSASSA-PKCS1-v1<sub>5</sub> + SHA256)</li>
+<li>ES256(ECDSA + P-256 + SHA256)</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1b54992" class="outline-4">
+<h4 id="org1b54992">How to generate key-pair</h4>
+<div class="outline-text-4" id="text-org1b54992">
+<ul class="org-ul">
+<li><p>
+To generate key-pair using RS256
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">Generate a private key</span>
+openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Derive the public key from the private key</span>
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+</pre>
+</div></li>
+
+<li><p>
+To generate key-pair using ES256
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">Generate a private key (prime256v1 is the name of the parameters used</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">to generate the key, this is the same as P-256 in the JWA spec).</span>
+openssl ecparam -name prime256v1 -genkey -noout -out ecdsa_private_key.pem
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Derive the public key from the private key</span>
+openssl ec -in ecdsa_private_key.pem -pubout -out ecdsa_public_key.pem
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3bf760" class="outline-3">
+<h3 id="orgd3bf760">JWT and JWKS</h3>
+<div class="outline-text-3" id="text-orgd3bf760">
+</div>
+<div id="outline-container-org44ec4c0" class="outline-4">
+<h4 id="org44ec4c0">What is JWT?</h4>
+<div class="outline-text-4" id="text-org44ec4c0">
+<p>
+JWT(JSON Web Token) encodes a series information(called claims). Those information typically includes:
+</p>
+<ul class="org-ul">
+<li>iss, issuer</li>
+<li>sub, subject</li>
+<li>aud, audience</li>
+<li>exp, expiration</li>
+<li>nbf, not before</li>
+<li>iat, issued at</li>
+</ul>
+
+<p>
+Signing is a cryptographic operation that generates a “signature” (part of the JWT), later the recipient of the token can validate to ensure that the token has not been tampered with.
+</p>
+
+<p>
+We usually use middleware in web service to verify the signed JWT passed from Authorization header. For example, <code>access_token</code> got from auth-provider usually contains the scopes/permissions, and middleware uses that to protect API endpoint.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org346c4e3" class="outline-4">
+<h4 id="org346c4e3">What is JWKS?</h4>
+<div class="outline-text-4" id="text-org346c4e3">
+<p>
+The JSON Web Key Set (JWKS) is a set of keys containing the <b>public keys</b> used to <b>verify any JSON Web Token (JWT)</b> issued by the authorization server and signed using the RS256(RSA Signature with SHA-256) algorithm.
+</p>
+</div>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org4e1752a" class="outline-2">
+<h2 id="org4e1752a">How to generate JWT?</h2>
+<div class="outline-text-2" id="text-org4e1752a">
+<p>
+A signed JWT consists of three parts: header, payload and signature seperated by &ldquo;.&rdquo;:
+</p>
+
+<p>
+Header specifies the algorithm used and the type 
+</p>
+<div class="org-src-container">
+<pre class="src src-json">{
+  <span class="org-keyword">"alg"</span>: <span class="org-string">"HS256"</span>,
+  <span class="org-keyword">"typ"</span>: <span class="org-string">"JWT"</span>
+}
+</pre>
+</div>
+
+<p>
+Payload contains the claims
+</p>
+<div class="org-src-container">
+<pre class="src src-json">{
+  <span class="org-keyword">"sub"</span>: <span class="org-string">"1234567890"</span>,
+  <span class="org-keyword">"name"</span>: <span class="org-string">"John Doe"</span>,
+  <span class="org-keyword">"manager"</span>: <span class="org-constant">true</span>
+}
+</pre>
+</div>
+
+<p>
+And signature is composed from the signing of encoded header and encoded payload with a secret. See below about how to generate JWT with different algorithms.
+</p>
+</div>
+
+<div id="outline-container-org1c45200" class="outline-3">
+<h3 id="org1c45200">Generate JWT signed with HS256</h3>
+<div class="outline-text-3" id="text-org1c45200">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">encodedHeader</span> = base64(utf8(JSON.stringify(header)));
+<span class="org-keyword">const</span> <span class="org-variable-name">encodedPayload</span> = base64(utf8(JSON.stringify(payload)));
+<span class="org-keyword">const</span> <span class="org-variable-name">signature</span> = base64(hmac(<span class="org-string">`${encodedHeader}.${encodedPayload}`</span>,secret, sha256));
+<span class="org-keyword">const</span> <span class="org-variable-name">jwt</span> = <span class="org-string">`${encodedHeader}.${encodedPayload}.${signature}`</span>;
+</pre>
+</div>
+
+<p>
+If we use <code>jsonwebtoken</code> npm package, this could be simplified as:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">var</span> <span class="org-variable-name">jwt</span> = require(<span class="org-string">'jsonwebtoken'</span>);
+
+<span class="org-keyword">const</span> <span class="org-variable-name">payload</span> = {
+  sub: <span class="org-string">"1234567890"</span>,
+  name: <span class="org-string">"John Doe"</span>,
+  manager: <span class="org-constant">true</span>
+};
+
+<span class="org-keyword">const</span> <span class="org-variable-name">secretKey</span> = <span class="org-string">'secret'</span>;
+
+<span class="org-keyword">const</span> <span class="org-variable-name">token</span> = jwt.sign(payload, secretKey, {
+    algorithm: <span class="org-string">'HS256'</span>,
+    expiresIn: <span class="org-string">'10m'</span> <span class="org-comment-delimiter">// </span><span class="org-comment">if ommited, the token will not expire</span>
+});
+
+<span class="org-keyword">var</span> <span class="org-variable-name">decoded</span> = jwt.verify(token, secretKey);
+</pre>
+</div>
+<p>
+<b>Warning</b>: <a href="https://tools.ietf.org/html/rfc7518#page-7">JSON Web Algorithms RFC 7518</a> states that a key of the same size as the hash output (for instance, 256 bits for &ldquo;HS256&rdquo;) or larger <b>MUST</b> be used with the HS256 algorithm. One character is 8-bits, so we need to use at least 32 character and more as secret key for signing with HS256.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbd8871f" class="outline-3">
+<h3 id="orgbd8871f">Generate JWT signed with RS256</h3>
+<div class="outline-text-3" id="text-orgbd8871f">
+<p>
+After we <a href="#org1b54992">generate key-pair</a>, we use private-key to sign and public-key to verify it.
+</p>
+</div>
+<div id="outline-container-org41ec395" class="outline-4">
+<h4 id="org41ec395">Sign JWT with RS256</h4>
+<div class="outline-text-4" id="text-org41ec395">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">encodedHeader</span> = base64(utf8(JSON.stringify(header)));
+<span class="org-keyword">const</span> <span class="org-variable-name">encodedPayload</span> = base64(utf8(JSON.stringify(payload)));
+<span class="org-keyword">const</span> <span class="org-variable-name">signature</span> = base64(rsassa(<span class="org-string">`${encodedHeader}.${encodedPayload}`</span>, privateKey, sha256));
+<span class="org-keyword">const</span> <span class="org-variable-name">jwt</span> = <span class="org-string">`${encodedHeader}.${encodedPayload}.${signature}`</span>;
+</pre>
+</div>
+
+<p>
+If we use <code>jsonwebtoken</code> to do it:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">You can get this from private_key.pem above.</span>
+<span class="org-keyword">const</span> <span class="org-variable-name">privateRsaKey</span> = <span class="org-string">`&lt;YOUR-PRIVATE-RSA-KEY&gt;`</span>;
+
+<span class="org-keyword">const</span> <span class="org-variable-name">signed</span> = jwt.sign(payload, privateRsaKey, {
+    algorithm: <span class="org-string">'RS256'</span>,
+    expiresIn: <span class="org-string">'5s'</span>
+});
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a1fbcb" class="outline-4">
+<h4 id="org7a1fbcb">Sign JWT with ES256</h4>
+<div class="outline-text-4" id="text-org7a1fbcb">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">You can get this from private_key.pem above.</span>
+<span class="org-keyword">const</span> <span class="org-variable-name">privateEcdsaKey</span> = <span class="org-string">`&lt;YOUR-PRIVATE-ECDSA-KEY&gt;`</span>;
+<span class="org-keyword">const</span> <span class="org-variable-name">signed</span> = jwt.sign(payload, privateEcdsaKey, {
+    algorithm: <span class="org-string">'ES256'</span>,
+    expiresIn: <span class="org-string">'5s'</span>
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-orgbffc526" class="outline-2">
+<h2 id="orgbffc526">How to verify JWT?</h2>
+<div class="outline-text-2" id="text-orgbffc526">
+</div>
+<div id="outline-container-orgac58c9c" class="outline-3">
+<h3 id="orgac58c9c">Verify JWT with jsonwebtoken package</h3>
+<div class="outline-text-3" id="text-orgac58c9c">
+</div>
+<div id="outline-container-org5b32ed0" class="outline-4">
+<h4 id="org5b32ed0">Verify symmetric algorithm JWT</h4>
+<div class="outline-text-4" id="text-org5b32ed0">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">var</span> <span class="org-variable-name">decoded</span> = jwt.verify(token, secretKey);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgce13186" class="outline-4">
+<h4 id="orgce13186">Verify asymmetric algorithm signed JWT</h4>
+<div class="outline-text-4" id="text-orgce13186">
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">publicRsaKey</span> = <span class="org-string">`&lt;YOUR-PUBLIC-RSA-KEY&gt;`</span>;
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">For RS256</span>
+<span class="org-keyword">const</span> <span class="org-variable-name">decoded</span> = jwt.verify(signed, publicRsaKey, {
+  <span class="org-comment-delimiter">// </span><span class="org-comment">Never forget to make this explicit to prevent</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">signature stripping attacks.</span>
+  algorithms: [<span class="org-string">'RS256'</span>],
+});
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">For ES256</span>
+<span class="org-keyword">const</span> <span class="org-variable-name">decoded</span> = jwt.verify(signed, publicEcdsaKey, {
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Never forget to make this explicit to prevent</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">signature stripping attacks.</span>
+    algorithms: [<span class="org-string">'ES256'</span>],
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1ab70de" class="outline-3">
+<h3 id="org1ab70de">How to verify JWT using JWKS?</h3>
+<div class="outline-text-3" id="text-org1ab70de">
+<p>
+JWKS stores an array of public-keys in the format of JWK(See <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>). 
+</p>
+
+<p>
+Suppose we have a priviate-key: <code>priviate_key.pem</code> <a href="#org1b54992">generated with RS256</a>. Let&rsquo;s generate JWT from it.
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">function</span> <span class="org-function-name">generateJWT</span>(<span class="org-variable-name">payload</span>, <span class="org-variable-name">privateKeyName</span>) {
+  <span class="org-keyword">let</span> <span class="org-variable-name">privateKey</span> = fs.readFileSync(privateKeyName);
+
+  <span class="org-keyword">const</span> <span class="org-variable-name">signed</span> = jwt.sign(payload, privateKey, {
+    algorithm: <span class="org-string">'RS256'</span>,
+    expiresIn: <span class="org-string">'24h'</span>
+  });
+
+  <span class="org-keyword">return</span> signed;
+}
+
+<span class="org-keyword">let</span> <span class="org-variable-name">signedJWT</span> = generateJWT({
+  first_name: <span class="org-string">"Zhao"</span>,
+  last_name: <span class="org-string">"Wei"</span>
+}, <span class="org-string">"private_key.pem"</span>);
+
+console.log(signedJWT);
+</pre>
+</div>
+
+<p>
+Its output look like this:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiWmhhbyIsImxhc3RfbmFtZSI6IldlaSIsImlhdCI6MTYxOTA5ODg5NiwiZXhwIjoxNjE5MTg1Mjk2fQ.rjZTnWKA5zvQ0Y33OnJMF0kTUOIzhPDg1_H4mCFjyeSnkg0zDkSv5xXH9uhSFXGOVxAL5-x0_d0NYGpACcZvsEQn2Sj53Ndu8mZx5Z-_qpuro--5unHBI-iQJ9f9Uqb4Yys6byD8tF44IffKWZEsZ7lFo98K2U5xNWlxewzd3TRNNAkFz5FomvBCgFai_XfSXg9LxEKBDE2U2o4hgJCu3wUeqpImEgOrbyfte5lXefPh2OEtiOIx6CB_OByxWJ_5OIcTJe6SndPra2fwX07P6SSLTIkJSAE58KYfWEUAFOSDwFLfHcue_2rr1-NSYmHxq6HQ6ie9BwVdgUgR1t-fxQ
+</pre>
+</div>
+
+<p>
+The general steps to verify this token from JWKS:
+</p>
+<ol class="org-ol">
+<li>Retrieve the JWKS and filter for potential signature verification keys.</li>
+<li>Decode the JWT and grab the <code>kid</code> property.</li>
+<li>Find the signature verification key in the filtered JWKS with a matching kid property.</li>
+<li>Using the x5c property build a certificate which will be used to verify the JWT signature.</li>
+<li>Ensure the JWT contains the expected audience, issuer, expiration, etc.</li>
+</ol>
+
+
+<p>
+The potential signature verification keys means each key from &ldquo;keys&rdquo; member of JWKS should contains the following property:
+</p>
+<ul class="org-ul">
+<li><code>kty:RSA</code></li>
+<li><code>kid</code>, is the unique identifier for the key.</li>
+<li><code>n</code>, contains the modulus value for the RSA public key.  It is represented as a Base64urlUInt-encoded value.</li>
+</ul>
+
+<p>
+Suppose the public key stored in JWKS is something like:
+</p>
+<div class="org-src-container">
+<pre class="src src-json">{
+  kty: 'RSA',
+  kid: 'aIvYNSRyGzn<span class="org-constant">8</span>lAerJ<span class="org-constant">3</span>NqeDS<span class="org-constant">3</span>xN<span class="org-constant">1</span>awFqtZZVp<span class="org-constant">9</span>Z_-AHM',
+  n: 'wZke<span class="org-constant">2</span>Nt<span class="org-constant">51</span>af<span class="org-constant">6</span>_IC-TVMTwl<span class="org-constant">0</span>q_pzpVZErg<span class="org-constant">6</span>-yQZAGZychrrqBNTLfrM<span class="org-constant">4</span>lHzJ<span class="org-constant">6</span>nyvuSxBs<span class="org-constant">0</span>bz<span class="org-constant">0</span>QVocYJHqA<span class="org-constant">3</span>BqYjHyPaLNpWukL<span class="org-constant">0</span>DNfxKWOTVF_Wk<span class="org-constant">3</span>M<span class="org-constant">7</span>qoyddrbtNfcosl<span class="org-constant">7</span>lcGe<span class="org-constant">8</span>njLKz<span class="org-constant">0</span>RCqqN<span class="org-constant">999</span>HNjT<span class="org-constant">0</span>x<span class="org-constant">5</span>YMCtWhkAQkcwkciYv<span class="org-constant">7</span>eVV<span class="org-constant">6</span>IQ<span class="org-constant">4</span>PsRjQYvZgWmQiGn<span class="org-constant">3</span>pP<span class="org-constant">1</span>Hye<span class="org-constant">9</span>eEH<span class="org-constant">7</span>rzebiqB<span class="org-constant">5</span>q<span class="org-constant">6</span>bwQ<span class="org-constant">3</span>cIZYwtTJ<span class="org-constant">5</span>yjGbn<span class="org-constant">4</span>-zY<span class="org-constant">15</span>eBvcpbVqL-<span class="org-constant">1</span>gn<span class="org-constant">3</span>uP<span class="org-constant">9</span>n_DLY<span class="org-constant">8</span>-<span class="org-constant">7</span>N<span class="org-constant">4</span>I<span class="org-constant">6</span>OW<span class="org-constant">9</span>X<span class="org-constant">6</span>pLcO<span class="org-constant">3</span>nD<span class="org-constant">5</span>XAj-<span class="org-constant">8</span>cdCbX-sca<span class="org-constant">60</span>eQeioseSa_QCpY<span class="org-constant">8</span>Q<span class="org-constant">6</span>YoPjll-ja<span class="org-constant">1</span>fYnvEVXZF<span class="org-constant">7</span>delZew',
+  e: 'AQAB'
+}
+</pre>
+</div>
+<p>
+Usually, there are multiple such JWKs. So, we will need to use the <code>kid</code> property to find the exect key necessary to verify the JWT.
+</p>
+
+
+<p>
+We could decode the JWT as it is simply base64 url encoded. Here, we decode the JWT with <code>jwt_decode</code>, the decoded JWT signed from above is:
+</p>
+<div class="org-src-container">
+<pre class="src src-json">{
+  header: { alg: 'RS<span class="org-constant">256</span>', typ: 'JWT' },
+  payload: {
+    first_name: 'Zhao',
+    last_name: 'Wei',
+    iat: <span class="org-constant">1619103222</span>,
+    exp: <span class="org-constant">1619189622</span>
+  },
+  signature: 'khOxfaJZE-<span class="org-constant">0</span>Muj<span class="org-constant">1</span>Brm<span class="org-constant">6</span>EEZ<span class="org-constant">8</span>FvPzNkzJQOhO<span class="org-constant">0</span>ciKCNq-WeXK<span class="org-constant">8</span>mBMc<span class="org-constant">0</span>aWc<span class="org-constant">0</span>iBFuNxc<span class="org-constant">8</span>hPi<span class="org-constant">5</span>TnmXbyArxf<span class="org-constant">0</span>RzBu<span class="org-constant">0</span>XfPUpOwmrimBQDDEV<span class="org-constant">1</span>GinnVLzay_Nk<span class="org-constant">5</span>-KpG_sM-a<span class="org-constant">3</span>ZVlkSx<span class="org-constant">8</span>OWDBOJssyfVPiX<span class="org-constant">1</span>t<span class="org-constant">1</span>zuduRUyJlPSXHG<span class="org-constant">8</span>wneRzg<span class="org-constant">0</span>O<span class="org-constant">3</span>eVPDqjkjQTtjJgSXkBT<span class="org-constant">0</span>b_zXdaYVyqeraMGADrTNclIC<span class="org-constant">466</span>nc_hHv<span class="org-constant">48</span>XbjhB<span class="org-constant">9</span>k<span class="org-constant">6</span>z<span class="org-constant">9</span>V<span class="org-constant">2</span>IsPqBSuuHYU<span class="org-constant">81</span>rtFnhHpv<span class="org-constant">9</span>gWJnfmpj<span class="org-constant">4</span>GJBy<span class="org-constant">9</span>yB<span class="org-constant">9</span>aqggqlXT<span class="org-constant">5</span>Vu<span class="org-constant">4</span>cVEgFCHBILCPmuB<span class="org-constant">4</span>Ik-PbCo<span class="org-constant">3</span>mXlczG<span class="org-constant">8</span>TZVYUhu<span class="org-constant">0</span>rQEyVWf<span class="org-constant">6</span>nrw'
+}
+</pre>
+</div>
+<p>
+TODO:: Why is no kid?
+</p>
+
+<p>
+Now, we have find the matching JWK using <code>kid</code>. We could verify the JWT with the JWK now.
+TODO:: 
+</p>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-orge66eeea" class="outline-2">
+<h2 id="orge66eeea">Summary</h2>
+<div class="outline-text-2" id="text-orge66eeea">
+<ul class="org-ul">
+<li>When we need to use HS256 to sign JWT, the secret length should not be shorter than 32 characters.</li>
+<li>We better to use asymmetric algorithm to sign our JWT.</li>
+<li>We use private key to sign JWT and use publick key to verify JWT.</li>
+<li>JWKS stores array of <b>public-key</b> use to verify JWT.</li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgeba37ed" class="outline-2">
+<h2 id="orgeba37ed">References</h2>
+<div class="outline-text-2" id="text-orgeba37ed">
+<ul class="org-ul">
+<li><a href="https://tools.ietf.org/html/rfc7517">RFC 7517 &#x2013; JSON Web Key (JWK)</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7518">RFC 7518 &#x2013; JSON Web Algorithms (JWA)</a></li>
+<li><a href="https://auth0.com/blog/navigating-rs256-and-jwks/">Navigating RS256 and JWKS</a></li>
+<li><a href="https://auth0.com/blog/brute-forcing-hs256-is-possible-the-importance-of-using-strong-keys-to-sign-jwts/#Structure-of-a-JSON-Web-Token">Brute Forcing HS256 is Possible: The Importance of Using Strong Keys in Signing JWTs</a></li>
+</ul>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Apr 23, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+</div>
+</footer>
+</body>
+</html>
