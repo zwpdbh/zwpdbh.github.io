@@ -72,12 +72,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org732c7dc">ECS</a>
+<li><a href="#org2bb94dd">ECS</a>
 <ul>
-<li><a href="#orgbe808ad">Refs</a></li>
+<li><a href="#orgd7c2a49">Refs</a></li>
 <li><a href="#org85e5388">Concepts</a>
 <ul>
-<li><a href="#org5fd89a3">ECS</a></li>
+<li><a href="#org732c7dc">ECS</a></li>
 <li><a href="#orgd82cd27">EC2</a></li>
 <li><a href="#org51f17b2">Farget and EC2</a></li>
 <li><a href="#org3444717">Task Definitions</a></li>
@@ -102,10 +102,10 @@
 <li><a href="#org56fe89f">AWS Security</a>
 <ul>
 <li><a href="#orgb3cb63c">refs</a></li>
-<li><a href="#org8c2991c">My notes</a>
+<li><a href="#org479f93e">My notes</a>
 <ul>
 <li><a href="#org4643b0f">Office building analogy</a></li>
-<li><a href="#orga6c11b3">VPC</a></li>
+<li><a href="#org2d1f27c">VPC</a></li>
 <li><a href="#org94282f3">Subnets</a></li>
 <li><a href="#orgd7b3b4d">Security Group</a></li>
 <li><a href="#orgeca8ec2">Launch instance into VPC</a></li>
@@ -117,9 +117,9 @@
 </li>
 <li><a href="#org9670a86">ECR</a></li>
 <li><a href="#orgc8377ff">Troubleshootings</a></li>
-<li><a href="#org2d1f27c"><span class="todo TODO">TODO</span> VPC</a>
+<li><a href="#orgf698697"><span class="todo TODO">TODO</span> VPC</a>
 <ul>
-<li><a href="#orgd7c2a49">Refs</a></li>
+<li><a href="#orgdd5e038">Refs</a></li>
 <li><a href="#orgcc312d7">VPC networking components</a></li>
 </ul>
 </li>
@@ -128,7 +128,7 @@
 <li><a href="#org40843f9">Use FindInMap to customize environment variables based on keys</a></li>
 </ul>
 </li>
-<li><a href="#org479f93e">My notes</a>
+<li><a href="#org93e74d1">My notes</a>
 <ul>
 <li><a href="#org41d381e">Network Fundamentals</a></li>
 </ul>
@@ -137,13 +137,13 @@
 </div>
 </nav>
 
-<section id="outline-container-org732c7dc" class="outline-2">
-<h2 id="org732c7dc">ECS</h2>
-<div class="outline-text-2" id="text-org732c7dc">
+<section id="outline-container-org2bb94dd" class="outline-2">
+<h2 id="org2bb94dd">ECS</h2>
+<div class="outline-text-2" id="text-org2bb94dd">
 </div>
-<div id="outline-container-orgbe808ad" class="outline-3">
-<h3 id="orgbe808ad">Refs</h3>
-<div class="outline-text-3" id="text-orgbe808ad">
+<div id="outline-container-orgd7c2a49" class="outline-3">
+<h3 id="orgd7c2a49">Refs</h3>
+<div class="outline-text-3" id="text-orgd7c2a49">
 <ul class="org-ul">
 <li><a href="https://stackoverflow.com/questions/42960678/what-is-the-difference-between-a-task-and-a-service-in-aws-ecs">What is the difference between a task and a service in AWS ECS?</a></li>
 <li><a href="https://medium.com/boltops/gentle-introduction-to-how-aws-ecs-works-with-example-tutorial-cea3d27ce63d">Gentle Introduction to How AWS ECS Works with Example Tutorial</a></li>
@@ -154,9 +154,9 @@
 <h3 id="org85e5388">Concepts</h3>
 <div class="outline-text-3" id="text-org85e5388">
 </div>
-<div id="outline-container-org5fd89a3" class="outline-4">
-<h4 id="org5fd89a3">ECS</h4>
-<div class="outline-text-4" id="text-org5fd89a3">
+<div id="outline-container-org732c7dc" class="outline-4">
+<h4 id="org732c7dc">ECS</h4>
+<div class="outline-text-4" id="text-org732c7dc">
 <ul class="org-ul">
 <li>abbreviation  for <b>Elastic Container Service</b>. It is a container <b>management</b> service for containers on a cluster.</li>
 <li><b>Task Definition</b> defines one or multiple containers to construct as a application.</li>
@@ -481,167 +481,116 @@ Resolve <code>dev.acs.app.com</code>
 <div id="outline-container-org03480a6" class="outline-3">
 <h3 id="org03480a6">LoadBalancer in ECS</h3>
 <div class="outline-text-3" id="text-org03480a6">
-<p>
-#+begin<sub>src</sub> yaml
-    AppService:
-      Type: AWS::ECS::Service
-      DependsOn:
-</p>
-<ul class="org-ul">
-<li>ALBListenerRule</li>
-</ul>
-<p>
-  #- ServiceRole
-Properties:
-  Cluster: !ImportValue
-    Fn::Sub: ${ECSStackName}-ECSCluster
-  DesiredCount: !FindInMap
-</p>
-<ul class="org-ul">
-<li>EnvironmentMap</li>
-<li>!Ref &rsquo;ConfigEnvironment&rsquo;</li>
-<li>DesiredCount</li>
-</ul>
-<p>
-LoadBalancers:
-</p>
-<ul class="org-ul">
-<li>ContainerName: altas-service
-ContainerPort: &rsquo;8080&rsquo;
-TargetGroupArn: !Ref &rsquo;ECSTG&rsquo;</li>
-<li>ContainerName: altas-service
-ContainerPort: &rsquo;8080&rsquo;
-TargetGroupArn: !Ref &rsquo;ECSTGALB&rsquo;</li>
-</ul>
-<p>
-#Role: !Ref &rsquo;ServiceRole&rsquo;
-TaskDefinition: !Ref &rsquo;TaskDefinition&rsquo;
-PlacementStrategies:
-</p>
-<ul class="org-ul">
-<li>Field: attribute:ecs.availability-zone
-Type: spread</li>
-<li>Field: memory
-Type: binpack</li>
-</ul>
-<p>
-ECSTGALB:
-  Type: AWS::ElasticLoadBalancingV2::TargetGroup
-  Properties:
-    HealthCheckIntervalSeconds: 10
-    HealthCheckPath: /health
-    HealthCheckProtocol: HTTP
-    HealthyThresholdCount: 2
-    Port: 80
-    Protocol: HTTP
-    UnhealthyThresholdCount: 2
-    VpcId: !ImportValue
-      Fn::Sub: ${VPCStackName}-VPCId
-    TargetGroupAttributes:
-</p>
-<ul class="org-ul">
-<li>Key: deregistration<sub>delay.timeout</sub><sub>seconds</sub>
-Value: &rsquo;20&rsquo;</li>
-</ul>
-<p>
-ALBListenerRule:  
-  Type: AWS::ElasticLoadBalancingV2::ListenerRule
-  DependsOn:
-</p>
-<ul class="org-ul">
-<li>ECSTGALB</li>
-</ul>
-<p>
-Properties:
-  Actions:
-</p>
-<ul class="org-ul">
-<li>Type: forward
-TargetGroupArn: !Ref &rsquo;ECSTGALB&rsquo;</li>
-</ul>
-<p>
-Conditions:
-</p>
-<ul class="org-ul">
-<li>Field: path-pattern
-Values:
-<ul class="org-ul">
-<li>/app/*</li>
-</ul></li>
-</ul>
-<p>
-    ListenerArn: !ImportValue
-      Fn::Sub: app-alb-${StackEnvironment}-AppPubALBListenerArn
-    Priority: '5'
-ALBListener:
-  Type: AWS::ElasticLoadBalancingV2::Listener
-  #DependsOn: ServiceRole
-  Properties:
-    DefaultActions:
-</p>
-<ul class="org-ul">
-<li>Type: forward
-TargetGroupArn: !Ref &rsquo;ECSTG&rsquo;</li>
-</ul>
-<p>
-    LoadBalancerArn: !Ref 'ECSALB'
-    Port: '80'
-    Protocol: TCP
-ECSALB:
-  Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-  Properties:
-    Type: network
-    Scheme: internal
-    Name: !Sub '${VPCStackName}-NLB'
-    Subnets: !If
-</p>
-<ul class="org-ul">
-<li>ThirdAZ</li>
-<li>- !ImportValue
-Fn::Sub: ${VPCStackName}-PrivateSubnet1
-<ul class="org-ul">
-<li>!ImportValue
-Fn::Sub: ${VPCStackName}-PrivateSubnet2</li>
-<li>!ImportValue
-Fn::Sub: ${VPCStackName}-PrivateSubnet3</li>
-</ul></li>
-<li>- !ImportValue
-Fn::Sub: ${VPCStackName}-PrivateSubnet1
-<ul class="org-ul">
-<li>!ImportValue
-Fn::Sub: ${VPCStackName}-PrivateSubnet2</li>
-</ul></li>
-</ul>
-<p>
-LoadBalancerAttributes:
-</p>
-<ul class="org-ul">
-<li>Key: load<sub>balancing.cross</sub><sub>zone.enabled</sub>
-Value: &rsquo;true&rsquo;</li>
-</ul>
-<p>
-ECSTG:
-  Type: AWS::ElasticLoadBalancingV2::TargetGroup
-  DependsOn: ECSALB
-  Properties:
-    HealthCheckIntervalSeconds: 10
-    HealthCheckPath: /health
-    HealthCheckProtocol: HTTP
-    HealthyThresholdCount: 2
-    Port: 80
-    Protocol: TCP
-    UnhealthyThresholdCount: 2
-    VpcId: !ImportValue
-      Fn::Sub: ${VPCStackName}-VPCId
-    TargetGroupAttributes:
-</p>
-<ul class="org-ul">
-<li>Key: deregistration<sub>delay.timeout</sub><sub>seconds</sub>
-Value: &rsquo;20&rsquo;</li>
-</ul>
+<div class="org-src-container">
+<pre class="src src-yaml"><span class="org-variable-name">AppService</span>:
+  <span class="org-variable-name">Type</span>: AWS::ECS::Service
+  <span class="org-variable-name">DependsOn</span>:
+    - ALBListenerRule
+    <span class="org-comment-delimiter">#</span><span class="org-comment">- ServiceRole</span>
+  <span class="org-variable-name">Properties</span>:
+    <span class="org-variable-name">Cluster</span>: <span class="org-type">!ImportValue</span>
+      <span class="org-variable-name">Fn::Sub</span>: ${ECSStackName}-ECSCluster
+    <span class="org-variable-name">DesiredCount</span>: <span class="org-type">!FindInMap</span>
+      - EnvironmentMap
+      - <span class="org-type">!Ref</span> <span class="org-string">'ConfigEnvironment'</span>
+      - DesiredCount
+    <span class="org-variable-name">LoadBalancers</span>:
+      - <span class="org-variable-name">ContainerName</span>: altas-service
+<span class="org-yaml-tab">        </span><span class="org-variable-name">ContainerPort</span>: <span class="org-string">'8080'</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">TargetGroupArn</span>: <span class="org-type">!Ref</span> <span class="org-string">'ECSTG'</span>
+      - <span class="org-variable-name">ContainerName</span>: altas-service
+<span class="org-yaml-tab">        </span><span class="org-variable-name">ContainerPort</span>: <span class="org-string">'8080'</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">TargetGroupArn</span>: <span class="org-type">!Ref</span> <span class="org-string">'ECSTGALB'</span>
+    <span class="org-comment-delimiter">#</span><span class="org-comment">Role: !Ref 'ServiceRole'</span>
+    <span class="org-variable-name">TaskDefinition</span>: <span class="org-type">!Ref</span> <span class="org-string">'TaskDefinition'</span>
+    <span class="org-variable-name">PlacementStrategies</span>:
+      - <span class="org-variable-name">Field</span>: attribute:ecs.availability-zone
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Type</span>: spread
+      - <span class="org-variable-name">Field</span>: memory
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Type</span>: binpack        
+<span class="org-variable-name">ECSTGALB</span>:
+  <span class="org-variable-name">Type</span>: AWS::ElasticLoadBalancingV2::TargetGroup
+  <span class="org-variable-name">Properties</span>:
+    <span class="org-variable-name">HealthCheckIntervalSeconds</span>: 10
+    <span class="org-variable-name">HealthCheckPath</span>: /health
+    <span class="org-variable-name">HealthCheckProtocol</span>: HTTP
+    <span class="org-variable-name">HealthyThresholdCount</span>: 2
+    <span class="org-variable-name">Port</span>: 80
+    <span class="org-variable-name">Protocol</span>: HTTP
+    <span class="org-variable-name">UnhealthyThresholdCount</span>: 2
+    <span class="org-variable-name">VpcId</span>: <span class="org-type">!ImportValue</span>
+      <span class="org-variable-name">Fn::Sub</span>: ${VPCStackName}-VPCId
+    <span class="org-variable-name">TargetGroupAttributes</span>:
+      - <span class="org-variable-name">Key</span>: deregistration_delay.timeout_seconds
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Value</span>: <span class="org-string">'20'</span>
+<span class="org-variable-name">ALBListenerRule</span>:  
+  <span class="org-variable-name">Type</span>: AWS::ElasticLoadBalancingV2::ListenerRule
+  <span class="org-variable-name">DependsOn</span>:
+    - ECSTGALB
+  <span class="org-variable-name">Properties</span>:
+    <span class="org-variable-name">Actions</span>:
+      - <span class="org-variable-name">Type</span>: forward
+<span class="org-yaml-tab">        </span><span class="org-variable-name">TargetGroupArn</span>: <span class="org-type">!Ref</span> <span class="org-string">'ECSTGALB'</span>
+    <span class="org-variable-name">Conditions</span>:
+      - <span class="org-variable-name">Field</span>: path-pattern
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Values</span>:
+<span class="org-yaml-tab">        </span>  - /app/*
+    <span class="org-variable-name">ListenerArn</span>: <span class="org-type">!ImportValue</span>
+      <span class="org-variable-name">Fn::Sub</span>: app-alb-${StackEnvironment}-AppPubALBListenerArn
+    <span class="org-variable-name">Priority</span>: <span class="org-string">'5'</span>
+<span class="org-variable-name">ALBListener</span>:
+  <span class="org-variable-name">Type</span>: AWS::ElasticLoadBalancingV2::Listener
+  <span class="org-comment-delimiter">#</span><span class="org-comment">DependsOn: ServiceRole</span>
+  <span class="org-variable-name">Properties</span>:
+    <span class="org-variable-name">DefaultActions</span>:
+      - <span class="org-variable-name">Type</span>: forward
+<span class="org-yaml-tab">        </span><span class="org-variable-name">TargetGroupArn</span>: <span class="org-type">!Ref</span> <span class="org-string">'ECSTG'</span>
+    <span class="org-variable-name">LoadBalancerArn</span>: <span class="org-type">!Ref</span> <span class="org-string">'ECSALB'</span>
+    <span class="org-variable-name">Port</span>: <span class="org-string">'80'</span>
+    <span class="org-variable-name">Protocol</span>: TCP
+<span class="org-variable-name">ECSALB</span>:
+  <span class="org-variable-name">Type</span>: AWS::ElasticLoadBalancingV2::LoadBalancer
+  <span class="org-variable-name">Properties</span>:
+    <span class="org-variable-name">Type</span>: network
+    <span class="org-variable-name">Scheme</span>: internal
+    <span class="org-variable-name">Name</span>: <span class="org-type">!Sub</span> <span class="org-string">'${VPCStackName}-NLB'</span>
+    <span class="org-variable-name">Subnets</span>: <span class="org-type">!If</span>
+      - ThirdAZ
+      - - <span class="org-type">!ImportValue</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">  Fn::Sub</span>: ${VPCStackName}-PrivateSubnet1
+<span class="org-yaml-tab">        </span>- <span class="org-type">!ImportValue</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">  Fn::Sub</span>: ${VPCStackName}-PrivateSubnet2
+<span class="org-yaml-tab">        </span>- <span class="org-type">!ImportValue</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">  Fn::Sub</span>: ${VPCStackName}-PrivateSubnet3
+      - - <span class="org-type">!ImportValue</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">  Fn::Sub</span>: ${VPCStackName}-PrivateSubnet1
+<span class="org-yaml-tab">        </span>- <span class="org-type">!ImportValue</span>
+<span class="org-yaml-tab">        </span><span class="org-variable-name">  Fn::Sub</span>: ${VPCStackName}-PrivateSubnet2
+    <span class="org-variable-name">LoadBalancerAttributes</span>:
+      - <span class="org-variable-name">Key</span>: load_balancing.cross_zone.enabled
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Value</span>: <span class="org-string">'true'</span>
+<span class="org-variable-name">ECSTG</span>:
+  <span class="org-variable-name">Type</span>: AWS::ElasticLoadBalancingV2::TargetGroup
+  <span class="org-variable-name">DependsOn</span>: ECSALB
+  <span class="org-variable-name">Properties</span>:
+    <span class="org-variable-name">HealthCheckIntervalSeconds</span>: 10
+    <span class="org-variable-name">HealthCheckPath</span>: /health
+    <span class="org-variable-name">HealthCheckProtocol</span>: HTTP
+    <span class="org-variable-name">HealthyThresholdCount</span>: 2
+    <span class="org-variable-name">Port</span>: 80
+    <span class="org-variable-name">Protocol</span>: TCP
+    <span class="org-variable-name">UnhealthyThresholdCount</span>: 2
+    <span class="org-variable-name">VpcId</span>: <span class="org-type">!ImportValue</span>
+      <span class="org-variable-name">Fn::Sub</span>: ${VPCStackName}-VPCId
+    <span class="org-variable-name">TargetGroupAttributes</span>:
+      - <span class="org-variable-name">Key</span>: deregistration_delay.timeout_seconds
+<span class="org-yaml-tab">        </span><span class="org-variable-name">Value</span>: <span class="org-string">'20'</span>                           
+</pre>
+</div>
 </div>
 </div>
 </section>
+
 
 <section id="outline-container-org56fe89f" class="outline-2">
 <h2 id="org56fe89f">AWS Security</h2>
@@ -661,9 +610,9 @@ Value: &rsquo;20&rsquo;</li>
 </div>
 </div>
 
-<div id="outline-container-org8c2991c" class="outline-3">
-<h3 id="org8c2991c">My notes</h3>
-<div class="outline-text-3" id="text-org8c2991c">
+<div id="outline-container-org479f93e" class="outline-3">
+<h3 id="org479f93e">My notes</h3>
+<div class="outline-text-3" id="text-org479f93e">
 <ul class="org-ul">
 <li>Different models have differences on how security responsibility are devided (where AWS and customer responsibility start and end)
 <ul class="org-ul">
@@ -694,8 +643,9 @@ Value: &rsquo;20&rsquo;</li>
 <li>Each floor has multiple suites</li>
 <li>Each department like HR, Payroll can sit in one floor (or) multiple floors</li>
 <li>Every suite has few rooms</li>
-<li>Each room has couple of desk where employees work</li>
-</ul>
+<li><p>
+Each room has couple of desk where employees work
+</p>
 <table>
 
 
@@ -736,8 +686,7 @@ Value: &rsquo;20&rsquo;</li>
 <td class="org-left">Each desk</td>
 </tr>
 </tbody>
-</table>
-<ul class="org-ul">
+</table></li>
 <li><p>
 When company assign desk to employee vs Launch AWS EC2 instance
 </p>
@@ -786,16 +735,9 @@ When company assign desk to employee vs Launch AWS EC2 instance
 </div>
 
 
-
-
-
-
-
-
-
-<div id="outline-container-orga6c11b3" class="outline-4">
-<h4 id="orga6c11b3">VPC</h4>
-<div class="outline-text-4" id="text-orga6c11b3">
+<div id="outline-container-org2d1f27c" class="outline-4">
+<h4 id="org2d1f27c">VPC</h4>
+<div class="outline-text-4" id="text-org2d1f27c">
 <ul class="org-ul">
 <li>What is it?
 <ul class="org-ul">
@@ -972,13 +914,13 @@ pull image from ECR
 
 
 
-<section id="outline-container-org2d1f27c" class="outline-2">
-<h2 id="org2d1f27c"><span class="todo TODO">TODO</span> VPC</h2>
-<div class="outline-text-2" id="text-org2d1f27c">
+<section id="outline-container-orgf698697" class="outline-2">
+<h2 id="orgf698697"><span class="todo TODO">TODO</span> VPC</h2>
+<div class="outline-text-2" id="text-orgf698697">
 </div>
-<div id="outline-container-orgd7c2a49" class="outline-3">
-<h3 id="orgd7c2a49">Refs</h3>
-<div class="outline-text-3" id="text-orgd7c2a49">
+<div id="outline-container-orgdd5e038" class="outline-3">
+<h3 id="orgdd5e038">Refs</h3>
+<div class="outline-text-3" id="text-orgdd5e038">
 <ul class="org-ul">
 <li><a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">Amazon Virtual Private Cloud</a></li>
 </ul>
@@ -1094,9 +1036,9 @@ Example:
 </div>
 </div>
 </section>
-<section id="outline-container-org479f93e" class="outline-2">
-<h2 id="org479f93e">My notes</h2>
-<div class="outline-text-2" id="text-org479f93e">
+<section id="outline-container-org93e74d1" class="outline-2">
+<h2 id="org93e74d1">My notes</h2>
+<div class="outline-text-2" id="text-org93e74d1">
 </div>
 <div id="outline-container-org41d381e" class="outline-3">
 <h3 id="org41d381e">Network Fundamentals</h3>
