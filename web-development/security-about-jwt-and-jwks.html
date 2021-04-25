@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 23, 2021 -->
+<!-- Apr 25, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JWT, JWKS in Web Development</title>
@@ -92,6 +92,7 @@
 <ul>
 <li><a href="#org44ec4c0">What is JWT?</a></li>
 <li><a href="#org346c4e3">What is JWKS?</a></li>
+<li><a href="#org075277c">Load Keys into JWKS</a></li>
 </ul>
 </li>
 </ul>
@@ -102,7 +103,6 @@
 <li><a href="#orgbd8871f">Generate JWT signed with RS256</a>
 <ul>
 <li><a href="#org41ec395">Sign JWT with RS256</a></li>
-<li><a href="#org7a1fbcb">Sign JWT with ES256</a></li>
 </ul>
 </li>
 </ul>
@@ -116,8 +116,10 @@
 </ul>
 </li>
 <li><a href="#org1ab70de">How to verify JWT using JWKS?</a></li>
+<li><a href="#orga9df107">How to verify JWT as middleware in practise.</a></li>
 </ul>
 </li>
+<li><a href="#orga303fa9">General flow to implement JWKS</a></li>
 <li><a href="#orge66eeea">Summary</a></li>
 <li><a href="#orgeba37ed">References</a></li>
 </ul>
@@ -313,9 +315,33 @@ The JSON Web Key Set (JWKS) is a set of keys containing the <b>public keys</b> u
 </p>
 </div>
 </div>
+
+<div id="outline-container-org075277c" class="outline-4">
+<h4 id="org075277c">Load Keys into JWKS</h4>
+<div class="outline-text-4" id="text-org075277c">
+<p>
+We could use package <code>node-jose</code> to load keys (public or private) files as JWK.
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">function</span> <span class="org-function-name">readJWKFromPEM</span>(<span class="org-variable-name">filename</span>) {
+  <span class="org-keyword">return</span> <span class="org-keyword">new</span> <span class="org-type">Promise</span>((resolve, reject)=&gt; {
+    <span class="org-keyword">const</span> <span class="org-variable-name">key</span> = fs.readFileSync(filename);
+    <span class="org-keyword">const</span> <span class="org-variable-name">keystore</span> = jose.JWK.createKeyStore();
+    keystore.add(key, <span class="org-string">'pem'</span>).then(()=&gt;{
+      <span class="org-keyword">const</span> <span class="org-variable-name">jwks</span> = keystore.toJSON(<span class="org-constant">true</span>);
+      resolve(jwks);
+    }).<span class="org-keyword">catch</span>(err=&gt;{
+      console.log(<span class="org-string">"add JWK failed from PEM key:"</span>, err.message);
+      reject(err);
+    });
+  });
+}
+</pre>
+</div>
+</div>
+</div>
 </div>
 </section>
-
 
 <section id="outline-container-org4e1752a" class="outline-2">
 <h2 id="org4e1752a">How to generate JWT?</h2>
@@ -413,30 +439,23 @@ After we <a href="#org1b54992">generate key-pair</a>, we use private-key to sign
 If we use <code>jsonwebtoken</code> to do it:
 </p>
 <div class="org-src-container">
-<pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">You can get this from private_key.pem above.</span>
-<span class="org-keyword">const</span> <span class="org-variable-name">privateRsaKey</span> = <span class="org-string">`&lt;YOUR-PRIVATE-RSA-KEY&gt;`</span>;
-
-<span class="org-keyword">const</span> <span class="org-variable-name">signed</span> = jwt.sign(payload, privateRsaKey, {
+<pre class="src src-js"><span class="org-keyword">async</span> <span class="org-keyword">function</span> generateJWT(<span class="org-variable-name">payload</span>, <span class="org-variable-name">privateKeyName</span>) {
+  <span class="org-keyword">let</span> <span class="org-variable-name">privateKey</span> = fs.readFileSync(privateKeyName);
+  <span class="org-keyword">let</span> <span class="org-variable-name">jwks</span> = <span class="org-keyword">await</span> readJWKFromPEM(privateKeyName);
+  <span class="org-keyword">const</span> <span class="org-variable-name">signed</span> = jwt.sign(payload, privateKey, {
     algorithm: <span class="org-string">'RS256'</span>,
-    expiresIn: <span class="org-string">'5s'</span>
-});
-</pre>
-</div>
-</div>
-</div>
+    expiresIn: <span class="org-string">'24h'</span>,
+    keyid: jwks.keys[0].kid
+    issuer: process.env.issuer
+  });
 
-<div id="outline-container-org7a1fbcb" class="outline-4">
-<h4 id="org7a1fbcb">Sign JWT with ES256</h4>
-<div class="outline-text-4" id="text-org7a1fbcb">
-<div class="org-src-container">
-<pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">You can get this from private_key.pem above.</span>
-<span class="org-keyword">const</span> <span class="org-variable-name">privateEcdsaKey</span> = <span class="org-string">`&lt;YOUR-PRIVATE-ECDSA-KEY&gt;`</span>;
-<span class="org-keyword">const</span> <span class="org-variable-name">signed</span> = jwt.sign(payload, privateEcdsaKey, {
-    algorithm: <span class="org-string">'ES256'</span>,
-    expiresIn: <span class="org-string">'5s'</span>
-});
+  <span class="org-keyword">return</span> signed;
+}
 </pre>
 </div>
+<p>
+To sign JWT with ES256, change &ldquo;algorithm&rdquo; to &ldquo;ES256&rdquo;.
+</p>
 </div>
 </div>
 </div>
@@ -489,30 +508,22 @@ If we use <code>jsonwebtoken</code> to do it:
 <h3 id="org1ab70de">How to verify JWT using JWKS?</h3>
 <div class="outline-text-3" id="text-org1ab70de">
 <p>
-JWKS stores an array of public-keys in the format of JWK(See <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>). 
+JWKS stores an array of public-keys in the format of JWK(See <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>). So, we need to find the matching public-key using <code>kid</code> property from JWT&rsquo;s header.
 </p>
 
 <p>
 Suppose we have a priviate-key: <code>priviate_key.pem</code> <a href="#org1b54992">generated with RS256</a>. Let&rsquo;s generate JWT from it.
 </p>
 <div class="org-src-container">
-<pre class="src src-js"><span class="org-keyword">function</span> <span class="org-function-name">generateJWT</span>(<span class="org-variable-name">payload</span>, <span class="org-variable-name">privateKeyName</span>) {
-  <span class="org-keyword">let</span> <span class="org-variable-name">privateKey</span> = fs.readFileSync(privateKeyName);
-
-  <span class="org-keyword">const</span> <span class="org-variable-name">signed</span> = jwt.sign(payload, privateKey, {
-    algorithm: <span class="org-string">'RS256'</span>,
-    expiresIn: <span class="org-string">'24h'</span>
-  });
-
-  <span class="org-keyword">return</span> signed;
-}
-
-<span class="org-keyword">let</span> <span class="org-variable-name">signedJWT</span> = generateJWT({
+<pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">signedJWT</span> = <span class="org-keyword">await</span> generateJWT({
   first_name: <span class="org-string">"Zhao"</span>,
   last_name: <span class="org-string">"Wei"</span>
 }, <span class="org-string">"private_key.pem"</span>);
 
-console.log(signedJWT);
+
+console.log(<span class="org-string">"&gt;&gt; decoded JWT:"</span>);
+<span class="org-keyword">let</span> <span class="org-variable-name">decodedToken</span> = jwt.decode(signedJWT, {complete: <span class="org-constant">true</span>});
+console.log(decodedToken);
 </pre>
 </div>
 
@@ -520,7 +531,8 @@ console.log(signedJWT);
 Its output look like this:
 </p>
 <div class="org-src-container">
-<pre class="src src-text">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiWmhhbyIsImxhc3RfbmFtZSI6IldlaSIsImlhdCI6MTYxOTA5ODg5NiwiZXhwIjoxNjE5MTg1Mjk2fQ.rjZTnWKA5zvQ0Y33OnJMF0kTUOIzhPDg1_H4mCFjyeSnkg0zDkSv5xXH9uhSFXGOVxAL5-x0_d0NYGpACcZvsEQn2Sj53Ndu8mZx5Z-_qpuro--5unHBI-iQJ9f9Uqb4Yys6byD8tF44IffKWZEsZ7lFo98K2U5xNWlxewzd3TRNNAkFz5FomvBCgFai_XfSXg9LxEKBDE2U2o4hgJCu3wUeqpImEgOrbyfte5lXefPh2OEtiOIx6CB_OByxWJ_5OIcTJe6SndPra2fwX07P6SSLTIkJSAE58KYfWEUAFOSDwFLfHcue_2rr1-NSYmHxq6HQ6ie9BwVdgUgR1t-fxQ
+<pre class="src src-text">&gt;&gt; signed JWT:
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Im41SkNCY2dhUVJFeW1tb3pvcDJvYnBtalZQeUZ2aHR3UkZFY3RSdDFCeWsifQ.eyJmaXJzdF9uYW1lIjoiWmhhbyIsImxhc3RfbmFtZSI6IldlaSIsImlhdCI6MTYxOTM1NTU4MywiZXhwIjoxNjE5NDQxOTgzfQ.U06ryukF5ywMelTKYbroLnxn62bKQ683i-ty86BQeMZQuXtB5o8CzLXtOM-oW1TYv_Trpzy2EXkPhLE5YpGUwsLxPd9qCKeqMYd7Vm54v2okmfJADVndm4NL5oXHErdaSh1nL4-fkmCXL63zLsH9Sai2QkkIgOwXYAfpz4VcxatMJsLJAl3YGqgrZkKfeQvAJuOb6LXI6Uu9LZD-oGlfJR7VJCtGf4HbdTTU4DBZuIeCQ26u2EkldhW27T9pxI2_D7PVDNikkcu50Rv5s4UHql6RxCRbpHoCOVgrA9sILnlCqT6r78UkgUNrGQidTs-UOAq3DDeuJ19RZBU20xlUgw
 </pre>
 </div>
 
@@ -529,7 +541,7 @@ The general steps to verify this token from JWKS:
 </p>
 <ol class="org-ol">
 <li>Retrieve the JWKS and filter for potential signature verification keys.</li>
-<li>Decode the JWT and grab the <code>kid</code> property.</li>
+<li>Decode the JWT and grab the <code>kid</code> property. It is used to lookup the appropriate public-key, as it is also included in the JWT JOSE(Javascript Object Signing and Encryption) hader.</li>
 <li>Find the signature verification key in the filtered JWKS with a matching kid property.</li>
 <li>Using the x5c property build a certificate which will be used to verify the JWT signature.</li>
 <li>Ensure the JWT contains the expected audience, issuer, expiration, etc.</li>
@@ -540,9 +552,13 @@ The general steps to verify this token from JWKS:
 The potential signature verification keys means each key from &ldquo;keys&rdquo; member of JWKS should contains the following property:
 </p>
 <ul class="org-ul">
-<li><code>kty:RSA</code></li>
+<li><code>kid</code>, is used to identify a key.</li>
+<li><code>kty</code>, is used to identify the cryptographic algorithm family used with the key.</li>
+<li><code>use</code>, is used to indentify the use of the public key. Values could be: <code>sig</code> (signature), <code>enc</code> (encryption)</li>
+<li><code>exp</code>, is used to define the expiration time for the given JWK.</li>
 <li><code>kid</code>, is the unique identifier for the key.</li>
-<li><code>n</code>, contains the modulus value for the RSA public key.  It is represented as a Base64urlUInt-encoded value.</li>
+<li><code>n</code>, contains the modulus value for the RSA public key.  It is represented as a Base64urlUInt-encoded value. (see <a href="https://tools.ietf.org/html/rfc7518#section-6.3">https://tools.ietf.org/html/rfc7518#section-6.3</a>)</li>
+<li><code>e</code>, contains the exponent value for the RSA public key.  It is represented as a Base64urlUInt-encoded value.</li>
 </ul>
 
 <p>
@@ -551,8 +567,8 @@ Suppose the public key stored in JWKS is something like:
 <div class="org-src-container">
 <pre class="src src-json">{
   kty: 'RSA',
-  kid: 'aIvYNSRyGzn<span class="org-constant">8</span>lAerJ<span class="org-constant">3</span>NqeDS<span class="org-constant">3</span>xN<span class="org-constant">1</span>awFqtZZVp<span class="org-constant">9</span>Z_-AHM',
-  n: 'wZke<span class="org-constant">2</span>Nt<span class="org-constant">51</span>af<span class="org-constant">6</span>_IC-TVMTwl<span class="org-constant">0</span>q_pzpVZErg<span class="org-constant">6</span>-yQZAGZychrrqBNTLfrM<span class="org-constant">4</span>lHzJ<span class="org-constant">6</span>nyvuSxBs<span class="org-constant">0</span>bz<span class="org-constant">0</span>QVocYJHqA<span class="org-constant">3</span>BqYjHyPaLNpWukL<span class="org-constant">0</span>DNfxKWOTVF_Wk<span class="org-constant">3</span>M<span class="org-constant">7</span>qoyddrbtNfcosl<span class="org-constant">7</span>lcGe<span class="org-constant">8</span>njLKz<span class="org-constant">0</span>RCqqN<span class="org-constant">999</span>HNjT<span class="org-constant">0</span>x<span class="org-constant">5</span>YMCtWhkAQkcwkciYv<span class="org-constant">7</span>eVV<span class="org-constant">6</span>IQ<span class="org-constant">4</span>PsRjQYvZgWmQiGn<span class="org-constant">3</span>pP<span class="org-constant">1</span>Hye<span class="org-constant">9</span>eEH<span class="org-constant">7</span>rzebiqB<span class="org-constant">5</span>q<span class="org-constant">6</span>bwQ<span class="org-constant">3</span>cIZYwtTJ<span class="org-constant">5</span>yjGbn<span class="org-constant">4</span>-zY<span class="org-constant">15</span>eBvcpbVqL-<span class="org-constant">1</span>gn<span class="org-constant">3</span>uP<span class="org-constant">9</span>n_DLY<span class="org-constant">8</span>-<span class="org-constant">7</span>N<span class="org-constant">4</span>I<span class="org-constant">6</span>OW<span class="org-constant">9</span>X<span class="org-constant">6</span>pLcO<span class="org-constant">3</span>nD<span class="org-constant">5</span>XAj-<span class="org-constant">8</span>cdCbX-sca<span class="org-constant">60</span>eQeioseSa_QCpY<span class="org-constant">8</span>Q<span class="org-constant">6</span>YoPjll-ja<span class="org-constant">1</span>fYnvEVXZF<span class="org-constant">7</span>delZew',
+  kid: 'n<span class="org-constant">5</span>JCBcgaQREymmozop<span class="org-constant">2</span>obpmjVPyFvhtwRFEctRt<span class="org-constant">1</span>Byk',
+  n: '<span class="org-constant">0</span>HWDCPjBAniQkcc<span class="org-constant">0</span>UqcMH<span class="org-constant">4</span>ZMYcrU<span class="org-constant">3</span>xnya<span class="org-constant">9</span>Bkjz<span class="org-constant">4</span>Ev<span class="org-constant">6</span>Ohj_Ff-xNnmQKvJKu<span class="org-constant">3</span>x<span class="org-constant">9</span>RzZJW<span class="org-constant">6</span>vPzVOjQRTvBqT<span class="org-constant">4</span>I<span class="org-constant">3</span>KkrUb<span class="org-constant">5</span>XVr<span class="org-constant">4</span>L_WEpXOX<span class="org-constant">2</span>JpCQlI<span class="org-constant">1</span>RdmPDUKyoMO_rGa<span class="org-constant">5</span>VoAFrj<span class="org-constant">4</span>txGLXxELw<span class="org-constant">4</span>_s<span class="org-constant">2</span>azKgjx<span class="org-constant">0</span>Wx<span class="org-constant">7</span>FbQLlMhLR<span class="org-constant">0</span>c<span class="org-constant">7</span>XzK<span class="org-constant">7</span>q<span class="org-constant">1</span>PUjBehA<span class="org-constant">4</span>_FEtUsKwFexfiXJGeryQTo<span class="org-constant">3</span>ftXmwpNf<span class="org-constant">785</span>aSZxsopuimlh<span class="org-constant">8</span>iYVvP<span class="org-constant">4</span>utI<span class="org-constant">9</span>R<span class="org-constant">0</span>c<span class="org-constant">8</span>jrIhYJ<span class="org-constant">9</span>Ijfzrv<span class="org-constant">23</span>bslf<span class="org-constant">4</span>BH-tmsEpXPxOPjdRfaJamtSrJfCtW<span class="org-constant">7</span>ZdkwDCgWt<span class="org-constant">1</span>HsrlP_p<span class="org-constant">46</span>mGMUmvqqnwG<span class="org-constant">2</span>eyDjg<span class="org-constant">29</span>eJoiu<span class="org-constant">5</span>-tKYQ',
   e: 'AQAB'
 }
 </pre>
@@ -567,29 +583,116 @@ We could decode the JWT as it is simply base64 url encoded. Here, we decode the 
 </p>
 <div class="org-src-container">
 <pre class="src src-json">{
-  header: { alg: 'RS<span class="org-constant">256</span>', typ: 'JWT' },
+  header: {
+    alg: 'RS<span class="org-constant">256</span>',
+    typ: 'JWT',
+    kid: 'n<span class="org-constant">5</span>JCBcgaQREymmozop<span class="org-constant">2</span>obpmjVPyFvhtwRFEctRt<span class="org-constant">1</span>Byk'
+  },
   payload: {
     first_name: 'Zhao',
     last_name: 'Wei',
-    iat: <span class="org-constant">1619103222</span>,
-    exp: <span class="org-constant">1619189622</span>
+    iat: <span class="org-constant">1619355693</span>,
+    exp: <span class="org-constant">1619442093</span>
   },
-  signature: 'khOxfaJZE-<span class="org-constant">0</span>Muj<span class="org-constant">1</span>Brm<span class="org-constant">6</span>EEZ<span class="org-constant">8</span>FvPzNkzJQOhO<span class="org-constant">0</span>ciKCNq-WeXK<span class="org-constant">8</span>mBMc<span class="org-constant">0</span>aWc<span class="org-constant">0</span>iBFuNxc<span class="org-constant">8</span>hPi<span class="org-constant">5</span>TnmXbyArxf<span class="org-constant">0</span>RzBu<span class="org-constant">0</span>XfPUpOwmrimBQDDEV<span class="org-constant">1</span>GinnVLzay_Nk<span class="org-constant">5</span>-KpG_sM-a<span class="org-constant">3</span>ZVlkSx<span class="org-constant">8</span>OWDBOJssyfVPiX<span class="org-constant">1</span>t<span class="org-constant">1</span>zuduRUyJlPSXHG<span class="org-constant">8</span>wneRzg<span class="org-constant">0</span>O<span class="org-constant">3</span>eVPDqjkjQTtjJgSXkBT<span class="org-constant">0</span>b_zXdaYVyqeraMGADrTNclIC<span class="org-constant">466</span>nc_hHv<span class="org-constant">48</span>XbjhB<span class="org-constant">9</span>k<span class="org-constant">6</span>z<span class="org-constant">9</span>V<span class="org-constant">2</span>IsPqBSuuHYU<span class="org-constant">81</span>rtFnhHpv<span class="org-constant">9</span>gWJnfmpj<span class="org-constant">4</span>GJBy<span class="org-constant">9</span>yB<span class="org-constant">9</span>aqggqlXT<span class="org-constant">5</span>Vu<span class="org-constant">4</span>cVEgFCHBILCPmuB<span class="org-constant">4</span>Ik-PbCo<span class="org-constant">3</span>mXlczG<span class="org-constant">8</span>TZVYUhu<span class="org-constant">0</span>rQEyVWf<span class="org-constant">6</span>nrw'
+  signature: 'OwijTq<span class="org-constant">7</span>lmwumcBc_srwWh<span class="org-constant">53</span>Yr<span class="org-constant">5</span>_lBHsELmKUO<span class="org-constant">5</span>m<span class="org-constant">22</span>nANoIlu-xVGD<span class="org-constant">7</span>dOw<span class="org-constant">0</span>K_JKXiLgiZV<span class="org-constant">0</span>qyJF<span class="org-constant">2</span>zU<span class="org-constant">1</span>G<span class="org-constant">4</span>fLJw<span class="org-constant">7</span>w<span class="org-constant">21</span>SO<span class="org-constant">8</span>s<span class="org-constant">78430</span>SFAmbKLYM<span class="org-constant">2</span>yTVBYKs<span class="org-constant">76</span>nRpyzAw<span class="org-constant">4188</span>DmEcXv<span class="org-constant">7</span>hb<span class="org-constant">4</span>f-<span class="org-constant">58</span>ANkdKUJ<span class="org-constant">4</span>MeFgHFD<span class="org-constant">8</span>wIB<span class="org-constant">8</span>aSA<span class="org-constant">5</span>CUxcCyEy<span class="org-constant">54</span>sNetQo_PZmrDFgfVjYHDszRG<span class="org-constant">4</span>oFmwtukxvu<span class="org-constant">7</span>ySr<span class="org-constant">2</span>SReuvboop_uw<span class="org-constant">9</span>sPvS<span class="org-constant">7</span>mcy<span class="org-constant">4</span>plLEqjHltH_QL<span class="org-constant">7</span>awdFyxEg<span class="org-constant">3</span>mC<span class="org-constant">4</span>SoIcPSDdRcs<span class="org-constant">5</span>Co<span class="org-constant">1</span>GS-Y-ZbORS<span class="org-constant">65</span>zIQlNufSD<span class="org-constant">7</span>SQyIqIVzxF<span class="org-constant">60</span>ZNCPS<span class="org-constant">1</span>SyG-QFT<span class="org-constant">7</span>kj-_PpdYg<span class="org-constant">29</span>hA<span class="org-constant">2</span>Ng'
 }
 </pre>
 </div>
-<p>
-TODO:: Why is no kid?
-</p>
 
 <p>
-Now, we have find the matching JWK using <code>kid</code>. We could verify the JWT with the JWK now.
-TODO:: 
+Now, we have find the matching JWK using <code>kid</code> (assuming there are multiple public keys in JWKS). We could verify the JWT with the JWK now.
 </p>
+<ol class="org-ol">
+<li>Convert JWK to PEM using <a href="https://github.com/Brightspace/node-jwk-to-pem#readme">jwk-to-pem</a>.</li>
+<li>Verify signed JWT token using <code>jwt</code>.</li>
+</ol>
+<p>
+The simple code could look like:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">publicPem</span> = jwkToPem(publicJWK);
+jwt.verify(signedJWT, publicPem);
+</pre>
+</div>
+<p>
+That is it. We verify signed JWT with matched public-key.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga9df107" class="outline-3">
+<h3 id="orga9df107">How to verify JWT as middleware in practise.</h3>
+<div class="outline-text-3" id="text-orga9df107">
+<p>
+The above section illustrates how to verify signed JWT from multiple public keys as JWKS step by step. In practise, Auth-provider usually provide an endpoint <code>/keys</code> for GET requests which returns a list of keys.    
+</p>
+<div class="org-src-container">
+<pre class="src src-text">curl https://&lt;some_auth_provider&gt;/keys |jq
+  ...
+{
+  "keys": [
+    public-key-01-in-JWK-format,
+    public-key-02-in-JWK-format,
+    ...
+  ]
+}
+</pre>
+</div>
+
+<p>
+And the middleware which validate JWT could use <code>jwks-rsa</code> and <code>express-jwt</code> to do above operations automatically:
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">import</span> express, { Request, Response } from <span class="org-string">'express'</span>;
+<span class="org-keyword">import</span> { issuer } from <span class="org-string">'./config'</span>;
+<span class="org-keyword">import</span> jwt from <span class="org-string">'express-jwt'</span>;
+<span class="org-keyword">import</span> jwksRsa from <span class="org-string">'jwks-rsa'</span>;
+
+<span class="org-keyword">const</span> <span class="org-variable-name">checkJwt</span> = jwt({
+    secret: jwksRsa.expressJwtSecret({
+        cache: <span class="org-constant">true</span>,
+        rateLimit: <span class="org-constant">true</span>,
+        jwksRequestsPerMinute: 5,
+        jwksUri: <span class="org-string">`http://localhost:3344/keys`</span>
+    }),
+    issuer,
+    algorithms: [<span class="org-string">'RS256'</span>],
+    requestProperty: <span class="org-string">'tokenData'</span>
+});
+
+<span class="org-keyword">const</span> <span class="org-variable-name">app</span> = express()
+app.use(<span class="org-string">'/some-api'</span>, checkJwt, (req: Request, res: Response) =&gt; {
+    res.send(<span class="org-string">`Result: ${JSON.stringify(req.tokenData)}`</span>);
+})
+
+app.listen(2233, () =&gt; console.log(<span class="org-string">`Backend is running on port 2233`</span>))
+</pre>
+</div>
 </div>
 </div>
 </section>
 
+<section id="outline-container-orga303fa9" class="outline-2">
+<h2 id="orga303fa9">General flow to implement JWKS</h2>
+<div class="outline-text-2" id="text-orga303fa9">
+
+<figure id="org1911d52">
+<img src="general_flow_to_implement_JWKS.png" alt="general_flow_to_implement_JWKS.png">
+
+</figure>
+
+<p>
+The important steps involve with JWKS are:
+</p>
+<ul class="org-ul">
+<li>Decode the JOSE header in order to find the JWK kid.</li>
+<li>Retrieve the list of avaiable public keys.</li>
+<li>Filter the key with matching kid.</li>
+<li>Verify JWT with public key.</li>
+</ul>
+</div>
+</section>
 
 <section id="outline-container-orge66eeea" class="outline-2">
 <h2 id="orge66eeea">Summary</h2>
@@ -610,7 +713,10 @@ TODO::
 <li><a href="https://tools.ietf.org/html/rfc7517">RFC 7517 &#x2013; JSON Web Key (JWK)</a></li>
 <li><a href="https://tools.ietf.org/html/rfc7518">RFC 7518 &#x2013; JSON Web Algorithms (JWA)</a></li>
 <li><a href="https://auth0.com/blog/navigating-rs256-and-jwks/">Navigating RS256 and JWKS</a></li>
+<li><a href="https://omakoleg.gitlab.io/node-jwt-guide/">Typescript Node.js guide for JWT signing and verifying using asymmetric keys</a></li>
 <li><a href="https://auth0.com/blog/brute-forcing-hs256-is-possible-the-importance-of-using-strong-keys-to-sign-jwts/#Structure-of-a-JSON-Web-Token">Brute Forcing HS256 is Possible: The Importance of Using Strong Keys in Signing JWTs</a></li>
+<li><a href="https://blog.unosquare.com/why-and-how-to-improve-jwt-security-with-jwks-key-rotation-in-java">Why and how to improve JWT securty with JWKS key rotation in JAVA</a></li>
+<li><a href="https://medium.facilelogin.com/jwt-jws-and-jwe-for-not-so-dummies-b63310d201a3">JWT, JWS and JWE for Not So Dummies! (Part I)</a></li>
 </ul>
 </div>
 </section>
@@ -619,7 +725,7 @@ TODO::
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 23, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Apr 25, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
