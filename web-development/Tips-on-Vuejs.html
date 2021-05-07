@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 23, 2021 -->
+<!-- May 07, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tips-on-Vuejs</title>
@@ -72,6 +72,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
+<li><a href="#org0843da8">How to validate Vuetify v-text-field asynchronously?</a></li>
 <li><a href="#org6d2d992">How to access different part from component or vice versa?</a>
 <ul>
 <li><a href="#org6a117a6">How to access state from a plain js file</a></li>
@@ -92,6 +93,27 @@
 </ul>
 </div>
 </nav>
+
+<section id="outline-container-org0843da8" class="outline-2">
+<h2 id="org0843da8">How to validate Vuetify v-text-field asynchronously?</h2>
+<div class="outline-text-2" id="text-org0843da8">
+<p>
+I met a situation where when user register account, they need to input their email address. It is easy to validate some input as a valid email address. But, I also need to validate the input doesn&rsquo;t duplicate with any other email addresses already stored in the db.
+</p>
+
+<p>
+General solution:
+</p>
+<ul class="org-ul">
+<li>Use <code>watch</code> to dynamically check the value of user input.</li>
+<li>Check the backend from <code>watch</code> and put the validation errors input <code>v-text-filed</code> prop <code>error-messages</code>.</li>
+</ul>
+
+<p>
+Ref: <a href="https://stackoverflow.com/questions/49132167/how-to-validate-vuetify-text-field-asynchronously">How to validate Vuetify text field asynchronously?</a>
+</p>
+</div>
+</section>
 
 <section id="outline-container-org6d2d992" class="outline-2">
 <h2 id="org6d2d992">How to access different part from component or vice versa?</h2>
@@ -222,6 +244,7 @@ This direct user to router path &ldquo;Home&rdquo;.
 </div>
 </div>
 </section>
+
 
 <section id="outline-container-orgefe75c5" class="outline-2">
 <h2 id="orgefe75c5">How to create currying functions to help validation?</h2>
@@ -696,7 +719,7 @@ This document record down my problems when working with Vuejs. I will keep updat
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 23, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 07, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
