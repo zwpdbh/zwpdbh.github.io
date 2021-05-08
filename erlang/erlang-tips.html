@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- May 08, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Erlang Tips</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Zhao Wei">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">My Erlang Tips</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgc7c3482">High order function</a></li>
+<li><a href="#org5e533ba">Different ways to spawn and passing argument</a></li>
+<li><a href="#orgcc5ddff"><code>spawn_link</code></a></li>
+<li><a href="#org50c69f2">Different behaviours around throws,errors and exits</a>
+<ul>
+<li><a href="#orgdc3d1e6">Exit signals</a></li>
+<li><a href="#orge829736">Exit</a></li>
+<li><a href="#org61eac81">Error</a></li>
+<li><a href="#orgb69362a">Throw</a></li>
+<li><a href="#org5276114">Kill signal</a></li>
+<li><a href="#org98050ec">Summary</a></li>
+<li><a href="#org999c6e7">Refs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-orgc7c3482" class="outline-2">
+<h2 id="orgc7c3482">High order function</h2>
+<div class="outline-text-2" id="text-orgc7c3482">
+<ul class="org-ul">
+<li>Clojure, it is very useful because it lets us carry around parameters out of its original context.</li>
+<li><p>
+Anonymous function(lambda function)
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">[<span class="org-builtin">spawn</span>(<span class="org-keyword">fun</span> (<span class="org-variable-name">X</span>) -&gt;<span class="org-function-name"> </span><span class="org-type">timer</span>:<span class="org-type">sleep</span>(10), <span class="org-type">io</span>:<span class="org-type">format</span>(<span class="org-string">"~p~n"</span>, [<span class="org-variable-name">X</span>]) <span class="org-keyword">end</span>) <span class="org-keyword">||</span> <span class="org-variable-name">X</span> <span class="org-keyword">&lt;-</span> <span class="org-type">lists</span>:<span class="org-type">seq</span>(1, 10)]. <span class="org-comment-delimiter">% </span><span class="org-comment">wrong</span>
+[<span class="org-builtin">spawn</span>(<span class="org-keyword">fun</span> () -&gt;<span class="org-function-name"> </span><span class="org-type">timer</span>:<span class="org-type">sleep</span>(10), <span class="org-type">io</span>:<span class="org-type">format</span>(<span class="org-string">"~p~n"</span>, [<span class="org-variable-name">X</span>]) <span class="org-keyword">end</span>) <span class="org-keyword">||</span> <span class="org-variable-name">X</span> <span class="org-keyword">&lt;-</span> <span class="org-type">lists</span>:<span class="org-type">seq</span>(1, 10)]. <span class="org-comment-delimiter">% </span><span class="org-comment">right</span>
+</pre>
+</div>
+<p>
+Here, we could need to make lambda/0 instead of lambda/1 in list comprehension.
+</p></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org5e533ba" class="outline-2">
+<h2 id="org5e533ba">Different ways to spawn and passing argument</h2>
+<div class="outline-text-2" id="text-org5e533ba">
+<ul class="org-ul">
+<li><p>
+Using <code>spawn/3</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang"><span class="org-builtin">erlang</span>:<span class="org-builtin">spawn</span>(?<span class="org-constant">MODULE</span>, function, [arg1, arg2, arg3]).
+</pre>
+</div>
+<p>
+This solution need function to be exported.
+</p></li>
+<li><p>
+Use <code>spawn/1</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang"><span class="org-function-name">spawn</span>(<span class="org-keyword">fun</span> () -&gt;<span class="org-function-name"> </span><span class="org-builtin">function</span>(arg1, arg2, arg3) <span class="org-keyword">end</span>).
+</pre>
+</div></li>
+<li><p>
+Use <code>apply/2</code> in <code>spawn/3</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang"><span class="org-comment-delimiter">%% </span><span class="org-comment">Function Ref. to a local (non-exported) function</span>
+<span class="org-variable-name">Function</span> = <span class="org-keyword">fun</span> function/arity,
+<span class="org-variable-name">Args</span> = [arg1, arg2, arg3],
+<span class="org-function-name">spawn</span>(erlang, apply, [<span class="org-variable-name">Function</span>, <span class="org-variable-name">Args</span>]).
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgcc5ddff" class="outline-2">
+<h2 id="orgcc5ddff"><code>spawn_link</code></h2>
+<div class="outline-text-2" id="text-orgcc5ddff">
+<ul class="org-ul">
+<li><p>
+It is an atomic operation for <code>spawn</code> + <code>link</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang"><span class="org-function-name">spawn_link</span>(<span class="org-variable-name">Mod</span>, <span class="org-variable-name">Func</span>, <span class="org-variable-name">Args</span>) -&gt;
+    <span class="org-comment-delimiter">%% </span><span class="org-comment">==should be protected by atomicity ==</span>
+    <span class="org-variable-name">Pid</span> = <span class="org-builtin">spawn</span>(<span class="org-variable-name">Mod</span>, <span class="org-variable-name">Func</span>, <span class="org-variable-name">Args</span>),
+    <span class="org-builtin">link</span>(<span class="org-variable-name">Pid</span>),
+    <span class="org-comment-delimiter">%% </span><span class="org-comment">================================== ==</span>
+    <span class="org-variable-name">Pid</span>.
+</pre>
+</div>
+<p>
+<b>DO NOT USE THIS</b>.
+</p></li>
+<li><p>
+Its argument is function just like <code>spawn</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang"><span class="org-function-name">link</span>(<span class="org-builtin">spawn</span>(error_and_process, chain, [3])).
+<span class="org-comment-delimiter">%% </span><span class="org-comment">If we want to use spawn_link to replace link</span>
+<span class="org-comment-delimiter">%% </span><span class="org-comment">We have to put spawn into lambda function </span>
+<span class="org-function-name">spawn_link</span>(<span class="org-keyword">fun</span>() -&gt;<span class="org-function-name"> </span><span class="org-type">linkmon</span>:<span class="org-type">chain</span>(3) <span class="org-keyword">end</span>).
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org50c69f2" class="outline-2">
+<h2 id="org50c69f2">Different behaviours around throws,errors and exits</h2>
+<div class="outline-text-2" id="text-org50c69f2">
+</div>
+<div id="outline-container-orgdc3d1e6" class="outline-3">
+<h3 id="orgdc3d1e6">Exit signals</h3>
+<div class="outline-text-3" id="text-orgdc3d1e6">
+<ul class="org-ul">
+<li>What is a exit signal?
+Except normal message passing, a process could send signal to other processes to let them know it is exiting. So, it is a special kind of message. Exit signal contains exit reason, so other processes could decide how to react.</li>
+
+<li>Processes are linked using exit signals
+A process could be linked with another process by subscribe to that process&rsquo;s exit signal. All linked processes receive the exit signal from the terminating process.</li>
+
+<li>What does it mean by a process trapping exit?
+When a process traps exit (signals), the exit signals that are received from links will be converted into messages which are then put inside the mailbox.</li>
+
+<li><p>
+How to make a process trap exit?
+A normal process can trap exit signal by converting itself into system process.
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang"><span class="org-function-name">process_flag</span>(trap_exit, true)
+</pre>
+</div>
+<p>
+A system process can handle exit signals because exit signals will be converted into message. So, system process could just use <code>receive</code> to handle them.
+</p></li>
+
+<li>What are the different reason for a process to terminate?
+<ol class="org-ol">
+<li>A normal exit</li>
+<li>Unhandled errors</li>
+<li>Killed</li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge829736" class="outline-3">
+<h3 id="orge829736">Exit</h3>
+<div class="outline-text-3" id="text-orge829736">
+<ol class="org-ol">
+<li>Exception source: <code>spawn_link(fun() -&gt; ok end)</code>
+<ul class="org-ul">
+<li>Untrapped result: - nothing -</li>
+<li>Trapped result:  {&rsquo;EXIT&rsquo;, &lt;0.61.0&gt;, normal}</li>
+<li>The process exited normally, without a problem.</li>
+</ul></li>
+<li>Exception source: <code>spawn_link(fun() -&gt; exit(reason) end)</code>
+<ul class="org-ul">
+<li>Untrapped result: ** exception exit: reason</li>
+<li>Trapped result: {&rsquo;EXIT&rsquo;, &lt;0.55.0&gt;, reason}</li>
+<li>The process has terminated for a custom reason. If there is no trapped exit (using system process), the process crashed.</li>
+</ul></li>
+<li>Exception source: <code>spawn_link(fun() -&gt; exit(normal) end)</code>
+<ul class="org-ul">
+<li>Untrapped result: - nothing -</li>
+<li>Trapped result: {&rsquo;EXIT&rsquo;, &lt;0.58.0&gt;, normal}</li>
+<li>This emulates a process terminating normally.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org61eac81" class="outline-3">
+<h3 id="org61eac81">Error</h3>
+<div class="outline-text-3" id="text-org61eac81">
+<ol class="org-ol">
+<li>Exception source: <code>spawn_link(fun() -&gt; 1/0 end)</code>
+<ul class="org-ul">
+<li>Untrapped result: Error in process &lt;0.44.0&gt; with exit value: {badarith, [{erlang, &rsquo;/&rsquo;, [1,0]}]}</li>
+<li>Trapped result: {&rsquo;EXIT&rsquo;, &lt;0.52.0&gt;, {badarith, [{erlang, &rsquo;/&rsquo;, [1,0]}]}}</li>
+<li>The error is not caught by <code>try...catch</code> block and bubbles up into an &rsquo;EXIT&rsquo;.</li>
+<li>It behaves the same as <code>exit(reason)</code>, with a stack trace giving more details about what happend.</li>
+</ul></li>
+<li>Exception source: <code>spawn_link(fun() -&gt; erlang:error(reason) end)</code>
+<ul class="org-ul">
+<li>Untrapped result: Error in process &lt;0.47.0&gt; with exit value: {reason, [{erlang, apply, 2}]}</li>
+<li>Trapped result: {&rsquo;EXIT&rsquo;, &lt;0.74.0&gt;, {reason, [{erlang, apply, 2}]}}</li>
+<li>Same as case 1) of Error. <code>erlang/error/1</code> is meant to allow you to do just that.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgb69362a" class="outline-3">
+<h3 id="orgb69362a">Throw</h3>
+<div class="outline-text-3" id="text-orgb69362a">
+<p>
+Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code>
+</p>
+<ul class="org-ul">
+<li>Untrapped result: Error in process &lt;0.51.0&gt; with exit value: {{nocatch, rocks}, [{erlang, apply, 2}]}</li>
+<li>Trapped result: {&rsquo;EXIT&rsquo;, &lt;0.79.0&gt;, {{nocatch, rocks}, [{erlang, apply, 2}]}}</li>
+<li><code>throw</code> is not caught by <code>try...catch</code>, it bubbles up into an error &#x2013;&gt; an EXIT.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5276114" class="outline-3">
+<h3 id="org5276114">Kill signal</h3>
+<div class="outline-text-3" id="text-org5276114">
+<ul class="org-ul">
+<li>Generated with <code>exit/2</code>, like a gun. It allows a process to kill another one from a distance.</li>
+<li>When using <code>kill</code> exit signal, it is used to forcefully terminate the receiving process even if it is trapping exits.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org98050ec" class="outline-3">
+<h3 id="org98050ec">Summary</h3>
+<div class="outline-text-3" id="text-org98050ec">
+<ol class="org-ol">
+<li>Exit signals with reason will terminate the receiving process unless it is trapping exits. In which case, it can convert exit signals into normal messages and be handled by <code>receive</code>.</li>
+<li><code>normal</code> exit signals are harmless. 
+<ul class="org-ul">
+<li>When untrapped, they are ignoreed by receiving process.</li>
+<li>When trapped, they are received as messages.</li>
+<li>If it is sent by self, it will cause the process to terminal with a <code>normal</code> exit reason.</li>
+</ul></li>
+<li><code>kill</code> exit signals always terminate the receiving process even if it is trapping exits.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org999c6e7" class="outline-3">
+<h3 id="org999c6e7">Refs</h3>
+<div class="outline-text-3" id="text-org999c6e7">
+<ul class="org-ul">
+<li><a href="https://crypt.codemancers.com/posts/2016-01-24-understanding-exit-signals-in-erlang-slash-elixir/">Understanding Exit Signals in Erlang/Elixir</a></li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on May 08, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+</div>
+</footer>
+</body>
+</html>
