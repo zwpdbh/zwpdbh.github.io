@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 08, 2021 -->
+<!-- May 09, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My Erlang Tips</title>
@@ -165,7 +165,7 @@ It is an atomic operation for <code>spawn</code> + <code>link</code>.
 <b>DO NOT USE THIS</b>.
 </p></li>
 <li><p>
-Its argument is function just like <code>spawn</code>.
+Its argument is a function just like argument of <code>spawn</code>.
 </p>
 <div class="org-src-container">
 <pre class="src src-erlang"><span class="org-function-name">link</span>(<span class="org-builtin">spawn</span>(error_and_process, chain, [3])).
@@ -282,6 +282,7 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code>
 <ul class="org-ul">
 <li>Generated with <code>exit/2</code>, like a gun. It allows a process to kill another one from a distance.</li>
 <li>When using <code>kill</code> exit signal, it is used to forcefully terminate the receiving process even if it is trapping exits.</li>
+<li>When a process is killed with <code>kill</code>, it will emit exit signal <code>killed</code> to other linked process.</li>
 </ul>
 </div>
 </div>
@@ -315,7 +316,7 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code>
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 08, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 09, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
