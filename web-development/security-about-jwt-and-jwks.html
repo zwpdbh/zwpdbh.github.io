@@ -72,62 +72,62 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orged13576">1. Introduction</a></li>
-<li><a href="#orge087808">2. Differences between &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo; in the Authorization header</a>
+<li><a href="#orgedf81e6">1. Introduction</a></li>
+<li><a href="#orgb14cdb7">2. Differences between &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo; in the Authorization header</a>
 <ul>
-<li><a href="#orgf9446a7">2.1. Basic auth header</a></li>
-<li><a href="#orgd84bb90">2.2. Bearer auth header</a></li>
+<li><a href="#org438ac2e">2.1. Basic auth header</a></li>
+<li><a href="#orgadd9495">2.2. Bearer auth header</a></li>
 </ul>
 </li>
-<li><a href="#org2d7bd03">3. Basic concepts</a>
+<li><a href="#org471035f">3. Basic concepts</a>
 <ul>
-<li><a href="#orge0856e0">3.1. Encryption algorithms</a>
+<li><a href="#orgf018943">3.1. Encryption algorithms</a>
 <ul>
-<li><a href="#orgcbc2287">3.1.1. Symmetric encryption</a></li>
-<li><a href="#orgd865782">3.1.2. Asymmetric encryption</a></li>
-<li><a href="#org4997f6c">3.1.3. How to generate key-pair</a></li>
+<li><a href="#org1835372">3.1.1. Symmetric encryption</a></li>
+<li><a href="#org42c4386">3.1.2. Asymmetric encryption</a></li>
+<li><a href="#org9abfbbc">3.1.3. How to generate key-pair</a></li>
 </ul>
 </li>
-<li><a href="#org6febaf4">3.2. JWT and JWKS</a>
+<li><a href="#org243cdca">3.2. JWT and JWKS</a>
 <ul>
-<li><a href="#orgbb3ad5e">3.2.1. What is JWT?</a></li>
-<li><a href="#org4b5aab7">3.2.2. What is JWKS?</a></li>
-<li><a href="#org5bfa5fd">3.2.3. Load Keys into JWKS</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#orge6db5cf">4. How to generate JWT?</a>
-<ul>
-<li><a href="#org4765721">4.1. Generate JWT signed with HS256</a></li>
-<li><a href="#org0b84205">4.2. Generate JWT signed with RS256</a>
-<ul>
-<li><a href="#org048f7e1">4.2.1. Sign JWT with RS256</a></li>
+<li><a href="#org0dc20dc">3.2.1. What is JWT?</a></li>
+<li><a href="#orgf389263">3.2.2. What is JWKS?</a></li>
+<li><a href="#org1b840ab">3.2.3. Load Keys into JWKS</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org3f75e0b">5. How to verify JWT?</a>
+<li><a href="#org5685f64">4. How to generate JWT?</a>
 <ul>
-<li><a href="#org0499bce">5.1. Verify JWT with jsonwebtoken package</a>
+<li><a href="#org1d48a36">4.1. Generate JWT signed with HS256</a></li>
+<li><a href="#org27f15ce">4.2. Generate JWT signed with RS256</a>
 <ul>
-<li><a href="#orgafca9c8">5.1.1. Verify symmetric algorithm JWT</a></li>
-<li><a href="#orgf537ada">5.1.2. Verify asymmetric algorithm signed JWT</a></li>
+<li><a href="#orgf4afeb5">4.2.1. Sign JWT with RS256</a></li>
 </ul>
 </li>
-<li><a href="#org009c094">5.2. How to verify JWT using JWKS?</a></li>
-<li><a href="#orgc387a0b">5.3. How to verify JWT as middleware in practise.</a></li>
 </ul>
 </li>
-<li><a href="#org31deded">6. General flow to implement JWKS</a></li>
-<li><a href="#org00edbbe">7. Summary</a></li>
-<li><a href="#org52f2616">8. References</a></li>
+<li><a href="#org2e3a4bb">5. How to verify JWT?</a>
+<ul>
+<li><a href="#orgfeed154">5.1. Verify JWT with jsonwebtoken package</a>
+<ul>
+<li><a href="#org83d26e2">5.1.1. Verify symmetric algorithm JWT</a></li>
+<li><a href="#org20a6e90">5.1.2. Verify asymmetric algorithm signed JWT</a></li>
+</ul>
+</li>
+<li><a href="#org59c915e">5.2. How to verify JWT using JWKS?</a></li>
+<li><a href="#orgb17ed3e">5.3. How to verify JWT as middleware in practise.</a></li>
+</ul>
+</li>
+<li><a href="#org53b1f91">6. General flow to implement JWKS</a></li>
+<li><a href="#org61fb9cc">7. Summary</a></li>
+<li><a href="#org28640eb">8. References</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-orged13576" class="outline-2">
-<h2 id="orged13576"><span class="section-number-2">1</span> Introduction</h2>
+<section id="outline-container-orgedf81e6" class="outline-2">
+<h2 id="orgedf81e6"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 It describes the concepts and steps I learned to use tokens to secure web service, especially for:<br>
@@ -142,16 +142,16 @@ It describes the concepts and steps I learned to use tokens to secure web servic
 </section>
 
 
-<section id="outline-container-orge087808" class="outline-2">
-<h2 id="orge087808"><span class="section-number-2">2</span> Differences between &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo; in the Authorization header</h2>
+<section id="outline-container-orgb14cdb7" class="outline-2">
+<h2 id="orgb14cdb7"><span class="section-number-2">2</span> Differences between &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo; in the Authorization header</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 In web development, we usually need to configure &ldquo;Authorization&rdquo; header(I will call it auth header for short) before sending the request. If you notice, there are two kinds of auth header, &ldquo;Basic&rdquo; and &ldquo;Bearer&rdquo;.<br>
 </p>
 </div>
 
-<div id="outline-container-orgf9446a7" class="outline-3">
-<h3 id="orgf9446a7"><span class="section-number-3">2.1</span> Basic auth header</h3>
+<div id="outline-container-org438ac2e" class="outline-3">
+<h3 id="org438ac2e"><span class="section-number-3">2.1</span> Basic auth header</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 It is usually needed when we request some information from auth-provider. For example, when we want to introspect access-token from oidc-provider.<br>
@@ -175,8 +175,8 @@ It is usually needed when we request some information from auth-provider. For ex
 </div>
 </div>
 
-<div id="outline-container-orgd84bb90" class="outline-3">
-<h3 id="orgd84bb90"><span class="section-number-3">2.2</span> Bearer auth header</h3>
+<div id="outline-container-orgadd9495" class="outline-3">
+<h3 id="orgadd9495"><span class="section-number-3">2.2</span> Bearer auth header</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 It is needed when we want to request protected resources usually are some service&rsquo;s APIs endpoints. For example, after we got access-token after login, we need to use Bearer token in request&rsquo;s header.<br>
@@ -197,20 +197,20 @@ It is needed when we want to request protected resources usually are some servic
 </div>
 </section>
 
-<section id="outline-container-org2d7bd03" class="outline-2">
-<h2 id="org2d7bd03"><span class="section-number-2">3</span> Basic concepts</h2>
+<section id="outline-container-org471035f" class="outline-2">
+<h2 id="org471035f"><span class="section-number-2">3</span> Basic concepts</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orge0856e0" class="outline-3">
-<h3 id="orge0856e0"><span class="section-number-3">3.1</span> Encryption algorithms</h3>
+<div id="outline-container-orgf018943" class="outline-3">
+<h3 id="orgf018943"><span class="section-number-3">3.1</span> Encryption algorithms</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 To make data transfered safely between network, we need to encrypt data we transfered. There are mainly two kinds of algorithms to do this: symmetric encryption and asymmetric encryption.<br>
 </p>
 </div>
 
-<div id="outline-container-orgcbc2287" class="outline-4">
-<h4 id="orgcbc2287"><span class="section-number-4">3.1.1</span> Symmetric encryption</h4>
+<div id="outline-container-org1835372" class="outline-4">
+<h4 id="org1835372"><span class="section-number-4">3.1.1</span> Symmetric encryption</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <p>
 Symmetric encryptions use the same key for doing encryption and decryption.<br>
@@ -225,8 +225,8 @@ Symmetric encryptions use the same key for doing encryption and decryption.<br>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd865782" class="outline-4">
-<h4 id="orgd865782"><span class="section-number-4">3.1.2</span> Asymmetric encryption</h4>
+<div id="outline-container-org42c4386" class="outline-4">
+<h4 id="org42c4386"><span class="section-number-4">3.1.2</span> Asymmetric encryption</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <p>
 Instead of using the same key to do both encryption and decryption, asymmetric encryption algorithm uses a pair of key: use private key to encrypt data and use publick key to decrypt.<br>
@@ -244,8 +244,8 @@ Instead of using the same key to do both encryption and decryption, asymmetric e
 </div>
 </div>
 
-<div id="outline-container-org4997f6c" class="outline-4">
-<h4 id="org4997f6c"><span class="section-number-4">3.1.3</span> How to generate key-pair</h4>
+<div id="outline-container-org9abfbbc" class="outline-4">
+<h4 id="org9abfbbc"><span class="section-number-4">3.1.3</span> How to generate key-pair</h4>
 <div class="outline-text-4" id="text-3-1-3">
 <ul class="org-ul">
 <li><p>
@@ -282,12 +282,12 @@ openssl ec -in ecdsa_private_key.pem -pubout -out ecdsa_public_key.pem
 </div>
 </div>
 
-<div id="outline-container-org6febaf4" class="outline-3">
-<h3 id="org6febaf4"><span class="section-number-3">3.2</span> JWT and JWKS</h3>
+<div id="outline-container-org243cdca" class="outline-3">
+<h3 id="org243cdca"><span class="section-number-3">3.2</span> JWT and JWKS</h3>
 <div class="outline-text-3" id="text-3-2">
 </div>
-<div id="outline-container-orgbb3ad5e" class="outline-4">
-<h4 id="orgbb3ad5e"><span class="section-number-4">3.2.1</span> What is JWT?</h4>
+<div id="outline-container-org0dc20dc" class="outline-4">
+<h4 id="org0dc20dc"><span class="section-number-4">3.2.1</span> What is JWT?</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <p>
 JWT(JSON Web Token) encodes a series information(called claims). Those information typically includes:<br>
@@ -312,8 +312,8 @@ We usually use middleware in web service to verify the signed JWT passed from Au
 </div>
 
 
-<div id="outline-container-org4b5aab7" class="outline-4">
-<h4 id="org4b5aab7"><span class="section-number-4">3.2.2</span> What is JWKS?</h4>
+<div id="outline-container-orgf389263" class="outline-4">
+<h4 id="orgf389263"><span class="section-number-4">3.2.2</span> What is JWKS?</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <p>
 The JSON Web Key Set (JWKS) is a set of keys containing the <b>public keys</b> used to <b>verify any JSON Web Token (JWT)</b> issued by the authorization server and signed using the RS256(RSA Signature with SHA-256) algorithm.<br>
@@ -321,8 +321,8 @@ The JSON Web Key Set (JWKS) is a set of keys containing the <b>public keys</b> u
 </div>
 </div>
 
-<div id="outline-container-org5bfa5fd" class="outline-4">
-<h4 id="org5bfa5fd"><span class="section-number-4">3.2.3</span> Load Keys into JWKS</h4>
+<div id="outline-container-org1b840ab" class="outline-4">
+<h4 id="org1b840ab"><span class="section-number-4">3.2.3</span> Load Keys into JWKS</h4>
 <div class="outline-text-4" id="text-3-2-3">
 <p>
 We could use package <code>node-jose</code> to load keys (public or private) files as JWK.<br>
@@ -348,8 +348,8 @@ We could use package <code>node-jose</code> to load keys (public or private) fil
 </div>
 </section>
 
-<section id="outline-container-orge6db5cf" class="outline-2">
-<h2 id="orge6db5cf"><span class="section-number-2">4</span> How to generate JWT?</h2>
+<section id="outline-container-org5685f64" class="outline-2">
+<h2 id="org5685f64"><span class="section-number-2">4</span> How to generate JWT?</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 A signed JWT consists of three parts: header, payload and signature seperated by &ldquo;.&rdquo;:<br>
@@ -383,8 +383,8 @@ And signature is composed from the signing of encoded header and encoded payload
 </p>
 </div>
 
-<div id="outline-container-org4765721" class="outline-3">
-<h3 id="org4765721"><span class="section-number-3">4.1</span> Generate JWT signed with HS256</h3>
+<div id="outline-container-org1d48a36" class="outline-3">
+<h3 id="org1d48a36"><span class="section-number-3">4.1</span> Generate JWT signed with HS256</h3>
 <div class="outline-text-3" id="text-4-1">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">encodedHeader</span> = base64(utf8(JSON.stringify(header)));
@@ -422,15 +422,15 @@ If we use <code>jsonwebtoken</code> npm package, this could be simplified as:<br
 </div>
 </div>
 
-<div id="outline-container-org0b84205" class="outline-3">
-<h3 id="org0b84205"><span class="section-number-3">4.2</span> Generate JWT signed with RS256</h3>
+<div id="outline-container-org27f15ce" class="outline-3">
+<h3 id="org27f15ce"><span class="section-number-3">4.2</span> Generate JWT signed with RS256</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
-After we <a href="#org4997f6c">generate key-pair</a>, we use private-key to sign and public-key to verify it.<br>
+After we <a href="#org9abfbbc">generate key-pair</a>, we use private-key to sign and public-key to verify it.<br>
 </p>
 </div>
-<div id="outline-container-org048f7e1" class="outline-4">
-<h4 id="org048f7e1"><span class="section-number-4">4.2.1</span> Sign JWT with RS256</h4>
+<div id="outline-container-orgf4afeb5" class="outline-4">
+<h4 id="orgf4afeb5"><span class="section-number-4">4.2.1</span> Sign JWT with RS256</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">encodedHeader</span> = base64(utf8(JSON.stringify(header)));
@@ -467,16 +467,16 @@ To sign JWT with ES256, change &ldquo;algorithm&rdquo; to &ldquo;ES256&rdquo;.<b
 </section>
 
 
-<section id="outline-container-org3f75e0b" class="outline-2">
-<h2 id="org3f75e0b"><span class="section-number-2">5</span> How to verify JWT?</h2>
+<section id="outline-container-org2e3a4bb" class="outline-2">
+<h2 id="org2e3a4bb"><span class="section-number-2">5</span> How to verify JWT?</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org0499bce" class="outline-3">
-<h3 id="org0499bce"><span class="section-number-3">5.1</span> Verify JWT with jsonwebtoken package</h3>
+<div id="outline-container-orgfeed154" class="outline-3">
+<h3 id="orgfeed154"><span class="section-number-3">5.1</span> Verify JWT with jsonwebtoken package</h3>
 <div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-orgafca9c8" class="outline-4">
-<h4 id="orgafca9c8"><span class="section-number-4">5.1.1</span> Verify symmetric algorithm JWT</h4>
+<div id="outline-container-org83d26e2" class="outline-4">
+<h4 id="org83d26e2"><span class="section-number-4">5.1.1</span> Verify symmetric algorithm JWT</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">var</span> <span class="org-variable-name">decoded</span> = jwt.verify(token, secretKey);
@@ -484,8 +484,8 @@ To sign JWT with ES256, change &ldquo;algorithm&rdquo; to &ldquo;ES256&rdquo;.<b
 </div>
 </div>
 </div>
-<div id="outline-container-orgf537ada" class="outline-4">
-<h4 id="orgf537ada"><span class="section-number-4">5.1.2</span> Verify asymmetric algorithm signed JWT</h4>
+<div id="outline-container-org20a6e90" class="outline-4">
+<h4 id="org20a6e90"><span class="section-number-4">5.1.2</span> Verify asymmetric algorithm signed JWT</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">publicRsaKey</span> = <span class="org-string">`&lt;YOUR-PUBLIC-RSA-KEY&gt;`</span>;
@@ -509,15 +509,15 @@ To sign JWT with ES256, change &ldquo;algorithm&rdquo; to &ldquo;ES256&rdquo;.<b
 </div>
 </div>
 
-<div id="outline-container-org009c094" class="outline-3">
-<h3 id="org009c094"><span class="section-number-3">5.2</span> How to verify JWT using JWKS?</h3>
+<div id="outline-container-org59c915e" class="outline-3">
+<h3 id="org59c915e"><span class="section-number-3">5.2</span> How to verify JWT using JWKS?</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 JWKS stores an array of public-keys in the format of JWK(See <a href="https://tools.ietf.org/html/rfc7517">RFC 7517</a>). So, we need to find the matching public-key using <code>kid</code> property from JWT&rsquo;s header.<br>
 </p>
 
 <p>
-Suppose we have a priviate-key: <code>priviate_key.pem</code> <a href="#org4997f6c">generated with RS256</a>. Let&rsquo;s generate JWT from it.<br>
+Suppose we have a priviate-key: <code>priviate_key.pem</code> <a href="#org9abfbbc">generated with RS256</a>. Let&rsquo;s generate JWT from it.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">signedJWT</span> = <span class="org-keyword">await</span> generateJWT({
@@ -626,8 +626,8 @@ That is it. We verify signed JWT with matched public-key.<br>
 </div>
 
 
-<div id="outline-container-orgc387a0b" class="outline-3">
-<h3 id="orgc387a0b"><span class="section-number-3">5.3</span> How to verify JWT as middleware in practise.</h3>
+<div id="outline-container-orgb17ed3e" class="outline-3">
+<h3 id="orgb17ed3e"><span class="section-number-3">5.3</span> How to verify JWT as middleware in practise.</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 The above section illustrates how to verify signed JWT from multiple public keys as JWKS step by step. In practise, Auth-provider usually provide an endpoint <code>/keys</code> for GET requests which returns a list of keys.<br>
@@ -678,11 +678,11 @@ app.listen(2233, () =&gt; console.log(<span class="org-string">`Backend is runni
 </div>
 </section>
 
-<section id="outline-container-org31deded" class="outline-2">
-<h2 id="org31deded"><span class="section-number-2">6</span> General flow to implement JWKS</h2>
+<section id="outline-container-org53b1f91" class="outline-2">
+<h2 id="org53b1f91"><span class="section-number-2">6</span> General flow to implement JWKS</h2>
 <div class="outline-text-2" id="text-6">
 
-<figure id="org6751e2f">
+<figure id="orgac5c968">
 <img src="general_flow_to_implement_JWKS.png" alt="general_flow_to_implement_JWKS.png"><br>
 
 </figure>
@@ -699,8 +699,8 @@ The important steps involve with JWKS are:<br>
 </div>
 </section>
 
-<section id="outline-container-org00edbbe" class="outline-2">
-<h2 id="org00edbbe"><span class="section-number-2">7</span> Summary</h2>
+<section id="outline-container-org61fb9cc" class="outline-2">
+<h2 id="org61fb9cc"><span class="section-number-2">7</span> Summary</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li>When we need to use HS256 to sign JWT, the secret length should not be shorter than 32 characters.<br></li>
@@ -711,8 +711,8 @@ The important steps involve with JWKS are:<br>
 </div>
 </section>
 
-<section id="outline-container-org52f2616" class="outline-2">
-<h2 id="org52f2616"><span class="section-number-2">8</span> References</h2>
+<section id="outline-container-org28640eb" class="outline-2">
+<h2 id="org28640eb"><span class="section-number-2">8</span> References</h2>
 <div class="outline-text-2" id="text-8">
 <ul class="org-ul">
 <li><a href="https://tools.ietf.org/html/rfc7517">RFC 7517 &#x2013; JSON Web Key (JWK)</a><br></li>

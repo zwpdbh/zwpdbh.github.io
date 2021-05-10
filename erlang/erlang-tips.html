@@ -72,35 +72,35 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgaf74941">1. Creating a list</a></li>
-<li><a href="#orgfea895a">2. High order function</a></li>
-<li><a href="#org92d2ae4">3. Different ways to spawn and passing argument</a></li>
-<li><a href="#org226aa90">4. <code>spawn_link</code></a></li>
-<li><a href="#orgedb5765">5. Different behaviours around throws,errors and exits</a>
+<li><a href="#org6ab4475">1. Creating a list</a></li>
+<li><a href="#org335347e">2. High order function</a></li>
+<li><a href="#orgb440027">3. Different ways to spawn and passing argument</a></li>
+<li><a href="#org00d81c4">4. <code>spawn_link</code></a></li>
+<li><a href="#org976ab3d">5. Different behaviours around throws,errors and exits</a>
 <ul>
-<li><a href="#org5f4f46a">5.1. Exit signals</a></li>
-<li><a href="#orgb1203bc">5.2. Exit</a></li>
-<li><a href="#org8fdce28">5.3. Error</a></li>
-<li><a href="#org67204ea">5.4. Throw</a></li>
-<li><a href="#org43f6fc5">5.5. Kill signal</a></li>
-<li><a href="#org1081c9e">5.6. Summary</a></li>
-<li><a href="#orgdce4d5a">5.7. Refs</a></li>
+<li><a href="#orge0a6941">5.1. Exit signals</a></li>
+<li><a href="#org7359142">5.2. Exit</a></li>
+<li><a href="#orgf744dde">5.3. Error</a></li>
+<li><a href="#org74662cc">5.4. Throw</a></li>
+<li><a href="#org4ca2278">5.5. Kill signal</a></li>
+<li><a href="#orgc6e69e0">5.6. Summary</a></li>
+<li><a href="#org4c04a6a">5.7. Refs</a></li>
 </ul>
 </li>
-<li><a href="#org703a33f">6. What is the usage of register?</a></li>
+<li><a href="#org88e55af">6. What is the usage of register?</a></li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-orgaf74941" class="outline-2">
-<h2 id="orgaf74941"><span class="section-number-2">1</span> Creating a list</h2>
+<section id="outline-container-org6ab4475" class="outline-2">
+<h2 id="org6ab4475"><span class="section-number-2">1</span> Creating a list</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 It is important to ensure to attach the new elements to the <b>beginning of the list</b>. (see: <a href="http://erlang.org/doc/efficiency_guide/listHandling.html">List Handling</a>).<br>
 </p>
 </div>
 </section>
-<section id="outline-container-orgfea895a" class="outline-2">
-<h2 id="orgfea895a"><span class="section-number-2">2</span> High order function</h2>
+<section id="outline-container-org335347e" class="outline-2">
+<h2 id="org335347e"><span class="section-number-2">2</span> High order function</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>Clojure, it is very useful because it lets us carry around parameters out of its original context.<br></li>
@@ -119,8 +119,8 @@ Here, we could need to make lambda/0 instead of lambda/1 in list comprehension.<
 </div>
 </section>
 
-<section id="outline-container-org92d2ae4" class="outline-2">
-<h2 id="org92d2ae4"><span class="section-number-2">3</span> Different ways to spawn and passing argument</h2>
+<section id="outline-container-orgb440027" class="outline-2">
+<h2 id="orgb440027"><span class="section-number-2">3</span> Different ways to spawn and passing argument</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li><p>
@@ -154,8 +154,8 @@ Use <code>apply/2</code> in <code>spawn/3</code><br>
 </div>
 </section>
 
-<section id="outline-container-org226aa90" class="outline-2">
-<h2 id="org226aa90"><span class="section-number-2">4</span> <code>spawn_link</code></h2>
+<section id="outline-container-org00d81c4" class="outline-2">
+<h2 id="org00d81c4"><span class="section-number-2">4</span> <code>spawn_link</code></h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><p>
@@ -187,12 +187,12 @@ Its argument is a function just like argument of <code>spawn</code>.<br>
 </div>
 </section>
 
-<section id="outline-container-orgedb5765" class="outline-2">
-<h2 id="orgedb5765"><span class="section-number-2">5</span> Different behaviours around throws,errors and exits</h2>
+<section id="outline-container-org976ab3d" class="outline-2">
+<h2 id="org976ab3d"><span class="section-number-2">5</span> Different behaviours around throws,errors and exits</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org5f4f46a" class="outline-3">
-<h3 id="org5f4f46a"><span class="section-number-3">5.1</span> Exit signals</h3>
+<div id="outline-container-orge0a6941" class="outline-3">
+<h3 id="orge0a6941"><span class="section-number-3">5.1</span> Exit signals</h3>
 <div class="outline-text-3" id="text-5-1">
 <ul class="org-ul">
 <li>What is a exit signal?<br>
@@ -226,8 +226,8 @@ A system process can handle exit signals because exit signals will be converted 
 </div>
 </div>
 
-<div id="outline-container-orgb1203bc" class="outline-3">
-<h3 id="orgb1203bc"><span class="section-number-3">5.2</span> Exit</h3>
+<div id="outline-container-org7359142" class="outline-3">
+<h3 id="org7359142"><span class="section-number-3">5.2</span> Exit</h3>
 <div class="outline-text-3" id="text-5-2">
 <ol class="org-ol">
 <li>Exception source: <code>spawn_link(fun() -&gt; ok end)</code><br>
@@ -251,8 +251,8 @@ A system process can handle exit signals because exit signals will be converted 
 </ol>
 </div>
 </div>
-<div id="outline-container-org8fdce28" class="outline-3">
-<h3 id="org8fdce28"><span class="section-number-3">5.3</span> Error</h3>
+<div id="outline-container-orgf744dde" class="outline-3">
+<h3 id="orgf744dde"><span class="section-number-3">5.3</span> Error</h3>
 <div class="outline-text-3" id="text-5-3">
 <ol class="org-ol">
 <li>Exception source: <code>spawn_link(fun() -&gt; 1/0 end)</code><br>
@@ -271,8 +271,8 @@ A system process can handle exit signals because exit signals will be converted 
 </ol>
 </div>
 </div>
-<div id="outline-container-org67204ea" class="outline-3">
-<h3 id="org67204ea"><span class="section-number-3">5.4</span> Throw</h3>
+<div id="outline-container-org74662cc" class="outline-3">
+<h3 id="org74662cc"><span class="section-number-3">5.4</span> Throw</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
@@ -285,8 +285,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 </div>
 </div>
 
-<div id="outline-container-org43f6fc5" class="outline-3">
-<h3 id="org43f6fc5"><span class="section-number-3">5.5</span> Kill signal</h3>
+<div id="outline-container-org4ca2278" class="outline-3">
+<h3 id="org4ca2278"><span class="section-number-3">5.5</span> Kill signal</h3>
 <div class="outline-text-3" id="text-5-5">
 <ul class="org-ul">
 <li>Generated with <code>exit/2</code>, like a gun. It allows a process to kill another one from a distance.<br></li>
@@ -296,8 +296,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 </div>
 </div>
 
-<div id="outline-container-org1081c9e" class="outline-3">
-<h3 id="org1081c9e"><span class="section-number-3">5.6</span> Summary</h3>
+<div id="outline-container-orgc6e69e0" class="outline-3">
+<h3 id="orgc6e69e0"><span class="section-number-3">5.6</span> Summary</h3>
 <div class="outline-text-3" id="text-5-6">
 <ol class="org-ol">
 <li>Exit signals with reason will terminate the receiving process unless it is trapping exits. In which case, it can convert exit signals into normal messages and be handled by <code>receive</code>.<br></li>
@@ -311,8 +311,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgdce4d5a" class="outline-3">
-<h3 id="orgdce4d5a"><span class="section-number-3">5.7</span> Refs</h3>
+<div id="outline-container-org4c04a6a" class="outline-3">
+<h3 id="org4c04a6a"><span class="section-number-3">5.7</span> Refs</h3>
 <div class="outline-text-3" id="text-5-7">
 <ul class="org-ul">
 <li><a href="https://crypt.codemancers.com/posts/2016-01-24-understanding-exit-signals-in-erlang-slash-elixir/">Understanding Exit Signals in Erlang/Elixir</a>         <br></li>
@@ -325,8 +325,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 
 
 
-<section id="outline-container-org703a33f" class="outline-2">
-<h2 id="org703a33f"><span class="section-number-2">6</span> What is the usage of register?</h2>
+<section id="outline-container-org88e55af" class="outline-2">
+<h2 id="org88e55af"><span class="section-number-2">6</span> What is the usage of register?</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Process communication is done via Pid, but it is only available to the parent who spawn the process. If we want other processes to communicate to it, we have to pass that Pid around as extra argument.<br>

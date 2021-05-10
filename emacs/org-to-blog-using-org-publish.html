@@ -73,29 +73,29 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org0fdd8bd">1. Introduction</a></li>
-<li><a href="#org03596e8">2. The structure of configuration</a></li>
-<li><a href="#orgebe2e03">3. Configurations in detail</a>
+<li><a href="#orgc715d4f">1. Introduction</a></li>
+<li><a href="#orgc08bf31">2. The structure of configuration</a></li>
+<li><a href="#orgea8c5ec">3. Configurations in detail</a>
 <ul>
-<li><a href="#org8bd421b">3.1. Configuration put in Emacs</a></li>
-<li><a href="#org82983ac">3.2. Templates</a>
+<li><a href="#org14b6d33">3.1. Configuration put in Emacs</a></li>
+<li><a href="#org55ea48a">3.2. Templates</a>
 <ul>
-<li><a href="#org9da6130">3.2.1. HTML templates</a></li>
-<li><a href="#org790cce3">3.2.2. CSS templates</a></li>
-<li><a href="#orgdba207b">3.2.3. (Optional) Org template</a></li>
+<li><a href="#org8122b17">3.2.1. HTML templates</a></li>
+<li><a href="#org947d534">3.2.2. CSS templates</a></li>
+<li><a href="#orgc0fd799">3.2.3. (Optional) Org template</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org3aaa92a">4. How to use?</a></li>
-<li><a href="#orga1e7f32">5. Improvement</a></li>
-<li><a href="#org3d01568">6. References</a></li>
+<li><a href="#org9829d3e">4. How to use?</a></li>
+<li><a href="#org244be57">5. Improvement</a></li>
+<li><a href="#org10d9519">6. References</a></li>
 </ul>
 </div>
 </div>
 
-<section id="outline-container-org0fdd8bd" class="outline-2">
-<h2 id="org0fdd8bd"><span class="section-number-2">1</span> Introduction</h2>
+<section id="outline-container-orgc715d4f" class="outline-2">
+<h2 id="orgc715d4f"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I have tried many org to html or markdown to generate blog posts using different framework. They are all not stable enough. This article describes my configuration step by step to use <a href="https://orgmode.org/manual/Publishing.html">org-publish</a> to build my blog.<br />
@@ -107,8 +107,8 @@ The key point is to use org-publish variable <code>org-publish-project-alist</co
 </div>
 </section>
 
-<section id="outline-container-org03596e8" class="outline-2">
-<h2 id="org03596e8"><span class="section-number-2">2</span> The structure of configuration</h2>
+<section id="outline-container-orgc08bf31" class="outline-2">
+<h2 id="orgc08bf31"><span class="section-number-2">2</span> The structure of configuration</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The configuration should meet the following requirements:<br />
@@ -122,12 +122,12 @@ The configuration should meet the following requirements:<br />
 </div>
 </section>
 
-<section id="outline-container-orgebe2e03" class="outline-2">
-<h2 id="orgebe2e03"><span class="section-number-2">3</span> Configurations in detail</h2>
+<section id="outline-container-orgea8c5ec" class="outline-2">
+<h2 id="orgea8c5ec"><span class="section-number-2">3</span> Configurations in detail</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org8bd421b" class="outline-3">
-<h3 id="org8bd421b"><span class="section-number-3">3.1</span> Configuration put in Emacs</h3>
+<div id="outline-container-org14b6d33" class="outline-3">
+<h3 id="org14b6d33"><span class="section-number-3">3.1</span> Configuration put in Emacs</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> <span class="org-constant">htmlize</span>
@@ -305,21 +305,21 @@ So, it will export for &ldquo;post&rdquo;, &ldquo;about&rdquo;, &ldquo;css&rdquo
 </div>
 </div>
 
-<div id="outline-container-org82983ac" class="outline-3">
-<h3 id="org82983ac"><span class="section-number-3">3.2</span> Templates</h3>
+<div id="outline-container-org55ea48a" class="outline-3">
+<h3 id="org55ea48a"><span class="section-number-3">3.2</span> Templates</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 There are two kinds of templates. One is used by org file directly as org options. Another is used during export such that the generated html file will include those templates. So, the later one contains html related settings.<br />
 </p>
 </div>
 
-<div id="outline-container-org9da6130" class="outline-4">
-<h4 id="org9da6130"><span class="section-number-4">3.2.1</span> HTML templates</h4>
+<div id="outline-container-org8122b17" class="outline-4">
+<h4 id="org8122b17"><span class="section-number-4">3.2.1</span> HTML templates</h4>
 <div class="outline-text-4" id="text-3-2-1">
 </div>
 <ul class="org-ul">
-<li><a id="org2153eee"></a>Define templates<br />
-<div class="outline-text-5" id="text-org2153eee">
+<li><a id="org69d5804"></a>Define templates<br />
+<div class="outline-text-5" id="text-org69d5804">
 <p>
 Since this kind of template will not likely to be changed, I put them into <code>/.emacs.d/html-templates</code><br />
 </p>
@@ -361,10 +361,10 @@ This fill controls the footer.<br />
 </div>
 </li>
 
-<li><a id="org713a5f5"></a>Use HTML template files<br />
-<div class="outline-text-5" id="text-org713a5f5">
+<li><a id="org3ae3330"></a>Use HTML template files<br />
+<div class="outline-text-5" id="text-org3ae3330">
 <p>
-They are used in init-org-html.el, see <a href="#org8bd421b">init-org-html.el</a><br />
+They are used in init-org-html.el, see <a href="#org14b6d33">init-org-html.el</a><br />
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> org-html-divs '((preamble <span class="org-string">"header"</span> <span class="org-string">"top"</span>)
@@ -385,8 +385,8 @@ They are used in init-org-html.el, see <a href="#org8bd421b">init-org-html.el</a
 </ul>
 </div>
 
-<div id="outline-container-org790cce3" class="outline-4">
-<h4 id="org790cce3"><span class="section-number-4">3.2.2</span> CSS templates</h4>
+<div id="outline-container-org947d534" class="outline-4">
+<h4 id="org947d534"><span class="section-number-4">3.2.2</span> CSS templates</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <p>
 Our website will use external css file to improve its looking. I put them all under foler <code>/.emacs.d/css</code>. Then, refer them accordingly from org-publish settings defined using elisp shown above. For example,  In my <code>custom.css</code>, I define settings related to &ldquo;table of content&rdquo; such that it could make the generated &ldquo;toc&rdquo; hovering at the top right corner.<br />
@@ -441,13 +441,13 @@ Check previous section about using elisp to configure html stylesheet part.<br /
 </div>
 </div>
 
-<div id="outline-container-orgdba207b" class="outline-4">
-<h4 id="orgdba207b"><span class="section-number-4">3.2.3</span> (Optional) Org template</h4>
+<div id="outline-container-orgc0fd799" class="outline-4">
+<h4 id="orgc0fd799"><span class="section-number-4">3.2.3</span> (Optional) Org template</h4>
 <div class="outline-text-4" id="text-3-2-3">
 <p>
 Here, we setup a template called post.org in which it contains the following options:<br />
 </p>
-<pre class="example" id="orga7476c9">
+<pre class="example" id="orgf68efc5">
 #+AUTHOR: Zhao Wei
 #+OPTIONS: toc:t
 #+HTML_DOCTYPE: xhtml-strict
@@ -455,7 +455,7 @@ Here, we setup a template called post.org in which it contains the following opt
 <p>
 For a org file, we could use it as other org file options like:<br />
 </p>
-<pre class="example" id="org7455bef">
+<pre class="example" id="orga45b77d">
 #+title: Sample Post
 #+date: &lt;2020-02-05 Wed&gt;
 #+filetags: gitlab git org-mode orgmode emacs template sample
@@ -466,8 +466,8 @@ For a org file, we could use it as other org file options like:<br />
 </div>
 </section>
 
-<section id="outline-container-org3aaa92a" class="outline-2">
-<h2 id="org3aaa92a"><span class="section-number-2">4</span> How to use?</h2>
+<section id="outline-container-org9829d3e" class="outline-2">
+<h2 id="org9829d3e"><span class="section-number-2">4</span> How to use?</h2>
 <div class="outline-text-2" id="text-4">
 <ol class="org-ol">
 <li>Write org files ready to be published at <code>/code/capture-org/publish</code>.<br /></li>
@@ -498,8 +498,8 @@ If there is no error, visit: <a href="http://localhost:3000">http://localhost:30
 </div>
 </section>
 
-<section id="outline-container-orga1e7f32" class="outline-2">
-<h2 id="orga1e7f32"><span class="section-number-2">5</span> Improvement</h2>
+<section id="outline-container-org244be57" class="outline-2">
+<h2 id="org244be57"><span class="section-number-2">5</span> Improvement</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Sometimes, running export from inside Emacs is slow and bloc my current task. So, I need to execute an other emacs process to do <code>org-pubish-all</code>.<br />
@@ -566,8 +566,8 @@ emacs --script <span class="org-string">"~/.emacs.d/publish.el"</span> t
 </div>
 </section>
 
-<section id="outline-container-org3d01568" class="outline-2">
-<h2 id="org3d01568"><span class="section-number-2">6</span> References</h2>
+<section id="outline-container-org10d9519" class="outline-2">
+<h2 id="org10d9519"><span class="section-number-2">6</span> References</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li><a href="https://opensource.com/article/20/3/blog-emacs">How to blog with Emacs Org mode</a><br /></li>
