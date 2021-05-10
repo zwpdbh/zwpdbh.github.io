@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 09, 2021 -->
+<!-- May 10, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My Erlang Tips</title>
@@ -72,6 +72,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
+<li><a href="#org93e7f9c">Creating a list</a></li>
 <li><a href="#orgc7c3482">High order function</a></li>
 <li><a href="#org5e533ba">Different ways to spawn and passing argument</a></li>
 <li><a href="#orgcc5ddff"><code>spawn_link</code></a></li>
@@ -86,10 +87,18 @@
 <li><a href="#org999c6e7">Refs</a></li>
 </ul>
 </li>
+<li><a href="#org5e3efe6">What is the usage of register?</a></li>
 </ul>
 </div>
 </nav>
-
+<section id="outline-container-org93e7f9c" class="outline-2">
+<h2 id="org93e7f9c">Creating a list</h2>
+<div class="outline-text-2" id="text-org93e7f9c">
+<p>
+It is important to ensure to attach the new elements to the <b>beginning of the list</b>. (see: <a href="http://erlang.org/doc/efficiency_guide/listHandling.html">List Handling</a>).
+</p>
+</div>
+</section>
 <section id="outline-container-orgc7c3482" class="outline-2">
 <h2 id="orgc7c3482">High order function</h2>
 <div class="outline-text-2" id="text-orgc7c3482">
@@ -311,12 +320,32 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code>
 </div>
 </div>
 </section>
+
+
+
+
+
+<section id="outline-container-org5e3efe6" class="outline-2">
+<h2 id="org5e3efe6">What is the usage of register?</h2>
+<div class="outline-text-2" id="text-org5e3efe6">
+<p>
+Process communication is done via Pid, but it is only available to the parent who spawn the process. If we want other processes to communicate to it, we have to pass that Pid around as extra argument. 
+</p>
+
+<p>
+It has advantage such that if you don&rsquo;t reveal the PID of a process, other processes can not interact with it in anyway. 
+</p>
+
+<p>
+Its disadvantage is not convenient. <code>register(Name, Pid)</code> is a method for <b>publishing</b> a process identifier so that <b>any process in the system</b> can communicate with this process. Therefore, The atom <code>Name</code> associated with <code>Pid</code> can be used globally.   </p>
+</div>
+</section>
 </main>
 <footer id="postamble" class="status">
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 09, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 10, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
