@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 20, 2021 -->
+<!-- May 10, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&lrm;</title>
@@ -70,132 +70,132 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3c9a873">Overview of Lisp</a>
+<li><a href="#org9b4fbde">1. Overview of Lisp</a>
 <ul>
-<li><a href="#org232c075">Guide to lisp style</a></li>
-<li><a href="#org52bb0ed">Special forms</a>
+<li><a href="#org10aeba9">1.1. Guide to lisp style</a></li>
+<li><a href="#org2f51592">1.2. Special forms</a>
 <ul>
-<li><a href="#orgdc50855">Special forms for definitions</a></li>
-<li><a href="#org8ea367d">Special forms for conditionals</a></li>
-<li><a href="#orgd4d5767">Special forms for dealing with variables and places</a></li>
-<li><a href="#orgc9f0364">Functions and Special forms for repeatation</a></li>
-<li><a href="#org45baf16">Other special forms</a></li>
-<li><a href="#org8394939">Macro</a></li>
-<li><a href="#org55b4023">Backquote notation</a></li>
+<li><a href="#org7dd2d54">1.2.1. Special forms for definitions</a></li>
+<li><a href="#org6ac1a74">1.2.2. Special forms for conditionals</a></li>
+<li><a href="#orga3f0c13">1.2.3. Special forms for dealing with variables and places</a></li>
+<li><a href="#orga8a75dc">1.2.4. Functions and Special forms for repeatation</a></li>
+<li><a href="#org22dfae5">1.2.5. Other special forms</a></li>
+<li><a href="#orgc34915d">1.2.6. Macro</a></li>
+<li><a href="#orgb1b2227">1.2.7. Backquote notation</a></li>
 </ul>
 </li>
-<li><a href="#orgb66ef5a">Functions on Lists</a>
+<li><a href="#orgf85962a">1.3. Functions on Lists</a>
 <ul>
-<li><a href="#orgb1666aa">Dotted pair notation</a></li>
+<li><a href="#org821a082">1.3.1. Dotted pair notation</a></li>
 </ul>
 </li>
-<li><a href="#org507e150">Equality and internal representation</a></li>
-<li><a href="#org20e0298">Functions on sequences</a></li>
-<li><a href="#orgf3f05a7">Functions for maintaining tables</a>
+<li><a href="#org423ff0b">1.4. Equality and internal representation</a></li>
+<li><a href="#org2e29a74">1.5. Functions on sequences</a></li>
+<li><a href="#org855ec8e">1.6. Functions for maintaining tables</a>
 <ul>
-<li><a href="#org9ef8d1c">Association table</a></li>
-<li><a href="#org96294e4">Hash table</a></li>
-<li><a href="#org7872583">Property list</a></li>
+<li><a href="#orgc1230c3">1.6.1. Association table</a></li>
+<li><a href="#orgad7c4d2">1.6.2. Hash table</a></li>
+<li><a href="#org9f7e86f">1.6.3. Property list</a></li>
 </ul>
 </li>
-<li><a href="#org2d1cfed">Functions on trees</a></li>
-<li><a href="#org6470e01">Functions on numbers</a></li>
-<li><a href="#org6dbc0c5">Functions on sets</a></li>
-<li><a href="#org8b1678d">Destructive functions</a></li>
-<li><a href="#org990f182">3.11 Overview of data types</a></li>
-<li><a href="#orgd7d1693">Input/output</a>
+<li><a href="#org446d5e1">1.7. Functions on trees</a></li>
+<li><a href="#orgdfe1d0d">1.8. Functions on numbers</a></li>
+<li><a href="#orgaf9f4e1">1.9. Functions on sets</a></li>
+<li><a href="#orgcd1639d">1.10. Destructive functions</a></li>
+<li><a href="#orgc5488c0">1.11. 3.11 Overview of data types</a></li>
+<li><a href="#orgb466c85">1.12. Input/output</a>
 <ul>
-<li><a href="#org0ae6f1c">Input</a></li>
-<li><a href="#org755e2b0">Output</a></li>
+<li><a href="#orgc2c9ec1">1.12.1. Input</a></li>
+<li><a href="#orgfb33482">1.12.2. Output</a></li>
 </ul>
 </li>
-<li><a href="#org9a496a5">3.13 debugging tools</a></li>
-<li><a href="#org37b2ceb">3.14 Antibugging tools</a></li>
-<li><a href="#orgb29eea7">Evaluation</a></li>
-<li><a href="#orgfee62a5">3.16 Closure</a></li>
-<li><a href="#orgbf83c13">3.17 special variables</a></li>
-<li><a href="#orgcd98b1a">3.18 Multiple values</a></li>
-<li><a href="#org17454aa">3.19 More about parameters</a>
+<li><a href="#orge831b98">1.13. 3.13 debugging tools</a></li>
+<li><a href="#orgcdb1cbe">1.14. 3.14 Antibugging tools</a></li>
+<li><a href="#org4a1a3be">1.15. Evaluation</a></li>
+<li><a href="#org16b9607">1.16. 3.16 Closure</a></li>
+<li><a href="#orgcd86bc0">1.17. 3.17 special variables</a></li>
+<li><a href="#org5f75b58">1.18. 3.18 Multiple values</a></li>
+<li><a href="#org2034e2e">1.19. 3.19 More about parameters</a>
 <ul>
-<li><a href="#org7906b25">Optional arguments</a></li>
-<li><a href="#org763455e">Key arguments</a></li>
-<li><a href="#orgbe7cbc0">Summary</a></li>
+<li><a href="#orge2bb9ef">1.19.1. Optional arguments</a></li>
+<li><a href="#org982e8a8">1.19.2. Key arguments</a></li>
+<li><a href="#orge18bc89">1.19.3. Summary</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgf314691"><span class="todo TODO">TODO</span> Exercises</a></li>
+<li><a href="#orgb7e4c35">2. <span class="todo TODO">TODO</span> Exercises</a></li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org3c9a873" class="outline-2">
-<h2 id="org3c9a873">Overview of Lisp</h2>
-<div class="outline-text-2" id="text-org3c9a873">
+<section id="outline-container-org9b4fbde" class="outline-2">
+<h2 id="org9b4fbde"><span class="section-number-2">1</span> Overview of Lisp</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-This chapter can be used as a reference source.
+This chapter can be used as a reference source.<br>
 </p>
 </div>
 
-<div id="outline-container-org232c075" class="outline-3">
-<h3 id="org232c075">Guide to lisp style</h3>
-<div class="outline-text-3" id="text-org232c075">
+<div id="outline-container-org10aeba9" class="outline-3">
+<h3 id="org10aeba9"><span class="section-number-3">1.1</span> Guide to lisp style</h3>
+<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>Be specific.</li>
-<li>Use abstractions.</li>
-<li>Be concise.</li>
-<li>Use the provided tools.</li>
-<li>Don&rsquo;t be obscure.</li>
-<li>Be consistent.</li>
+<li>Be specific.<br></li>
+<li>Use abstractions.<br></li>
+<li>Be concise.<br></li>
+<li>Use the provided tools.<br></li>
+<li>Don&rsquo;t be obscure.<br></li>
+<li>Be consistent.<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org52bb0ed" class="outline-3">
-<h3 id="org52bb0ed">Special forms</h3>
-<div class="outline-text-3" id="text-org52bb0ed">
+<div id="outline-container-org2f51592" class="outline-3">
+<h3 id="org2f51592"><span class="section-number-3">1.2</span> Special forms</h3>
+<div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-orgdc50855" class="outline-4">
-<h4 id="orgdc50855">Special forms for definitions</h4>
-<div class="outline-text-4" id="text-orgdc50855">
+<div id="outline-container-org7dd2d54" class="outline-4">
+<h4 id="org7dd2d54"><span class="section-number-4">1.2.1</span> Special forms for definitions</h4>
+<div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
-<li>defun</li>
-<li>defmacro</li>
-<li>defvar</li>
-<li>defparameter</li>
-<li>defconstant</li>
-<li>defstruct</li>
+<li>defun<br></li>
+<li>defmacro<br></li>
+<li>defvar<br></li>
+<li>defparameter<br></li>
+<li>defconstant<br></li>
+<li>defstruct<br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org8ea367d" class="outline-4">
-<h4 id="org8ea367d">Special forms for conditionals</h4>
-<div class="outline-text-4" id="text-org8ea367d">
+<div id="outline-container-org6ac1a74" class="outline-4">
+<h4 id="org6ac1a74"><span class="section-number-4">1.2.2</span> Special forms for conditionals</h4>
+<div class="outline-text-4" id="text-1-2-2">
 <p>
-It is poor style to use <code>and</code> and <code>or</code> for anything other than testing a logical condition. Use <code>when, unless, if</code> if possible.
+It is poor style to use <code>and</code> and <code>or</code> for anything other than testing a logical condition. Use <code>when, unless, if</code> if possible.<br>
 </p>
 <ul class="org-ul">
-<li>when</li>
-<li>unless</li>
-<li>and</li>
-<li>or</li>
-<li>case</li>
+<li>when<br></li>
+<li>unless<br></li>
+<li>and<br></li>
+<li>or<br></li>
+<li>case<br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd4d5767" class="outline-4">
-<h4 id="orgd4d5767">Special forms for dealing with variables and places</h4>
-<div class="outline-text-4" id="text-orgd4d5767">
+<div id="outline-container-orga3f0c13" class="outline-4">
+<h4 id="orga3f0c13"><span class="section-number-4">1.2.3</span> Special forms for dealing with variables and places</h4>
+<div class="outline-text-4" id="text-1-2-3">
 <ul class="org-ul">
 <li><p>
-setf
+setf<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(setf (rest list) nil)
 </pre>
 </div></li>
-<li>let</li>
+<li>let<br></li>
 <li><p>
-let*
+let*<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">let*</span> ((x 6)
@@ -203,68 +203,68 @@ let*
   (+ x y))
 </pre>
 </div></li>
-<li>treat list as stack: pop, push</li>
-<li>(incf x) = (incf x 1) = (setf x (+ x 1))</li>
-<li>(decf x) = (decf x 1) = (setf x (- x 1))</li>
+<li>treat list as stack: pop, push<br></li>
+<li>(incf x) = (incf x 1) = (setf x (+ x 1))<br></li>
+<li>(decf x) = (decf x 1) = (setf x (- x 1))<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc9f0364" class="outline-4">
-<h4 id="orgc9f0364">Functions and Special forms for repeatation</h4>
-<div class="outline-text-4" id="text-orgc9f0364">
+<div id="outline-container-orga8a75dc" class="outline-4">
+<h4 id="orga8a75dc"><span class="section-number-4">1.2.4</span> Functions and Special forms for repeatation</h4>
+<div class="outline-text-4" id="text-1-2-4">
 <ul class="org-ul">
-<li>dolist</li>
-<li>dotimes</li>
-<li>do, do*</li>
-<li>loop</li>
-<li>mapc, mapcar</li>
-<li>some, every</li>
-<li>find, reduce, remove</li>
-<li>member</li>
-<li>count</li>
-<li>delete</li>
-<li>position</li>
-<li>substitute</li>
-<li><b>recursion</b></li>
+<li>dolist<br></li>
+<li>dotimes<br></li>
+<li>do, do*<br></li>
+<li>loop<br></li>
+<li>mapc, mapcar<br></li>
+<li>some, every<br></li>
+<li>find, reduce, remove<br></li>
+<li>member<br></li>
+<li>count<br></li>
+<li>delete<br></li>
+<li>position<br></li>
+<li>substitute<br></li>
+<li><b>recursion</b><br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org45baf16" class="outline-4">
-<h4 id="org45baf16">Other special forms</h4>
-<div class="outline-text-4" id="text-org45baf16">
+<div id="outline-container-org22dfae5" class="outline-4">
+<h4 id="org22dfae5"><span class="section-number-4">1.2.5</span> Other special forms</h4>
+<div class="outline-text-4" id="text-1-2-5">
 <ul class="org-ul">
-<li><code>progn</code>, can be used to evaluate a sequence of forms and return the value of the last one.
-Not used very much, probably only needed in 3 places</li>
-<li><code>'x</code> for <code>(quote x)</code></li>
-<li><code>#'f</code> for <code>(function f)</code></li>
-<li>trace and untrace</li>
-<li><code>return</code> can be used to break out of a block of code</li>
+<li><code>progn</code>, can be used to evaluate a sequence of forms and return the value of the last one.<br>
+Not used very much, probably only needed in 3 places<br></li>
+<li><code>'x</code> for <code>(quote x)</code><br></li>
+<li><code>#'f</code> for <code>(function f)</code><br></li>
+<li>trace and untrace<br></li>
+<li><code>return</code> can be used to break out of a block of code<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8394939" class="outline-4">
-<h4 id="org8394939">Macro</h4>
-<div class="outline-text-4" id="text-org8394939">
+<div id="outline-container-orgc34915d" class="outline-4">
+<h4 id="orgc34915d"><span class="section-number-4">1.2.6</span> Macro</h4>
+<div class="outline-text-4" id="text-1-2-6">
 <p>
-4 steps to write macro:
+4 steps to write macro:<br>
 </p>
 <ol class="org-ol">
-<li>Decide if the macro is really necesary.</li>
-<li>Write down the syntax of the macro.</li>
-<li>Figure out what the macro should expand into.</li>
-<li>Use <code>defmacro</code> to implement the syntax/expansion correspondence.</li>
+<li>Decide if the macro is really necesary.<br></li>
+<li>Write down the syntax of the macro.<br></li>
+<li>Figure out what the macro should expand into.<br></li>
+<li>Use <code>defmacro</code> to implement the syntax/expansion correspondence.<br></li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-org55b4023" class="outline-4">
-<h4 id="org55b4023">Backquote notation</h4>
-<div class="outline-text-4" id="text-org55b4023">
+<div id="outline-container-orgb1b2227" class="outline-4">
+<h4 id="orgb1b2227"><span class="section-number-4">1.2.7</span> Backquote notation</h4>
+<div class="outline-text-4" id="text-1-2-7">
 <p>
-A backquote indicates that what follows is mostly a literal expression but may contain some components that are to be evaluated. Anything marked by a leading comma <code>,</code> is evaluated and inserted into the structure. And anything marked with a leading <code>,@</code> must evaluated to a list that is spliced into the structure: each element of the list is inserted, without the top-level parameters.
+A backquote indicates that what follows is mostly a literal expression but may contain some components that are to be evaluated. Anything marked by a leading comma <code>,</code> is evaluated and inserted into the structure. And anything marked with a leading <code>,@</code> must evaluated to a list that is spliced into the structure: each element of the list is inserted, without the top-level parameters.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(setf test1 '(a test))
@@ -280,71 +280,71 @@ A backquote indicates that what follows is mostly a literal expression but may c
 </div>
 </div>
 
-<div id="outline-container-orgb66ef5a" class="outline-3">
-<h3 id="orgb66ef5a">Functions on Lists</h3>
-<div class="outline-text-3" id="text-orgb66ef5a">
+<div id="outline-container-orgf85962a" class="outline-3">
+<h3 id="orgf85962a"><span class="section-number-3">1.3</span> Functions on Lists</h3>
+<div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
-<li>first</li>
-<li>second</li>
-<li>third</li>
-<li>nth</li>
-<li>rest</li>
-<li>car</li>
-<li>cdr</li>
-<li>last</li>
-<li>length</li>
-<li>reverse</li>
-<li>append</li>
-<li>list</li>
-<li>list*</li>
-<li>null</li>
-<li>listp</li>
-<li>consp</li>
-<li>equal</li>
-<li>sort</li>
-<li>subseq</li>
+<li>first<br></li>
+<li>second<br></li>
+<li>third<br></li>
+<li>nth<br></li>
+<li>rest<br></li>
+<li>car<br></li>
+<li>cdr<br></li>
+<li>last<br></li>
+<li>length<br></li>
+<li>reverse<br></li>
+<li>append<br></li>
+<li>list<br></li>
+<li>list*<br></li>
+<li>null<br></li>
+<li>listp<br></li>
+<li>consp<br></li>
+<li>equal<br></li>
+<li>sort<br></li>
+<li>subseq<br></li>
 </ul>
 </div>
 
-<div id="outline-container-orgb1666aa" class="outline-4">
-<h4 id="orgb1666aa">Dotted pair notation</h4>
-<div class="outline-text-4" id="text-orgb1666aa">
+<div id="outline-container-org821a082" class="outline-4">
+<h4 id="org821a082"><span class="section-number-4">1.3.1</span> Dotted pair notation</h4>
+<div class="outline-text-4" id="text-1-3-1">
 <p>
-(cons a b)
+(cons a b)<br>
 </p>
 <ol class="org-ol">
-<li>When b is not a list. The result is an object x such that (first x) =&gt; a and (rest x) =&gt; b and where x prints as (a . b).</li>
-<li>When b is a list, the usual list notation is used for output rather than the dotted pair notation.</li>
+<li>When b is not a list. The result is an object x such that (first x) =&gt; a and (rest x) =&gt; b and where x prints as (a . b).<br></li>
+<li>When b is a list, the usual list notation is used for output rather than the dotted pair notation.<br></li>
 </ol>
 <p>
-Either notation can be used for input.       
+Either notation can be used for input.<br>
 </p>
 
 <p>
-A <b>cons cell</b> is a data structure with two fields: a first and a rest. All proper lists have a last cons cell whose rest field is nil.
+A <b>cons cell</b> is a data structure with two fields: a first and a rest. All proper lists have a last cons cell whose rest field is nil.<br>
 </p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org507e150" class="outline-3">
-<h3 id="org507e150">Equality and internal representation</h3>
+<div id="outline-container-org423ff0b" class="outline-3">
+<h3 id="org423ff0b"><span class="section-number-3">1.4</span> Equality and internal representation</h3>
 </div>
 
-<div id="outline-container-org20e0298" class="outline-3">
-<h3 id="org20e0298">Functions on sequences</h3>
+<div id="outline-container-org2e29a74" class="outline-3">
+<h3 id="org2e29a74"><span class="section-number-3">1.5</span> Functions on sequences</h3>
 </div>
 
-<div id="outline-container-orgf3f05a7" class="outline-3">
-<h3 id="orgf3f05a7">Functions for maintaining tables</h3>
-<div class="outline-text-3" id="text-orgf3f05a7">
+<div id="outline-container-org855ec8e" class="outline-3">
+<h3 id="org855ec8e"><span class="section-number-3">1.6</span> Functions for maintaining tables</h3>
+<div class="outline-text-3" id="text-1-6">
 </div>
-<div id="outline-container-org9ef8d1c" class="outline-4">
-<h4 id="org9ef8d1c">Association table</h4>
-<div class="outline-text-4" id="text-org9ef8d1c">
+<div id="outline-container-orgc1230c3" class="outline-4">
+<h4 id="orgc1230c3"><span class="section-number-4">1.6.1</span> Association table</h4>
+<div class="outline-text-4" id="text-1-6-1">
 <p>
-The association list (a-list) is a type of list used to implement tables. An association list is a list of dotted pairs, where each pair consists of a key and a value.
+The association list (a-list) is a type of list used to implement tables. An association list is a list of dotted pairs, where each pair consists of a key and a value.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(setf state-table
@@ -356,7 +356,7 @@ The association list (a-list) is a type of list used to implement tables. An ass
 </div>
 
 <p>
-But, dotted pairs could also be normal list.
+But, dotted pairs could also be normal list.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(setf state-table
@@ -367,60 +367,60 @@ But, dotted pairs could also be normal list.
 </pre>
 </div>
 <p>
-Notice: Search the table by value rather than by key doesn&rsquo;t work for normal list.
+Notice: Search the table by value rather than by key doesn&rsquo;t work for normal list.<br>
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org96294e4" class="outline-4">
-<h4 id="org96294e4">Hash table</h4>
-<div class="outline-text-4" id="text-org96294e4">
+<div id="outline-container-orgad7c4d2" class="outline-4">
+<h4 id="orgad7c4d2"><span class="section-number-4">1.6.2</span> Hash table</h4>
+<div class="outline-text-4" id="text-1-6-2">
 <ul class="org-ul">
-<li>make-hash-table</li>
-<li>gethash, retrieve the value associated with a given key.</li>
+<li>make-hash-table<br></li>
+<li>gethash, retrieve the value associated with a given key.<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org7872583" class="outline-4">
-<h4 id="org7872583">Property list</h4>
-<div class="outline-text-4" id="text-org7872583">
+<div id="outline-container-org9f7e86f" class="outline-4">
+<h4 id="org9f7e86f"><span class="section-number-4">1.6.3</span> Property list</h4>
+<div class="outline-text-4" id="text-1-6-3">
 <p>
-A property list (p-list) is a list of alternating key/value pairs.
-It is avoided because we have hash table.
+A property list (p-list) is a list of alternating key/value pairs.<br>
+It is avoided because we have hash table.<br>
 </p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org2d1cfed" class="outline-3">
-<h3 id="org2d1cfed">Functions on trees</h3>
-<div class="outline-text-3" id="text-org2d1cfed">
+<div id="outline-container-org446d5e1" class="outline-3">
+<h3 id="org446d5e1"><span class="section-number-3">1.7</span> Functions on trees</h3>
+<div class="outline-text-3" id="text-1-7">
 <ul class="org-ul">
-<li>tree-equal</li>
-<li>copy-tree</li>
-<li>subst</li>
-<li>sublis</li>
+<li>tree-equal<br></li>
+<li>copy-tree<br></li>
+<li>subst<br></li>
+<li>sublis<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6470e01" class="outline-3">
-<h3 id="org6470e01">Functions on numbers</h3>
-<div class="outline-text-3" id="text-org6470e01">
+<div id="outline-container-orgdfe1d0d" class="outline-3">
+<h3 id="orgdfe1d0d"><span class="section-number-3">1.8</span> Functions on numbers</h3>
+<div class="outline-text-3" id="text-1-8">
 <ul class="org-ul">
-<li>random</li>
-<li>expt</li>
-<li>sin</li>
-<li>asin</li>
-<li>min</li>
-<li>abs</li>
-<li>sqrt</li>
-<li>round</li>
+<li>random<br></li>
+<li>expt<br></li>
+<li>sin<br></li>
+<li>asin<br></li>
+<li>min<br></li>
+<li>abs<br></li>
+<li>sqrt<br></li>
+<li>round<br></li>
 <li><p>
-rem
+rem<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(rem 11 5)
@@ -430,23 +430,23 @@ rem
 </div>
 </div>
 
-<div id="outline-container-org6dbc0c5" class="outline-3">
-<h3 id="org6dbc0c5">Functions on sets</h3>
-<div class="outline-text-3" id="text-org6dbc0c5">
+<div id="outline-container-orgaf9f4e1" class="outline-3">
+<h3 id="orgaf9f4e1"><span class="section-number-3">1.9</span> Functions on sets</h3>
+<div class="outline-text-3" id="text-1-9">
 <p>
-One of the important uses of lists is to represent sets. There are some functions that treat lists in just that way.
+One of the important uses of lists is to represent sets. There are some functions that treat lists in just that way.<br>
 </p>
 <ul class="org-ul">
-<li>intersection</li>
-<li>union</li>
-<li>set-difference</li>
-<li>member</li>
-<li>subsetp</li>
-<li>adjoin</li>
+<li>intersection<br></li>
+<li>union<br></li>
+<li>set-difference<br></li>
+<li>member<br></li>
+<li>subsetp<br></li>
+<li>adjoin<br></li>
 </ul>
 
 <p>
-Functions on bit vectors and integers:
+Functions on bit vectors and integers:<br>
 </p>
 <table>
 
@@ -504,110 +504,110 @@ Functions on bit vectors and integers:
 </div>
 </div>
 
-<div id="outline-container-org8b1678d" class="outline-3">
-<h3 id="org8b1678d">Destructive functions</h3>
-<div class="outline-text-3" id="text-org8b1678d">
+<div id="outline-container-orgcd1639d" class="outline-3">
+<h3 id="orgcd1639d"><span class="section-number-3">1.10</span> Destructive functions</h3>
+<div class="outline-text-3" id="text-1-10">
 <p>
-Functions has side effect
+Functions has side effect<br>
 </p>
 <ul class="org-ul">
-<li>nconc</li>
-<li>nreverse</li>
-<li>nintersection</li>
-<li>nunion</li>
-<li>nset-difference</li>
-<li>nsubst</li>
-<li>delete, the destructive version of <code>remove</code>.</li>
+<li>nconc<br></li>
+<li>nreverse<br></li>
+<li>nintersection<br></li>
+<li>nunion<br></li>
+<li>nset-difference<br></li>
+<li>nsubst<br></li>
+<li>delete, the destructive version of <code>remove</code>.<br></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org990f182" class="outline-3">
-<h3 id="org990f182">3.11 Overview of data types</h3>
+<div id="outline-container-orgc5488c0" class="outline-3">
+<h3 id="orgc5488c0"><span class="section-number-3">1.11</span> 3.11 Overview of data types</h3>
 </div>
 
 
-<div id="outline-container-orgd7d1693" class="outline-3">
-<h3 id="orgd7d1693">Input/output</h3>
-<div class="outline-text-3" id="text-orgd7d1693">
+<div id="outline-container-orgb466c85" class="outline-3">
+<h3 id="orgb466c85"><span class="section-number-3">1.12</span> Input/output</h3>
+<div class="outline-text-3" id="text-1-12">
 </div>
-<div id="outline-container-org0ae6f1c" class="outline-4">
-<h4 id="org0ae6f1c">Input</h4>
-<div class="outline-text-4" id="text-org0ae6f1c">
+<div id="outline-container-orgc2c9ec1" class="outline-4">
+<h4 id="orgc2c9ec1"><span class="section-number-4">1.12.1</span> Input</h4>
+<div class="outline-text-4" id="text-1-12-1">
 <ul class="org-ul">
-<li>read, it is a complete lexical and syntactic parser. It is used to read and return a single lisp expression.</li>
-<li>read-char, read a single character</li>
-<li>read-line, read everything up to the next newline and returns it as a string.</li>
-<li>open</li>
-<li>with-open-stream</li>
+<li>read, it is a complete lexical and syntactic parser. It is used to read and return a single lisp expression.<br></li>
+<li>read-char, read a single character<br></li>
+<li>read-line, read everything up to the next newline and returns it as a string.<br></li>
+<li>open<br></li>
+<li>with-open-stream<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org755e2b0" class="outline-4">
-<h4 id="org755e2b0">Output</h4>
-<div class="outline-text-4" id="text-org755e2b0">
+<div id="outline-container-orgfb33482" class="outline-4">
+<h4 id="orgfb33482"><span class="section-number-4">1.12.2</span> Output</h4>
+<div class="outline-text-4" id="text-1-12-2">
 <ul class="org-ul">
-<li>print</li>
-<li>prin1</li>
-<li>princ</li>
-<li>write</li>
-<li>with-open-file</li>
-<li>terpri</li>
-<li>fresh-line</li>
-<li>format</li>
+<li>print<br></li>
+<li>prin1<br></li>
+<li>princ<br></li>
+<li>write<br></li>
+<li>with-open-file<br></li>
+<li>terpri<br></li>
+<li>fresh-line<br></li>
+<li>format<br></li>
 </ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9a496a5" class="outline-3">
-<h3 id="org9a496a5">3.13 debugging tools</h3>
-<div class="outline-text-3" id="text-org9a496a5">
+<div id="outline-container-orge831b98" class="outline-3">
+<h3 id="orge831b98"><span class="section-number-3">1.13</span> 3.13 debugging tools</h3>
+<div class="outline-text-3" id="text-1-13">
 <ul class="org-ul">
-<li>trace, untrace</li>
-<li>step</li>
-<li>describe</li>
-<li>inspect</li>
-<li>documentation</li>
-<li>apropos</li>
-<li>break</li>
+<li>trace, untrace<br></li>
+<li>step<br></li>
+<li>describe<br></li>
+<li>inspect<br></li>
+<li>documentation<br></li>
+<li>apropos<br></li>
+<li>break<br></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org37b2ceb" class="outline-3">
-<h3 id="org37b2ceb">3.14 Antibugging tools</h3>
-<div class="outline-text-3" id="text-org37b2ceb">
+<div id="outline-container-orgcdb1cbe" class="outline-3">
+<h3 id="orgcdb1cbe"><span class="section-number-3">1.14</span> 3.14 Antibugging tools</h3>
+<div class="outline-text-3" id="text-1-14">
 <ul class="org-ul">
-<li>error</li>
-<li>cerror</li>
-<li>check-type</li>
-<li>assert</li>
-<li>time</li>
+<li>error<br></li>
+<li>cerror<br></li>
+<li>check-type<br></li>
+<li>assert<br></li>
+<li>time<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb29eea7" class="outline-3">
-<h3 id="orgb29eea7">Evaluation</h3>
-<div class="outline-text-3" id="text-orgb29eea7">
+<div id="outline-container-org4a1a3be" class="outline-3">
+<h3 id="org4a1a3be"><span class="section-number-3">1.15</span> Evaluation</h3>
+<div class="outline-text-3" id="text-1-15">
 <ul class="org-ul">
-<li>funcall</li>
-<li>apply</li>
-<li>eval</li>
+<li>funcall<br></li>
+<li>apply<br></li>
+<li>eval<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgfee62a5" class="outline-3">
-<h3 id="orgfee62a5">3.16 Closure</h3>
-<div class="outline-text-3" id="text-orgfee62a5">
+<div id="outline-container-org16b9607" class="outline-3">
+<h3 id="org16b9607"><span class="section-number-3">1.16</span> 3.16 Closure</h3>
+<div class="outline-text-3" id="text-1-16">
 <ul class="org-ul">
 <li><p>
-Ex01, c is the captured clojure
+Ex01, c is the captured clojure<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">adder</span> (c)
@@ -616,7 +616,7 @@ Ex01, c is the captured clojure
 </pre>
 </div></li>
 <li><p>
-Ex02, returns a clojure that can be used as representation of a bank accound.
+Ex02, returns a clojure that can be used as representation of a bank accound.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">bank-account</span> (balance)
@@ -632,19 +632,19 @@ Ex02, returns a clojure that can be used as representation of a bank accound.
 </div>
 
 
-<div id="outline-container-orgbf83c13" class="outline-3">
-<h3 id="orgbf83c13">3.17 special variables</h3>
-<div class="outline-text-3" id="text-orgbf83c13">
+<div id="outline-container-orgcd86bc0" class="outline-3">
+<h3 id="orgcd86bc0"><span class="section-number-3">1.17</span> 3.17 special variables</h3>
+<div class="outline-text-3" id="text-1-17">
 <ul class="org-ul">
-<li>lexical variables
-By default, Common Lisp variables are lexical variables. They are introduced by syntactic construct like let or defun.</li>
-<li>special variables
+<li>lexical variables<br>
+By default, Common Lisp variables are lexical variables. They are introduced by syntactic construct like let or defun.<br></li>
+<li>special variables<br>
 <ul class="org-ul">
-<li>A variable is made special by <code>defvar</code> or <code>defparameter</code>.</li>
+<li>A variable is made special by <code>defvar</code> or <code>defparameter</code>.<br></li>
 <li><p>
-It is just like global variable except: the global binding can be shadowed by a local binding for that variable.
+It is just like global variable except: the global binding can be shadowed by a local binding for that variable.<br>
 </p>
-<pre class="example" id="orgfe92aa1">
+<pre class="example" id="org2e0bc84">
 (defun report ()
   (format t "Counter = ~d" *counter*))
 
@@ -662,13 +662,13 @@ Counter = 0
 NIL
 </pre>
 <p>
-<b>A lexical variable has lexical scope and indefinite extent. A special variable has indefinite scope and dynamic extent.</b>
+<b>A lexical variable has lexical scope and indefinite extent. A special variable has indefinite scope and dynamic extent.</b><br>
 </p></li>
-<li>symbol-value
-To set a special variable, the following are equivalent:
+<li>symbol-value<br>
+To set a special variable, the following are equivalent:<br>
 <ul class="org-ul">
-<li>(setf (symbol-value var) value)</li>
-<li>(set var value)</li>
+<li>(setf (symbol-value var) value)<br></li>
+<li>(set var value)<br></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -676,11 +676,11 @@ To set a special variable, the following are equivalent:
 </div>
 
 
-<div id="outline-container-orgcd98b1a" class="outline-3">
-<h3 id="orgcd98b1a">3.18 Multiple values</h3>
-<div class="outline-text-3" id="text-orgcd98b1a">
+<div id="outline-container-org5f75b58" class="outline-3">
+<h3 id="org5f75b58"><span class="section-number-3">1.18</span> 3.18 Multiple values</h3>
+<div class="outline-text-3" id="text-1-18">
 <p>
-You can write functions of your own that return multiple values using the function <code>values</code>.
+You can write functions of your own that return multiple values using the function <code>values</code>.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(values 1 2 3)
@@ -689,11 +689,11 @@ You can write functions of your own that return multiple values using the functi
 </div>
 </div>
 
-<div id="outline-container-org17454aa" class="outline-3">
-<h3 id="org17454aa">3.19 More about parameters</h3>
-<div class="outline-text-3" id="text-org17454aa">
+<div id="outline-container-org2034e2e" class="outline-3">
+<h3 id="org2034e2e"><span class="section-number-3">1.19</span> 3.19 More about parameters</h3>
+<div class="outline-text-3" id="text-1-19">
 <p>
-Consider how could we improve the following function&rsquo;s signature
+Consider how could we improve the following function&rsquo;s signature<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> (op range n)
@@ -710,13 +710,13 @@ Consider how could we improve the following function&rsquo;s signature
 </pre>
 </div>
 <p>
-The user of math-quiz has to provide all 3 arguments in order, with op is quoted.
+The user of math-quiz has to provide all 3 arguments in order, with op is quoted.<br>
 </p>
 </div>
 
-<div id="outline-container-org7906b25" class="outline-4">
-<h4 id="org7906b25">Optional arguments</h4>
-<div class="outline-text-4" id="text-org7906b25">
+<div id="outline-container-orge2bb9ef" class="outline-4">
+<h4 id="orge2bb9ef"><span class="section-number-4">1.19.1</span> Optional arguments</h4>
+<div class="outline-text-4" id="text-1-19-1">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> (<span class="org-type">&amp;optional</span> (op '+) (range 100) (n 10))
   <span class="org-doc">"Ask the user a series of math problems."</span>
@@ -728,14 +728,14 @@ The user of math-quiz has to provide all 3 arguments in order, with op is quoted
 </pre>
 </div>
 <p>
-Optional arguments are still position dependent.
+Optional arguments are still position dependent.<br>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org763455e" class="outline-4">
-<h4 id="org763455e">Key arguments</h4>
-<div class="outline-text-4" id="text-org763455e">
+<div id="outline-container-org982e8a8" class="outline-4">
+<h4 id="org982e8a8"><span class="section-number-4">1.19.2</span> Key arguments</h4>
+<div class="outline-text-4" id="text-1-19-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">math-quiz</span> (<span class="org-type">&amp;key</span> (op '+) (range 100) (n 10))
   <span class="org-doc">"Ask the user a series of math problems."</span>
@@ -747,18 +747,18 @@ Optional arguments are still position dependent.
 </pre>
 </div>
 <ul class="org-ul">
-<li>A symbol starting with a <code>:</code> is called a keyword.</li>
-<li>Keywords are constant, and cannot be used as names of variables.</li>
+<li>A symbol starting with a <code>:</code> is called a keyword.<br></li>
+<li>Keywords are constant, and cannot be used as names of variables.<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgbe7cbc0" class="outline-4">
-<h4 id="orgbe7cbc0">Summary</h4>
-<div class="outline-text-4" id="text-orgbe7cbc0">
+<div id="outline-container-orge18bc89" class="outline-4">
+<h4 id="orge18bc89"><span class="section-number-4">1.19.3</span> Summary</h4>
+<div class="outline-text-4" id="text-1-19-3">
 <ul class="org-ul">
 <li><p>
-Key vs optional parameters
+Key vs optional parameters<br>
 </p>
 <table>
 
@@ -788,42 +788,42 @@ Key vs optional parameters
 </tbody>
 </table>
 <ul class="org-ul">
-<li><b>Notice</b>: <code>&amp;rest</code> are used to collect a variable number of arguments. Usually, it is used after <code>&amp;key</code> or <code>optional</code> parameters.</li>
+<li><b>Notice</b>: <code>&amp;rest</code> are used to collect a variable number of arguments. Usually, it is used after <code>&amp;key</code> or <code>optional</code> parameters.<br></li>
 </ul></li>
-<li>Among the build-in functions, there are two common group of keywords:
+<li>Among the build-in functions, there are two common group of keywords:<br>
 <ol class="org-ol">
 <li><p>
-<code>:test</code>, <code>test-not</code>, <code>key</code>, for matching functions. Including
+<code>:test</code>, <code>test-not</code>, <code>key</code>, for matching functions. Including<br>
 </p>
 <ul class="org-ul">
-<li>sublis</li>
-<li>position</li>
-<li>subst</li>
-<li>union</li>
-<li>intersection</li>
-<li>set-difference</li>
-<li>remove</li>
-<li>remove-if</li>
-<li>subsetp</li>
-<li>assoc</li>
-<li>find</li>
-<li>member</li>
+<li>sublis<br></li>
+<li>position<br></li>
+<li>subst<br></li>
+<li>union<br></li>
+<li>intersection<br></li>
+<li>set-difference<br></li>
+<li>remove<br></li>
+<li>remove-if<br></li>
+<li>subsetp<br></li>
+<li>assoc<br></li>
+<li>find<br></li>
+<li>member<br></li>
 </ul>
 
 <p>
-<b>Notice</b>: <code>:key</code> is used to provider a selector function such that the comparison could be make against some part of the object.
+<b>Notice</b>: <code>:key</code> is used to provider a selector function such that the comparison could be make against some part of the object.<br>
 </p></li>
 
-<li><code>:start</code>, <code>:end</code>, <code>:from-end</code>, for sequence functions. Including
+<li><code>:start</code>, <code>:end</code>, <code>:from-end</code>, for sequence functions. Including<br>
 <ul class="org-ul">
-<li>remove</li>
-<li>remove-if</li>
-<li>position</li>
-<li>find</li>
+<li>remove<br></li>
+<li>remove-if<br></li>
+<li>position<br></li>
+<li>find<br></li>
 </ul></li>
 </ol></li>
 <li><p>
-Example of keyword parameter, find-all which find all the items matching a condition in the list.
+Example of keyword parameter, find-all which find all the items matching a condition in the list.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">find-all</span> (item sequence <span class="org-type">&amp;rest</span> keyword-args
@@ -852,15 +852,15 @@ Example of keyword parameter, find-all which find all the items matching a condi
 </div>
 </section>
 
-<section id="outline-container-orgf314691" class="outline-2">
-<h2 id="orgf314691"><span class="todo TODO">TODO</span> Exercises</h2>
+<section id="outline-container-orgb7e4c35" class="outline-2">
+<h2 id="orgb7e4c35"><span class="section-number-2">2</span> <span class="todo TODO">TODO</span> Exercises</h2>
 </section>
 </main>
 <footer id="postamble" class="status">
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 10, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

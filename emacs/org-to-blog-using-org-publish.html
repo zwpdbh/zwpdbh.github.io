@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- Apr 20, 2021 -->
+<!-- May 10, 2021 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Org to blog using org-publish</title>
@@ -73,62 +73,62 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgcd84463">Introduction</a></li>
-<li><a href="#orge93f093">The structure of configuration</a></li>
-<li><a href="#orgdf30f07">Configurations in detail</a>
+<li><a href="#org002ed3b">1. Introduction</a></li>
+<li><a href="#org78fab4a">2. The structure of configuration</a></li>
+<li><a href="#org86bb809">3. Configurations in detail</a>
 <ul>
-<li><a href="#org3c5119c">Configuration put in Emacs</a></li>
-<li><a href="#org7d3b0e3">Templates</a>
+<li><a href="#orgbdd93b4">3.1. Configuration put in Emacs</a></li>
+<li><a href="#org87e1e3a">3.2. Templates</a>
 <ul>
-<li><a href="#org03d46a3">HTML templates</a></li>
-<li><a href="#orge21aeee">CSS templates</a></li>
-<li><a href="#orgcad4fd7">(Optional) Org template</a></li>
+<li><a href="#org3d17dc5">3.2.1. HTML templates</a></li>
+<li><a href="#org7c466a0">3.2.2. CSS templates</a></li>
+<li><a href="#orgf523e4f">3.2.3. (Optional) Org template</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org6174d82">How to use?</a></li>
-<li><a href="#orgc2209db">Improvement</a></li>
-<li><a href="#org09d769c">References</a></li>
+<li><a href="#orge8aafce">4. How to use?</a></li>
+<li><a href="#orgd93f836">5. Improvement</a></li>
+<li><a href="#org8c96ecd">6. References</a></li>
 </ul>
 </div>
 </div>
 
-<section id="outline-container-orgcd84463" class="outline-2">
-<h2 id="orgcd84463">Introduction</h2>
-<div class="outline-text-2" id="text-orgcd84463">
+<section id="outline-container-org002ed3b" class="outline-2">
+<h2 id="org002ed3b"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-I have tried many org to html or markdown to generate blog posts using different framework. They are all not stable enough. This article describes my configuration step by step to use <a href="https://orgmode.org/manual/Publishing.html">org-publish</a> to build my blog.
+I have tried many org to html or markdown to generate blog posts using different framework. They are all not stable enough. This article describes my configuration step by step to use <a href="https://orgmode.org/manual/Publishing.html">org-publish</a> to build my blog.<br />
 </p>
 
 <p>
-The key point is to use org-publish variable <code>org-publish-project-alist</code>.
+The key point is to use org-publish variable <code>org-publish-project-alist</code>.<br />
 </p>
 </div>
 </section>
 
-<section id="outline-container-orge93f093" class="outline-2">
-<h2 id="orge93f093">The structure of configuration</h2>
-<div class="outline-text-2" id="text-orge93f093">
+<section id="outline-container-org78fab4a" class="outline-2">
+<h2 id="org78fab4a"><span class="section-number-2">2</span> The structure of configuration</h2>
+<div class="outline-text-2" id="text-2">
 <p>
-The configuration should meet the following requirements:
+The configuration should meet the following requirements:<br />
 </p>
 <ol class="org-ol">
-<li>Most of the configuration should located inside <code>~/.emacs.d</code> folder and most of the configuration should be setup using elisp.</li>
-<li>Suppose my org files are ready to be exported located at <code>/code/capture-org/publish</code>. After exported (recursively), they should be converted as html files using <code>/code/blog/</code> as <b>blog base folder</b>.</li>
-<li>During exporting, some templates such as headers and footers are added automatically.</li>
-<li>Different resources(org files, images, css, other assets, etc) probably are located in different projects or folders. When execute <code>M-x org-publish</code>, those resources will be exported into <code>/code/blog/</code> with corresponding structure to form our blog.</li>
+<li>Most of the configuration should located inside <code>~/.emacs.d</code> folder and most of the configuration should be setup using elisp.<br /></li>
+<li>Suppose my org files are ready to be exported located at <code>/code/capture-org/publish</code>. After exported (recursively), they should be converted as html files using <code>/code/blog/</code> as <b>blog base folder</b>.<br /></li>
+<li>During exporting, some templates such as headers and footers are added automatically.<br /></li>
+<li>Different resources(org files, images, css, other assets, etc) probably are located in different projects or folders. When execute <code>M-x org-publish</code>, those resources will be exported into <code>/code/blog/</code> with corresponding structure to form our blog.<br /></li>
 </ol>
 </div>
 </section>
 
-<section id="outline-container-orgdf30f07" class="outline-2">
-<h2 id="orgdf30f07">Configurations in detail</h2>
-<div class="outline-text-2" id="text-orgdf30f07">
+<section id="outline-container-org86bb809" class="outline-2">
+<h2 id="org86bb809"><span class="section-number-2">3</span> Configurations in detail</h2>
+<div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org3c5119c" class="outline-3">
-<h3 id="org3c5119c">Configuration put in Emacs</h3>
-<div class="outline-text-3" id="text-org3c5119c">
+<div id="outline-container-orgbdd93b4" class="outline-3">
+<h3 id="orgbdd93b4"><span class="section-number-3">3.1</span> Configuration put in Emacs</h3>
+<div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">use-package</span> <span class="org-constant">htmlize</span>
   <span class="org-builtin">:defer</span> t
@@ -293,39 +293,39 @@ The configuration should meet the following requirements:
 </pre>
 </div>
 <p>
-The most important settings are:
+The most important settings are:<br />
 </p>
 <ul class="org-ul">
-<li><code>base-directory</code>, controls from where the org-publish export.</li>
-<li><code>publishing-directories</code>, controls to where the org-publish export.
-With carefully arrangement, we could export files from multiple places into one destination.</li>
-<li>The final &ldquo;all&rdquo; entry is the command we will choose when execute <code>M-x org-publish</code>. It will run other entry listed in its components one by one.
-So, it will export for &ldquo;post&rdquo;, &ldquo;about&rdquo;, &ldquo;css&rdquo;, &#x2026;, etc.</li>
+<li><code>base-directory</code>, controls from where the org-publish export.<br /></li>
+<li><code>publishing-directories</code>, controls to where the org-publish export.<br />
+With carefully arrangement, we could export files from multiple places into one destination.<br /></li>
+<li>The final &ldquo;all&rdquo; entry is the command we will choose when execute <code>M-x org-publish</code>. It will run other entry listed in its components one by one.<br />
+So, it will export for &ldquo;post&rdquo;, &ldquo;about&rdquo;, &ldquo;css&rdquo;, &#x2026;, etc.<br /></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org7d3b0e3" class="outline-3">
-<h3 id="org7d3b0e3">Templates</h3>
-<div class="outline-text-3" id="text-org7d3b0e3">
+<div id="outline-container-org87e1e3a" class="outline-3">
+<h3 id="org87e1e3a"><span class="section-number-3">3.2</span> Templates</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
-There are two kinds of templates. One is used by org file directly as org options. Another is used during export such that the generated html file will include those templates. So, the later one contains html related settings.
+There are two kinds of templates. One is used by org file directly as org options. Another is used during export such that the generated html file will include those templates. So, the later one contains html related settings.<br />
 </p>
 </div>
 
-<div id="outline-container-org03d46a3" class="outline-4">
-<h4 id="org03d46a3">HTML templates</h4>
-<div class="outline-text-4" id="text-org03d46a3">
+<div id="outline-container-org3d17dc5" class="outline-4">
+<h4 id="org3d17dc5"><span class="section-number-4">3.2.1</span> HTML templates</h4>
+<div class="outline-text-4" id="text-3-2-1">
 </div>
 <ul class="org-ul">
-<li><a id="org0310e5e"></a>Define templates<br />
-<div class="outline-text-5" id="text-org0310e5e">
+<li><a id="org4e475de"></a>Define templates<br />
+<div class="outline-text-5" id="text-org4e475de">
 <p>
-Since this kind of template will not likely to be changed, I put them into <code>/.emacs.d/html-templates</code>
+Since this kind of template will not likely to be changed, I put them into <code>/.emacs.d/html-templates</code><br />
 </p>
 <ul class="org-ul">
 <li><p>
-preamble.html
+preamble.html<br />
 </p>
 <div class='intro'>
   <img src='/images/Lisplogo_alien_256.png' alt='Land of Lisp' class='no-border'/>
@@ -343,11 +343,11 @@ preamble.html
   </ul>
 </div>
 <p>
-This file controls header.
+This file controls header.<br />
 </p></li>
 
 <li><p>
-postamble.html
+postamble.html<br />
 </p>
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
@@ -355,16 +355,16 @@ postamble.html
   Last updated on %s. Generated using %s.
 </div>
 <p>
-This fill controls the footer.
+This fill controls the footer.<br />
 </p></li>
 </ul>
 </div>
 </li>
 
-<li><a id="org13066e3"></a>Use HTML template files<br />
-<div class="outline-text-5" id="text-org13066e3">
+<li><a id="org6354d05"></a>Use HTML template files<br />
+<div class="outline-text-5" id="text-org6354d05">
 <p>
-They are used in init-org-html.el, see <a href="#org3c5119c">init-org-html.el</a>
+They are used in init-org-html.el, see <a href="#orgbdd93b4">init-org-html.el</a><br />
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> org-html-divs '((preamble <span class="org-string">"header"</span> <span class="org-string">"top"</span>)
@@ -385,11 +385,11 @@ They are used in init-org-html.el, see <a href="#org3c5119c">init-org-html.el</a
 </ul>
 </div>
 
-<div id="outline-container-orge21aeee" class="outline-4">
-<h4 id="orge21aeee">CSS templates</h4>
-<div class="outline-text-4" id="text-orge21aeee">
+<div id="outline-container-org7c466a0" class="outline-4">
+<h4 id="org7c466a0"><span class="section-number-4">3.2.2</span> CSS templates</h4>
+<div class="outline-text-4" id="text-3-2-2">
 <p>
-Our website will use external css file to improve its looking. I put them all under foler <code>/.emacs.d/css</code>. Then, refer them accordingly from org-publish settings defined using elisp shown above. For example,  In my <code>custom.css</code>, I define settings related to &ldquo;table of content&rdquo; such that it could make the generated &ldquo;toc&rdquo; hovering at the top right corner.
+Our website will use external css file to improve its looking. I put them all under foler <code>/.emacs.d/css</code>. Then, refer them accordingly from org-publish settings defined using elisp shown above. For example,  In my <code>custom.css</code>, I define settings related to &ldquo;table of content&rdquo; such that it could make the generated &ldquo;toc&rdquo; hovering at the top right corner.<br />
 </p>
 <div class="org-src-container">
 <pre class="src src-css"><span class="org-comment-delimiter">/* </span><span class="org-comment">TOC inspired by http://jashkenas.github.com/coffee-script </span><span class="org-comment-delimiter">*/</span>
@@ -436,26 +436,26 @@ Our website will use external css file to improve its looking. I put them all un
 </pre>
 </div>
 <p>
-Check previous section about using elisp to configure html stylesheet part.
+Check previous section about using elisp to configure html stylesheet part.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgcad4fd7" class="outline-4">
-<h4 id="orgcad4fd7">(Optional) Org template</h4>
-<div class="outline-text-4" id="text-orgcad4fd7">
+<div id="outline-container-orgf523e4f" class="outline-4">
+<h4 id="orgf523e4f"><span class="section-number-4">3.2.3</span> (Optional) Org template</h4>
+<div class="outline-text-4" id="text-3-2-3">
 <p>
-Here, we setup a template called post.org in which it contains the following options:
+Here, we setup a template called post.org in which it contains the following options:<br />
 </p>
-<pre class="example" id="orge2e43ed">
+<pre class="example" id="orgec6f29b">
 #+AUTHOR: Zhao Wei
 #+OPTIONS: toc:t
 #+HTML_DOCTYPE: xhtml-strict
 </pre>
 <p>
-For a org file, we could use it as other org file options like:
+For a org file, we could use it as other org file options like:<br />
 </p>
-<pre class="example" id="orgf70e882">
+<pre class="example" id="org0bb6311">
 #+title: Sample Post
 #+date: &lt;2020-02-05 Wed&gt;
 #+filetags: gitlab git org-mode orgmode emacs template sample
@@ -466,15 +466,15 @@ For a org file, we could use it as other org file options like:
 </div>
 </section>
 
-<section id="outline-container-org6174d82" class="outline-2">
-<h2 id="org6174d82">How to use?</h2>
-<div class="outline-text-2" id="text-org6174d82">
+<section id="outline-container-orge8aafce" class="outline-2">
+<h2 id="orge8aafce"><span class="section-number-2">4</span> How to use?</h2>
+<div class="outline-text-2" id="text-4">
 <ol class="org-ol">
-<li>Write org files ready to be published at <code>/code/capture-org/publish</code>.</li>
-<li>Run <code>M-x org-publish RET</code>, choose <code>all</code>.</li>
-<li>Check <code>/code/blog</code> to see html files and other static resources are exported correctly.</li>
+<li>Write org files ready to be published at <code>/code/capture-org/publish</code>.<br /></li>
+<li>Run <code>M-x org-publish RET</code>, choose <code>all</code>.<br /></li>
+<li>Check <code>/code/blog</code> to see html files and other static resources are exported correctly.<br /></li>
 <li><p>
-Run the following command to start a simple python server to render our static blog website
+Run the following command to start a simple python server to render our static blog website<br />
 </p>
 <div class="org-src-container">
 <pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">replace directory with your own blog base folder which stores the exported html files from org files</span>
@@ -486,27 +486,27 @@ python3 -m http.server 3000
 </pre>
 </div>
 <p>
-If there is no error, visit: <a href="http://localhost:3000">http://localhost:3000</a>
+If there is no error, visit: <a href="http://localhost:3000">http://localhost:3000</a><br />
 </p></li>
-<li>Host our website on GitHub pages
+<li>Host our website on GitHub pages<br />
 <ul class="org-ul">
-<li>Following the instructions from GitHub to create an empty repository like <code>&lt;your-username&gt;.github.io</code>.</li>
-<li>Git initialize our blog and set remote origin to be the repository we just created.</li>
-<li>After push and wait 3~5 mins, you should be able to visite the blog at: <a href="https://zwpdbh.github.io/">https://zwpdbh.github.io/</a></li>
+<li>Following the instructions from GitHub to create an empty repository like <code>&lt;your-username&gt;.github.io</code>.<br /></li>
+<li>Git initialize our blog and set remote origin to be the repository we just created.<br /></li>
+<li>After push and wait 3~5 mins, you should be able to visite the blog at: <a href="https://zwpdbh.github.io/">https://zwpdbh.github.io/</a><br /></li>
 </ul></li>
 </ol>
 </div>
 </section>
 
-<section id="outline-container-orgc2209db" class="outline-2">
-<h2 id="orgc2209db">Improvement</h2>
-<div class="outline-text-2" id="text-orgc2209db">
+<section id="outline-container-orgd93f836" class="outline-2">
+<h2 id="orgd93f836"><span class="section-number-2">5</span> Improvement</h2>
+<div class="outline-text-2" id="text-5">
 <p>
-Sometimes, running export from inside Emacs is slow and bloc my current task. So, I need to execute an other emacs process to do <code>org-pubish-all</code>.
+Sometimes, running export from inside Emacs is slow and bloc my current task. So, I need to execute an other emacs process to do <code>org-pubish-all</code>.<br />
 </p>
 <ol class="org-ol">
 <li><p>
-First, define our publish.el which utilize the same configuration from my <code>/.emacs.d/</code>:
+First, define our publish.el which utilize the same configuration from my <code>/.emacs.d/</code>:<br />
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(add-to-list 'load-path (expand-file-name <span class="org-string">"lisp"</span> user-emacs-directory))
@@ -547,7 +547,7 @@ First, define our publish.el which utilize the same configuration from my <code>
 </pre>
 </div></li>
 <li><p>
-Then, execute emacs to load publish.el
+Then, execute emacs to load publish.el<br />
 </p>
 <div class="org-src-container">
 <pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">By default, only modified files including new files are pubished</span>
@@ -557,20 +557,20 @@ emacs --script <span class="org-string">"~/.emacs.d/publish.el"</span> t
 </pre>
 </div></li>
 
-<li>Last, cd into blog base dir
+<li>Last, cd into <b>blog base dir</b><br />
 <ul class="org-ul">
-<li>python3 -m http.server 3000</li>
-<li>Visit <a href="http://localhost:3000">http://localhost:3000</a></li>
+<li>python3 -m http.server 3000<br /></li>
+<li>Visit <a href="http://localhost:3000">http://localhost:3000</a><br /></li>
 </ul></li>
 </ol>
 </div>
 </section>
 
-<section id="outline-container-org09d769c" class="outline-2">
-<h2 id="org09d769c">References</h2>
-<div class="outline-text-2" id="text-org09d769c">
+<section id="outline-container-org8c96ecd" class="outline-2">
+<h2 id="org8c96ecd"><span class="section-number-2">6</span> References</h2>
+<div class="outline-text-2" id="text-6">
 <ul class="org-ul">
-<li><a href="https://opensource.com/article/20/3/blog-emacs">How to blog with Emacs Org mode</a></li>
+<li><a href="https://opensource.com/article/20/3/blog-emacs">How to blog with Emacs Org mode</a><br /></li>
 <li><a href="https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">Publishing Org-mode files to HTML</a></li>
 </ul>
 </div>
@@ -580,7 +580,7 @@ emacs --script <span class="org-string">"~/.emacs.d/publish.el"</span> t
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 10, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

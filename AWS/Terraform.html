@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 20, 2021 -->
+<!-- May 10, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Terraform Note</title>
@@ -72,24 +72,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgf27c849">Terraform module</a>
+<li><a href="#org286a352">1. Terraform module</a>
 <ul>
-<li><a href="#orgb0dd76f">Module inputs</a></li>
-<li><a href="#orgc08d68a">Module output</a></li>
+<li><a href="#orga3804ed">1.1. Module inputs</a></li>
+<li><a href="#org810cb31">1.2. Module output</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-orgf27c849" class="outline-2">
-<h2 id="orgf27c849">Terraform module</h2>
-<div class="outline-text-2" id="text-orgf27c849">
+<section id="outline-container-org286a352" class="outline-2">
+<h2 id="org286a352"><span class="section-number-2">1</span> Terraform module</h2>
+<div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>Any set of Terraform configuration files in a folder is a module.</li>
-<li>Different from regular Terraform .tf file, the provider is removed since providers should be configured by the user of the module and not by the module itself.</li>
+<li>Any set of Terraform configuration files in a folder is a module.<br></li>
+<li>Different from regular Terraform .tf file, the provider is removed since providers should be configured by the user of the module and not by the module itself.<br></li>
 <li><p>
-Syntax of using module 
+Syntax of using module<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-terraform"><span class="org-builtin">module</span> <span class="org-terraform--resource-name">"&lt;NAME&gt;"</span> {
@@ -98,12 +98,12 @@ Syntax of using module
 }
 </pre>
 </div></li>
-<li>Example: 
+<li>Example:<br>
 <ul class="org-ul">
 <li><p>
-a module that is responsible for creating EC2 cluster
+a module that is responsible for creating EC2 cluster<br>
 </p>
-<pre class="example" id="orgc6c0397">
+<pre class="example" id="org1afd81a">
 zw@zw-dev:~/code/terraform-projects/intro-to-terraform/modules$ tree .
 .
 └── services
@@ -115,7 +115,7 @@ zw@zw-dev:~/code/terraform-projects/intro-to-terraform/modules$ tree .
 2 directories, 3 files
 </pre></li>
 <li><p>
-You can create a new file in <code>stage/services/webserver-cluster/main.tf</code> and use the webserver-cluster module in it as follow:
+You can create a new file in <code>stage/services/webserver-cluster/main.tf</code> and use the webserver-cluster module in it as follow:<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-terraform"><span class="org-builtin">provider</span> <span class="org-terraform--resource-type">"aws"</span> {
@@ -127,20 +127,20 @@ You can create a new file in <code>stage/services/webserver-cluster/main.tf</cod
 </pre>
 </div>
 <ul class="org-ul">
-<li>Notice the source specifies the folder contains the .tf files.</li>
-<li>The module will be refered will be <code>webserver_cluster</code>.</li>
+<li>Notice the source specifies the folder contains the .tf files.<br></li>
+<li>The module will be refered will be <code>webserver_cluster</code>.<br></li>
 </ul></li>
 </ul></li>
 </ul>
 </div>
 
-<div id="outline-container-orgb0dd76f" class="outline-3">
-<h3 id="orgb0dd76f">Module inputs</h3>
-<div class="outline-text-3" id="text-orgb0dd76f">
+<div id="outline-container-orga3804ed" class="outline-3">
+<h3 id="orga3804ed"><span class="section-number-3">1.1</span> Module inputs</h3>
+<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>As function in general programming language which has input variables, you can add input parameters in Terraform.</li>
+<li>As function in general programming language which has input variables, you can add input parameters in Terraform.<br></li>
 <li><p>
-First, define variables in modules, such as <code>cluster_name</code>
+First, define variables in modules, such as <code>cluster_name</code><br>
 </p>
 <div class="org-src-container">
 <pre class="src src-terraform"><span class="org-builtin">variable</span> <span class="org-terraform--resource-name">"cluster_name"</span> {
@@ -150,7 +150,7 @@ First, define variables in modules, such as <code>cluster_name</code>
 </pre>
 </div></li>
 <li><p>
-Second, set the new input variable accordingly
+Second, set the new input variable accordingly<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-terraform"><span class="org-builtin">module</span> <span class="org-terraform--resource-name">"webserver_cluster"</span> {
@@ -160,19 +160,19 @@ Second, set the new input variable accordingly
 </pre>
 </div>
 <ul class="org-ul">
-<li>When use the module, we configure the <code>cluster_name</code>.</li>
+<li>When use the module, we configure the <code>cluster_name</code>.<br></li>
 </ul></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc08d68a" class="outline-3">
-<h3 id="orgc08d68a">Module output</h3>
-<div class="outline-text-3" id="text-orgc08d68a">
+<div id="outline-container-org810cb31" class="outline-3">
+<h3 id="org810cb31"><span class="section-number-3">1.2</span> Module output</h3>
+<div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
-<li>First, define output in modules,</li>
+<li>First, define output in modules,<br></li>
 <li><p>
-Second, refer the output as same as refering resources outputs
+Second, refer the output as same as refering resources outputs<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-terraform"><span class="org-comment"># module.&lt;MODULE_NAME&gt;.&lt;OUTPUT_NAME&gt;</span>
@@ -180,7 +180,7 @@ Second, refer the output as same as refering resources outputs
 </pre>
 </div></li>
 <li><p>
-(optinal), you could &ldquo;pass through&rdquo; output
+(optinal), you could &ldquo;pass through&rdquo; output<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-terraform"><span class="org-builtin">output</span> <span class="org-terraform--resource-name">"clb_dns_name"</span> {
@@ -189,7 +189,7 @@ Second, refer the output as same as refering resources outputs
 }
 </pre>
 </div></li>
-<li>The <code>clb_dns_name</code> is the output from module <code>webserver_cluster</code> and it is passed through from its usages place.</li>
+<li>The <code>clb_dns_name</code> is the output from module <code>webserver_cluster</code> and it is passed through from its usages place.<br></li>
 </ul>
 </div>
 </div>
@@ -199,7 +199,7 @@ Second, refer the output as same as refering resources outputs
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 10, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

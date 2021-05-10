@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 20, 2021 -->
+<!-- May 10, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>&lrm;</title>
@@ -70,33 +70,33 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org4facc6a">Description</a>
+<li><a href="#orgb98954e">1. Description</a>
 <ul>
-<li><a href="#org52224ff">Derivation of a single sentence using a context-free grammar</a></li>
-<li><a href="#orgec393cd">Traditional straightforward development</a></li>
-<li><a href="#org2206563">Data driven development (rule-based solution)</a></li>
-<li><a href="#org444aea1">Things we used</a></li>
+<li><a href="#org181b1bd">1.1. Derivation of a single sentence using a context-free grammar</a></li>
+<li><a href="#org632d8dc">1.2. Traditional straightforward development</a></li>
+<li><a href="#orge200870">1.3. Data driven development (rule-based solution)</a></li>
+<li><a href="#org226f7e4">1.4. Things we used</a></li>
 </ul>
 </li>
-<li><a href="#orgc84f34c">Exercise</a></li>
+<li><a href="#org8433867">2. Exercise</a></li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org4facc6a" class="outline-2">
-<h2 id="org4facc6a">Description</h2>
-<div class="outline-text-2" id="text-org4facc6a">
+<section id="outline-container-orgb98954e" class="outline-2">
+<h2 id="orgb98954e"><span class="section-number-2">1</span> Description</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-This chapter aims to practise the skill of combining basic functions and special forms of list into a complete program.
+This chapter aims to practise the skill of combining basic functions and special forms of list into a complete program.<br>
 </p>
 </div>
 
-<div id="outline-container-org52224ff" class="outline-3">
-<h3 id="org52224ff">Derivation of a single sentence using a context-free grammar</h3>
-<div class="outline-text-3" id="text-org52224ff">
+<div id="outline-container-org181b1bd" class="outline-3">
+<h3 id="org181b1bd"><span class="section-number-3">1.1</span> Derivation of a single sentence using a context-free grammar</h3>
+<div class="outline-text-3" id="text-1-1">
 <p>
-Given the following rule, we want to generate a sentence based on that phrase-structure grammar.
+Given the following rule, we want to generate a sentence based on that phrase-structure grammar.<br>
 </p>
-<pre class="example" id="orga931767">
+<pre class="example" id="org80b759b">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
@@ -106,9 +106,9 @@ Verb =&gt; hit, took, saw, liked...
 </pre>
 </div>
 </div>
-<div id="outline-container-orgec393cd" class="outline-3">
-<h3 id="orgec393cd">Traditional straightforward development</h3>
-<div class="outline-text-3" id="text-orgec393cd">
+<div id="outline-container-org632d8dc" class="outline-3">
+<h3 id="org632d8dc"><span class="section-number-3">1.2</span> Traditional straightforward development</h3>
+<div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">sentence</span> ()    (append (noun-phrase) (verb-phrase)))
 (<span class="org-keyword">defun</span> <span class="org-function-name">noun-phrase</span> () (append (Article) (Noun)))
@@ -119,23 +119,23 @@ Verb =&gt; hit, took, saw, liked...
 </pre>
 </div>
 <p>
-In this approach, we create functions accordingto the grammar rules.
-In traditional solution, the rules are expressed based on many lisp conventions, such as: case, if, and their order in the evaluation (we use functions&rsquo;s call to express those rules.).
+In this approach, we create functions accordingto the grammar rules.<br>
+In traditional solution, the rules are expressed based on many lisp conventions, such as: case, if, and their order in the evaluation (we use functions&rsquo;s call to express those rules.).<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org2206563" class="outline-3">
-<h3 id="org2206563">Data driven development (rule-based solution)</h3>
-<div class="outline-text-3" id="text-org2206563">
+<div id="outline-container-orge200870" class="outline-3">
+<h3 id="orge200870"><span class="section-number-3">1.3</span> Data driven development (rule-based solution)</h3>
+<div class="outline-text-3" id="text-1-3">
 <ol class="org-ol">
-<li>Concentrate on how to make it easy to <b>express rule directly using lisp</b>.</li>
-<li>Worry later about how they will be processed.</li>
+<li>Concentrate on how to make it easy to <b>express rule directly using lisp</b>.<br></li>
+<li>Worry later about how they will be processed.<br></li>
 </ol>
 
 <p>
-Consider the rules
+Consider the rules<br>
 </p>
-<pre class="example" id="org5000421">
+<pre class="example" id="org29b6f20">
 Sentence =&gt; Noun-Phrase + Verb-Phrase
 Noun-Phrase =&gt; Article + Noun
 Verb-Phrase =&gt; Verb + Noun-Phrase
@@ -145,7 +145,7 @@ Verb =&gt; hit, took, saw, liked...
 </pre>
 
 <p>
-We use the following lisp code represent their rules:
+We use the following lisp code represent their rules:<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defparameter</span> <span class="org-variable-name">*simple-grammar*</span>
@@ -188,20 +188,20 @@ We use the following lisp code represent their rules:
 </div>
 </div>
 
-<div id="outline-container-org444aea1" class="outline-3">
-<h3 id="org444aea1">Things we used</h3>
-<div class="outline-text-3" id="text-org444aea1">
+<div id="outline-container-org226f7e4" class="outline-3">
+<h3 id="org226f7e4"><span class="section-number-3">1.4</span> Things we used</h3>
+<div class="outline-text-3" id="text-1-4">
 <ul class="org-ul">
-<li>append</li>
+<li>append<br></li>
 <li><p>
-elt
+elt<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(elt '(1 2 3 4 5) 2)
 </pre>
 </div></li>
 <li><p>
-random, we use it to implement one-of and random-element
+random, we use it to implement one-of and random-element<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">one-of</span> (lst)
@@ -212,44 +212,44 @@ random, we use it to implement one-of and random-element
 </pre>
 </div></li>
 <li><p>
-assoc
+assoc<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(assoc '1 '((1 -&gt; first) (2 -&gt; second) (3 -&gt; third)))
 </pre>
 </div></li>
 
-<li>By convention, <code>defvar</code> is used to define var and <code>defparameter</code> is used to define constant. They are all used to define <b>global variable</b>.</li>
+<li>By convention, <code>defvar</code> is used to define var and <code>defparameter</code> is used to define constant. They are all used to define <b>global variable</b>.<br></li>
 
-<li>To define <b>local variable</b>, use <code>let</code>.</li>
+<li>To define <b>local variable</b>, use <code>let</code>.<br></li>
 
-<li><b>By comparing traditional and data-driven development</b>
+<li><b>By comparing traditional and data-driven development</b><br>
 <ul class="org-ul">
-<li>The traditional approach construct different functions and compose them to express the rule directly. It becomes hard to maintain once the rule become complex. Because we are doing straightforward mapping of the problem description into lisp code.</li>
-<li>The rule bsed approach (data-driven) on the other hand: 
+<li>The traditional approach construct different functions and compose them to express the rule directly. It becomes hard to maintain once the rule become complex. Because we are doing straightforward mapping of the problem description into lisp code.<br></li>
+<li>The rule bsed approach (data-driven) on the other hand:<br>
 <ul class="org-ul">
-<li>First, focus on how to express rules as natual as possible with lisp code.</li>
-<li>Then, define a layer of tools to help to operate on those rules.
-<b>In this step, we are actually writing a simple interpreter for notation introduced from first step.</b></li>
-<li>Finally, with those tools, we define our final function according to the rules. (These rules are not the primitive rules; they are the rules expressed in lisp code from first step.)</li>
+<li>First, focus on how to express rules as natual as possible with lisp code.<br></li>
+<li>Then, define a layer of tools to help to operate on those rules.<br>
+<b>In this step, we are actually writing a simple interpreter for notation introduced from first step.</b><br></li>
+<li>Finally, with those tools, we define our final function according to the rules. (These rules are not the primitive rules; they are the rules expressed in lisp code from first step.)<br></li>
 </ul></li>
-<li>The idea behind second approach is to work with the problem as much as possible in its own terms, and to minimize the part of the solution that is written directly in Lisp.</li>
-<li>The extra advantages of representing information in declarative form (rules or facts) rather than lisp function is that it can be easier to use the information for multiple purpose. This is called <b>one-data/multiple-program</b>.</li>
+<li>The idea behind second approach is to work with the problem as much as possible in its own terms, and to minimize the part of the solution that is written directly in Lisp.<br></li>
+<li>The extra advantages of representing information in declarative form (rules or facts) rather than lisp function is that it can be easier to use the information for multiple purpose. This is called <b>one-data/multiple-program</b>.<br></li>
 </ul></li>
 </ul>
 </div>
 </div>
 </section>
 
-<section id="outline-container-orgc84f34c" class="outline-2">
-<h2 id="orgc84f34c">Exercise</h2>
+<section id="outline-container-org8433867" class="outline-2">
+<h2 id="org8433867"><span class="section-number-2">2</span> Exercise</h2>
 </section>
 </main>
 <footer id="postamble" class="status">
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 10, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

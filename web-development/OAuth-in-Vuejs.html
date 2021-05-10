@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 23, 2021 -->
+<!-- May 10, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Auth-in-Vuejs</title>
@@ -72,159 +72,159 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge61ce08">Introduction</a></li>
-<li><a href="#org2c7513a">How 0Auth2.0 works?</a>
+<li><a href="#org5e922b4">1. Introduction</a></li>
+<li><a href="#orgc39974c">2. How 0Auth2.0 works?</a>
 <ul>
-<li><a href="#org6740dca">What is OAuth2.0?</a></li>
-<li><a href="#orgae23814">An example</a></li>
-<li><a href="#org6972c7f">Authorization code grant</a></li>
-<li><a href="#orgfd6e4c1">Obtain refreshed access-token</a></li>
+<li><a href="#orgaad1fc2">2.1. What is OAuth2.0?</a></li>
+<li><a href="#org3a6d3f0">2.2. An example</a></li>
+<li><a href="#org1c36e7c">2.3. Authorization code grant</a></li>
+<li><a href="#org30bc7e9">2.4. Obtain refreshed access-token</a></li>
 </ul>
 </li>
-<li><a href="#orgd805627">How authentication and authorization are implemented in Vuejs?</a>
+<li><a href="#orgdf21ab9">3. How authentication and authorization are implemented in Vuejs?</a>
 <ul>
-<li><a href="#orgd13ba12">Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
-<li><a href="#orga82a69d">Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
-<li><a href="#orgaa3b0eb">What does OIDC provider should do?</a></li>
-<li><a href="#orgcb081f6">What Vuejs backend should do (provide APIs)?</a></li>
-<li><a href="#org95b33b9">What Vuejs frontend should do?</a></li>
+<li><a href="#orgcdfa73d">3.1. Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
+<li><a href="#org8c5f8bb">3.2. Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
+<li><a href="#orgb43d433">3.3. What does OIDC provider should do?</a></li>
+<li><a href="#org3659317">3.4. What Vuejs backend should do (provide APIs)?</a></li>
+<li><a href="#orgc053ce1">3.5. What Vuejs frontend should do?</a></li>
 </ul>
 </li>
-<li><a href="#orgbfa38fe">Summary</a></li>
-<li><a href="#org9a06144">References</a></li>
+<li><a href="#org1b066eb">4. Summary</a></li>
+<li><a href="#org452e36d">5. References</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-orge61ce08" class="outline-2">
-<h2 id="orge61ce08">Introduction</h2>
-<div class="outline-text-2" id="text-orge61ce08">
+<section id="outline-container-org5e922b4" class="outline-2">
+<h2 id="org5e922b4"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-This article introduce how I implement authentication and authorization for Vuejs app. The whole Vuejs project consist of 4 parts:
+This article introduce how I implement authentication and authorization for Vuejs app. The whole Vuejs project consist of 4 parts:<br>
 </p>
 <ul class="org-ul">
-<li>Vuejs-frontend, for rendering html pages.</li>
-<li>Vuejs-backend, our APIs service.</li>
-<li>oidc-provider, authorization server for delegation.</li>
-<li>postgres, for storing RBA models and user credentials.</li>
+<li>Vuejs-frontend, for rendering html pages.<br></li>
+<li>Vuejs-backend, our APIs service.<br></li>
+<li>oidc-provider, authorization server for delegation.<br></li>
+<li>postgres, for storing RBA models and user credentials.<br></li>
 </ul>
 </div>
 </section>
 
 
-<section id="outline-container-org2c7513a" class="outline-2">
-<h2 id="org2c7513a">How 0Auth2.0 works?</h2>
-<div class="outline-text-2" id="text-org2c7513a">
+<section id="outline-container-orgc39974c" class="outline-2">
+<h2 id="orgc39974c"><span class="section-number-2">2</span> How 0Auth2.0 works?</h2>
+<div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org6740dca" class="outline-3">
-<h3 id="org6740dca">What is OAuth2.0?</h3>
-<div class="outline-text-3" id="text-org6740dca">
+<div id="outline-container-orgaad1fc2" class="outline-3">
+<h3 id="orgaad1fc2"><span class="section-number-3">2.1</span> What is OAuth2.0?</h3>
+<div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
-<li>It is a delegation protocol. It enable a 3rd party application to obtain limited access to an HTTP service.</li>
-<li>Its related components:
+<li>It is a delegation protocol. It enable a 3rd party application to obtain limited access to an HTTP service.<br></li>
+<li>Its related components:<br>
 <ul class="org-ul">
-<li><b>resource ower</b>, usually a person has access to an API and can delegate access to that API.</li>
-<li><b>protected resources</b>, the component that the resource ower has access to. Usually these protected resources are some APIs.</li>
-<li><b>client</b>, an application or a software that want to access the protected resources on behalf of resource owner.</li>
+<li><b>resource ower</b>, usually a person has access to an API and can delegate access to that API.<br></li>
+<li><b>protected resources</b>, the component that the resource ower has access to. Usually these protected resources are some APIs.<br></li>
+<li><b>client</b>, an application or a software that want to access the protected resources on behalf of resource owner.<br></li>
 </ul></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgae23814" class="outline-3">
-<h3 id="orgae23814">An example</h3>
-<div class="outline-text-3" id="text-orgae23814">
+<div id="outline-container-org3a6d3f0" class="outline-3">
+<h3 id="org3a6d3f0"><span class="section-number-3">2.2</span> An example</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
-Suppose We have a cloud photo-storage service and a photo print service. We want to use the print service to print photo stored in phote-storage. Howerver, those two services are running by different companies.
+Suppose We have a cloud photo-storage service and a photo print service. We want to use the print service to print photo stored in phote-storage. Howerver, those two services are running by different companies.<br>
 </p>
 <ul class="org-ul">
-<li><b>resource owner</b>, some user (the browser to visit print service).</li>
-<li><b>protected resource</b>, APIs (photos in photo-storage).</li>
-<li><b>client</b>, print-service which needs to call APIs of photo-storage (to access photos).</li>
+<li><b>resource owner</b>, some user (the browser to visit print service).<br></li>
+<li><b>protected resource</b>, APIs (photos in photo-storage).<br></li>
+<li><b>client</b>, print-service which needs to call APIs of photo-storage (to access photos).<br></li>
 </ul>
 
 <p>
-OAuth introduce an additional component into the picture: <b>authorization server(AS)</b>.
+OAuth introduce an additional component into the picture: <b>authorization server(AS)</b>.<br>
 </p>
 <ul class="org-ul">
-<li>AS is trusted by the protected resources. So, protected resource delegate its credentails verification to AS.</li>
-<li>AS issue special security credentials &#x2013; called <b>access-token</b> to client. This access-token is then used by client(photo-storage APIs).</li>
+<li>AS is trusted by the protected resources. So, protected resource delegate its credentails verification to AS.<br></li>
+<li>AS issue special security credentials &#x2013; called <b>access-token</b> to client. This access-token is then used by client(photo-storage APIs).<br></li>
 </ul>
 
 <p>
-General steps to acquire an access-token:
+General steps to acquire an access-token:<br>
 </p>
 <ol class="org-ol">
-<li>The client first sends the resource owner to the authorization server in order to request that the resource owner authorize this client.</li>
-<li>The resource owner authenticates to the authorization server and is generally presented with a choice of whether to authorize the client making the request.</li>
-<li>The client is able to ask for a subset of functionality, or scopes.</li>
-<li>Once the authorization grant has been made, the client can then request an access token from the authorization server.
+<li>The client first sends the resource owner to the authorization server in order to request that the resource owner authorize this client.<br></li>
+<li>The resource owner authenticates to the authorization server and is generally presented with a choice of whether to authorize the client making the request.<br></li>
+<li>The client is able to ask for a subset of functionality, or scopes.<br></li>
+<li>Once the authorization grant has been made, the client can then request an access token from the authorization server.<br>
 <ul class="org-ul">
-<li>An <b>authorziation grant</b> is the means by which an OAuth client is given access to a protected resource using the OAuth Protocol, and if successful it ultimately results in the client getting a token.</li>
-<li>Don&rsquo;t misunderstand authorization code as it, the <b>entire OAuth process</b> is the authorization grant.</li>
+<li>An <b>authorziation grant</b> is the means by which an OAuth client is given access to a protected resource using the OAuth Protocol, and if successful it ultimately results in the client getting a token.<br></li>
+<li>Don&rsquo;t misunderstand authorization code as it, the <b>entire OAuth process</b> is the authorization grant.<br></li>
 </ul></li>
-<li>This access token can be used at the protected resource to access the API, as granted by the resource owner.</li>
+<li>This access token can be used at the protected resource to access the API, as granted by the resource owner.<br></li>
 </ol>
 <p>
-Based on how the client request an access-token (step 4), there could be different <b>grant types</b>. The most commonly used are:
+Based on how the client request an access-token (step 4), there could be different <b>grant types</b>. The most commonly used are:<br>
 </p>
 <ul class="org-ul">
-<li>Authorization Code (the one I used in Vuejs development).</li>
-<li>Password</li>
-<li>Client credentials</li>
-<li>Implicit</li>
+<li>Authorization Code (the one I used in Vuejs development).<br></li>
+<li>Password<br></li>
+<li>Client credentials<br></li>
+<li>Implicit<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6972c7f" class="outline-3">
-<h3 id="org6972c7f">Authorization code grant</h3>
-<div class="outline-text-3" id="text-org6972c7f">
+<div id="outline-container-org1c36e7c" class="outline-3">
+<h3 id="org1c36e7c"><span class="section-number-3">2.3</span> Authorization code grant</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
-<b>Authorization code</b> is a temporary code (authorization code) that the client will exchange for an access-token. This code is obtained from authorization server when user agree on what the information(usually permissions) the client is requesting.
+<b>Authorization code</b> is a temporary code (authorization code) that the client will exchange for an access-token. This code is obtained from authorization server when user agree on what the information(usually permissions) the client is requesting.<br>
 </p>
 
-<figure id="org6e19432">
-<img src="authorization-code-grant.png" alt="authorization-code-grant.png">
+<figure id="org4f6073f">
+<img src="authorization-code-grant.png" alt="authorization-code-grant.png"><br>
 
 </figure>
 
 <ul class="org-ul">
-<li>step2&rsquo;s response is an HTTP redirect, it causes step 3: cause the browser to send an HTTP GET to the autorization server. step2 have the following query parameters:
+<li>step2&rsquo;s response is an HTTP redirect, it causes step 3: cause the browser to send an HTTP GET to the autorization server. step2 have the following query parameters:<br>
 <ul class="org-ul">
-<li><code>response_type</code></li>
-<li><code>scope</code></li>
-<li><code>client_id</code></li>
-<li><code>redirect_uri</code></li>
-<li><code>state</code></li>
+<li><code>response_type</code><br></li>
+<li><code>scope</code><br></li>
+<li><code>client_id</code><br></li>
+<li><code>redirect_uri</code><br></li>
+<li><code>state</code><br></li>
 </ul></li>
-<li>step5, the client could receive
+<li>step5, the client could receive<br>
 <ul class="org-ul">
-<li><code>code</code>, known as <b>authorization code</b>.</li>
-<li><code>state</code>, matches the value that it sent in the step 2.</li>
+<li><code>code</code>, known as <b>authorization code</b>.<br></li>
+<li><code>state</code>, matches the value that it sent in the step 2.<br></li>
 </ul></li>
 <li><p>
-step6, POST request with passing its <code>client_id</code> and <code>client_secret</code> as an HTTP Basic authorization header.
+step6, POST request with passing its <code>client_id</code> and <code>client_secret</code> as an HTTP Basic authorization header.<br>
 </p>
-<pre class="example" id="org1c9a01d">
+<pre class="example" id="org83d150d">
 Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 </pre>
 <ul class="org-ul">
-<li>This separation between different HTTP connections ensures that the client can   authenticate itself directly without other components being able to see or manipulate  the token request.</li>
+<li>This separation between different HTTP connections ensures that the client can   authenticate itself directly without other components being able to see or manipulate  the token request.<br></li>
 </ul></li>
-<li>step7, authorization server need to ensure the request from step6 is legitimate, issue accessToken if valid.
+<li>step7, authorization server need to ensure the request from step6 is legitimate, issue accessToken if valid.<br>
 <ul class="org-ul">
-<li>check the client&rsquo;s credentials (passed in the authentication header) to see which client is requesting acess.</li>
-<li>check code (authorization code) from the body. It incldues
+<li>check the client&rsquo;s credentials (passed in the authentication header) to see which client is requesting acess.<br></li>
+<li>check code (authorization code) from the body. It incldues<br>
 <ol class="org-ol">
-<li>which client made the initial authorization request</li>
-<li>which user authorized it</li>
-<li>what it is authorized for.</li>
+<li>which client made the initial authorization request<br></li>
+<li>which user authorized it<br></li>
+<li>what it is authorized for.<br></li>
 </ol></li>
 <li><p>
-if the code has not been used previously and the client making this request is the same as the client that made the original request, then the authorization server generates and returns a new access token for the client
+if the code has not been used previously and the client making this request is the same as the client that made the original request, then the authorization server generates and returns a new access token for the client<br>
 </p>
-<pre class="example" id="orga7bc1bd">
+<pre class="example" id="orgccd38dd">
 HTTP 200 OK
 Date: Fri, 31 Jul 2015 21:19:03 GMT
 Content-type: application/json
@@ -235,41 +235,41 @@ Content-type: application/json
 }
 </pre>
 <ul class="org-ul">
-<li>The response could also include a <b>refresh token</b> (used to get new access tokens without asking for authorization again)</li>
-<li>additional info could be <b>scopes and expiration time</b>.</li>
+<li>The response could also include a <b>refresh token</b> (used to get new access tokens without asking for authorization again)<br></li>
+<li>additional info could be <b>scopes and expiration time</b>.<br></li>
 </ul></li>
 </ul></li>
-<li>step8, the client get the access token from step7 response and present it to the protect resource
+<li>step8, the client get the access token from step7 response and present it to the protect resource<br>
 <ul class="org-ul">
 <li><p>
-present the access token as <b>OAuth Bearer token</b>
+present the access token as <b>OAuth Bearer token</b><br>
 </p>
-<pre class="example" id="org0e4528c">
+<pre class="example" id="orgbd25a99">
 GET /resource HTTP/1.1
 Host: localhost:9002
 Accept: application/json
 Connection: keep-alive
 Authorization: Bearer 987tghjkiu6trfghjuytrghj
 </pre></li>
-<li>can <b>store this access token in a secure place</b> for as long as it wants to use the token, even after the user has left.</li>
+<li>can <b>store this access token in a secure place</b> for as long as it wants to use the token, even after the user has left.<br></li>
 </ul></li>
-<li>step9, protected resource use the access token to determine whether it is still valid
+<li>step9, protected resource use the access token to determine whether it is still valid<br>
 <ul class="org-ul">
-<li><b>HOW to validate?</b> A protected resource has a number of options for doing this token lookup. The simplest option is for the resource server and the authorization server to share a database that contains the token information. The authorization server writes new tokens into the database when they are generated, and the resource server reads tokens from the store when they are presented.</li>
+<li><b>HOW to validate?</b> A protected resource has a number of options for doing this token lookup. The simplest option is for the resource server and the authorization server to share a database that contains the token information. The authorization server writes new tokens into the database when they are generated, and the resource server reads tokens from the store when they are presented.<br></li>
 </ul></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgfd6e4c1" class="outline-3">
-<h3 id="orgfd6e4c1">Obtain refreshed access-token</h3>
-<div class="outline-text-3" id="text-orgfd6e4c1">
+<div id="outline-container-org30bc7e9" class="outline-3">
+<h3 id="org30bc7e9"><span class="section-number-3">2.4</span> Obtain refreshed access-token</h3>
+<div class="outline-text-3" id="text-2-4">
 <p>
-Client could request refreshed access-token when the access-token expired. This time, the token is never sent to the protected resources. So, the client uses the refresh token to request new access token without involving the resource owner (user or browser).
+Client could request refreshed access-token when the access-token expired. This time, the token is never sent to the protected resources. So, the client uses the refresh token to request new access token without involving the resource owner (user or browser).<br>
 </p>
 
-<figure id="orge9388bb">
-<img src="refresh-token.png" alt="refresh-token.png">
+<figure id="org992b29a">
+<img src="refresh-token.png" alt="refresh-token.png"><br>
 
 </figure>
 </div>
@@ -277,22 +277,22 @@ Client could request refreshed access-token when the access-token expired. This 
 </section>
 
 
-<section id="outline-container-orgd805627" class="outline-2">
-<h2 id="orgd805627">How authentication and authorization are implemented in Vuejs?</h2>
-<div class="outline-text-2" id="text-orgd805627">
+<section id="outline-container-orgdf21ab9" class="outline-2">
+<h2 id="orgdf21ab9"><span class="section-number-2">3</span> How authentication and authorization are implemented in Vuejs?</h2>
+<div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgd13ba12" class="outline-3">
-<h3 id="orgd13ba12">Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
-<div class="outline-text-3" id="text-orgd13ba12">
+<div id="outline-container-orgcdfa73d" class="outline-3">
+<h3 id="orgcdfa73d"><span class="section-number-3">3.1</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
+<div class="outline-text-3" id="text-3-1">
 
-<figure id="orgc1c6d76">
-<img src="vuejs-oauth.png" alt="vuejs-oauth.png">
+<figure id="org29d3e41">
+<img src="vuejs-oauth.png" alt="vuejs-oauth.png"><br>
 
 </figure>
 
 <ul class="org-ul">
 <li><p>
-A simple middleware used in backend to verify <code>access_token</code> and compare required scopse:
+A simple middleware used in backend to verify <code>access_token</code> and compare required scopse:<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">checkAuth</span> = (req: any, res:any, next:any) =&gt; {
@@ -347,7 +347,7 @@ A simple middleware used in backend to verify <code>access_token</code> and comp
 </pre>
 </div></li>
 <li><p>
-Use middleware for some endpoint
+Use middleware for some endpoint<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js">router.get(<span class="org-string">'/listAllRoles'</span>, checkAuth, <span class="org-keyword">async</span> (req: Request, res: Response) =&gt; {
@@ -355,31 +355,31 @@ Use middleware for some endpoint
 });
 </pre>
 </div></li>
-<li><b>Notice</b>
+<li><b>Notice</b><br>
 <ul class="org-ul">
-<li><code>jwtSignKey</code> used in the middleware is the key used to sign <code>access_token</code>.</li>
-<li>Depending on auth-server implemetation, the <code>access_token</code> maybe is proccess(re-created using that <code>jwtSignKey</code>) in backend before forward to frontend.</li>
+<li><code>jwtSignKey</code> used in the middleware is the key used to sign <code>access_token</code>.<br></li>
+<li>Depending on auth-server implemetation, the <code>access_token</code> maybe is proccess(re-created using that <code>jwtSignKey</code>) in backend before forward to frontend.<br></li>
 </ul></li>
 </ul>
 
 
-<figure id="org76d2bc6">
-<img src="vuejs-oauth.png" alt="vuejs-oauth.png">
+<figure id="org004fbaa">
+<img src="vuejs-oauth.png" alt="vuejs-oauth.png"><br>
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-orga82a69d" class="outline-3">
-<h3 id="orga82a69d">Define our Role-based-access(RBA) control model in PostgreSQL</h3>
-<div class="outline-text-3" id="text-orga82a69d">
+<div id="outline-container-org8c5f8bb" class="outline-3">
+<h3 id="org8c5f8bb"><span class="section-number-3">3.2</span> Define our Role-based-access(RBA) control model in PostgreSQL</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
-We define User, Role, Permission 3 basic entities as 3 tables
+We define User, Role, Permission 3 basic entities as 3 tables<br>
 </p>
 <ul class="org-ul">
 <li><p>
-<code>user_master</code>
-<b>Notice</b>: when store username and password, we should NEVER store plain password. Instead, we should store password hash.
+<code>user_master</code><br>
+<b>Notice</b>: when store username and password, we should NEVER store plain password. Instead, we should store password hash.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">const</span> <span class="org-variable-name">salt</span> = bcrypt.genSaltSync(10);
@@ -388,22 +388,22 @@ We define User, Role, Permission 3 basic entities as 3 tables
 </div>
 
 <p>
-To validate password:
+To validate password:<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">isMatch</span> = <span class="org-keyword">await</span> bcrypt.compare(plainPasswordGotFromLoginForm, passwordHashReadFromDB)
 </pre>
 </div></li>
-<li><code>role_master</code></li>
-<li><code>permission_master</code></li>
+<li><code>role_master</code><br></li>
+<li><code>permission_master</code><br></li>
 </ul>
 
 <p>
-For their associations, we define UserRole, RolePermission as many-to-many relationships.
+For their associations, we define UserRole, RolePermission as many-to-many relationships.<br>
 </p>
 <ul class="org-ul">
 <li><p>
-<code>user_role</code> table
+<code>user_role</code> table<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-sql"><span class="org-keyword">CREATE</span> <span class="org-keyword">TABLE</span> <span class="org-function-name">user_role</span> (
@@ -414,7 +414,7 @@ For their associations, we define UserRole, RolePermission as many-to-many relat
 </pre>
 </div></li>
 <li><p>
-<code>role_permission</code> table
+<code>role_permission</code> table<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-sql"><span class="org-keyword">CREATE</span> <span class="org-keyword">TABLE</span> <span class="org-function-name">role_permission</span> (
@@ -427,11 +427,11 @@ For their associations, we define UserRole, RolePermission as many-to-many relat
 </ul>
 
 <p>
-Multiple examples to use such models like:  
+Multiple examples to use such models like:<br>
 </p>
 <ul class="org-ul">
 <li><p>
-Add permission into a role
+Add permission into a role<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">addPermissionToRole</span> = <span class="org-keyword">async</span> (permissionId, roleId) =&gt; {
@@ -461,7 +461,7 @@ Add permission into a role
 </pre>
 </div></li>
 <li><p>
-Find a user&rsquo;s associated roles (using js)
+Find a user&rsquo;s associated roles (using js)<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">findUserRoles</span> = <span class="org-keyword">async</span> (userId) =&gt; {
@@ -476,7 +476,7 @@ Find a user&rsquo;s associated roles (using js)
 </pre>
 </div></li>
 <li><p>
-Remove permission from a role
+Remove permission from a role<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">removePermissionFromRole</span> = <span class="org-keyword">async</span> (permissionId, roleId) =&gt; {
@@ -496,7 +496,7 @@ Remove permission from a role
 </pre>
 </div></li>
 <li><p>
-Delete role with transactions
+Delete role with transactions<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">export</span> <span class="org-keyword">const</span> <span class="org-variable-name">deleteRole</span> = <span class="org-keyword">async</span> (roleId) =&gt; {
@@ -533,26 +533,26 @@ Delete role with transactions
 </div>
 </div>
 
-<div id="outline-container-orgaa3b0eb" class="outline-3">
-<h3 id="orgaa3b0eb">What does OIDC provider should do?</h3>
-<div class="outline-text-3" id="text-orgaa3b0eb">
+<div id="outline-container-orgb43d433" class="outline-3">
+<h3 id="orgb43d433"><span class="section-number-3">3.3</span> What does OIDC provider should do?</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
-For OIDC provider, I am using <a href="https://github.com/panva/node-oidc-provider">node-oidc-provider</a>. It implements the OAuth2.0 protocol.
+For OIDC provider, I am using <a href="https://github.com/panva/node-oidc-provider">node-oidc-provider</a>. It implements the OAuth2.0 protocol.<br>
 </p>
 <ul class="org-ul">
-<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#org6972c7f">step-3</a> in authorization code grant).</li>
-<li>Check <a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> and <a href="https://oauth.net/2/">OAuth 2.0</a></li>
-<li>Check <a href="https://tools.ietf.org/html/rfc6749#section-3">OAuth2.0 &#x2013; 3.Protocol Endpoints</a></li>
+<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#org1c36e7c">step-3</a> in authorization code grant).<br></li>
+<li>Check <a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> and <a href="https://oauth.net/2/">OAuth 2.0</a><br></li>
+<li>Check <a href="https://tools.ietf.org/html/rfc6749#section-3">OAuth2.0 &#x2013; 3.Protocol Endpoints</a><br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgcb081f6" class="outline-3">
-<h3 id="orgcb081f6">What Vuejs backend should do (provide APIs)?</h3>
-<div class="outline-text-3" id="text-orgcb081f6">
+<div id="outline-container-org3659317" class="outline-3">
+<h3 id="org3659317"><span class="section-number-3">3.4</span> What Vuejs backend should do (provide APIs)?</h3>
+<div class="outline-text-3" id="text-3-4">
 <ol class="org-ol">
 <li><p>
-Generate login URL for Vuejs-frontend to direct user to authorization server for login. 
+Generate login URL for Vuejs-frontend to direct user to authorization server for login.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">scopes</span> =[<span class="org-string">'openid'</span>, <span class="org-string">'profile'</span>];
@@ -569,10 +569,10 @@ Generate login URL for Vuejs-frontend to direct user to authorization server for
 </pre>
 </div>
 <p>
-See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.1"> The OAuth 2.0 Authorization Framework &#x2013; 4.1.1</a>.
+See <a href="https://tools.ietf.org/html/rfc6749#section-4.1.1"> The OAuth 2.0 Authorization Framework &#x2013; 4.1.1</a>.<br>
 </p></li>
 <li><p>
-Generate logout URL
+Generate logout URL<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">let</span> <span class="org-variable-name">options</span> = [
@@ -584,10 +584,10 @@ Generate logout URL
 </pre>
 </div>
 <ul class="org-ul">
-<li>Notice, the options are common to different authorization provider implementations. However, their logout endpoints(Here, the node-oidc-provider use <code>${authUrl}/session/end</code>) are probably different.</li>
+<li>Notice, the options are common to different authorization provider implementations. However, their logout endpoints(Here, the node-oidc-provider use <code>${authUrl}/session/end</code>) are probably different.<br></li>
 </ul></li>
 <li><p>
-<b>Use authorization-code to obtain access-token</b>
+<b>Use authorization-code to obtain access-token</b><br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">This authCode is obtained from parsing callback parameters after login in frontend</span>
@@ -608,10 +608,10 @@ Generate logout URL
 };
 </pre>
 </div></li>
-<li>To verify <code>access_token</code> or <code>id_token</code> are not tampered.
+<li>To verify <code>access_token</code> or <code>id_token</code> are not tampered.<br>
 <ul class="org-ul">
 <li><p>
-Verify access-token using public JWT certificate
+Verify access-token using public JWT certificate<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-comment-delimiter">/// </span><span class="org-comment">Packages required </span>
@@ -645,60 +645,60 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 }
 </pre>
 </div></li>
-<li>Or, verify tokens from auth-provider&rsquo;s introspection endpoint. Need to check auth-provider document.</li>
+<li>Or, verify tokens from auth-provider&rsquo;s introspection endpoint. Need to check auth-provider document.<br></li>
 </ul></li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-org95b33b9" class="outline-3">
-<h3 id="org95b33b9">What Vuejs frontend should do?</h3>
-<div class="outline-text-3" id="text-org95b33b9">
+<div id="outline-container-orgc053ce1" class="outline-3">
+<h3 id="orgc053ce1"><span class="section-number-3">3.5</span> What Vuejs frontend should do?</h3>
+<div class="outline-text-3" id="text-3-5">
 <ul class="org-ul">
-<li>Register client in authorization provider for:
+<li>Register client in authorization provider for:<br>
 <ul class="org-ul">
-<li><code>client_id</code></li>
-<li><code>client_secret</code></li>
-<li><code>grant_types</code></li>
-<li><code>redirect_uris</code></li>
+<li><code>client_id</code><br></li>
+<li><code>client_secret</code><br></li>
+<li><code>grant_types</code><br></li>
+<li><code>redirect_uris</code><br></li>
 </ul></li>
-<li>Provide <code>callback endpoint</code> which is the <code>redirectUri</code> described above. Someting like <code>&lt;https://&lt;address&gt;/auth/callback</code>.</li>
-<li>Handle callback after login from auth provider to get authorization-code</li>
-<li>Pass authorization-code (do not store it) to Vuejs-backend APIs using post.</li>
-<li>From Backend, exchange authorization-code for access-token.</li>
-<li>Don&rsquo;t forget to introspect access-token to validate it (endpoint is provided by auth-provider)</li>
-<li>After that, we could aquire login user&rsquo;s roles or permissions.</li>
-<li>At last, we could based on login user&rsquo;s permissions, hide particular section links (routes).</li>
-<li>Every request send to backend need to be embedded with <code>access_token</code></li>
+<li>Provide <code>callback endpoint</code> which is the <code>redirectUri</code> described above. Someting like <code>&lt;https://&lt;address&gt;/auth/callback</code>.<br></li>
+<li>Handle callback after login from auth provider to get authorization-code<br></li>
+<li>Pass authorization-code (do not store it) to Vuejs-backend APIs using post.<br></li>
+<li>From Backend, exchange authorization-code for access-token.<br></li>
+<li>Don&rsquo;t forget to introspect access-token to validate it (endpoint is provided by auth-provider)<br></li>
+<li>After that, we could aquire login user&rsquo;s roles or permissions.<br></li>
+<li>At last, we could based on login user&rsquo;s permissions, hide particular section links (routes).<br></li>
+<li>Every request send to backend need to be embedded with <code>access_token</code> <br></li>
 </ul>
 </div>
 </div>
 </section>
 
-<section id="outline-container-orgbfa38fe" class="outline-2">
-<h2 id="orgbfa38fe">Summary</h2>
-<div class="outline-text-2" id="text-orgbfa38fe">
+<section id="outline-container-org1b066eb" class="outline-2">
+<h2 id="org1b066eb"><span class="section-number-2">4</span> Summary</h2>
+<div class="outline-text-2" id="text-4">
 <ul class="org-ul">
-<li>The OAuth is not a magic: 
+<li>The OAuth is not a magic:<br>
 <ul class="org-ul">
-<li>AS(authorization server, or auth-provider) is trusted by the protected resources. So, protected resource delegate its credentails verification to AS.</li>
-<li>AS issue special security credentials &#x2013; called <b>access-token</b> to client. This access-token is then used by client(photo-storage APIs).</li>
+<li>AS(authorization server, or auth-provider) is trusted by the protected resources. So, protected resource delegate its credentails verification to AS.<br></li>
+<li>AS issue special security credentials &#x2013; called <b>access-token</b> to client. This access-token is then used by client(photo-storage APIs).<br></li>
 </ul></li>
-<li>Actually, you still need to compare username and password (provided into AS).</li>
-<li>OAuth document doesn&rsquo;t specify how to implement AS. However, it expects AS to follow some conventions to provider several key features, such as introspect access<sub>token</sub> to introspect user profile.</li>
-<li>At last, this document is just my note from my understanding. It doesn&rsquo;t represent best practise.</li>
+<li>Actually, you still need to compare username and password (provided into AS).<br></li>
+<li>OAuth document doesn&rsquo;t specify how to implement AS. However, it expects AS to follow some conventions to provider several key features, such as introspect access<sub>token</sub> to introspect user profile.<br></li>
+<li>At last, this document is just my note from my understanding. It doesn&rsquo;t represent best practise.<br></li>
 </ul>
 </div>
 </section>
 
-<section id="outline-container-org9a06144" class="outline-2">
-<h2 id="org9a06144">References</h2>
-<div class="outline-text-2" id="text-org9a06144">
+<section id="outline-container-org452e36d" class="outline-2">
+<h2 id="org452e36d"><span class="section-number-2">5</span> References</h2>
+<div class="outline-text-2" id="text-5">
 <ul class="org-ul">
-<li><a href="https://www.amazon.com/OAuth-2-Action-Justin-Richer/dp/161729327X/ref=sr_1_2?dchild=1&amp;keywords=oauth2+in+action&amp;qid=1618846375&amp;sr=8-2">OAuth2 in Action</a></li>
-<li><a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> from <a href="https://tools.ietf.org/html/">IETF Documents</a></li>
-<li><a href="https://oauth.net/2/">OAuth2.0</a></li>
-<li><a href="https://tools.ietf.org/html/rfc7519">JSON Web Token (JWT)</a></li>
+<li><a href="https://www.amazon.com/OAuth-2-Action-Justin-Richer/dp/161729327X/ref=sr_1_2?dchild=1&amp;keywords=oauth2+in+action&amp;qid=1618846375&amp;sr=8-2">OAuth2 in Action</a><br></li>
+<li><a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> from <a href="https://tools.ietf.org/html/">IETF Documents</a><br></li>
+<li><a href="https://oauth.net/2/">OAuth2.0</a><br></li>
+<li><a href="https://tools.ietf.org/html/rfc7519">JSON Web Token (JWT)</a>    <br></li>
 </ul>
 </div>
 </section>
@@ -707,7 +707,7 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 23, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 10, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>

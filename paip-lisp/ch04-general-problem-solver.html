@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Apr 20, 2021 -->
+<!-- May 10, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ch04: The general problem solver (GPS)</title>
@@ -72,69 +72,69 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2503ba6">Introduction</a></li>
-<li><a href="#org450116b">Five stages in the development of an AI program.</a></li>
-<li><a href="#orgfe85f9a">How to specify?</a></li>
-<li><a href="#orgfda4751">Implementation01</a></li>
-<li><a href="#orga932403">Differences between AI programming vs traditional notion of programming</a></li>
-<li><a href="#orgc7ac931">Problems of implementation01</a></li>
-<li><a href="#org5ee43a2">Implementation02</a></li>
-<li><a href="#orga754cdc">Problems of implementation02</a></li>
-<li><a href="#org696888d">About semipredicates</a></li>
-<li><a href="#org6f06dd2">My notes</a></li>
+<li><a href="#org1897ab1">1. Introduction</a></li>
+<li><a href="#orgbf67af6">2. Five stages in the development of an AI program.</a></li>
+<li><a href="#orga6bd0e0">3. How to specify?</a></li>
+<li><a href="#orgf54c790">4. Implementation01</a></li>
+<li><a href="#org3391e66">5. Differences between AI programming vs traditional notion of programming</a></li>
+<li><a href="#org9222153">6. Problems of implementation01</a></li>
+<li><a href="#org97616b4">7. Implementation02</a></li>
+<li><a href="#orgdd946f0">8. Problems of implementation02</a></li>
+<li><a href="#org888ed12">9. About semipredicates</a></li>
+<li><a href="#orgf716981">10. My notes</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-org2503ba6" class="outline-2">
-<h2 id="org2503ba6">Introduction</h2>
-<div class="outline-text-2" id="text-org2503ba6">
+<section id="outline-container-org1897ab1" class="outline-2">
+<h2 id="org1897ab1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-The GPS illustrates the idea of solving a problem using a process called <b>means-ends</b> analysis, where the problem is stated in terms of what we want to happen. We can solve a problem if we can find some ways to eliminate &ldquo;the difference between what I have and what I want&rdquo;.
+The GPS illustrates the idea of solving a problem using a process called <b>means-ends</b> analysis, where the problem is stated in terms of what we want to happen. We can solve a problem if we can find some ways to eliminate &ldquo;the difference between what I have and what I want&rdquo;.<br>
 </p>
 
 <p>
-In means-ends analysis, the problem solver begins by evisioning the end (the ultimate goal), and then determines the best strategy for attaining the goal in its current situation.
+In means-ends analysis, the problem solver begins by evisioning the end (the ultimate goal), and then determines the best strategy for attaining the goal in its current situation.<br>
 </p>
 
 <p>
-&ldquo;They assume the end and consider how and by what means it is attained; and if it seems to be produced by several means they consider by which it is most easily and best produced, while if it is achieved by one only they consider how it will be achieved by this and by what means this will be achieved, till they come to the first cause, which in the order of discovery is last&#x2026; and what is last in the order of analysis seems to be first in the order of becoming&rdquo;.
+&ldquo;They assume the end and consider how and by what means it is attained; and if it seems to be produced by several means they consider by which it is most easily and best produced, while if it is achieved by one only they consider how it will be achieved by this and by what means this will be achieved, till they come to the first cause, which in the order of discovery is last&#x2026; and what is last in the order of analysis seems to be first in the order of becoming&rdquo;.<br>
 </p>
 </div>
 </section>
 
-<section id="outline-container-org450116b" class="outline-2">
-<h2 id="org450116b">Five stages in the development of an AI program.</h2>
-<div class="outline-text-2" id="text-org450116b">
+<section id="outline-container-orgbf67af6" class="outline-2">
+<h2 id="orgbf67af6"><span class="section-number-2">2</span> Five stages in the development of an AI program.</h2>
+<div class="outline-text-2" id="text-2">
 <ol class="org-ol">
-<li>describe</li>
-<li>specify</li>
-<li>implement</li>
-<li>test</li>
-<li>debug and analyze</li>
+<li>describe<br></li>
+<li>specify<br></li>
+<li>implement<br></li>
+<li>test<br></li>
+<li>debug and analyze<br></li>
 </ol>
 </div>
 </section>
 
-<section id="outline-container-orgfe85f9a" class="outline-2">
-<h2 id="orgfe85f9a">How to specify?</h2>
-<div class="outline-text-2" id="text-orgfe85f9a">
+<section id="outline-container-orga6bd0e0" class="outline-2">
+<h2 id="orga6bd0e0"><span class="section-number-2">3</span> How to specify?</h2>
+<div class="outline-text-2" id="text-3">
 <ul class="org-ul">
-<li>Represent <b>state</b> of world (&ldquo;what I have&rdquo;) or the goal state (&ldquo;what I want&rdquo;) as set of <b>conditions</b>.</li>
-<li>A list of allowable <b>operators</b>. An operator is a struct composed of:
+<li>Represent <b>state</b> of world (&ldquo;what I have&rdquo;) or the goal state (&ldquo;what I want&rdquo;) as set of <b>conditions</b>.<br></li>
+<li>A list of allowable <b>operators</b>. An operator is a struct composed of:<br>
 <ol class="org-ol">
-<li>an action</li>
-<li>a list of preconditions (states)</li>
+<li>an action<br></li>
+<li>a list of preconditions (states)<br></li>
 <li><p>
-a list of <b>effects</b>, where effect means
+a list of <b>effects</b>, where effect means<br>
 </p>
 <ul class="org-ul">
-<li>Add a condition from the current state.</li>
-<li>Or, delete a condition from current state.</li>
+<li>Add a condition from the current state.<br></li>
+<li>Or, delete a condition from current state.<br></li>
 </ul>
 
 <p>
-Thus, a list of effects can be split into add-list and delete-list. Suppose we have an operation &ldquo;drive-son-to-school&rdquo;, its definition will be like:
+Thus, a list of effects can be split into add-list and delete-list. Suppose we have an operation &ldquo;drive-son-to-school&rdquo;, its definition will be like:<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(make-op <span class="org-builtin">:action</span> 'drive-son-to-school
@@ -144,65 +144,65 @@ Thus, a list of effects can be split into add-list and delete-list. Suppose we h
 </pre>
 </div>
 <p>
-It means after we apply this operation with precondition that &ldquo;son-at-home&rdquo; and &ldquo;car-at-home&rdquo; are already in our current state:
+It means after we apply this operation with precondition that &ldquo;son-at-home&rdquo; and &ldquo;car-at-home&rdquo; are already in our current state:<br>
 </p>
 <ul class="org-ul">
-<li>We remove &ldquo;son-at-home&rdquo; from our current state.</li>
-<li>We add &ldquo;son-at-school&rdquo; to our current state.</li>
+<li>We remove &ldquo;son-at-home&rdquo; from our current state.<br></li>
+<li>We add &ldquo;son-at-school&rdquo; to our current state.<br></li>
 </ul></li>
 </ol></li>
 
-<li>GPS problem = starting state + goal state + a set of known operators.
-If all conditions in the goal state can all be achieved, then the problem is solved.</li>
+<li>GPS problem = starting state + goal state + a set of known operators.<br>
+If all conditions in the goal state can all be achieved, then the problem is solved.<br></li>
 <li><p>
-A single goal condition can be achieved:
+A single goal condition can be achieved:<br>
 </p>
 <ol class="org-ol">
-<li>If it is already in the current state.</li>
-<li>Otherwise, we try to find some <b>appropriate</b> operator and apply it.</li>
+<li>If it is already in the current state.<br></li>
+<li>Otherwise, we try to find some <b>appropriate</b> operator and apply it.<br></li>
 </ol>
 <p>
-Where, an operator is appropriate if it adds the goal into the current state(goal is in the <code>add-list</code>).
+Where, an operator is appropriate if it adds the goal into the current state(goal is in the <code>add-list</code>).<br>
 </p></li>
-<li>We can apply an operator if we can achieve all the preconditions.</li>
+<li>We can apply an operator if we can achieve all the preconditions.<br></li>
 </ul>
 </div>
 </section>
 
-<section id="outline-container-orgfda4751" class="outline-2">
-<h2 id="orgfda4751">Implementation01</h2>
-<div class="outline-text-2" id="text-orgfda4751">
+<section id="outline-container-orgf54c790" class="outline-2">
+<h2 id="orgf54c790"><span class="section-number-2">4</span> Implementation01</h2>
+<div class="outline-text-2" id="text-4">
 <p>
-<a href="ch04-gps-v01.lisp#org027e417">GPS-v01</a>
-Notice the recursion between <code>achieve</code> and <code>apply-op</code>. That is the key point to understand mean-end anaylsis. A goad could be achieved if:
+<a href="ch04-gps-v01.lisp#org85faa6d">GPS-v01</a><br>
+Notice the recursion between <code>achieve</code> and <code>apply-op</code>. That is the key point to understand mean-end anaylsis. A goad could be achieved if:<br>
 </p>
 <ul class="org-ul">
-<li>It is already in current state.</li>
-<li>Or, if there is an appropriate operation leading to that goal and we apply such an operation. However, before we apply an operation, we must achieve all the preconditions (So, we have to set each precondition as goal and achieve it).</li>
+<li>It is already in current state.<br></li>
+<li>Or, if there is an appropriate operation leading to that goal and we apply such an operation. However, before we apply an operation, we must achieve all the preconditions (So, we have to set each precondition as goal and achieve it).<br></li>
 </ul>
 </div>
 </section>
 
-<section id="outline-container-orga932403" class="outline-2">
-<h2 id="orga932403">Differences between AI programming vs traditional notion of programming</h2>
-<div class="outline-text-2" id="text-orga932403">
+<section id="outline-container-org3391e66" class="outline-2">
+<h2 id="org3391e66"><span class="section-number-2">5</span> Differences between AI programming vs traditional notion of programming</h2>
+<div class="outline-text-2" id="text-5">
 <ul class="org-ul">
-<li>AI programming is more about discover more about the problem area. The problem definition is not clear.</li>
-<li>Traditional programming is more like construction of a building. The definition is clearly defined.</li>
+<li>AI programming is more about discover more about the problem area. The problem definition is not clear.<br></li>
+<li>Traditional programming is more like construction of a building. The definition is clearly defined.<br></li>
 </ul>
 </div>
 </section>
-<section id="outline-container-orgc7ac931" class="outline-2">
-<h2 id="orgc7ac931">Problems of implementation01</h2>
-<div class="outline-text-2" id="text-orgc7ac931">
+<section id="outline-container-org9222153" class="outline-2">
+<h2 id="org9222153"><span class="section-number-2">6</span> Problems of implementation01</h2>
+<div class="outline-text-2" id="text-6">
 <ol class="org-ol">
-<li>The clobbered sibling goal problem.
+<li>The clobbered sibling goal problem.<br>
 <ul class="org-ul">
-<li>In our goal <code>(A, B)</code>, we want to achieve both A and B. But our GPS interprete it as achieve A, then achieve B.</li>
-<li>Sometimes achieving one goal can undo another, previously achieved goal.</li>
-<li>That is, <code>have-money</code> and <code>son-at-school</code> are sibliing goals.</li>
+<li>In our goal <code>(A, B)</code>, we want to achieve both A and B. But our GPS interprete it as achieve A, then achieve B.<br></li>
+<li>Sometimes achieving one goal can undo another, previously achieved goal.<br></li>
+<li>That is, <code>have-money</code> and <code>son-at-school</code> are sibliing goals.<br></li>
 <li><p>
-How to fix it?
+How to fix it?<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Replace our (every #'achieve goals) with</span>
@@ -213,19 +213,19 @@ How to fix it?
 </pre>
 </div>
 <p>
-Think: How to improve to recover from a clobbered goal? 
+Think: How to improve to recover from a clobbered goal?<br>
 </p></li>
 </ul></li>
-<li>The leaping before you look problem.
+<li>The leaping before you look problem.<br>
 <ul class="org-ul">
-<li>The problem is trying to solve <code>(jump-off-cliff land-safely)</code>. It would jump first, and only discover that it has no operator to land safely.</li>
-<li>It arises because the planning and execution are interleaved. In another word, once the action is taken and <code>*state*</code> is irrevocably changed.</li>
-<li>A <b>solution</b> could be: replace single global state with distinct local state variables.</li>
+<li>The problem is trying to solve <code>(jump-off-cliff land-safely)</code>. It would jump first, and only discover that it has no operator to land safely.<br></li>
+<li>It arises because the planning and execution are interleaved. In another word, once the action is taken and <code>*state*</code> is irrevocably changed.<br></li>
+<li>A <b>solution</b> could be: replace single global state with distinct local state variables.<br></li>
 </ul></li>
-<li>The recursive subgoal problem.
+<li>The recursive subgoal problem.<br>
 <ul class="org-ul">
 <li><p>
-If we add this extra operator, the GPS could goes into loop infinite.
+If we add this extra operator, the GPS could goes into loop infinite.<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-lisp">(make-op <span class="org-builtin">:action</span> 'ask-phone-number
@@ -234,56 +234,56 @@ If we add this extra operator, the GPS could goes into loop infinite.
 </pre>
 </div>
 <ul class="org-ul">
-<li>Know-phone-number need in-communication-with-shop as precondition. While in action <code>telephone-shop</code>, in-communication-with-shop need prerequisite know-phone-number, so on and so on.</li>
-<li>It is caused by trying to solve a problem in terms of itself.</li>
-<li>One <b>solution</b> is to keep track of all the goals that are being worked and give up if it seems a loop in the goal stack.</li>
+<li>Know-phone-number need in-communication-with-shop as precondition. While in action <code>telephone-shop</code>, in-communication-with-shop need prerequisite know-phone-number, so on and so on.<br></li>
+<li>It is caused by trying to solve a problem in terms of itself.<br></li>
+<li>One <b>solution</b> is to keep track of all the goals that are being worked and give up if it seems a loop in the goal stack.<br></li>
 </ul></li>
 </ul></li>
-<li>The lack of intermidate information problem.</li>
+<li>The lack of intermidate information problem.<br></li>
 </ol>
 </div>
 </section>
 
 
-<section id="outline-container-org5ee43a2" class="outline-2">
-<h2 id="org5ee43a2">Implementation02</h2>
-<div class="outline-text-2" id="text-org5ee43a2">
+<section id="outline-container-org97616b4" class="outline-2">
+<h2 id="org97616b4"><span class="section-number-2">7</span> Implementation02</h2>
+<div class="outline-text-2" id="text-7">
 <p>
-Main changes differ from version01:
+Main changes differ from version01:<br>
 </p>
 <ol class="org-ol">
-<li><code>GPS</code> now return resulting states instead of printing messages when each operator is applied.</li>
-<li>Change global state to use local state, so major functions will need to pass local state as extra variable.</li>
-<li>Introduce global stack to solve the recursive subgoal problem.</li>
+<li><code>GPS</code> now return resulting states instead of printing messages when each operator is applied.<br></li>
+<li>Change global state to use local state, so major functions will need to pass local state as extra variable.<br></li>
+<li>Introduce global stack to solve the recursive subgoal problem.<br></li>
 </ol>
 </div>
 </section>
 
-<section id="outline-container-orga754cdc" class="outline-2">
-<h2 id="orga754cdc">Problems of implementation02</h2>
+<section id="outline-container-orgdd946f0" class="outline-2">
+<h2 id="orgdd946f0"><span class="section-number-2">8</span> Problems of implementation02</h2>
 </section>
 
-<section id="outline-container-org696888d" class="outline-2">
-<h2 id="org696888d">About semipredicates</h2>
-<div class="outline-text-2" id="text-org696888d">
+<section id="outline-container-org888ed12" class="outline-2">
+<h2 id="org888ed12"><span class="section-number-2">9</span> About semipredicates</h2>
+<div class="outline-text-2" id="text-9">
 <p>
-Functions that return nil as an indication of failure and return some useful value otherwise are known as <b>semipredicates</b>. They are error prone when nil might be constructed as a useful value. 3 constraints must be considered to prevent this:
+Functions that return nil as an indication of failure and return some useful value otherwise are known as <b>semipredicates</b>. They are error prone when nil might be constructed as a useful value. 3 constraints must be considered to prevent this:<br>
 </p>
 <ol class="org-ol">
-<li>Decide if nil could ever be a meaningful value.</li>
-<li>Insure that user can&rsquo;t corrupt the program by supplying nil as a value.</li>
-<li>Insure that program can&rsquo;t supply nil as a value.</li>
+<li>Decide if nil could ever be a meaningful value.<br></li>
+<li>Insure that user can&rsquo;t corrupt the program by supplying nil as a value.<br></li>
+<li>Insure that program can&rsquo;t supply nil as a value.<br></li>
 </ol>
 </div>
 </section>
 
-<section id="outline-container-org6f06dd2" class="outline-2">
-<h2 id="org6f06dd2">My notes</h2>
-<div class="outline-text-2" id="text-org6f06dd2">
+<section id="outline-container-orgf716981" class="outline-2">
+<h2 id="orgf716981"><span class="section-number-2">10</span> My notes</h2>
+<div class="outline-text-2" id="text-10">
 <ul class="org-ul">
-<li>I think GPS is basically doing graphical search.
+<li>I think GPS is basically doing graphical search.<br>
 <ul class="org-ul">
-<li>In traditional graphical search, such as from vertex A to vertex M, the A and M are themself the inital state and ending state. In GPS, the inital state and ending state (goal) are list of conditions. Each action, moving from vertex x to vertex y is either added or/and delete a condition from its current state and the search ended when its current state contains all conditions defined as goal.</li>
+<li>In traditional graphical search, such as from vertex A to vertex M, the A and M are themself the inital state and ending state. In GPS, the inital state and ending state (goal) are list of conditions. Each action, moving from vertex x to vertex y is either added or/and delete a condition from its current state and the search ended when its current state contains all conditions defined as goal.<br></li>
 <li>In traditional graph search, we can move from vertex x to vertex y if there an edge between them. In GPS, this edge is defined as operation (add, delete list + preconditions).  Each action&rsquo;s preconditions constraits us to follow certain edges, so we can move from A to Z one edge after another if the current goal is on the edge&rsquo;s add-list.</li>
 </ul></li>
 </ul>
@@ -294,7 +294,7 @@ Functions that return nil as an indication of failure and return some useful val
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Apr 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 10, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
