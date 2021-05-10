@@ -72,31 +72,31 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgd99ca0f">1. How to validate Vuetify v-text-field asynchronously?</a></li>
-<li><a href="#org44a1ed7">2. How to access different part from component or vice versa?</a>
+<li><a href="#orgfcf6d70">How to validate Vuetify v-text-field asynchronously?</a></li>
+<li><a href="#org7232bfe">How to access different part from component or vice versa?</a>
 <ul>
-<li><a href="#orgb93f483">2.1. How to access state from a plain js file</a></li>
-<li><a href="#org76d22d7">2.2. How to access state from a Vuejs component</a></li>
-<li><a href="#org1d53169">2.3. How to access store from Vuejs router</a></li>
-<li><a href="#org59c2c96">2.4. How to access router from Vuejs component</a></li>
+<li><a href="#org1d3e5d2">How to access state from a plain js file</a></li>
+<li><a href="#org13d1cfe">How to access state from a Vuejs component</a></li>
+<li><a href="#org9014edd">How to access store from Vuejs router</a></li>
+<li><a href="#orgbaa1dbc">How to access router from Vuejs component</a></li>
 </ul>
 </li>
-<li><a href="#org9b08511">3. How to create currying functions to help validation?</a></li>
-<li><a href="#org0e40c60">4. How to use RBA to control section visibility?</a>
+<li><a href="#org90be1e1">How to create currying functions to help validation?</a></li>
+<li><a href="#org214aac7">How to use RBA to control section visibility?</a>
 <ul>
-<li><a href="#org3da2fbe">4.1. Authentication</a></li>
-<li><a href="#org0b33f1f">4.2. Authorization</a></li>
+<li><a href="#org107e1ad">Authentication</a></li>
+<li><a href="#org651fc13">Authorization</a></li>
 </ul>
 </li>
-<li><a href="#org2cd4ed0">5. How to format Vuejs code?</a></li>
-<li><a href="#orgec87979">6. Summary</a></li>
+<li><a href="#org769a79e">How to format Vuejs code?</a></li>
+<li><a href="#org2843ea0">Summary</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-orgd99ca0f" class="outline-2">
-<h2 id="orgd99ca0f"><span class="section-number-2">1</span> How to validate Vuetify v-text-field asynchronously?</h2>
-<div class="outline-text-2" id="text-1">
+<section id="outline-container-orgfcf6d70" class="outline-2">
+<h2 id="orgfcf6d70">How to validate Vuetify v-text-field asynchronously?</h2>
+<div class="outline-text-2" id="text-orgfcf6d70">
 <p>
 I met a situation where when user register account, they need to input their email address. It is easy to validate some input as a valid email address. But, I also need to validate the input doesn&rsquo;t duplicate with any other email addresses already stored in the db.<br>
 </p>
@@ -115,9 +115,9 @@ Ref: <a href="https://stackoverflow.com/questions/49132167/how-to-validate-vueti
 </div>
 </section>
 
-<section id="outline-container-org44a1ed7" class="outline-2">
-<h2 id="org44a1ed7"><span class="section-number-2">2</span> How to access different part from component or vice versa?</h2>
-<div class="outline-text-2" id="text-2">
+<section id="outline-container-org7232bfe" class="outline-2">
+<h2 id="org7232bfe">How to access different part from component or vice versa?</h2>
+<div class="outline-text-2" id="text-org7232bfe">
 <p>
 The core part of Vuejs application is the &ldquo;store&rdquo; which does the state management for Vuejs application. It is from using Vuex package. After install it, the standard structure of project will contain a &ldquo;store&rdquo; folder.<br>
 Inside, there is an <code>index.js</code> in which it export the store:<br>
@@ -176,9 +176,9 @@ Here, we are accessing state from an action in a state module.<br>
 </p>
 </div>
 
-<div id="outline-container-orgb93f483" class="outline-3">
-<h3 id="orgb93f483"><span class="section-number-3">2.1</span> How to access state from a plain js file</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-org1d3e5d2" class="outline-3">
+<h3 id="org1d3e5d2">How to access state from a plain js file</h3>
+<div class="outline-text-3" id="text-org1d3e5d2">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">import</span> store from <span class="org-string">'./index.js'</span>;
 </pre>
@@ -189,9 +189,9 @@ Now, just use it as <code>store.state.&lt;module_name&gt;.&lt;state&gt;</code>. 
 </div>
 </div>
 
-<div id="outline-container-org76d22d7" class="outline-3">
-<h3 id="org76d22d7"><span class="section-number-3">2.2</span> How to access state from a Vuejs component</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org13d1cfe" class="outline-3">
+<h3 id="org13d1cfe">How to access state from a Vuejs component</h3>
+<div class="outline-text-3" id="text-org13d1cfe">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">return</span> <span class="org-constant">this</span>.$store.state.roles.roleDetail;
 </pre>
@@ -202,9 +202,9 @@ Need to access it with <code>this.$store</code>.<br>
 </div>
 </div>
 
-<div id="outline-container-org1d53169" class="outline-3">
-<h3 id="org1d53169"><span class="section-number-3">2.3</span> How to access store from Vuejs router</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-org9014edd" class="outline-3">
+<h3 id="org9014edd">How to access store from Vuejs router</h3>
+<div class="outline-text-3" id="text-org9014edd">
 <p>
 In <code>router/index.js</code><br>
 </p>
@@ -231,9 +231,9 @@ router.beforeEach((to, from, next) =&gt; {
 </div>
 </div>
 
-<div id="outline-container-org59c2c96" class="outline-3">
-<h3 id="org59c2c96"><span class="section-number-3">2.4</span> How to access router from Vuejs component</h3>
-<div class="outline-text-3" id="text-2-4">
+<div id="outline-container-orgbaa1dbc" class="outline-3">
+<h3 id="orgbaa1dbc">How to access router from Vuejs component</h3>
+<div class="outline-text-3" id="text-orgbaa1dbc">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-constant">this</span>.$router.push({ name: <span class="org-string">"Home"</span> });
 </pre>
@@ -246,9 +246,9 @@ This direct user to router path &ldquo;Home&rdquo;.<br>
 </section>
 
 
-<section id="outline-container-org9b08511" class="outline-2">
-<h2 id="org9b08511"><span class="section-number-2">3</span> How to create currying functions to help validation?</h2>
-<div class="outline-text-2" id="text-3">
+<section id="outline-container-org90be1e1" class="outline-2">
+<h2 id="org90be1e1">How to create currying functions to help validation?</h2>
+<div class="outline-text-2" id="text-org90be1e1">
 <p>
 In Vuejs, we propertly need to create different kind of &ldquo;rules&rdquo; to validate forms, especially textfile.<br>
 </p>
@@ -327,13 +327,13 @@ We want to create several different rule functions which validate no-space and n
 </section>
 
 
-<section id="outline-container-org0e40c60" class="outline-2">
-<h2 id="org0e40c60"><span class="section-number-2">4</span> How to use RBA to control section visibility?</h2>
-<div class="outline-text-2" id="text-4">
+<section id="outline-container-org214aac7" class="outline-2">
+<h2 id="org214aac7">How to use RBA to control section visibility?</h2>
+<div class="outline-text-2" id="text-org214aac7">
 </div>
-<div id="outline-container-org3da2fbe" class="outline-3">
-<h3 id="org3da2fbe"><span class="section-number-3">4.1</span> Authentication</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-org107e1ad" class="outline-3">
+<h3 id="org107e1ad">Authentication</h3>
+<div class="outline-text-3" id="text-org107e1ad">
 <p>
 This ensures the user visits certains pages must login. We control which pages need authentication from Vuejs router.<br>
 </p>
@@ -398,9 +398,9 @@ The <code>isAuthenticated</code> is a getter from <code>store/auth.js</code>. Re
 </div>
 </div>
 
-<div id="outline-container-org0b33f1f" class="outline-3">
-<h3 id="org0b33f1f"><span class="section-number-3">4.2</span> Authorization</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-org651fc13" class="outline-3">
+<h3 id="org651fc13">Authorization</h3>
+<div class="outline-text-3" id="text-org651fc13">
 <p>
 Authorization refers the process of check if the user has the permissions, roles or scopes to send API request to certain endpoint of backend API service.<br>
 </p>
@@ -597,9 +597,9 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 
 
 
-<section id="outline-container-org2cd4ed0" class="outline-2">
-<h2 id="org2cd4ed0"><span class="section-number-2">5</span> How to format Vuejs code?</h2>
-<div class="outline-text-2" id="text-5">
+<section id="outline-container-org769a79e" class="outline-2">
+<h2 id="org769a79e">How to format Vuejs code?</h2>
+<div class="outline-text-2" id="text-org769a79e">
 <p>
 Vuejs code contains js and html tags, so it is very helpful to format code with a common configuration. So, multiple developer could work on the project with same style. Here, we choose prettier + eslint.<br>
 </p>
@@ -707,9 +707,9 @@ This will format code whenever you save file.<br>
 </section>
 
 
-<section id="outline-container-orgec87979" class="outline-2">
-<h2 id="orgec87979"><span class="section-number-2">6</span> Summary</h2>
-<div class="outline-text-2" id="text-6">
+<section id="outline-container-org2843ea0" class="outline-2">
+<h2 id="org2843ea0">Summary</h2>
+<div class="outline-text-2" id="text-org2843ea0">
 <p>
 This document record down my problems when working with Vuejs. I will keep updating this when new one comes.</p>
 </div>

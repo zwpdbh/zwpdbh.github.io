@@ -72,19 +72,19 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org286a352">1. Terraform module</a>
+<li><a href="#org92e5475">Terraform module</a>
 <ul>
-<li><a href="#orga3804ed">1.1. Module inputs</a></li>
-<li><a href="#org810cb31">1.2. Module output</a></li>
+<li><a href="#org46ba45d">Module inputs</a></li>
+<li><a href="#org5e47bfa">Module output</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-org286a352" class="outline-2">
-<h2 id="org286a352"><span class="section-number-2">1</span> Terraform module</h2>
-<div class="outline-text-2" id="text-1">
+<section id="outline-container-org92e5475" class="outline-2">
+<h2 id="org92e5475">Terraform module</h2>
+<div class="outline-text-2" id="text-org92e5475">
 <ul class="org-ul">
 <li>Any set of Terraform configuration files in a folder is a module.<br></li>
 <li>Different from regular Terraform .tf file, the provider is removed since providers should be configured by the user of the module and not by the module itself.<br></li>
@@ -103,7 +103,7 @@ Syntax of using module<br>
 <li><p>
 a module that is responsible for creating EC2 cluster<br>
 </p>
-<pre class="example" id="org1afd81a">
+<pre class="example" id="org4479603">
 zw@zw-dev:~/code/terraform-projects/intro-to-terraform/modules$ tree .
 .
 └── services
@@ -134,9 +134,9 @@ You can create a new file in <code>stage/services/webserver-cluster/main.tf</cod
 </ul>
 </div>
 
-<div id="outline-container-orga3804ed" class="outline-3">
-<h3 id="orga3804ed"><span class="section-number-3">1.1</span> Module inputs</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-org46ba45d" class="outline-3">
+<h3 id="org46ba45d">Module inputs</h3>
+<div class="outline-text-3" id="text-org46ba45d">
 <ul class="org-ul">
 <li>As function in general programming language which has input variables, you can add input parameters in Terraform.<br></li>
 <li><p>
@@ -166,9 +166,9 @@ Second, set the new input variable accordingly<br>
 </div>
 </div>
 
-<div id="outline-container-org810cb31" class="outline-3">
-<h3 id="org810cb31"><span class="section-number-3">1.2</span> Module output</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-org5e47bfa" class="outline-3">
+<h3 id="org5e47bfa">Module output</h3>
+<div class="outline-text-3" id="text-org5e47bfa">
 <ul class="org-ul">
 <li>First, define output in modules,<br></li>
 <li><p>
