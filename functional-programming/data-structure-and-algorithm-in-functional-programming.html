@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- May 13, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>data-structure-and-algorithm-in-functional-programming</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Zhao Wei">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">data-structure-and-algorithm-in-functional-programming</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5ef5f80">1. The Decision to Make</a></li>
+<li><a href="#orgd469182">2. Material to study</a></li>
+<li><a href="#org113d830">3. Emacs support for OCaml</a></li>
+<li><a href="#org932eb12">4. References</a></li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-org5ef5f80" class="outline-2">
+<h2 id="org5ef5f80"><span class="section-number-2">1</span> The Decision to Make</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I begin my journey as a programming by seriously study computer science in 2016. During that time, I know nothing about programming and just have a blur idea about what is programming: it is about making class, call API, do some web development.<br>
+</p>
+
+<p>
+During study, I was trained rigorously at Otago university by studying Java first, then move to use C to learn data structure and algorithm. After that, during my graduate study, I learned to use C++ to do computer graphics task. After graduation, I went to a company which use JavaScript and TypeScript to do all the jobs. In general, my programming world is all around OOP, design pattern, different gotchas (C++ takes the credit). My attetion is about how to build an app or implement some algorithm from some paper by folloing the fomula listed. It is a word full of complicated syntax, state management and the conventions around them which have been built for decades.<br>
+</p>
+
+<p>
+I guess I would not be aware of functinal programming if I didn&rsquo;t meet <a href="https://mullikine.github.io/cv/">Shane Mulligan</a> and his passion about Emacs. From that moment, I was keep pulling away from my previous track. From Emacs, to Elisp, from Elisp to other lisp especially Common-Lisp. I was taking on a path of functional prgramming.<br>
+</p>
+
+<p>
+At first, I am not aware of this effect. However, I gradually discovered that I am just not interested in C-like programming anymore, or even jobs using them. Because I am interested in how they work and why they work, instead of using them to call some APIs or following instructions to get a number. I am very curious about how things could be constructed such that they are <b>right</b> to describe the steps of achieving something.<br>
+</p>
+
+<p>
+During the path of chasing such goal, there are 2 languages make me very excited that they changes how I view programming: one is Lisp, another is Erlang.<br>
+</p>
+
+<p>
+For Lisp, its simplicity and yet so powerful to express anything in itself makes me wonder why people just stop teaching it at university(at least most of them). It is just sad that so few people really give it a try and so many people just consider it is old, outdated and powerless.<br>
+</p>
+
+<p>
+If Lisp changed me how I view code and data, how expressive and yet so simple a language could be. Then Erlang is the language changed me about how to implement complicated system using message-passing. First time, I understand the power of REAL OOP(it is about message passing, not the Java bullshit).<br>
+</p>
+
+<p>
+There are plenty of ariticles about Lisp and Erlang, I will not explain their power in detail. The important thing is different programming language indeed changed how I view programming forever. However, as I dive deeper into the world of FP, I somehow feel vulnerable and not confident. Gradually, I realized that what I am missing is the way to describe data sturcture and algorithm once I mastered during rigorous trainning from C world. Therefore, if I want to keep living in functional world, I have to be free to express algorithm in functional style. I have to make the decision to devour the hard part of FP.<br>
+</p>
+</div>
+</section>
+
+<section id="outline-container-orgd469182" class="outline-2">
+<h2 id="orgd469182"><span class="section-number-2">2</span> Material to study</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Different from C-like language, the data structure and algorithm are expressed differently in FP. More than that, there are very few book and course about teaching algorithm in FP. After search, I found these two seems promising:<br>
+</p>
+<ul class="org-ul">
+<li>Okasaki, Chris - Purely functional data structures-Cambridge University Press (2003) using Standard ML<br></li>
+<li><a href="http://www.cs.cornell.edu/courses/cs3110/2021sp/textbook/intro/intro.html">Data Structures and Functional Programming from Cornell University</a>, using OCaml which is a variant of ML and is similar to Standard ML.<br></li>
+</ul>
+
+<p>
+That is right, another functional programming to learn. But it is not a problem if you are using Emacs.<br>
+</p>
+</div>
+</section>
+
+
+<section id="outline-container-org113d830" class="outline-2">
+<h2 id="org113d830"><span class="section-number-2">3</span> Emacs support for OCaml</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li><p>
+Install OCaml<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">Install OCaml package manager</span>
+sudo apt install opam ()
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Use OCaml package to install dependency</span>
+opam install caml-mode merlin ocp-indent
+</pre>
+</div></li>
+<li><p>
+Elisp configuration for <code>tuareg</code>, <code>merlin</code>, and <code>merlin-company</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-to-list 'load-path <span class="org-string">"~/.opam/system/share/emacs/site-lisp/"</span>)
+
+(<span class="org-keyword">when</span> (executable-find <span class="org-string">"ocaml"</span>)
+  (<span class="org-keyword">when</span> (maybe-require-package 'tuareg)
+    (autoload 'tuareg-mode <span class="org-string">"tuareg"</span> <span class="org-doc">"Major mode for editing Caml code"</span> t)
+    (autoload 'ocamldebug <span class="org-string">"ocamldebug"</span> <span class="org-doc">"Run the Caml debugger"</span> t)
+    (autoload 'caml-mode <span class="org-string">"caml"</span> <span class="org-doc">"Major mode for editing OCaml code."</span> t)
+    (autoload 'run-caml <span class="org-string">"inf-caml"</span> <span class="org-doc">"Run an inferior OCaml process."</span> t)
+
+    (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.ml[iylp]?$"</span> . tuareg-mode))
+    (add-to-list 'auto-mode-alist '(<span class="org-string">"\\.topml$"</span> . tuareg-mode))
+    (add-to-list 'interpreter-mode-alist '(<span class="org-string">"ocamlrun"</span> . caml-mode))
+    (add-to-list 'interpreter-mode-alist '(<span class="org-string">"ocaml"</span> . caml-mode))
+
+    (add-hook 'tuareg-mode-hook
+              (<span class="org-keyword">lambda</span> ()
+                (define-key tuareg-mode-map (kbd <span class="org-string">"C-c C-c"</span>) 'tuareg-eval-phrase)
+                (define-key tuareg-mode-map (kbd <span class="org-string">"C-c C-e"</span>) 'tuareg-eval-region)))
+    (<span class="org-keyword">after-load</span> 'tuareg
+      (set-face-attribute 'tuareg-font-double-semicolon-face nil
+                          <span class="org-builtin">:foreground</span> <span class="org-string">"</span><span class="custom-1">#ffb86c</span><span class="org-string">"</span>))
+
+    (<span class="org-keyword">if</span> window-system
+        (<span class="org-keyword">progn</span>
+          (<span class="org-keyword">require</span> '<span class="org-constant">caml-font</span>)
+          (set-face-foreground 'caml-font-doccomment-face <span class="org-string">"</span><span class="custom">#cb4b16</span><span class="org-string">"</span>))))
+
+  (<span class="org-keyword">when</span> (maybe-require-package 'ocp-indent)  
+    (<span class="org-keyword">setq</span> ocp-indent-path
+          (concat
+           (replace-regexp-in-string <span class="org-string">"\n$"</span> <span class="org-string">""</span>
+                                     (shell-command-to-string <span class="org-string">"opam config var bin"</span>)) <span class="org-string">"/ocp-indent"</span>))
+    (<span class="org-keyword">setq</span> ocp-indent-config <span class="org-string">"strict_with=always,match_clause=4,strict_else=never"</span>))
+
+  (<span class="org-keyword">when</span> (maybe-require-package 'merlin)
+    (autoload 'merlin-mode <span class="org-string">"merlin"</span> <span class="org-doc">"Merlin mode"</span> t)
+    (<span class="org-keyword">require</span> '<span class="org-constant">caml-types</span> nil 'noerror)
+
+    (<span class="org-keyword">setq</span> merlin-use-auto-complete-mode 'easy)
+    (<span class="org-keyword">setq</span> merlin-command 'opam)
+    (<span class="org-keyword">setq</span> merlin-error-on-single-line t)
+
+    (add-hook 'tuareg-mode-hook #'merlin-mode)
+    (add-hook 'caml-mode-hook #'merlin-mode))
+
+
+  (<span class="org-keyword">when</span> (maybe-require-package 'merlin-company)
+    (add-hook 'caml-mode-hook
+              (<span class="org-keyword">lambda</span> ()
+                (<span class="org-keyword">setq-local</span> company-backends (zw/add-to-company-backends company-backends 'merlin-company-backend))))))
+</pre>
+</div></li>
+
+<li><p>
+OCaml is even supported from Org-babel<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-ocaml">print_string <span class="org-string">"Hello World"</span>
+</pre>
+</div>
+
+<p>
+Shane, than you so much for leading me into Emacs world and functional programming.<br>
+</p></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org932eb12" class="outline-2">
+<h2 id="org932eb12"><span class="section-number-2">4</span> References</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><a href="http://www.cs.cornell.edu/courses/cs3110/2012sp/lecturenotes.php">Data Structures and Functional Programming</a><br></li>
+</ul>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on May 13, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+</div>
+</footer>
+</body>
+</html>
