@@ -4,7 +4,7 @@
 <!-- May 17, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Erlang Programming with Go</title>
+<title>Erlang Programming with external programs</title>
 <meta name="generator" content="Org mode">
 <meta name="author" content="Zhao Wei">
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
@@ -67,31 +67,31 @@
 </header>
 <main id="content">
 <header>
-<h1 class="title">Erlang Programming with Go</h1>
+<h1 class="title">Erlang Programming with external programs</h1>
 </header><nav id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga54dd84">1. Introduction</a></li>
-<li><a href="#org0dca1f4">2. How Erlang communicates with external programs</a></li>
-<li><a href="#org6e3eaef">3. Erlang with C</a>
+<li><a href="#orge1eb39a">1. Introduction</a></li>
+<li><a href="#org890a9a1">2. How Erlang communicates with external programs</a></li>
+<li><a href="#org520ad87">3. Erlang with C</a>
 <ul>
-<li><a href="#orgff17434">3.1. Define how to want to use C code</a></li>
-<li><a href="#orgcf57bb6">3.2. Define protocal</a></li>
-<li><a href="#org6bfb556">3.3. The C program</a></li>
-<li><a href="#org4cf1ba7">3.4. Comments for C Code</a></li>
-<li><a href="#orgc2d0e02">3.5. The Erlang program</a></li>
-<li><a href="#orgad34a44">3.6. <span class="todo TODO">TODO</span> Comment for Erlang code</a></li>
+<li><a href="#org479f0b3">3.1. Define how to want to use C code</a></li>
+<li><a href="#orge228872">3.2. Define protocal</a></li>
+<li><a href="#org10df696">3.3. The C program</a></li>
+<li><a href="#org0205ac1">3.4. Comments for C Code</a></li>
+<li><a href="#org009a777">3.5. The Erlang program</a></li>
+<li><a href="#org27dbef5">3.6. <span class="todo TODO">TODO</span> Comment for Erlang code</a></li>
 </ul>
 </li>
-<li><a href="#orgeed5cc9">4. References</a></li>
+<li><a href="#org29ffe64">4. References</a></li>
 </ul>
 </div>
 </nav>
 
 
-<section id="outline-container-orga54dd84" class="outline-2">
-<h2 id="orga54dd84"><span class="section-number-2">1</span> Introduction</h2>
+<section id="outline-container-orge1eb39a" class="outline-2">
+<h2 id="orge1eb39a"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 When I learn Erlang, it always bother me about its speed. Surely, it is not as fast as C/C++, but it has unique advantages for doing distributed programming. Luckly, Erlang has multiple ways of doing interface techniques.<br>
@@ -111,8 +111,8 @@ Here, we will only consider interfacing Erlang using ports and OS commands.<br>
 </section>
 
 
-<section id="outline-container-org0dca1f4" class="outline-2">
-<h2 id="org0dca1f4"><span class="section-number-2">2</span> How Erlang communicates with external programs</h2>
+<section id="outline-container-org890a9a1" class="outline-2">
+<h2 id="org890a9a1"><span class="section-number-2">2</span> How Erlang communicates with external programs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Erlang communicates with external programs through <b>ports</b>. It is not the port used with address for socket programming. Ports provide a byte-oriented interface to an external program. Erlang can communicate with it by sending and receiving lists of bytes (not Erlang terms).<br>
@@ -136,12 +136,12 @@ It is like a pipe, we send a message to a port, the message will be sent to the 
 </div>
 </section>
 
-<section id="outline-container-org6e3eaef" class="outline-2">
-<h2 id="org6e3eaef"><span class="section-number-2">3</span> Erlang with C</h2>
+<section id="outline-container-org520ad87" class="outline-2">
+<h2 id="org520ad87"><span class="section-number-2">3</span> Erlang with C</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgff17434" class="outline-3">
-<h3 id="orgff17434"><span class="section-number-3">3.1</span> Define how to want to use C code</h3>
+<div id="outline-container-org479f0b3" class="outline-3">
+<h3 id="org479f0b3"><span class="section-number-3">3.1</span> Define how to want to use C code</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Suppose we defined the following functions in C program.<br>
@@ -176,8 +176,8 @@ We need to hide the detail of the interface to the C program. To do so, we need 
 </div>
 </div>
 
-<div id="outline-container-orgcf57bb6" class="outline-3">
-<h3 id="orgcf57bb6"><span class="section-number-3">3.2</span> Define protocal</h3>
+<div id="outline-container-orge228872" class="outline-3">
+<h3 id="orge228872"><span class="section-number-3">3.2</span> Define protocal</h3>
 <div class="outline-text-3" id="text-3-2">
 <ul class="org-ul">
 <li>All packets start with a 2 bytes which specifies the length of data immidiately followed.<br></li>
@@ -192,8 +192,8 @@ C program and Erlang program must follow this protocol.<br>
 </div>
 </div>
 
-<div id="outline-container-org6bfb556" class="outline-3">
-<h3 id="org6bfb556"><span class="section-number-3">3.3</span> The C program</h3>
+<div id="outline-container-org10df696" class="outline-3">
+<h3 id="org10df696"><span class="section-number-3">3.3</span> The C program</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 3 files<br>
@@ -209,8 +209,8 @@ Has routines for reading and writing memory buffers.<br></li>
 </div>
 </div>
 
-<div id="outline-container-org4cf1ba7" class="outline-3">
-<h3 id="org4cf1ba7"><span class="section-number-3">3.4</span> Comments for C Code</h3>
+<div id="outline-container-org0205ac1" class="outline-3">
+<h3 id="org0205ac1"><span class="section-number-3">3.4</span> Comments for C Code</h3>
 <div class="outline-text-3" id="text-3-4">
 <ol class="org-ol">
 <li><p>
@@ -308,18 +308,18 @@ As opposite of read from stream, we have to write stream with appending 2-bytes 
 </div>
 
 
-<div id="outline-container-orgc2d0e02" class="outline-3">
-<h3 id="orgc2d0e02"><span class="section-number-3">3.5</span> The Erlang program</h3>
+<div id="outline-container-org009a777" class="outline-3">
+<h3 id="org009a777"><span class="section-number-3">3.5</span> The Erlang program</h3>
 </div>
 
-<div id="outline-container-orgad34a44" class="outline-3">
-<h3 id="orgad34a44"><span class="section-number-3">3.6</span> <span class="todo TODO">TODO</span> Comment for Erlang code</h3>
+<div id="outline-container-org27dbef5" class="outline-3">
+<h3 id="org27dbef5"><span class="section-number-3">3.6</span> <span class="todo TODO">TODO</span> Comment for Erlang code</h3>
 </div>
 </section>
 
 
-<section id="outline-container-orgeed5cc9" class="outline-2">
-<h2 id="orgeed5cc9"><span class="section-number-2">4</span> References</h2>
+<section id="outline-container-org29ffe64" class="outline-2">
+<h2 id="org29ffe64"><span class="section-number-2">4</span> References</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="http://erlang.org/doc/tutorial/introduction.html">Interoperability Tutorial</a><br></li>

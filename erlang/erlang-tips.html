@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 12, 2021 -->
+<!-- May 17, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My Erlang Tips</title>
@@ -72,42 +72,42 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org6ab4475">1. Creating a list</a></li>
-<li><a href="#org335347e">2. High order function</a></li>
-<li><a href="#orgb440027">3. Different ways to spawn and passing argument</a></li>
-<li><a href="#org00d81c4">4. <code>spawn_link</code></a></li>
-<li><a href="#org976ab3d">5. Different behaviours around throws,errors and exits</a>
+<li><a href="#orgb117047">1. Creating a list</a></li>
+<li><a href="#orge3f4525">2. High order function</a></li>
+<li><a href="#orge210dd3">3. Different ways to spawn and passing argument</a></li>
+<li><a href="#orgb816d08">4. <code>spawn_link</code></a></li>
+<li><a href="#orga7c3249">5. Different behaviours around throws,errors and exits</a>
 <ul>
-<li><a href="#orge0a6941">5.1. Exit signals</a></li>
-<li><a href="#org7359142">5.2. Exit</a></li>
-<li><a href="#orgf744dde">5.3. Error</a></li>
-<li><a href="#org74662cc">5.4. Throw</a></li>
-<li><a href="#org4ca2278">5.5. Kill signal</a></li>
-<li><a href="#orgc6e69e0">5.6. Summary</a></li>
-<li><a href="#org4c04a6a">5.7. Refs</a></li>
+<li><a href="#org7b45920">5.1. Exit signals</a></li>
+<li><a href="#orgf6a5aa9">5.2. Exit</a></li>
+<li><a href="#org1c9a186">5.3. Error</a></li>
+<li><a href="#org85666d4">5.4. Throw</a></li>
+<li><a href="#org18eb30f">5.5. Kill signal</a></li>
+<li><a href="#org457dd7c">5.6. Summary</a></li>
+<li><a href="#org93d7fd5">5.7. Refs</a></li>
 </ul>
 </li>
-<li><a href="#org88e55af">6. What is the usage of register?</a></li>
-<li><a href="#org6ed2d28">7. How to use monitor to restart worker process?</a>
+<li><a href="#org8f9c879">6. What is the usage of register?</a></li>
+<li><a href="#orgf7a9b5f">7. How to use monitor to restart worker process?</a>
 <ul>
-<li><a href="#org3dc5cf6">7.1. How to Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, restart it.</a></li>
-<li><a href="#org349ae16">7.2. Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, kill all the worker processes and restart them all.</a></li>
-<li><a href="#org947f11e">7.3. Summary</a></li>
+<li><a href="#orgfbfc32c">7.1. How to Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, restart it.</a></li>
+<li><a href="#org4f0fd89">7.2. Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, kill all the worker processes and restart them all.</a></li>
+<li><a href="#orgd99e755">7.3. Summary</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org6ab4475" class="outline-2">
-<h2 id="org6ab4475"><span class="section-number-2">1</span> Creating a list</h2>
+<section id="outline-container-orgb117047" class="outline-2">
+<h2 id="orgb117047"><span class="section-number-2">1</span> Creating a list</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 It is important to ensure to attach the new elements to the <b>beginning of the list</b>. (see: <a href="http://erlang.org/doc/efficiency_guide/listHandling.html">List Handling</a>).<br>
 </p>
 </div>
 </section>
-<section id="outline-container-org335347e" class="outline-2">
-<h2 id="org335347e"><span class="section-number-2">2</span> High order function</h2>
+<section id="outline-container-orge3f4525" class="outline-2">
+<h2 id="orge3f4525"><span class="section-number-2">2</span> High order function</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>Clojure, it is very useful because it lets us carry around parameters out of its original context.<br></li>
@@ -126,8 +126,8 @@ Here, we could need to make lambda/0 instead of lambda/1 in list comprehension.<
 </div>
 </section>
 
-<section id="outline-container-orgb440027" class="outline-2">
-<h2 id="orgb440027"><span class="section-number-2">3</span> Different ways to spawn and passing argument</h2>
+<section id="outline-container-orge210dd3" class="outline-2">
+<h2 id="orge210dd3"><span class="section-number-2">3</span> Different ways to spawn and passing argument</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li><p>
@@ -161,8 +161,8 @@ Use <code>apply/2</code> in <code>spawn/3</code><br>
 </div>
 </section>
 
-<section id="outline-container-org00d81c4" class="outline-2">
-<h2 id="org00d81c4"><span class="section-number-2">4</span> <code>spawn_link</code></h2>
+<section id="outline-container-orgb816d08" class="outline-2">
+<h2 id="orgb816d08"><span class="section-number-2">4</span> <code>spawn_link</code></h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><p>
@@ -194,12 +194,12 @@ Its argument is a function just like argument of <code>spawn</code>.<br>
 </div>
 </section>
 
-<section id="outline-container-org976ab3d" class="outline-2">
-<h2 id="org976ab3d"><span class="section-number-2">5</span> Different behaviours around throws,errors and exits</h2>
+<section id="outline-container-orga7c3249" class="outline-2">
+<h2 id="orga7c3249"><span class="section-number-2">5</span> Different behaviours around throws,errors and exits</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orge0a6941" class="outline-3">
-<h3 id="orge0a6941"><span class="section-number-3">5.1</span> Exit signals</h3>
+<div id="outline-container-org7b45920" class="outline-3">
+<h3 id="org7b45920"><span class="section-number-3">5.1</span> Exit signals</h3>
 <div class="outline-text-3" id="text-5-1">
 <ul class="org-ul">
 <li>What is a exit signal?<br>
@@ -233,8 +233,8 @@ A system process can handle exit signals because exit signals will be converted 
 </div>
 </div>
 
-<div id="outline-container-org7359142" class="outline-3">
-<h3 id="org7359142"><span class="section-number-3">5.2</span> Exit</h3>
+<div id="outline-container-orgf6a5aa9" class="outline-3">
+<h3 id="orgf6a5aa9"><span class="section-number-3">5.2</span> Exit</h3>
 <div class="outline-text-3" id="text-5-2">
 <ol class="org-ol">
 <li>Exception source: <code>spawn_link(fun() -&gt; ok end)</code><br>
@@ -258,8 +258,8 @@ A system process can handle exit signals because exit signals will be converted 
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf744dde" class="outline-3">
-<h3 id="orgf744dde"><span class="section-number-3">5.3</span> Error</h3>
+<div id="outline-container-org1c9a186" class="outline-3">
+<h3 id="org1c9a186"><span class="section-number-3">5.3</span> Error</h3>
 <div class="outline-text-3" id="text-5-3">
 <ol class="org-ol">
 <li>Exception source: <code>spawn_link(fun() -&gt; 1/0 end)</code><br>
@@ -278,8 +278,8 @@ A system process can handle exit signals because exit signals will be converted 
 </ol>
 </div>
 </div>
-<div id="outline-container-org74662cc" class="outline-3">
-<h3 id="org74662cc"><span class="section-number-3">5.4</span> Throw</h3>
+<div id="outline-container-org85666d4" class="outline-3">
+<h3 id="org85666d4"><span class="section-number-3">5.4</span> Throw</h3>
 <div class="outline-text-3" id="text-5-4">
 <p>
 Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
@@ -292,8 +292,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 </div>
 </div>
 
-<div id="outline-container-org4ca2278" class="outline-3">
-<h3 id="org4ca2278"><span class="section-number-3">5.5</span> Kill signal</h3>
+<div id="outline-container-org18eb30f" class="outline-3">
+<h3 id="org18eb30f"><span class="section-number-3">5.5</span> Kill signal</h3>
 <div class="outline-text-3" id="text-5-5">
 <ul class="org-ul">
 <li>Generated with <code>exit/2</code>, like a gun. It allows a process to kill another one from a distance.<br></li>
@@ -303,8 +303,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 </div>
 </div>
 
-<div id="outline-container-orgc6e69e0" class="outline-3">
-<h3 id="orgc6e69e0"><span class="section-number-3">5.6</span> Summary</h3>
+<div id="outline-container-org457dd7c" class="outline-3">
+<h3 id="org457dd7c"><span class="section-number-3">5.6</span> Summary</h3>
 <div class="outline-text-3" id="text-5-6">
 <ol class="org-ol">
 <li>Exit signals with reason will terminate the receiving process unless it is trapping exits. In which case, it can convert exit signals into normal messages and be handled by <code>receive</code>.<br></li>
@@ -318,8 +318,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 </ol>
 </div>
 </div>
-<div id="outline-container-org4c04a6a" class="outline-3">
-<h3 id="org4c04a6a"><span class="section-number-3">5.7</span> Refs</h3>
+<div id="outline-container-org93d7fd5" class="outline-3">
+<h3 id="org93d7fd5"><span class="section-number-3">5.7</span> Refs</h3>
 <div class="outline-text-3" id="text-5-7">
 <ul class="org-ul">
 <li><a href="https://crypt.codemancers.com/posts/2016-01-24-understanding-exit-signals-in-erlang-slash-elixir/">Understanding Exit Signals in Erlang/Elixir</a>         <br></li>
@@ -332,8 +332,8 @@ Exception source: <code>spawn_link(fun() -&gt; throw(rocks) end)</code><br>
 
 
 
-<section id="outline-container-org88e55af" class="outline-2">
-<h2 id="org88e55af"><span class="section-number-2">6</span> What is the usage of register?</h2>
+<section id="outline-container-org8f9c879" class="outline-2">
+<h2 id="org8f9c879"><span class="section-number-2">6</span> What is the usage of register?</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Process communication is done via Pid, but it is only available to the parent who spawn the process. If we want other processes to communicate to it, we have to pass that Pid around as extra argument.<br>
@@ -349,12 +349,12 @@ Its disadvantage is not convenient. <code>register(Name, Pid)</code> is a method
 </div>
 </section>
 
-<section id="outline-container-org6ed2d28" class="outline-2">
-<h2 id="org6ed2d28"><span class="section-number-2">7</span> How to use monitor to restart worker process?</h2>
+<section id="outline-container-orgf7a9b5f" class="outline-2">
+<h2 id="orgf7a9b5f"><span class="section-number-2">7</span> How to use monitor to restart worker process?</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org3dc5cf6" class="outline-3">
-<h3 id="org3dc5cf6"><span class="section-number-3">7.1</span> How to Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, restart it.</h3>
+<div id="outline-container-orgfbfc32c" class="outline-3">
+<h3 id="orgfbfc32c"><span class="section-number-3">7.1</span> How to Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, restart it.</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Suppose we have the following worker<br>
@@ -430,8 +430,8 @@ At last, we start them<br>
 </div>
 </div>
 
-<div id="outline-container-org349ae16" class="outline-3">
-<h3 id="org349ae16"><span class="section-number-3">7.2</span> Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, kill all the worker processes and restart them all.</h3>
+<div id="outline-container-org4f0fd89" class="outline-3">
+<h3 id="org4f0fd89"><span class="section-number-3">7.2</span> Write a function that starts and monitors several worker processes. If any of the worker processes dies abnormally, kill all the worker processes and restart them all.</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 Suppose, we use the same worker. Now, we prefer to create only one monitor process. And inside it, we <code>spawn_monitor</code> multiple worker processes.<br>
@@ -493,8 +493,8 @@ Now, use them from main module<br>
 </div>
 
 
-<div id="outline-container-org947f11e" class="outline-3">
-<h3 id="org947f11e"><span class="section-number-3">7.3</span> Summary</h3>
+<div id="outline-container-orgd99e755" class="outline-3">
+<h3 id="orgd99e755"><span class="section-number-3">7.3</span> Summary</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
 <code>spawn_monitor</code> + <code>receive...end</code> once make me very confused. I either puth the monitor process keep waiting on shell, or doesn&rsquo;t receive any message from monitor process when its monitoring process exit. The reasons are:<br>
@@ -513,7 +513,7 @@ Now, use them from main module<br>
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 12, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
