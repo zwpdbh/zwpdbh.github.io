@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- May 17, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithm in Test01</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="DESKTOP-TTOPQ58">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">Algorithm in Test01</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9b6de08">1. Question</a></li>
+<li><a href="#org9a35025">2. Solution in C++</a></li>
+<li><a href="#org0c29605">3. Solution in Erlang</a></li>
+<li><a href="#orgac57220">4. Summary</a></li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-org9b6de08" class="outline-2">
+<h2 id="org9b6de08"><span class="section-number-2">1</span> Question</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+You are given string S. Delete of the K-th letter of S costs C[K]. After deleting a letter, the costs of deleting other letters do not change. For example: for S <code>"ab"</code> and C=[1,3], after deleting &rsquo;a&rsquo;, deletion of b will still cost 3.<br>
+</p>
+
+<p>
+You want to delete some letters from S to obtain a string without two identical letters next to each other. What is the minimul total cost of deletions to achieve such a string?<br>
+</p>
+
+<p>
+Write a function:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span class="org-type">int</span> <span class="org-function-name">solution</span>(<span class="org-type">string</span> &amp;<span class="org-variable-name">S</span>, <span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; &amp;<span class="org-variable-name">C</span>);
+</pre>
+</div>
+<p>
+Such that, giveing S and array C of integers, both of length N, returns the minimum costs of all necessary deletions.<br>
+</p>
+
+<p>
+<br>
+Examples:<br>
+</p>
+<ol class="org-ol">
+<li>Given S = &ldquo;abccdb&rdquo; and C = [0,1,2,3,4,5], solution is 2 because you can delete first occurence of &rsquo;c&rsquo; to achieve the goal.<br></li>
+<li>Given S = &ldquo;aabbcc&rdquo;, and C = [1,2,1,2,1,2], function should return 3.<br></li>
+<li>Given S = &ldquo;aaaa&rdquo; and C = [3,4,5,6], the solution is 12.<br></li>
+<li>Given S = &ldquo;ababa&rdquo; and C = [10,5,10,5,10], the function should return 0 because there is no need to delete any letter.<br></li>
+</ol>
+
+<p>
+Extra assumptions:<br>
+</p>
+<ul class="org-ul">
+<li>string S and Array C have length equal to N;<br></li>
+<li>N is an integer with the range [1&#x2026;100,000];<br></li>
+<li>string S consist only of lowercase letter(&rsquo;a&rsquo;-&rsquo;z&rsquo;);<br></li>
+<li>each element of array C is an integer within the range [0&#x2026;,1000].<br></li>
+</ul>
+</div>
+</section>
+
+
+<section id="outline-container-org9a35025" class="outline-2">
+<h2 id="org9a35025"><span class="section-number-2">2</span> Solution in C++</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-C++"><span class="org-preprocessor">#include</span> <span class="org-string">&lt;iostream&gt;</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">&lt;string&gt;</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">&lt;vector&gt;</span>
+<span class="org-preprocessor">#include</span> <span class="org-string">&lt;assert.h&gt;</span>
+
+<span class="org-keyword">using</span> <span class="org-keyword">namespace</span> <span class="org-constant">std</span>;
+
+<span class="org-type">int</span> <span class="org-function-name">cost</span>(<span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; &amp;<span class="org-variable-name">C</span>, <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-type">int</span> <span class="org-variable-name">j</span>) {
+
+    <span class="org-type">int</span> <span class="org-variable-name">biggest</span> = C[i];
+    <span class="org-type">int</span> <span class="org-variable-name">acc</span> = 0;
+    <span class="org-keyword">for</span> (<span class="org-type">int</span> <span class="org-variable-name">m</span> = i; m &lt;= j; m++) {
+        acc += C[m];
+        <span class="org-keyword">if</span> (C[m] &gt; biggest) {
+            biggest = C[m];
+        }
+    }
+
+    <span class="org-keyword">return</span> acc - biggest;
+}
+
+<span class="org-type">int</span> <span class="org-function-name">solution</span>(<span class="org-type">string</span> &amp;<span class="org-variable-name">S</span>, <span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; &amp;<span class="org-variable-name">C</span>) {
+    <span class="org-type">int</span> <span class="org-variable-name">j</span> = 0;
+    <span class="org-type">int</span> <span class="org-variable-name">acc</span> = 0;
+    <span class="org-type">int</span> <span class="org-variable-name">length</span> = S.size();
+
+    <span class="org-keyword">for</span> (<span class="org-type">int</span> <span class="org-variable-name">i</span> = 0; i &lt; C.size(); ++i) {
+        <span class="org-keyword">while</span> ((i + j + 1 &lt; length) &amp;&amp;(S[i] == S[i + j + 1])) {
+            j = j + 1;
+        }
+
+        <span class="org-keyword">if</span> (j &gt; 0) {
+            acc += cost(C, i, i + j);
+            <span class="org-comment-delimiter">// </span><span class="org-comment">i = i + j + 1; Don't +1 because i will be automatically + 1</span>
+            i = i + j;
+        } <span class="org-keyword">else</span> {
+            i = i + 1;
+        }
+
+        j = 0;
+    }
+
+    <span class="org-keyword">return</span> acc;
+}
+
+
+<span class="org-type">int</span> <span class="org-function-name">main</span>() {
+    <span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">vect1</span>{0, 1, 2, 3, 4, 5};
+    <span class="org-type">string</span> <span class="org-variable-name">str1</span> = <span class="org-string">"abccdb"</span>;
+    assert(solution(str1, vect1) ==  2);
+
+    <span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">vect2</span>{1,2,1,2,1,2};
+    <span class="org-type">string</span> <span class="org-variable-name">str2</span> = <span class="org-string">"aabbcc"</span>;
+    assert(solution(str2, vect2) == 3);
+
+    <span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">vect3</span>{3,4,5,6};
+    <span class="org-type">string</span> <span class="org-variable-name">str3</span> = <span class="org-string">"aaaa"</span>;
+    assert(solution(str3, vect3) == 12);
+
+    <span class="org-type">vector</span>&lt;<span class="org-type">int</span>&gt; <span class="org-variable-name">vect4</span>{10,5,10,5,10};
+    <span class="org-type">string</span> <span class="org-variable-name">str4</span> = <span class="org-string">"ababa"</span>;
+    assert(solution(str4, vect4) == 0);
+}
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org0c29605" class="outline-2">
+<h2 id="org0c29605"><span class="section-number-2">3</span> Solution in Erlang</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-erlang"><span class="org-preprocessor">-module</span>(q01).
+<span class="org-preprocessor">-compile</span>([export_all]).
+
+<span class="org-function-name">test</span>() -&gt;
+    2 = <span class="org-type">solution</span>(<span class="org-string">"abccdb"</span>, [0,1,2,3,4,5]),
+    4 = <span class="org-type">solution</span>(<span class="org-string">"aabbccaa"</span>, [1,2,1,2,1,2,1,2]),
+    12 = <span class="org-type">solution</span>(<span class="org-string">"aaaa"</span>, [3,4,5,6]),
+    0 = <span class="org-type">solution</span>(<span class="org-string">"ababa"</span>, [10,5,10,5,10]),
+    passed.
+
+<span class="org-function-name">merge_lists</span>([], <span class="org-variable-name">_</span>) -&gt;
+    [];
+<span class="org-function-name">merge_lists</span>(<span class="org-variable-name">_</span>, []) -&gt;
+    [];
+<span class="org-function-name">merge_lists</span>([<span class="org-variable-name">H1</span>|<span class="org-variable-name">T1</span>], [<span class="org-variable-name">H2</span>|<span class="org-variable-name">T2</span>]) -&gt;
+    [{<span class="org-variable-name">H1</span>, <span class="org-variable-name">H2</span>} | <span class="org-type">merge_lists</span>(<span class="org-variable-name">T1</span>, <span class="org-variable-name">T2</span>)].
+
+
+<span class="org-function-name">solution</span>(<span class="org-variable-name">Str</span>, <span class="org-variable-name">Costs</span>) -&gt;
+    <span class="org-type">find_cost</span>(<span class="org-type">merge_lists</span>(<span class="org-variable-name">Str</span>, <span class="org-variable-name">Costs</span>)).
+
+<span class="org-function-name">find_cost</span>(<span class="org-variable-name">L</span>) -&gt;
+    <span class="org-type">find_cost_aux</span>(<span class="org-variable-name">L</span>, 0).
+<span class="org-function-name">find_cost_aux</span>([], <span class="org-variable-name">Total</span>) -&gt;
+    <span class="org-variable-name">Total</span>;
+<span class="org-function-name">find_cost_aux</span>(<span class="org-variable-name">L</span>, <span class="org-variable-name">Total</span>) -&gt;
+    {<span class="org-variable-name">Sub</span>, <span class="org-variable-name">Rest</span>} = <span class="org-type">find_sub</span>(<span class="org-variable-name">L</span>),
+    <span class="org-type">find_cost_aux</span>(<span class="org-variable-name">Rest</span>, <span class="org-variable-name">Total</span> + <span class="org-type">sub_cost</span>(<span class="org-variable-name">Sub</span>)).
+
+<span class="org-function-name">sub_cost</span>(<span class="org-variable-name">L</span>) -&gt;
+    <span class="org-type">sub_cost_aux</span>(<span class="org-variable-name">L</span>, 0, 0).
+<span class="org-function-name">sub_cost_aux</span>([], <span class="org-variable-name">Acc</span>, <span class="org-variable-name">Max</span>) -&gt;
+    <span class="org-variable-name">Acc</span> - <span class="org-variable-name">Max</span>;
+<span class="org-function-name">sub_cost_aux</span>([<span class="org-variable-name">H</span>|<span class="org-variable-name">T</span>], <span class="org-variable-name">Acc</span>, <span class="org-variable-name">Max</span>) -&gt;
+    {<span class="org-variable-name">_</span>, <span class="org-variable-name">X</span>} = <span class="org-variable-name">H</span>,
+    <span class="org-keyword">if</span>
+        <span class="org-variable-name">X</span> &gt; <span class="org-variable-name">Max</span> -&gt;
+            <span class="org-type">sub_cost_aux</span>(<span class="org-variable-name">T</span>, <span class="org-variable-name">Acc</span> + <span class="org-variable-name">X</span>, <span class="org-variable-name">X</span>);
+        true -&gt;
+            <span class="org-type">sub_cost_aux</span>(<span class="org-variable-name">T</span>, <span class="org-variable-name">Acc</span> + <span class="org-variable-name">X</span>, <span class="org-variable-name">Max</span>)
+    <span class="org-keyword">end</span>.
+
+
+<span class="org-function-name">peek</span>([]) -&gt;
+    [];
+<span class="org-function-name">peek</span>([<span class="org-variable-name">H</span>|<span class="org-variable-name">_</span>]) -&gt;
+    <span class="org-variable-name">H</span>.
+
+
+<span class="org-function-name">find_sub</span>([]) -&gt;
+    {[], []};
+<span class="org-function-name">find_sub</span>(<span class="org-variable-name">L</span>) -&gt;
+    <span class="org-type">find_sub_aux</span>([], <span class="org-variable-name">L</span>).
+<span class="org-function-name">find_sub_aux</span>(<span class="org-variable-name">Acc</span>, []) -&gt;
+    {<span class="org-variable-name">Acc</span>, []};
+<span class="org-function-name">find_sub_aux</span>([], [<span class="org-variable-name">H</span>|<span class="org-variable-name">T</span>]) -&gt;
+    <span class="org-type">find_sub_aux</span>([<span class="org-variable-name">H</span>], <span class="org-variable-name">T</span>);
+<span class="org-function-name">find_sub_aux</span>(<span class="org-variable-name">Acc</span>, [<span class="org-variable-name">H</span>|<span class="org-variable-name">T</span>]) -&gt;
+    <span class="org-variable-name">C</span> = <span class="org-type">peek</span>(<span class="org-variable-name">Acc</span>),
+    {<span class="org-variable-name">X1</span>, <span class="org-variable-name">_</span>} = <span class="org-variable-name">C</span>,
+    {<span class="org-variable-name">X2</span>, <span class="org-variable-name">_</span>} = <span class="org-variable-name">H</span>,
+    <span class="org-keyword">case</span> <span class="org-variable-name">X1</span> == <span class="org-variable-name">X2</span> <span class="org-keyword">of</span>
+        true -&gt;
+            <span class="org-type">find_sub_aux</span>([<span class="org-variable-name">H</span>|<span class="org-variable-name">Acc</span>], <span class="org-variable-name">T</span>);
+        false <span class="org-keyword">when</span> <span class="org-builtin">length</span>(<span class="org-variable-name">Acc</span>) &gt;= 2  -&gt;
+            {<span class="org-variable-name">Acc</span>, [<span class="org-variable-name">H</span>|<span class="org-variable-name">T</span>]};
+        false -&gt;
+            <span class="org-type">find_sub_aux</span>([<span class="org-variable-name">H</span>], <span class="org-variable-name">T</span>);
+        <span class="org-variable-name">_</span> -&gt;
+            <span class="org-type">io</span>:<span class="org-type">format</span>(<span class="org-string">"case??: ~p, ~p, ~p~n"</span>, [<span class="org-builtin">length</span>(<span class="org-variable-name">Acc</span>), <span class="org-variable-name">Acc</span>, [<span class="org-variable-name">H</span>|<span class="org-variable-name">T</span>]])
+    <span class="org-keyword">end</span>.
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orgac57220" class="outline-2">
+<h2 id="orgac57220"><span class="section-number-2">4</span> Summary</h2>
+<div class="outline-text-2" id="text-4">
+<ol class="org-ol">
+<li><p>
+The imperative style is difficult to debug because any variable is associated with big context. So, you could not reason about if a step is correct unless you following through every steps.<br>
+For example, take a look at<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span class="org-keyword">if</span> (j &gt; 0) {
+    acc += cost(C, i, i + j);
+    <span class="org-comment-delimiter">// </span><span class="org-comment">i = i + j + 1; Don't +1 because i will be automatically + 1</span>
+    i = i + j;
+ } <span class="org-keyword">else</span> {
+    i = i + 1;
+ }
+</pre>
+</div>
+<p>
+There is no way to reason why <code>i = i + j</code> instead of <code>i = i + j + 1</code>. It just don&rsquo;t have enough context to reason it.<br>
+You have to follow through the loop step by step to make sure it does what you want.<br>
+<br>
+In addtion, even loop every steps doesn&rsquo;t make sure it works, you have to find something called loop-invariant to proof it. That is difficult.<br>
+</p></li>
+<li>The functional style is easy to reason because each function limits its context to itself. Therefore, you could reason each part of the program and test them easily. And recursion is induction makes it easy to proof it actually works for all cases.</li>
+</ol>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- May 17, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Erlang Programming with Go</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Zhao Wei">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">Erlang Programming with Go</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga54dd84">1. Introduction</a></li>
+<li><a href="#org0dca1f4">2. How Erlang communicates with external programs</a></li>
+<li><a href="#org6e3eaef">3. Erlang with C</a>
+<ul>
+<li><a href="#orgff17434">3.1. Define how to want to use C code</a></li>
+<li><a href="#orgcf57bb6">3.2. Define protocal</a></li>
+<li><a href="#org6bfb556">3.3. The C program</a></li>
+<li><a href="#org4cf1ba7">3.4. Comments for C Code</a></li>
+<li><a href="#orgc2d0e02">3.5. The Erlang program</a></li>
+<li><a href="#orgad34a44">3.6. <span class="todo TODO">TODO</span> Comment for Erlang code</a></li>
+</ul>
+</li>
+<li><a href="#orgeed5cc9">4. References</a></li>
+</ul>
+</div>
+</nav>
+
+
+<section id="outline-container-orga54dd84" class="outline-2">
+<h2 id="orga54dd84"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+When I learn Erlang, it always bother me about its speed. Surely, it is not as fast as C/C++, but it has unique advantages for doing distributed programming. Luckly, Erlang has multiple ways of doing interface techniques.<br>
+</p>
+<ul class="org-ul">
+<li>By running the program outside the Erlang virtual machine in an external operating system process.<br></li>
+<li>By running an OS command from within Erlang and capturing the result.<br></li>
+<li>By running the foreign language code inside the Erlang virtual machine. It is useful since it is more efficient than using an external process. However, it is unsafe since if the code of foreign language crashed, it will also bring down the Erlang system. Another disadvantage is it can be used only for languages like C that produce native object code.<br></li>
+</ul>
+
+
+<p>
+<br>
+Here, we will only consider interfacing Erlang using ports and OS commands.<br>
+</p>
+</div>
+</section>
+
+
+<section id="outline-container-org0dca1f4" class="outline-2">
+<h2 id="org0dca1f4"><span class="section-number-2">2</span> How Erlang communicates with external programs</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Erlang communicates with external programs through <b>ports</b>. It is not the port used with address for socket programming. Ports provide a byte-oriented interface to an external program. Erlang can communicate with it by sending and receiving lists of bytes (not Erlang terms).<br>
+</p>
+
+<p>
+However, it is different from socket programming: Ports behave like an Erlang process!<br>
+</p>
+<ul class="org-ul">
+<li>Send message to it.<br></li>
+<li>Register it just like process.<br></li>
+<li>Link to it.<br></li>
+<li>Send messages to it from a remote distributed Erlang node.<br></li>
+<li>If the external program crashes, then an exit signal will be sent to the connected process.<br></li>
+<li>If the connected process dies, then the external program will be killed!<br></li>
+</ul>
+
+<p>
+It is like a pipe, we send a message to a port, the message will be sent to the external program connected to the port. Like a middle-man between Erlang process and external program.<br>
+</p>
+</div>
+</section>
+
+<section id="outline-container-org6e3eaef" class="outline-2">
+<h2 id="org6e3eaef"><span class="section-number-2">3</span> Erlang with C</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgff17434" class="outline-3">
+<h3 id="orgff17434"><span class="section-number-3">3.1</span> Define how to want to use C code</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Suppose we defined the following functions in C program.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span class="org-type">int</span> <span class="org-function-name">sum</span>(<span class="org-type">int</span> <span class="org-variable-name">x</span>, <span class="org-type">int</span> <span class="org-variable-name">y</span>) {
+    <span class="org-keyword">return</span> x + y;
+}
+
+<span class="org-type">int</span> <span class="org-function-name">twice</span>(<span class="org-type">int</span> <span class="org-variable-name">x</span>) {
+    <span class="org-keyword">return</span> 2 * x;
+}
+</pre>
+</div>
+
+<p>
+The goal is to call them from Erlang as<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-erlang">X1 = <span class="org-type">example1</span>:<span class="org-type">sum</span>(11, 22),
+<span class="org-variable-name">Y1</span> = <span class="org-type">example1</span>:<span class="org-type">twice</span>(10),
+</pre>
+</div>
+
+<p>
+We need to hide the detail of the interface to the C program. To do so, we need to turn function calls such as <code>sum(11, 22)</code> and <code>twice(10)</code> into sequence of bytes, such that we could send to port.<br>
+</p>
+<ol class="org-ol">
+<li>When send sequence of bytes to the port, the port <b>adds a length count to the byte sequence</b> and sends the result to the external program.<br></li>
+<li>When the external program replies, the port receives the reply and sends the result to the connected process for the port.<br></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgcf57bb6" class="outline-3">
+<h3 id="orgcf57bb6"><span class="section-number-3">3.2</span> Define protocal</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>All packets start with a 2 bytes which specifies the length of data immidiately followed.<br></li>
+<li>We encode <code>sum(N, M)</code> as bytes sequence <code>[1, N, M]</code>.<br></li>
+<li>We eccode <code>twice(N)</code> as byptes sequence <code>[2, N]</code>.<br></li>
+<li>All arguments and return values are assumed to be a single byte long.<br></li>
+</ul>
+
+<p>
+C program and Erlang program must follow this protocol.<br>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6bfb556" class="outline-3">
+<h3 id="org6bfb556"><span class="section-number-3">3.3</span> The C program</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+3 files<br>
+</p>
+<ul class="org-ul">
+<li><code>example1.c</code><br>
+Contains the function we want to call.<br></li>
+<li><code>example1_driver.c</code><br>
+Manages the byte stream protocol and calls the routines in <code>example1.c</code>.<br></li>
+<li><code>erl_comm.c</code><br>
+Has routines for reading and writing memory buffers.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4cf1ba7" class="outline-3">
+<h3 id="org4cf1ba7"><span class="section-number-3">3.4</span> Comments for C Code</h3>
+<div class="outline-text-3" id="text-3-4">
+<ol class="org-ol">
+<li><p>
+Left shift operator<br>
+Shift the binary bits left by the number of specified number, the position left empty will be filled with 0.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-text">212 = 11010100 (In binary)
+212&lt;&lt;1 = 110101000 (In binary) [Left shift by one bit]
+212&lt;&lt;0 = 11010100 (Shift by 0)
+212&lt;&lt;4 = 110101000000 (In binary) =3392(In decimal)
+</pre>
+</div></li>
+<li><p>
+Right shift operator<br>
+Shift the binary bits right by the number of specified number.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-text">212 = 11010100 (In binary)
+212&gt;&gt;2 = 00110101 (In binary) [Right shift by two bits]
+212&gt;&gt;7 = 00000001 (In binary)
+212&gt;&gt;8 = 00000000 
+212&gt;&gt;0 = 11010100 (No Shift)
+</pre>
+</div></li>
+<li>Hex format is friend of byte because one hex represent 4 bits, so a byte is conveniently represented by 2 hex digits.<br></li>
+<li><p>
+Because port driver add a 2-byte length header which indicates the length of data following it, we need to get that length from the 2-bytes header first.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">len = (buf[0 &lt;&lt; 8]) | buf[1];
+</pre>
+</div>
+<p>
+This is done by combining the two bytes into a single 2-bytes integer.<br>
+</p></li>
+<li><code>ssize_t read(int fd, void *buf, size_t count)</code><br>
+<ul class="org-ul">
+<li>Read up to <code>count</code> bytes from the file descriptor <code>fd</code> into the buffer starting at <code>buf</code>.<br></li>
+<li><p>
+In our example, <code>read_exact</code> will read exact bytes specified by len from file descriptor 0 which is stdin.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span class="org-type">int</span> <span class="org-function-name">read_exact</span>(<span class="org-type">byte</span> *<span class="org-variable-name">buf</span>, <span class="org-type">int</span> <span class="org-variable-name">len</span>) {
+    <span class="org-type">int</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">got</span> = 0;
+    <span class="org-keyword">do</span> {
+        <span class="org-keyword">if</span> ((i = read(0, buf+got, len-got)) &lt;= 0) {
+            <span class="org-keyword">return</span> i;
+        }
+        got += i;
+    } <span class="org-keyword">while</span> (got &lt; len);
+    <span class="org-keyword">return</span> len;
+}
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>write_exact</code> is very similar which write exact bytes into file descriptior 1 which is stdout.<br></li>
+<li>It tries to read <code>len</code> bytes, and records how many bytes it really reads in got. If the got is less then expected, then it keeps reading.<br></li>
+<li>Until, the read return 0 or negative which means<br>
+<ul class="org-ul">
+<li>Return 0, means the starting position for the read operation is at the end of the file or beyond.<br></li>
+<li>Return -1, means no data is available or read unsuccessful because some error happend.<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>
+As opposite of read from stream, we have to write stream with appending 2-bytes as header. This is done by <code>write_cmd</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-C++">write_cmd(buff, 1);
+
+<span class="org-type">int</span> <span class="org-function-name">write_cmd</span>(<span class="org-type">byte</span> *<span class="org-variable-name">buf</span>, <span class="org-type">int</span> <span class="org-variable-name">len</span>) {
+    <span class="org-type">byte</span> <span class="org-variable-name">li</span>;
+    li = (len &gt;&gt; 8) &amp; 0xff;
+    write_exact(&amp;li, 1);
+
+    li = len &amp; 0xff;
+    write_exact(&amp;li, 1);
+    <span class="org-keyword">return</span> write_exact(buf, len);
+}
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>write_cmd</code> wraps the <code>buff</code> which contains the computed result by 2-bytes header.<br></li>
+<li>The key part is converting the <code>len</code> integer into 2-bytes stream and writes one byte after another. And we assume the <code>len</code> represented in bits does not exceed 2 bytes.<br>
+<ul class="org-ul">
+<li><code>0xff</code> is used as 1-byte size filter.<br></li>
+<li><code>(len &gt;&gt; 8) &amp; 0xff</code> gets the higher 1-byte of the header.<br></li>
+<li><code>len &amp; 0xff</code> gets the lower 1-bytes of the header.<br></li>
+</ul></li>
+<li>In a real world scenario, we must take care of Erlang and C have different precision and signedness. This could be difficult.<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgc2d0e02" class="outline-3">
+<h3 id="orgc2d0e02"><span class="section-number-3">3.5</span> The Erlang program</h3>
+</div>
+
+<div id="outline-container-orgad34a44" class="outline-3">
+<h3 id="orgad34a44"><span class="section-number-3">3.6</span> <span class="todo TODO">TODO</span> Comment for Erlang code</h3>
+</div>
+</section>
+
+
+<section id="outline-container-orgeed5cc9" class="outline-2">
+<h2 id="orgeed5cc9"><span class="section-number-2">4</span> References</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><a href="http://erlang.org/doc/tutorial/introduction.html">Interoperability Tutorial</a><br></li>
+<li><a href="https://stackoverflow.com/questions/29817331/converting-erlang-c-port-example-to-erlang-golang">Erlang with GO example</a><br></li>
+</ul>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+</div>
+</footer>
+</body>
+</html>
