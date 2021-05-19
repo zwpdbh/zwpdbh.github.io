@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 17, 2021 -->
+<!-- May 19, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tips-on-Vuejs</title>
@@ -107,11 +107,48 @@ General solution:<br>
 <ul class="org-ul">
 <li>Use <code>watch</code> to dynamically check the value of user input.<br></li>
 <li>Check the backend from <code>watch</code> and put the validation errors input <code>v-text-filed</code> prop <code>error-messages</code>.<br></li>
+<li>Ref: <a href="https://stackoverflow.com/questions/49132167/how-to-validate-vuetify-text-field-asynchronously">How to validate Vuetify text field asynchronously?</a><br></li>
 </ul>
 
 <p>
-Ref: <a href="https://stackoverflow.com/questions/49132167/how-to-validate-vuetify-text-field-asynchronously">How to validate Vuetify text field asynchronously?</a><br>
+For example: we want to validate the text-field for email address. We must ensure the input email address is not duplicated with the existing email addresses from DB.<br>
 </p>
+<div class="org-src-container">
+<pre class="src src-web">&lt;li&gt;
+  &lt;v-text-field
+    v-model="emailInput"
+    :rules="[vEmail]"
+    label="Email"
+    :error-messages="errors"
+  &gt;&lt;/v-text-field&gt;
+&lt;/li&gt;
+</pre>
+</div>
+
+<p>
+Then, in the <code>watch</code> clause:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">watch: {
+  <span class="org-keyword">async</span> emailInput(email) {
+    <span class="org-keyword">if</span> (tools.toBoolean(tools.vEmail(email))) {
+      <span class="org-constant">this</span>.editedItem.email = email;
+
+      <span class="org-keyword">let</span> <span class="org-variable-name">duplicated</span> = <span class="org-keyword">await</span> <span class="org-constant">this</span>.$store.dispatch(
+        <span class="org-string">"checkEmailDuplication"</span>,
+        email
+      );
+      <span class="org-keyword">if</span> (duplicated) {
+        <span class="org-constant">this</span>.errors = [<span class="org-string">"That email has been used."</span>];
+      } <span class="org-keyword">else</span> {
+        <span class="org-constant">this</span>.errors = [];
+      }
+    }
+  },
+  ...
+},
+</pre>
+</div>
 </div>
 </section>
 
@@ -719,7 +756,7 @@ This document record down my problems when working with Vuejs. I will keep updat
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 19, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
