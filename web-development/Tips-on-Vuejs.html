@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 19, 2021 -->
+<!-- May 20, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tips-on-Vuejs</title>
@@ -73,23 +73,24 @@
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#orgdfcae01">1. How to validate Vuetify v-text-field asynchronously?</a></li>
-<li><a href="#org6b3d690">2. How to access different part from component or vice versa?</a>
+<li><a href="#orgfd0eea4">2. How to create your custom template?</a></li>
+<li><a href="#org6b3d690">3. How to access different part from component or vice versa?</a>
 <ul>
-<li><a href="#orga20a567">2.1. How to access state from a plain js file</a></li>
-<li><a href="#org2a4f476">2.2. How to access state from a Vuejs component</a></li>
-<li><a href="#orgc69e14c">2.3. How to access store from Vuejs router</a></li>
-<li><a href="#orgfa71208">2.4. How to access router from Vuejs component</a></li>
+<li><a href="#orga20a567">3.1. How to access state from a plain js file</a></li>
+<li><a href="#org2a4f476">3.2. How to access state from a Vuejs component</a></li>
+<li><a href="#orgc69e14c">3.3. How to access store from Vuejs router</a></li>
+<li><a href="#orgfa71208">3.4. How to access router from Vuejs component</a></li>
 </ul>
 </li>
-<li><a href="#org682ad74">3. How to create currying functions to help validation?</a></li>
-<li><a href="#org7b7bc2e">4. How to use RBA to control section visibility?</a>
+<li><a href="#org682ad74">4. How to create currying functions to help validation?</a></li>
+<li><a href="#org7b7bc2e">5. How to use RBA to control section visibility?</a>
 <ul>
-<li><a href="#orgaaa7487">4.1. Authentication</a></li>
-<li><a href="#org7cf5a9f">4.2. Authorization</a></li>
+<li><a href="#orgaaa7487">5.1. Authentication</a></li>
+<li><a href="#org7cf5a9f">5.2. Authorization</a></li>
 </ul>
 </li>
-<li><a href="#org7019d39">5. How to format Vuejs code?</a></li>
-<li><a href="#org0548ca6">6. Summary</a></li>
+<li><a href="#org7019d39">6. How to format Vuejs code?</a></li>
+<li><a href="#org0548ca6">7. Summary</a></li>
 </ul>
 </div>
 </nav>
@@ -152,9 +153,106 @@ Then, in the <code>watch</code> clause:<br>
 </div>
 </section>
 
-<section id="outline-container-org6b3d690" class="outline-2">
-<h2 id="org6b3d690"><span class="section-number-2">2</span> How to access different part from component or vice versa?</h2>
+<section id="outline-container-orgfd0eea4" class="outline-2">
+<h2 id="orgfd0eea4"><span class="section-number-2">2</span> How to create your custom template?</h2>
 <div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li><p>
+Create your custom component <code>.vue</code> and export it with a specific name as child component. Then, import child component into the parent component.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span class="org-keyword">import</span> EditClientUris from <span class="org-string">"@/components/EditClientUris"</span>;
+<span class="org-keyword">export</span> <span class="org-keyword">default</span> {
+  ...
+  components: {
+    EditClientUris
+  }
+}
+</pre>
+</div></li>
+<li>Use probs to pass data from parent to child<br>
+<ul class="org-ul">
+<li><p>
+Define those probs in child component, in <code>EditClientUris.vue</code>:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">props: {
+  title: String,
+  headers: Array,
+  items: Array,
+  uriType: String,
+  clientId: String
+}
+</pre>
+</div></li>
+<li><p>
+Pass values from parent to child<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-web">&lt;EditClientUris
+  title="Logout URIs"
+  uriType="LOGOUT"
+  v-bind:clientId="currentClientId"
+  v-bind:headers="headersForLogoutUris"
+  v-bind:items="itemsForLogoutUris"
+  ...
+&gt;&lt;/EditClientUris&gt;
+</pre>
+</div>
+<p>
+Here, we pass <code>title</code> and <code>uriType</code> as string literals and pass <code>clientId</code>, <code>headers</code> and <code>items</code> from data binding.<br>
+</p></li>
+</ul></li>
+<li>Use emit to pass event from child to parent<br>
+More often, when some data model within child component has been changed, we need to reflect this change to parent. This is done by custom event. For example, when we saved a new item within child component, we could emit a event and let parent component to catch it.<br>
+<ul class="org-ul">
+<li><p>
+In child component<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">newItemSave() {
+  <span class="org-constant">this</span>.createNewItemDialog = <span class="org-constant">false</span>;
+  <span class="org-constant">this</span>.$emit(<span class="org-string">"addNewItem"</span>, {
+    uri_id: Date.now(),
+    uri: <span class="org-constant">this</span>.newUri,
+    uri_type: <span class="org-constant">this</span>.uriType
+  });
+},
+</pre>
+</div>
+<p>
+Here, we are emitting custom event type <code>addNewItem</code>.<br>
+</p></li>
+<li><p>
+In parent component<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-web">&lt;EditClientUris
+  v-on:addNewItem="addNewUri",
+  ...
+&gt;&lt;/EditClientUris&gt;
+</pre>
+</div>
+<p>
+Here, we are catching the custom event from parent component using <code>v-on:addNewItem</code> and handle it using local method <code>addNewUri</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">methods: {
+  addNewUri(uriInfo) {
+    <span class="org-constant">this</span>.$store.state.clients.clientDetail?.uris.push(uriInfo);
+  },
+  ...
+}
+</pre>
+</div></li>
+</ul></li>
+</ol>
+</div>
+</section>
+
+<section id="outline-container-org6b3d690" class="outline-2">
+<h2 id="org6b3d690"><span class="section-number-2">3</span> How to access different part from component or vice versa?</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 The core part of Vuejs application is the &ldquo;store&rdquo; which does the state management for Vuejs application. It is from using Vuex package. After install it, the standard structure of project will contain a &ldquo;store&rdquo; folder.<br>
 Inside, there is an <code>index.js</code> in which it export the store:<br>
@@ -214,8 +312,8 @@ Here, we are accessing state from an action in a state module.<br>
 </div>
 
 <div id="outline-container-orga20a567" class="outline-3">
-<h3 id="orga20a567"><span class="section-number-3">2.1</span> How to access state from a plain js file</h3>
-<div class="outline-text-3" id="text-2-1">
+<h3 id="orga20a567"><span class="section-number-3">3.1</span> How to access state from a plain js file</h3>
+<div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">import</span> store from <span class="org-string">'./index.js'</span>;
 </pre>
@@ -227,8 +325,8 @@ Now, just use it as <code>store.state.&lt;module_name&gt;.&lt;state&gt;</code>. 
 </div>
 
 <div id="outline-container-org2a4f476" class="outline-3">
-<h3 id="org2a4f476"><span class="section-number-3">2.2</span> How to access state from a Vuejs component</h3>
-<div class="outline-text-3" id="text-2-2">
+<h3 id="org2a4f476"><span class="section-number-3">3.2</span> How to access state from a Vuejs component</h3>
+<div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-keyword">return</span> <span class="org-constant">this</span>.$store.state.roles.roleDetail;
 </pre>
@@ -240,8 +338,8 @@ Need to access it with <code>this.$store</code>.<br>
 </div>
 
 <div id="outline-container-orgc69e14c" class="outline-3">
-<h3 id="orgc69e14c"><span class="section-number-3">2.3</span> How to access store from Vuejs router</h3>
-<div class="outline-text-3" id="text-2-3">
+<h3 id="orgc69e14c"><span class="section-number-3">3.3</span> How to access store from Vuejs router</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
 In <code>router/index.js</code><br>
 </p>
@@ -269,8 +367,8 @@ router.beforeEach((to, from, next) =&gt; {
 </div>
 
 <div id="outline-container-orgfa71208" class="outline-3">
-<h3 id="orgfa71208"><span class="section-number-3">2.4</span> How to access router from Vuejs component</h3>
-<div class="outline-text-3" id="text-2-4">
+<h3 id="orgfa71208"><span class="section-number-3">3.4</span> How to access router from Vuejs component</h3>
+<div class="outline-text-3" id="text-3-4">
 <div class="org-src-container">
 <pre class="src src-js"><span class="org-constant">this</span>.$router.push({ name: <span class="org-string">"Home"</span> });
 </pre>
@@ -284,8 +382,8 @@ This direct user to router path &ldquo;Home&rdquo;.<br>
 
 
 <section id="outline-container-org682ad74" class="outline-2">
-<h2 id="org682ad74"><span class="section-number-2">3</span> How to create currying functions to help validation?</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="org682ad74"><span class="section-number-2">4</span> How to create currying functions to help validation?</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 In Vuejs, we propertly need to create different kind of &ldquo;rules&rdquo; to validate forms, especially textfile.<br>
 </p>
@@ -365,12 +463,12 @@ We want to create several different rule functions which validate no-space and n
 
 
 <section id="outline-container-org7b7bc2e" class="outline-2">
-<h2 id="org7b7bc2e"><span class="section-number-2">4</span> How to use RBA to control section visibility?</h2>
-<div class="outline-text-2" id="text-4">
+<h2 id="org7b7bc2e"><span class="section-number-2">5</span> How to use RBA to control section visibility?</h2>
+<div class="outline-text-2" id="text-5">
 </div>
 <div id="outline-container-orgaaa7487" class="outline-3">
-<h3 id="orgaaa7487"><span class="section-number-3">4.1</span> Authentication</h3>
-<div class="outline-text-3" id="text-4-1">
+<h3 id="orgaaa7487"><span class="section-number-3">5.1</span> Authentication</h3>
+<div class="outline-text-3" id="text-5-1">
 <p>
 This ensures the user visits certains pages must login. We control which pages need authentication from Vuejs router.<br>
 </p>
@@ -436,8 +534,8 @@ The <code>isAuthenticated</code> is a getter from <code>store/auth.js</code>. Re
 </div>
 
 <div id="outline-container-org7cf5a9f" class="outline-3">
-<h3 id="org7cf5a9f"><span class="section-number-3">4.2</span> Authorization</h3>
-<div class="outline-text-3" id="text-4-2">
+<h3 id="org7cf5a9f"><span class="section-number-3">5.2</span> Authorization</h3>
+<div class="outline-text-3" id="text-5-2">
 <p>
 Authorization refers the process of check if the user has the permissions, roles or scopes to send API request to certain endpoint of backend API service.<br>
 </p>
@@ -635,8 +733,8 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 
 
 <section id="outline-container-org7019d39" class="outline-2">
-<h2 id="org7019d39"><span class="section-number-2">5</span> How to format Vuejs code?</h2>
-<div class="outline-text-2" id="text-5">
+<h2 id="org7019d39"><span class="section-number-2">6</span> How to format Vuejs code?</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 Vuejs code contains js and html tags, so it is very helpful to format code with a common configuration. So, multiple developer could work on the project with same style. Here, we choose prettier + eslint.<br>
 </p>
@@ -745,8 +843,8 @@ This will format code whenever you save file.<br>
 
 
 <section id="outline-container-org0548ca6" class="outline-2">
-<h2 id="org0548ca6"><span class="section-number-2">6</span> Summary</h2>
-<div class="outline-text-2" id="text-6">
+<h2 id="org0548ca6"><span class="section-number-2">7</span> Summary</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 This document record down my problems when working with Vuejs. I will keep updating this when new one comes.</p>
 </div>
@@ -756,7 +854,7 @@ This document record down my problems when working with Vuejs. I will keep updat
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 19, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on May 20, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
 </div>
 </footer>
 </body>
