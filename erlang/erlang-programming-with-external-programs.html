@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 17, 2021 -->
+<!-- Aug 15, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Erlang Programming with external programs</title>
@@ -14,7 +14,7 @@
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
 <script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
 <!--/*--><![CDATA[/*><!--*/
      function CodeHighlightOn(elem, id)
      {
@@ -91,7 +91,7 @@
 
 
 <section id="outline-container-orge1eb39a" class="outline-2">
-<h2 id="orge1eb39a"><span class="section-number-2">1</span> Introduction</h2>
+<h2 id="orge1eb39a"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 When I learn Erlang, it always bother me about its speed. Surely, it is not as fast as C/C++, but it has unique advantages for doing distributed programming. Luckly, Erlang has multiple ways of doing interface techniques.<br>
@@ -112,7 +112,7 @@ Here, we will only consider interfacing Erlang using ports and OS commands.<br>
 
 
 <section id="outline-container-org890a9a1" class="outline-2">
-<h2 id="org890a9a1"><span class="section-number-2">2</span> How Erlang communicates with external programs</h2>
+<h2 id="org890a9a1"><span class="section-number-2">2.</span> How Erlang communicates with external programs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Erlang communicates with external programs through <b>ports</b>. It is not the port used with address for socket programming. Ports provide a byte-oriented interface to an external program. Erlang can communicate with it by sending and receiving lists of bytes (not Erlang terms).<br>
@@ -137,11 +137,11 @@ It is like a pipe, we send a message to a port, the message will be sent to the 
 </section>
 
 <section id="outline-container-org520ad87" class="outline-2">
-<h2 id="org520ad87"><span class="section-number-2">3</span> Erlang with C</h2>
+<h2 id="org520ad87"><span class="section-number-2">3.</span> Erlang with C</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 <div id="outline-container-org479f0b3" class="outline-3">
-<h3 id="org479f0b3"><span class="section-number-3">3.1</span> Define how to want to use C code</h3>
+<h3 id="org479f0b3"><span class="section-number-3">3.1.</span> Define how to want to use C code</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Suppose we defined the following functions in C program.<br>
@@ -161,8 +161,8 @@ Suppose we defined the following functions in C program.<br>
 The goal is to call them from Erlang as<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-erlang">X1 = <span class="org-type">example1</span>:<span class="org-type">sum</span>(11, 22),
-<span class="org-variable-name">Y1</span> = <span class="org-type">example1</span>:<span class="org-type">twice</span>(10),
+<pre class="src src-erlang">X1 = example1:sum(11, 22),
+Y1 = example1:twice(10),
 </pre>
 </div>
 
@@ -177,7 +177,7 @@ We need to hide the detail of the interface to the C program. To do so, we need 
 </div>
 
 <div id="outline-container-orge228872" class="outline-3">
-<h3 id="orge228872"><span class="section-number-3">3.2</span> Define protocal</h3>
+<h3 id="orge228872"><span class="section-number-3">3.2.</span> Define protocal</h3>
 <div class="outline-text-3" id="text-3-2">
 <ul class="org-ul">
 <li>All packets start with a 2 bytes which specifies the length of data immidiately followed.<br></li>
@@ -193,7 +193,7 @@ C program and Erlang program must follow this protocol.<br>
 </div>
 
 <div id="outline-container-org10df696" class="outline-3">
-<h3 id="org10df696"><span class="section-number-3">3.3</span> The C program</h3>
+<h3 id="org10df696"><span class="section-number-3">3.3.</span> The C program</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 3 files<br>
@@ -210,7 +210,7 @@ Has routines for reading and writing memory buffers.<br></li>
 </div>
 
 <div id="outline-container-org0205ac1" class="outline-3">
-<h3 id="org0205ac1"><span class="section-number-3">3.4</span> Comments for C Code</h3>
+<h3 id="org0205ac1"><span class="section-number-3">3.4.</span> Comments for C Code</h3>
 <div class="outline-text-3" id="text-3-4">
 <ol class="org-ol">
 <li><p>
@@ -238,15 +238,16 @@ Shift the binary bits right by the number of specified number.<br>
 </div></li>
 <li>Hex format is friend of byte because one hex represent 4 bits, so a byte is conveniently represented by 2 hex digits.<br></li>
 <li><p>
-Because port driver add a 2-byte length header which indicates the length of data following it, we need to get that length from the 2-bytes header first.<br>
+Because port driver add a 2-byte length header which indicates the length of data following it, we need to <b>get that length from the 2-bytes header</b> first. This is done by combining the two bytes into a single 2-bytes integer.<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-C++">len = (buf[0 &lt;&lt; 8]) | buf[1];
+<pre class="src src-C++">len = (buf[0] &lt;&lt; 8) | buf[1];
 </pre>
 </div>
-<p>
-This is done by combining the two bytes into a single 2-bytes integer.<br>
-</p></li>
+<ul class="org-ul">
+<li>First, left shift buf[0] 8 bits, this will create a 16-bits (2-bytes) with higher 8 bits holds the buf[0].<br></li>
+<li>Then, that 16-bits is doing OR operation to merge the lower 8-bits with buf[1]. The result is [buf0, buf1] totally 16-bits which contains the length of the following bytes.<br></li>
+</ul></li>
 <li><code>ssize_t read(int fd, void *buf, size_t count)</code><br>
 <ul class="org-ul">
 <li>Read up to <code>count</code> bytes from the file descriptor <code>fd</code> into the buffer starting at <code>buf</code>.<br></li>
@@ -277,7 +278,7 @@ In our example, <code>read_exact</code> will read exact bytes specified by len f
 </ul></li>
 </ul></li>
 <li><p>
-As opposite of read from stream, we have to write stream with appending 2-bytes as header. This is done by <code>write_cmd</code><br>
+As opposite of read from stream, we have to write stream with <b>appending 2-bytes as header</b>. This is done by <code>write_cmd</code><br>
 </p>
 <div class="org-src-container">
 <pre class="src src-C++">write_cmd(buff, 1);
@@ -298,8 +299,8 @@ As opposite of read from stream, we have to write stream with appending 2-bytes 
 <li>The key part is converting the <code>len</code> integer into 2-bytes stream and writes one byte after another. And we assume the <code>len</code> represented in bits does not exceed 2 bytes.<br>
 <ul class="org-ul">
 <li><code>0xff</code> is used as 1-byte size filter.<br></li>
-<li><code>(len &gt;&gt; 8) &amp; 0xff</code> gets the higher 1-byte of the header.<br></li>
-<li><code>len &amp; 0xff</code> gets the lower 1-bytes of the header.<br></li>
+<li><code>(len &gt;&gt; 8) &amp; 0xff</code> gets the <b>higher</b> 1-byte of the header.<br></li>
+<li><code>len &amp; 0xff</code> gets the <b>lower</b> 1-bytes of the header.<br></li>
 </ul></li>
 <li>In a real world scenario, we must take care of Erlang and C have different precision and signedness. This could be difficult.<br></li>
 </ul></li>
@@ -309,17 +310,17 @@ As opposite of read from stream, we have to write stream with appending 2-bytes 
 
 
 <div id="outline-container-org009a777" class="outline-3">
-<h3 id="org009a777"><span class="section-number-3">3.5</span> The Erlang program</h3>
+<h3 id="org009a777"><span class="section-number-3">3.5.</span> The Erlang program</h3>
 </div>
 
 <div id="outline-container-org27dbef5" class="outline-3">
-<h3 id="org27dbef5"><span class="section-number-3">3.6</span> <span class="todo TODO">TODO</span> Comment for Erlang code</h3>
+<h3 id="org27dbef5"><span class="section-number-3">3.6.</span> <span class="todo TODO">TODO</span> Comment for Erlang code</h3>
 </div>
 </section>
 
 
 <section id="outline-container-org29ffe64" class="outline-2">
-<h2 id="org29ffe64"><span class="section-number-2">4</span> References</h2>
+<h2 id="org29ffe64"><span class="section-number-2">4.</span> References</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="http://erlang.org/doc/tutorial/introduction.html">Interoperability Tutorial</a><br></li>
@@ -332,7 +333,7 @@ As opposite of read from stream, we have to write stream with appending 2-bytes 
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Aug 15, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
 </div>
 </footer>
 </body>
