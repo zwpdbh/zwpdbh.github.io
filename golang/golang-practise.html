@@ -84,7 +84,7 @@
 <li><a href="#orgb1b4b5c">2.4.2. Unit test with AWS SDK</a></li>
 </ul>
 </li>
-<li><a href="#orgf203b56">2.5. References</a></li>
+<li><a href="#orgde5dbab">2.5. References</a></li>
 </ul>
 </li>
 <li><a href="#org570d407">3. The practise from code</a>
@@ -107,9 +107,9 @@
 <ul>
 <li><a href="#org92842fa">3.4.1. How to convert from Unix timestamp to time.Time</a></li>
 <li><a href="#orgf7890c3">3.4.2. How to convert from time.Time to Unix timestamp</a></li>
-<li><a href="#org7d6e503">3.4.3. How to format time</a></li>
+<li><a href="#orgff6d68f">3.4.3. How to format time</a></li>
 <li><a href="#org7d0e7b5">3.4.4. How to parse a string to time.Time</a></li>
-<li><a href="#orgff6d68f">3.4.5. How to format time</a></li>
+<li><a href="#orgfe4fed7">3.4.5. How to format time</a></li>
 <li><a href="#org9c019f5">3.4.6. How to set duration</a></li>
 <li><a href="#orgc7fa975">3.4.7. How to postpone execution</a></li>
 <li><a href="#org2c95ec0">3.4.8. How to repeated do something with time.Duration</a></li>
@@ -125,7 +125,7 @@
 <li><a href="#org1eab74a">4.1. Understand interface</a></li>
 <li><a href="#org6d24183">4.2. Use pipe to switch from Writer to Reader</a></li>
 <li><a href="#orgf21196f">4.3. An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</a></li>
-<li><a href="#orgde5dbab">4.4. References</a></li>
+<li><a href="#orgc0c4457">4.4. References</a></li>
 </ul>
 </li>
 <li><a href="#orgf5cbddf">5. Build code into executable binary file</a></li>
@@ -360,8 +360,8 @@ strs = aws.<span class="org-function-name">StringValueSlice</span>(strPtrs)
 </div>
 
 
-<div id="outline-container-orgf203b56" class="outline-3">
-<h3 id="orgf203b56"><span class="section-number-3">2.5.</span> References</h3>
+<div id="outline-container-orgde5dbab" class="outline-3">
+<h3 id="orgde5dbab"><span class="section-number-3">2.5.</span> References</h3>
 <div class="outline-text-3" id="text-2-5">
 <ul class="org-ul">
 <li><a href="https://blog.golang.org/using-go-modules#:~:text=A%20module%20is%20a%20collection,needed%20for%20a%20successful%20build.">Using Go modules</a><br></li>
@@ -430,7 +430,7 @@ Basically it is a stander master-worker structure. This section records down the
     <span class="org-builtin">panic</span>(err)
   }
 
-  <span class="org-comment-delimiter">// </span><span class="org-comment">cmd used on command-line: node index.js -j input_clouddash_dev.json -w NX1973_Worker.3100 -m C -p zeus</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">cmd used on command-line: node index.js -j input_clouddash_dev.json -w Worker.3100 -m C -p zeus</span>
   <span class="org-variable-name">app</span> := <span class="org-string">"node"</span>
   <span class="org-variable-name">arg0</span> := <span class="org-string">"index.js"</span>
     ...
@@ -643,8 +643,8 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </div>
 </div>
 
-<div id="outline-container-org7d6e503" class="outline-4">
-<h4 id="org7d6e503"><span class="section-number-4">3.4.3.</span> How to format time</h4>
+<div id="outline-container-orgff6d68f" class="outline-4">
+<h4 id="orgff6d68f"><span class="section-number-4">3.4.3.</span> How to format time</h4>
 <div class="outline-text-4" id="text-3-4-3">
 <div class="org-src-container">
 <pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">fromTimeToStr</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>, <span class="org-variable-name">format</span> <span class="org-type">string</span>, <span class="org-variable-name">asUTC</span> <span class="org-type">bool</span>) <span class="org-type">string</span> {
@@ -672,8 +672,8 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgff6d68f" class="outline-4">
-<h4 id="orgff6d68f"><span class="section-number-4">3.4.5.</span> How to format time</h4>
+<div id="outline-container-orgfe4fed7" class="outline-4">
+<h4 id="orgfe4fed7"><span class="section-number-4">3.4.5.</span> How to format time</h4>
 </div>
 <div id="outline-container-org9c019f5" class="outline-4">
 <h4 id="org9c019f5"><span class="section-number-4">3.4.6.</span> How to set duration</h4>
@@ -812,7 +812,7 @@ flag.<span class="org-function-name">IntVar</span>(&amp;n, <span class="org-stri
 flag.<span class="org-function-name">IntVar</span>(&amp;p, <span class="org-string">"p"</span>, 1, <span class="org-string">"how many patch"</span>)
 flag.<span class="org-function-name">IntVar</span>(&amp;t, <span class="org-string">"t"</span>, 5, <span class="org-string">"time interval(seconds) between patch"</span>)
 flag.<span class="org-function-name">StringVar</span>(&amp;stackEnv, <span class="org-string">"e"</span>, <span class="org-string">"dev"</span>, <span class="org-string">"stack stackEnv, for example: dev, preprod...etc"</span>)
-flag.<span class="org-function-name">StringVar</span>(&amp;workerVersion, <span class="org-string">"w"</span>, <span class="org-string">"NX1973_AtlasWorker.3100"</span>, <span class="org-string">"the worker version used for tester, by default it will use NX1973_AtlasWorker.3100"</span>)
+flag.<span class="org-function-name">StringVar</span>(&amp;workerVersion, <span class="org-string">"w"</span>, <span class="org-string">"Worker.3100"</span>, <span class="org-string">"the worker version used for tester, by default it will use Worker.3100"</span>)
 flag.<span class="org-function-name">StringVar</span>(&amp;jsonFile, <span class="org-string">"j"</span>, <span class="org-string">"input_clouddash_dev.json"</span>, <span class="org-string">"the json file contains the APIs used by tester, by default it will use input_clouddash_dev.json"</span>)
 flag.<span class="org-function-name">BoolVar</span>(&amp;setUTC, <span class="org-string">"utc"</span>, <span class="org-constant">false</span>, <span class="org-string">"time displayed in log will be using UTC by default, -utc=true to set timestamp in UTC"</span>)
 flag.<span class="org-function-name">Parse</span>()
@@ -985,8 +985,8 @@ fmt.<span class="org-function-name">Println</span>(<span class="org-function-nam
 </div>
 </div>
 
-<div id="outline-container-orgde5dbab" class="outline-3">
-<h3 id="orgde5dbab"><span class="section-number-3">4.4.</span> References</h3>
+<div id="outline-container-orgc0c4457" class="outline-3">
+<h3 id="orgc0c4457"><span class="section-number-3">4.4.</span> References</h3>
 <div class="outline-text-3" id="text-4-4">
 <ul class="org-ul">
 <li><a href="https://nathanleclaire.com/blog/2014/07/19/demystifying-golangs-io-dot-reader-and-io-dot-writer-interfaces/">Demystifying Golang&rsquo;s io.Reader and io.Writer Interfaces</a><br></li>
