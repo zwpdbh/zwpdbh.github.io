@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Aug 15, 2021 -->
+<!-- Sep 08, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>赵伟的简历</title>
@@ -78,24 +78,25 @@
 <ul>
 <li><a href="#orga1466f8">3.1. 西门子工业软件（2018-10 至今）</a>
 <ul>
-<li><a href="#org8b009eb">3.1.1. Distributed service admin-dashboard (from 2020/07 to present)</a></li>
-<li><a href="#orgdd3970d">3.1.2. Admin-dashbaord for stateful service based on AWS (from 2019/05 to present)</a></li>
-<li><a href="#org0e96b1c">3.1.3. Tester for end-to-end test (from 2019/01 to present)</a></li>
+<li><a href="#org65ba09b">3.1.1. Loadtest using Golang (from 2021/06 to present)</a></li>
+<li><a href="#org8b009eb">3.1.2. Distributed service admin-dashboard (from 2020/07 to present)</a></li>
+<li><a href="#orgdd3970d">3.1.3. Admin-dashbaord for stateful service based on AWS (from 2019/05 to present)</a></li>
+<li><a href="#org0e96b1c">3.1.4. Tester for end-to-end test (from 2019/01 to present)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org5c6b707">4. 工作经验(非程序开发)</a>
+<li><a href="#org42a262e">4. 专业知识</a>
 <ul>
-<li><a href="#org66c5d73">4.1. ATOS(源讯) (2012/02 - 2015/06)</a></li>
-<li><a href="#org805f74b">4.2. Jobkook.com(2010/02-2011/02)</a></li>
+<li><a href="#org1c1aa38">4.1. 核心技能</a></li>
+<li><a href="#org916ef72">4.2. 经验</a></li>
+<li><a href="#org81ddfbd">4.3. 熟悉</a></li>
 </ul>
 </li>
-<li><a href="#org42a262e">5. 专业知识</a>
+<li><a href="#org5c6b707">5. 工作经验(非程序开发)</a>
 <ul>
-<li><a href="#org1c1aa38">5.1. 核心技能</a></li>
-<li><a href="#org916ef72">5.2. 经验</a></li>
-<li><a href="#org81ddfbd">5.3. 熟悉</a></li>
+<li><a href="#org66c5d73">5.1. ATOS(源讯) (2012/02 - 2015/06)</a></li>
+<li><a href="#org805f74b">5.2. Jobkook.com(2010/02-2011/02)</a></li>
 </ul>
 </li>
 <li><a href="#orgc1a77ab">6. 兴趣爱好</a></li>
@@ -146,51 +147,88 @@
 </ul>
 </div>
 
-<div id="outline-container-org8b009eb" class="outline-4">
-<h4 id="org8b009eb"><span class="section-number-4">3.1.1.</span> Distributed service admin-dashboard (from 2020/07 to present)</h4>
+<div id="outline-container-org65ba09b" class="outline-4">
+<h4 id="org65ba09b"><span class="section-number-4">3.1.1.</span> Loadtest using Golang (from 2021/06 to present)</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <p>
-Admin-dashboard 由前端（使用vuejs）和后端（使用nodejs）组成. 这个dashboard是为了控制distributed-service.<br>
-我在其中的职责:<br>
+使用Golang的并发功能来执行已有的javascript脚本, 收集和处理每个执行脚本的stdout和stderr, 最后汇总数据.<br>
+</p>
+
+<p>
+<br>
+在这个项目里,包含 以下的<a href="https://zwpdbh.github.io/golang/golang-practise.html">Golang实践</a>:<br>
 </p>
 <ul class="org-ul">
+<li>网络编程使用websocket, socket和http<br></li>
+<li>Concurrent programming 使用 <code>sync.WaitGroup</code>, <code>goroutine + channels</code>.<br></li>
+<li>使用AWS提供的接口来做单元测试.<br></li>
+<li>根据应用层的协议来处理socket链接.<br></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org8b009eb" class="outline-4">
+<h4 id="org8b009eb"><span class="section-number-4">3.1.2.</span> Distributed service admin-dashboard (from 2020/07 to present)</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+Admin-dashboard 由前端（使用vuejs）和后端（使用nodejs）组成.<br>
+</p>
+
+<p>
+<br>
+我在其中的职责:<br>
+</p>
+<ol class="org-ol">
 <li>设计和实施关系型数据模型 (postgreSQL)<br></li>
 <li>前端设计和实施(Vuejs)<br></li>
 <li>后端设计和实施(Nodejs)<br></li>
 <li>修改node-oidc-provider 来做OAuth2.0 认证服务<br></li>
-</ul>
+<li>代码的提交和发布管理, 使用GitLab CICD:<br>
+<ul class="org-ul">
+<li>编译代码, 准备docker镜像<br></li>
+<li>使用Nginx镜像做前端的Web服务器和后端的透明代理.<br></li>
+<li>发布镜像到S3<br></li>
+<li>编写AWS cloudformation 或者使用Terraform来创建和管理AWS ECS.<br></li>
+</ul></li>
+</ol>
 </div>
 </div>
 
 <div id="outline-container-orgdd3970d" class="outline-4">
-<h4 id="orgdd3970d"><span class="section-number-4">3.1.2.</span> Admin-dashbaord for stateful service based on AWS (from 2019/05 to present)</h4>
-<div class="outline-text-4" id="text-3-1-2">
+<h4 id="orgdd3970d"><span class="section-number-4">3.1.3.</span> Admin-dashbaord for stateful service based on AWS (from 2019/05 to present)</h4>
+<div class="outline-text-4" id="text-3-1-3">
 <p>
 由于我们很多的服务是使用AWS cloud, 为了控制各类微服务,我们构建了一个admin-dashboard 用来方便管理线上的各种服务. 其内容包括:<br>
 </p>
-<ul class="org-ul">
+<ol class="org-ol">
 <li>日志搜索<br></li>
 <li>AWS EC2 task 管理<br></li>
 <li>管理stateful service worker pool<br></li>
 <li>基于角色的权限控制<br></li>
-</ul>
+</ol>
 
 <p>
 我的职责包括:<br>
 </p>
-<ul class="org-ul">
+<ol class="org-ol">
 <li>实施前端和后端, 尤其是关于角色的权限控制和登陆<br></li>
 <li>使用Docker + GitLab + AWS cloudformation 来进行自动化部署<br></li>
 <li>对Stateful-service 进行排错<br></li>
-</ul>
+</ol>
 </div>
 </div>
 
 <div id="outline-container-org0e96b1c" class="outline-4">
-<h4 id="org0e96b1c"><span class="section-number-4">3.1.3.</span> Tester for end-to-end test (from 2019/01 to present)</h4>
-<div class="outline-text-4" id="text-3-1-3">
+<h4 id="org0e96b1c"><span class="section-number-4">3.1.4.</span> Tester for end-to-end test (from 2019/01 to present)</h4>
+<div class="outline-text-4" id="text-3-1-4">
 <p>
-基于我们的微服务架构, 我们需要一个测试工具来进行端到端的检测. 我的职责包括:<br>
+基于我们的微服务架构, 我们需要一个测试工具来进行端到端的检测.<br>
+</p>
+
+<p>
+<br>
+我的职责包括:<br>
 </p>
 <ul class="org-ul">
 <li>使用nodejs, websocket和socket 来实现这个脚本工具.<br></li>
@@ -202,13 +240,75 @@ Admin-dashboard 由前端（使用vuejs）和后端（使用nodejs）组成. 这
 </div>
 </section>
 
-<section id="outline-container-org5c6b707" class="outline-2">
-<h2 id="org5c6b707"><span class="section-number-2">4.</span> 工作经验(非程序开发)</h2>
+<section id="outline-container-org42a262e" class="outline-2">
+<h2 id="org42a262e"><span class="section-number-2">4.</span> 专业知识</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org66c5d73" class="outline-3">
-<h3 id="org66c5d73"><span class="section-number-3">4.1.</span> ATOS(源讯) (2012/02 - 2015/06)</h3>
+<div id="outline-container-org1c1aa38" class="outline-3">
+<h3 id="org1c1aa38"><span class="section-number-3">4.1.</span> 核心技能</h3>
 <div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>使用Golang进行Concurrent programming.<br></li>
+<li>熟悉算法和数据结构.<br></li>
+<li>好奇心和兴趣驱动的快速学习能力. 比如使用Erlang/Elixir来探索分布式和使用OCaml来理解algebraic data type.<br></li>
+<li>对类Unix操作系统的熟悉和理解.<br></li>
+<li>Web全栈开发使用JavaScript.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org916ef72" class="outline-3">
+<h3 id="org916ef72"><span class="section-number-3">4.2.</span> 经验</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>使用Python进行机器学习, 比如 PCA, 聚类和神经网络.<br></li>
+<li>面向对象编程使用C++和Java<br></li>
+<li>Nodejs(Express)<br></li>
+<li>Vuejs<br></li>
+<li>Network programming, 比如TCP/IP sockt, websocket.<br></li>
+<li>数据库<br>
+<ul class="org-ul">
+<li>PostgreSQL<br></li>
+<li>AWS DynamoDB<br></li>
+</ul></li>
+<li>Devop包括<br>
+<ul class="org-ul">
+<li>使用AWS cloudformation或者Terraform来定义AWS的各种资源:<br>
+<ul class="org-ul">
+<li>发布镜像到S3<br></li>
+<li>创建ECS<br></li>
+<li>使用cloudwatch管理服务日志<br></li>
+<li>根据服务日志定义收集的数据并建立报警机制<br></li>
+</ul></li>
+<li>GitLab CICD<br></li>
+<li>Docker<br></li>
+<li>Nginx<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org81ddfbd" class="outline-3">
+<h3 id="org81ddfbd"><span class="section-number-3">4.3.</span> 熟悉</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>Erlang/Elixir<br></li>
+<li>OCaml<br></li>
+<li>Lisp<br></li>
+<li>iOS and OS x programming using Swift<br></li>
+<li>Linux driver development<br></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org5c6b707" class="outline-2">
+<h2 id="org5c6b707"><span class="section-number-2">5.</span> 工作经验(非程序开发)</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org66c5d73" class="outline-3">
+<h3 id="org66c5d73"><span class="section-number-3">5.1.</span> ATOS(源讯) (2012/02 - 2015/06)</h3>
+<div class="outline-text-3" id="text-5-1">
 <p>
 作为一名Linux系统维护工程师, 我在ATOS的工作包括:<br>
 </p>
@@ -227,67 +327,11 @@ Admin-dashboard 由前端（使用vuejs）和后端（使用nodejs）组成. 这
 </div>
 </div>
 <div id="outline-container-org805f74b" class="outline-3">
-<h3 id="org805f74b"><span class="section-number-3">4.2.</span> Jobkook.com(2010/02-2011/02)</h3>
-<div class="outline-text-3" id="text-4-2">
+<h3 id="org805f74b"><span class="section-number-3">5.2.</span> Jobkook.com(2010/02-2011/02)</h3>
+<div class="outline-text-3" id="text-5-2">
 <p>
 维护内部使用的Windows系统, 包括: Outlook, DNS, 以及AD.<br>
 </p>
-</div>
-</div>
-</section>
-
-<section id="outline-container-org42a262e" class="outline-2">
-<h2 id="org42a262e"><span class="section-number-2">5.</span> 专业知识</h2>
-<div class="outline-text-2" id="text-5">
-</div>
-<div id="outline-container-org1c1aa38" class="outline-3">
-<h3 id="org1c1aa38"><span class="section-number-3">5.1.</span> 核心技能</h3>
-<div class="outline-text-3" id="text-5-1">
-<ul class="org-ul">
-<li>算法和数据结构<br></li>
-<li>对于操作系统的理解<br></li>
-<li>自我驱动的强烈好奇心. 比如使用Erlang/Elixir来探索分布式和使用OCaml来理解algebraic data type.<br></li>
-<li>面向对象编程(Java, C++)<br></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org916ef72" class="outline-3">
-<h3 id="org916ef72"><span class="section-number-3">5.2.</span> 经验</h3>
-<div class="outline-text-3" id="text-5-2">
-<ul class="org-ul">
-<li>JavaScript<br></li>
-<li>Nodejs(Express)<br></li>
-<li>Vuejs<br></li>
-<li>Network programming, such TCP/IP sockt, websocket.<br></li>
-<li>Database including<br>
-<ul class="org-ul">
-<li>PostgreSQL<br></li>
-<li>Oracle<br></li>
-</ul></li>
-<li>Devop tools, including<br>
-<ul class="org-ul">
-<li>GitLab CICD<br></li>
-<li>Docker<br></li>
-<li>Terraform<br></li>
-</ul></li>
-<li>AWS cloud infrastructure<br></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org81ddfbd" class="outline-3">
-<h3 id="org81ddfbd"><span class="section-number-3">5.3.</span> 熟悉</h3>
-<div class="outline-text-3" id="text-5-3">
-<ul class="org-ul">
-<li>Erlang/Elixir<br></li>
-<li>OCaml<br></li>
-<li>Golang<br></li>
-<li>Python<br></li>
-<li>Lisp<br></li>
-<li>iOS and OS x programming using Swift<br></li>
-<li>Linux driver development<br></li>
-</ul>
 </div>
 </div>
 </section>
@@ -307,7 +351,7 @@ Admin-dashboard 由前端（使用vuejs）和后端（使用nodejs）组成. 这
 <h2 id="orgcb1b79c"><span class="section-number-2">7.</span> 联系方式</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
-<li>WeChat: 15811257483<br></li>
+<li>WeChat: <code>15811257483</code><br></li>
 <li>Email: <code>hyperion_z@outlook.com</code></li>
 </ul>
 </div>
@@ -317,7 +361,7 @@ Admin-dashboard 由前端（使用vuejs）和后端（使用nodejs）组成. 这
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Aug 15, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
+  Last updated on Sep 08, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
 </div>
 </footer>
 </body>

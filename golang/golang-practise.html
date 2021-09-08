@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Aug 30, 2021 -->
+<!-- Sep 08, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Practise on Golang</title>
@@ -84,7 +84,7 @@
 <li><a href="#orgb1b4b5c">2.4.2. Unit test with AWS SDK</a></li>
 </ul>
 </li>
-<li><a href="#orgde5dbab">2.5. References</a></li>
+<li><a href="#orgc0c4457">2.5. References</a></li>
 </ul>
 </li>
 <li><a href="#org570d407">3. The practise from code</a>
@@ -107,9 +107,9 @@
 <ul>
 <li><a href="#org92842fa">3.4.1. How to convert from Unix timestamp to time.Time</a></li>
 <li><a href="#orgf7890c3">3.4.2. How to convert from time.Time to Unix timestamp</a></li>
-<li><a href="#orgff6d68f">3.4.3. How to format time</a></li>
+<li><a href="#orgfe4fed7">3.4.3. How to format time</a></li>
 <li><a href="#org7d0e7b5">3.4.4. How to parse a string to time.Time</a></li>
-<li><a href="#orgfe4fed7">3.4.5. How to format time</a></li>
+<li><a href="#org3ccb5fb">3.4.5. How to format time</a></li>
 <li><a href="#org9c019f5">3.4.6. How to set duration</a></li>
 <li><a href="#orgc7fa975">3.4.7. How to postpone execution</a></li>
 <li><a href="#org2c95ec0">3.4.8. How to repeated do something with time.Duration</a></li>
@@ -123,9 +123,11 @@
 <li><a href="#org7790694">4. Understand Reader and Writer interface</a>
 <ul>
 <li><a href="#org1eab74a">4.1. Understand interface</a></li>
-<li><a href="#org6d24183">4.2. Use pipe to switch from Writer to Reader</a></li>
-<li><a href="#orgf21196f">4.3. An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</a></li>
-<li><a href="#orgc0c4457">4.4. References</a></li>
+<li><a href="#org9a4e070">4.2. Io.Reader</a></li>
+<li><a href="#org469dda9">4.3. Io.Writer</a></li>
+<li><a href="#org6d24183">4.4. Use pipe to switch from Writer to Reader</a></li>
+<li><a href="#orgf21196f">4.5. An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</a></li>
+<li><a href="#orgdd08780">4.6. References</a></li>
 </ul>
 </li>
 <li><a href="#orgf5cbddf">5. Build code into executable binary file</a></li>
@@ -360,8 +362,8 @@ strs = aws.<span class="org-function-name">StringValueSlice</span>(strPtrs)
 </div>
 
 
-<div id="outline-container-orgde5dbab" class="outline-3">
-<h3 id="orgde5dbab"><span class="section-number-3">2.5.</span> References</h3>
+<div id="outline-container-orgc0c4457" class="outline-3">
+<h3 id="orgc0c4457"><span class="section-number-3">2.5.</span> References</h3>
 <div class="outline-text-3" id="text-2-5">
 <ul class="org-ul">
 <li><a href="https://blog.golang.org/using-go-modules#:~:text=A%20module%20is%20a%20collection,needed%20for%20a%20successful%20build.">Using Go modules</a><br></li>
@@ -643,8 +645,8 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </div>
 </div>
 
-<div id="outline-container-orgff6d68f" class="outline-4">
-<h4 id="orgff6d68f"><span class="section-number-4">3.4.3.</span> How to format time</h4>
+<div id="outline-container-orgfe4fed7" class="outline-4">
+<h4 id="orgfe4fed7"><span class="section-number-4">3.4.3.</span> How to format time</h4>
 <div class="outline-text-4" id="text-3-4-3">
 <div class="org-src-container">
 <pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">fromTimeToStr</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>, <span class="org-variable-name">format</span> <span class="org-type">string</span>, <span class="org-variable-name">asUTC</span> <span class="org-type">bool</span>) <span class="org-type">string</span> {
@@ -672,8 +674,8 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfe4fed7" class="outline-4">
-<h4 id="orgfe4fed7"><span class="section-number-4">3.4.5.</span> How to format time</h4>
+<div id="outline-container-org3ccb5fb" class="outline-4">
+<h4 id="org3ccb5fb"><span class="section-number-4">3.4.5.</span> How to format time</h4>
 </div>
 <div id="outline-container-org9c019f5" class="outline-4">
 <h4 id="org9c019f5"><span class="section-number-4">3.4.6.</span> How to set duration</h4>
@@ -887,7 +889,7 @@ In anyway, we don&rsquo;t use concrate Client type, we use AWS&rsquo;s interface
 <h2 id="org7790694"><span class="section-number-2">4.</span> Understand Reader and Writer interface</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-In Golang, io.Reader and Writer are interfaces, all methods related with I/O are just <code>[]byte</code> getting passed around.<br>
+In Golang, io.Reader and Writer are interfaces, all methods related with I/O are just streams of bytes getting passed around.<br>
 </p>
 </div>
 
@@ -895,18 +897,55 @@ In Golang, io.Reader and Writer are interfaces, all methods related with I/O are
 <h3 id="org1eab74a"><span class="section-number-3">4.1.</span> Understand interface</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
-In Golang standard library, a lot of components are interfaces.<br>
+In Golang standard library, a lot of components are interfaces. For example<br>
 </p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">Example</span> <span class="org-keyword">struct</span> {
+
+}
+<span class="org-keyword">func</span> (<span class="org-variable-name">e</span> *<span class="org-type">Example</span>) <span class="org-function-name">Write</span>(<span class="org-variable-name">p</span> <span class="org-type">byte</span>[]) (<span class="org-variable-name">n</span> <span class="org-type">int</span>, <span class="org-variable-name">err</span> <span class="org-type">error</span>) {
+
+}
+<span class="org-keyword">func</span> (<span class="org-variable-name">e</span> *<span class="org-type">Example</span>) <span class="org-function-name">Read</span>(<span class="org-variable-name">p</span> <span class="org-type">byte</span>[]) (<span class="org-variable-name">n</span> <span class="org-type">int</span>, <span class="org-variable-name">err</span> <span class="org-type">error</span>) {
+
+}
+</pre>
+</div>
 <ul class="org-ul">
 <li>A interface will group none, or multiple functions.<br></li>
-<li>A type implements those functions as methods satisfies that interface.<br></li>
+<li>A type implements those functions as methods satisfies that interface. <code>Example</code> implements Read/Write interface.<br></li>
+<li>If we use type conversion, <code>Example</code> could be type of Reader &amp;&amp; Writer.<br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6d24183" class="outline-3">
-<h3 id="org6d24183"><span class="section-number-3">4.2.</span> Use pipe to switch from Writer to Reader</h3>
+<div id="outline-container-org9a4e070" class="outline-3">
+<h3 id="org9a4e070"><span class="section-number-3">4.2.</span> Io.Reader</h3>
 <div class="outline-text-3" id="text-4-2">
+<p>
+For a type of function as a reader, it must implement method <code>Read(p []byte)</code> from interface <code>io.Reader</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">Reader</span> <span class="org-keyword">interface</span> {
+    <span class="org-function-name">Read</span>(<span class="org-variable-name">p</span> []<span class="org-type">byte</span>) (<span class="org-variable-name">n</span> <span class="org-type">int</span>, <span class="org-variable-name">err</span> <span class="org-type">error</span>)
+}
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>Read()</code> will read up to <code>len(p)</code> into <code>p</code>, when possible.<br></li>
+<li>After a <code>Read()</code> call, <code>n</code> may be less then <code>len(p)</code>.<br></li>
+<li>Upon error, <code>Read()</code> may still return <code>n</code> bytes in buffer <code>p</code>. For instance, when reading from a TCP socket that is abruptly closed. You may choose to keep the bytes in <code>p</code> or retry.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org469dda9" class="outline-3">
+<h3 id="org469dda9"><span class="section-number-3">4.3.</span> Io.Writer</h3>
+</div>
+
+<div id="outline-container-org6d24183" class="outline-3">
+<h3 id="org6d24183"><span class="section-number-3">4.4.</span> Use pipe to switch from Writer to Reader</h3>
+<div class="outline-text-3" id="text-4-4">
 <p>
 Sometimes a function&rsquo;s parameters only accept Writer, but we want a Reader. The solution is <code>io.Pipe()</code>.<br>
 </p>
@@ -914,8 +953,8 @@ Sometimes a function&rsquo;s parameters only accept Writer, but we want a Reader
 </div>
 
 <div id="outline-container-orgf21196f" class="outline-3">
-<h3 id="orgf21196f"><span class="section-number-3">4.3.</span> An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</h3>
-<div class="outline-text-3" id="text-4-3">
+<h3 id="orgf21196f"><span class="section-number-3">4.5.</span> An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</h3>
+<div class="outline-text-3" id="text-4-5">
 <div class="org-src-container">
 <pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">alphaReader</span> <span class="org-keyword">struct</span> {
   src <span class="org-type">string</span>
@@ -985,13 +1024,12 @@ fmt.<span class="org-function-name">Println</span>(<span class="org-function-nam
 </div>
 </div>
 
-<div id="outline-container-orgc0c4457" class="outline-3">
-<h3 id="orgc0c4457"><span class="section-number-3">4.4.</span> References</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-orgdd08780" class="outline-3">
+<h3 id="orgdd08780"><span class="section-number-3">4.6.</span> References</h3>
+<div class="outline-text-3" id="text-4-6">
 <ul class="org-ul">
-<li><a href="https://nathanleclaire.com/blog/2014/07/19/demystifying-golangs-io-dot-reader-and-io-dot-writer-interfaces/">Demystifying Golang&rsquo;s io.Reader and io.Writer Interfaces</a><br></li>
-<li><a href="https://medium.com/@xeodou/understanding-golang-reader-writer-2c855eae0a94">Understanding golang Reader/Writer</a><br></li>
-<li><a href="https://medium.com/learning-the-go-programming-language/streaming-io-in-go-d93507931185">Streaming IO in Go</a><br></li>
+<li><a href="https://nathanleclaire.com/blog/2014/07/19/demystifying-golangs-io-dot-reader-and-io-dot-writer-interfaces/">Demystifying Golang&rsquo;s io.Reader and io.Writer Interfaces</a> (about using pipe to switch writer for reader)<br></li>
+<li><a href="https://medium.com/learning-the-go-programming-language/streaming-io-in-go-d93507931185">Streaming IO in Go</a> ()<br></li>
 <li><a href="https://www.grant.pizza/blog/the-beauty-of-io-writer/">The Beauty of io.Writer</a><br></li>
 <li><a href="https://ofstack.com/Golang/29055/talk-about-the-confusion-about-golang-io-reading-and-writing.html">Talk about the confusion about Golang IO reading and writing</a>    <br></li>
 </ul>
@@ -1157,7 +1195,7 @@ signal.<span class="org-function-name">Notify</span>(interrupt, os.Interrupt)
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Aug 30, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
+  Last updated on Sep 08, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
 </div>
 </footer>
 </body>
