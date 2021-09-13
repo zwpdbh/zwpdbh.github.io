@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Sep 13, 2021 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build a RESTful API using Golang(updating)</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Zhao Wei">
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">Build a RESTful API using Golang(updating)</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6655bd3">1. Requirement</a>
+<ul>
+<li><a href="#org67a75a4">1.1. Functionality</a></li>
+</ul>
+</li>
+<li><a href="#org54df39c">2. Golang code structure</a></li>
+<li><a href="#orga65599e">3. Process JSON</a>
+<ul>
+<li><a href="#org6ee5d0e">3.1. Encoding and Decoding</a></li>
+<li><a href="#org7533fa6">3.2. Decoding arbitrary data</a></li>
+<li><a href="#org83f324e">3.3. Refernece Type</a></li>
+</ul>
+</li>
+<li><a href="#org101e422">4. Persistent data using MongoDB</a></li>
+<li><a href="#org348969d">5. Useful Notes</a>
+<ul>
+<li><a href="#org4144cac">5.1. cURL</a></li>
+<li><a href="#orgeb17c0f">5.2. Golang proxy</a></li>
+</ul>
+</li>
+<li><a href="#org5cdeefe">6. References</a></li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-org6655bd3" class="outline-2">
+<h2 id="org6655bd3"><span class="section-number-2">1.</span> Requirement</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Build a RESTful API that can <code>create/read(get)/update/delete/ aka CRUD</code> user data from a persistence database, with the following User model<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-json">{
+  <span class="org-keyword">"id"</span>: <span class="org-string">"as user id"</span>,
+  <span class="org-keyword">"name"</span>: <span class="org-string">"as user name"</span>,
+  <span class="org-keyword">"dob"</span>: <span class="org-string">"as date of birth"</span>,
+  <span class="org-keyword">"address"</span>: <span class="org-string">"as user address"</span>,
+  <span class="org-keyword">"description"</span>: <span class="org-string">"as user description"</span>,
+  <span class="org-keyword">"createdAt"</span>: <span class="org-string">"as user created time"</span>
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org67a75a4" class="outline-3">
+<h3 id="org67a75a4"><span class="section-number-3">1.1.</span> Functionality</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>The API should follow typical RESTful API design pattern.<br></li>
+<li>The data should be saved in DB (NoSQL DB is preferred).<br></li>
+<li>Provide proper unit test.<br></li>
+<li>Provider proper API document.<br></li>
+<li>(Optional), user auth using OAuth.<br></li>
+<li>(Optional), a complete logging strategy.<br></li>
+<li>(Optional), user instances need to link to each other. How to design the model and what API you would build for querying or modifying it?<br></li>
+<li>(Optional), supppose the address of user now includes a geographic coordinate(latitude and longitude), can you build an API that<br>
+<ul class="org-ul">
+<li>given a user name<br></li>
+<li>return the nearby friends<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org54df39c" class="outline-2">
+<h2 id="org54df39c"><span class="section-number-2">2.</span> <a href="https://github.com/zwpdbh/manageUser">Golang code</a> structure</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-text">zw@DESKTOP-TTOPQ58:manageUser$ tree .
+.
+&#9500;&#9472;&#9472; go.mod
+&#9500;&#9472;&#9472; go.sum
+&#9500;&#9472;&#9472; main.go
+&#9500;&#9472;&#9472; model
+&#9474;&#160;&#160; &#9500;&#9472;&#9472; index.go
+&#9474;&#160;&#160; &#9500;&#9472;&#9472; local.go
+&#9474;&#160;&#160; &#9492;&#9472;&#9472; mongodb.go
+&#9492;&#9472;&#9472; tools
+    &#9492;&#9472;&#9472; common.go
+
+2 directories, 7 files
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>main.go</code> as controller<br></li>
+<li><code>model</code> folder contains data models one using local data from memory, another is using MongoDB.<br></li>
+<li><code>tools</code> folder contains common useful functions.<br></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orga65599e" class="outline-2">
+<h2 id="orga65599e"><span class="section-number-2">3.</span> Process JSON</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Hanlding JSON places an important role in our service since it is the format we communicate with clients.<br>
+</p>
+</div>
+
+<div id="outline-container-org6ee5d0e" class="outline-3">
+<h3 id="org6ee5d0e"><span class="section-number-3">3.1.</span> Encoding and Decoding</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+In general, we use standard package <code>encoding/json</code><br>
+</p>
+<ul class="org-ul">
+<li><code>Unmarshal</code>, which decode the json binary into <code>struct</code>.<br></li>
+<li><code>Marshal</code>, which encode <code>struct</code> into json binary. Especially, when write <code>struct</code> back to Http Response, we could do: <code>json.NewEncoder(w).Encode(ResponseMessage{Status: "400", Message: "failed"})</code> to send our custom <code>struct</code> back directly, where <code>w</code> is <code>http.ResponseWriter</code>.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7533fa6" class="outline-3">
+<h3 id="org7533fa6"><span class="section-number-3">3.2.</span> Decoding arbitrary data</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The <code>interface{}</code> (empty interface) type describes an interface with zero methods. Every Go type implements at least zero methods and therefore satisfies the empty interface. We use it to represent arbitrary data.<br>
+</p>
+<ol class="org-ol">
+<li><p>
+Suppose there is a binary data stored in variable <code>b</code> as<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-variable-name">b</span> := []<span class="org-function-name">byte</span>(<span class="org-string">`{"Name":"Wednesday","Age":6,"Parents":["Gomez","Morticia"]}`</span>)
+</pre>
+</div></li>
+<li><p>
+Declare a variable <code>f</code> with type <code>interface{}</code> and <code>Unmarshal</code> the binary into it.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-keyword">var</span> <span class="org-variable-name">f</span> <span class="org-keyword">interface</span>{}
+<span class="org-variable-name">err</span> := json.<span class="org-function-name">Unmarshal</span>(b, &amp;f)
+</pre>
+</div></li>
+<li><p>
+Use type assertion to reveal its underlying structure: <code>a map whose keys are strings and whose values are themselves stored as empty interface values</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-variable-name">m</span> := f.(<span class="org-keyword">map</span>[<span class="org-type">string</span>]<span class="org-keyword">interface</span>{})
+</pre>
+</div></li>
+<li><p>
+At last, iterate through the map using a type switch to access its values as their concrete types:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-keyword">for</span> <span class="org-variable-name">k</span>, <span class="org-variable-name">v</span> := <span class="org-keyword">range</span> m {
+    <span class="org-keyword">switch</span> <span class="org-variable-name">vv</span> := v.(<span class="org-keyword">type</span>) {
+    <span class="org-keyword">case</span> <span class="org-type">string</span>:
+        fmt.<span class="org-function-name">Println</span>(k, <span class="org-string">"is string"</span>, vv)
+    <span class="org-keyword">case</span> <span class="org-type">float64</span>:
+        fmt.<span class="org-function-name">Println</span>(k, <span class="org-string">"is float64"</span>, vv)
+    <span class="org-keyword">case</span> []<span class="org-keyword">interface</span>{}:
+        fmt.<span class="org-function-name">Println</span>(k, <span class="org-string">"is an array:"</span>)
+        <span class="org-keyword">for</span> <span class="org-variable-name">i</span>, <span class="org-variable-name">u</span> := <span class="org-keyword">range</span> vv {
+            fmt.<span class="org-function-name">Println</span>(i, u)
+        }
+    <span class="org-keyword">default</span>:
+        fmt.<span class="org-function-name">Println</span>(k, <span class="org-string">"is of a type I don't know how to handle"</span>)
+    }
+}
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org83f324e" class="outline-3">
+<h3 id="org83f324e"><span class="section-number-3">3.3.</span> Refernece Type</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+For decoding arbitrary data, we convert the binary into a map whose keys are strings and whose values are themselves stored as empty interface values. In fact, we could directly <code>Unmarshal</code> the binary into an existing struct.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">FamilyMember</span> <span class="org-keyword">struct</span> {
+    Name    <span class="org-type">string</span>
+    Age     <span class="org-type">int</span>
+    Parents []<span class="org-type">string</span>
+}
+
+<span class="org-keyword">var</span> <span class="org-variable-name">m</span> <span class="org-type">FamilyMember</span>
+<span class="org-variable-name">err</span> := json.<span class="org-function-name">Unmarshal</span>(b, &amp;m)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>Unmarshl</code> will populate the <code>Parents</code> field, change it from <code>nil</code> to a slice value exists in JSON binary.<br></li>
+<li><p>
+This is typical of how <code>Unmarshal</code> works with the supported reference types (pointers, slices, and maps).<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">Foo</span> <span class="org-keyword">struct</span> {
+    Bar *<span class="org-type">Bar</span>
+}
+</pre>
+</div>
+<p>
+For example, If there were a <code>Bar</code> field in the JSON object, <code>Unmarshal</code> would allocate a new Bar and populate it. If not, Bar would be left as a <code>nil</code> pointer.<br>
+</p></li>
+<li>Therefore, we could <code>nil</code> to test if some attribute exists in from JSON binary if that attribute is one of pointers, slices, and maps.<br></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org101e422" class="outline-2">
+<h2 id="org101e422"><span class="section-number-2">4.</span> Persistent data using MongoDB</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+For simple demo, we will use <a href="https://docs.atlas.mongodb.com/">MongoDB Atlas</a>.<br>
+</p>
+<ol class="org-ol">
+<li>Follow through the steps from <a href="https://docs.atlas.mongodb.com/getting-started/">Get started with MongoDB Atlas</a>.<br></li>
+<li>Click on the cluster you just created &#x2013;&gt; click tab &ldquo;Collections&rdquo; &#x2013;&gt; click &ldquo;+ Create Database&rdquo;<br></li>
+<li>Use the code example from <a href="https://docs.mongodb.com/drivers/go/#connect-to-mongodb-atlas">Connect to MongoDB Atlas</a> to test your first connection with your database.<br></li>
+<li>Corresponding MongoDB types could be viewed at <a href="https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo#pkg-overview">mongo-driver</a>.<br></li>
+</ol>
+</div>
+</section>
+
+<section id="outline-container-org348969d" class="outline-2">
+<h2 id="org348969d"><span class="section-number-2">5.</span> Useful Notes</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org4144cac" class="outline-3">
+<h3 id="org4144cac"><span class="section-number-3">5.1.</span> cURL</h3>
+<div class="outline-text-3" id="text-5-1">
+<ol class="org-ol">
+<li><p>
+Get all Users<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">curl http://localhost:10000/users -i
+</pre>
+</div></li>
+<li><p>
+Create a single User using POST request with json format<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">curl -i -X POST -H <span class="org-string">'Content-Type: application/json'</span> -d <span class="org-string">'{"id":"test01", "description":"test"}'</span> http://localhost:10000/user
+</pre>
+</div></li>
+<li><p>
+Get a single User by its id<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">curl http://localhost:10000/user/test01 -i
+</pre>
+</div></li>
+<li><p>
+Delete a single user by its id using DELETE request<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">curl -i -X DELETE http://localhost:10000/user/test01
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgeb17c0f" class="outline-3">
+<h3 id="orgeb17c0f"><span class="section-number-3">5.2.</span> Golang proxy</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+When install <a href="https://docs.mongodb.com/drivers/go/">MongoDB Go driver</a>, it is not accessible from China, so to install it, we need to set Golang proxy<br>
+</p>
+<ol class="org-ol">
+<li><p>
+Set proxy according to your location<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">go env -w <span class="org-variable-name">GOPROXY</span>=https://mirrors.aliyun.com/goproxy/,direct
+<span class="org-comment-delimiter"># </span><span class="org-comment">Or other proxy</span>
+go env -w <span class="org-variable-name">GOPROXY</span>=https://goproxy.io/zh/,direct
+</pre>
+</div></li>
+<li><p>
+Test proxy setting works<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-keyword">time</span> go get golang.org/x/tour
+</pre>
+</div></li>
+<li><p>
+To unset proxy<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">go env -u GOPROXY
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Now it should show default one: </span>
+go env | grep proxy
+<span class="org-comment-delimiter"># </span><span class="org-comment">GOPROXY="https://proxy.golang.org,direct"</span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org5cdeefe" class="outline-2">
+<h2 id="org5cdeefe"><span class="section-number-2">6.</span> References</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li><a href="https://tutorialedge.net/golang/creating-restful-api-with-golang/#deleting-articles">Creating a RESTful API With Golang</a><br></li>
+<li><a href="https://go.dev/blog/json">The Go Blog: JSON and Go</a><br></li>
+<li><a href="https://www.mongodb.com/blog/post/quick-start-golang--mongodb--how-to-read-documents">Quick Start: Golang &amp; MongoDB - How to Read Documents</a><br></li>
+<li><a href="https://www.mongodb.com/blog/post/mongodb-go-driver-tutorial">MongoDB Go Driver Tutorial</a><br></li>
+<li><a href="https://betterprogramming.pub/building-a-restful-api-with-go-and-mongodb-93e59cbbee88">How to Build a RESTful API With Go and MongoDB</a><br></li>
+</ul>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Sep 13, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
+</div>
+</footer>
+</body>
+</html>
