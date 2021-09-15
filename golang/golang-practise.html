@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Sep 08, 2021 -->
+<!-- Sep 15, 2021 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Practise on Golang</title>
@@ -84,7 +84,7 @@
 <li><a href="#orgb1b4b5c">2.4.2. Unit test with AWS SDK</a></li>
 </ul>
 </li>
-<li><a href="#orgc0c4457">2.5. References</a></li>
+<li><a href="#orgdd08780">2.5. References</a></li>
 </ul>
 </li>
 <li><a href="#org570d407">3. The practise from code</a>
@@ -107,9 +107,9 @@
 <ul>
 <li><a href="#org92842fa">3.4.1. How to convert from Unix timestamp to time.Time</a></li>
 <li><a href="#orgf7890c3">3.4.2. How to convert from time.Time to Unix timestamp</a></li>
-<li><a href="#orgfe4fed7">3.4.3. How to format time</a></li>
+<li><a href="#org3ccb5fb">3.4.3. How to format time</a></li>
 <li><a href="#org7d0e7b5">3.4.4. How to parse a string to time.Time</a></li>
-<li><a href="#org3ccb5fb">3.4.5. How to format time</a></li>
+<li><a href="#org4ae152a">3.4.5. How to format time</a></li>
 <li><a href="#org9c019f5">3.4.6. How to set duration</a></li>
 <li><a href="#orgc7fa975">3.4.7. How to postpone execution</a></li>
 <li><a href="#org2c95ec0">3.4.8. How to repeated do something with time.Duration</a></li>
@@ -127,7 +127,7 @@
 <li><a href="#org469dda9">4.3. Io.Writer</a></li>
 <li><a href="#org6d24183">4.4. Use pipe to switch from Writer to Reader</a></li>
 <li><a href="#orgf21196f">4.5. An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</a></li>
-<li><a href="#orgdd08780">4.6. References</a></li>
+<li><a href="#orgfeacd15">4.6. References</a></li>
 </ul>
 </li>
 <li><a href="#orgf5cbddf">5. Build code into executable binary file</a></li>
@@ -362,8 +362,8 @@ strs = aws.<span class="org-function-name">StringValueSlice</span>(strPtrs)
 </div>
 
 
-<div id="outline-container-orgc0c4457" class="outline-3">
-<h3 id="orgc0c4457"><span class="section-number-3">2.5.</span> References</h3>
+<div id="outline-container-orgdd08780" class="outline-3">
+<h3 id="orgdd08780"><span class="section-number-3">2.5.</span> References</h3>
 <div class="outline-text-3" id="text-2-5">
 <ul class="org-ul">
 <li><a href="https://blog.golang.org/using-go-modules#:~:text=A%20module%20is%20a%20collection,needed%20for%20a%20successful%20build.">Using Go modules</a><br></li>
@@ -645,8 +645,8 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </div>
 </div>
 
-<div id="outline-container-orgfe4fed7" class="outline-4">
-<h4 id="orgfe4fed7"><span class="section-number-4">3.4.3.</span> How to format time</h4>
+<div id="outline-container-org3ccb5fb" class="outline-4">
+<h4 id="org3ccb5fb"><span class="section-number-4">3.4.3.</span> How to format time</h4>
 <div class="outline-text-4" id="text-3-4-3">
 <div class="org-src-container">
 <pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">fromTimeToStr</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>, <span class="org-variable-name">format</span> <span class="org-type">string</span>, <span class="org-variable-name">asUTC</span> <span class="org-type">bool</span>) <span class="org-type">string</span> {
@@ -669,18 +669,45 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 <h4 id="org7d0e7b5"><span class="section-number-4">3.4.4.</span> How to parse a string to time.Time</h4>
 <div class="outline-text-4" id="text-3-4-4">
 <ul class="org-ul">
-<li><code>func Parse(layout, value string) (Time, error)</code><br></li>
+<li><p>
+<code>func Parse(layout, value string) (Time, error)</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-variable-name">startAt</span>, <span class="org-variable-name">err</span> := time.<span class="org-function-name">Parse</span>(<span class="org-string">"2006-01-02 15:04"</span>, startStr)
+<span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
+    log.<span class="org-function-name">Fatal</span>(<span class="org-string">"time format is not correct, exit..."</span>)
+}
+</pre>
+</div></li>
 <li><code>func ParseInLocation(layout, value string, loc *Location) (Time, error)</code><br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3ccb5fb" class="outline-4">
-<h4 id="org3ccb5fb"><span class="section-number-4">3.4.5.</span> How to format time</h4>
+
+<div id="outline-container-org4ae152a" class="outline-4">
+<h4 id="org4ae152a"><span class="section-number-4">3.4.5.</span> How to format time</h4>
+<div class="outline-text-4" id="text-3-4-5">
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">formatTime</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>) <span class="org-type">string</span> {
+    <span class="org-comment-delimiter">// </span><span class="org-comment">setUTC is a global variable control whether we want is a time relative to UTC</span>
+  <span class="org-keyword">return</span> <span class="org-function-name">fromTimeToStr</span>(t, <span class="org-string">"2006-01-02 15:04:05.99-0700"</span>, setUTC)
+}
+
+<span class="org-keyword">func</span> <span class="org-function-name">fromTimeToStr</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>, <span class="org-variable-name">format</span> <span class="org-type">string</span>, <span class="org-variable-name">asUTC</span> <span class="org-type">bool</span>) <span class="org-type">string</span> {
+  <span class="org-keyword">if</span> asUTC {
+    <span class="org-keyword">return</span> fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, t.<span class="org-function-name">In</span>(time.UTC).<span class="org-function-name">Format</span>(format))
+  } <span class="org-keyword">else</span> {
+    <span class="org-keyword">return</span> fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, t.<span class="org-function-name">In</span>(time.Local).<span class="org-function-name">Format</span>(format))
+  }
+}
+</pre>
+</div>
+</div>
 </div>
 <div id="outline-container-org9c019f5" class="outline-4">
 <h4 id="org9c019f5"><span class="section-number-4">3.4.6.</span> How to set duration</h4>
 <div class="outline-text-4" id="text-3-4-6">
-<ul class="org-ul">
+<ol class="org-ol">
 <li><p>
 Set time duration for specific number, such as 30 seconds<br>
 </p>
@@ -698,14 +725,29 @@ time.<span class="org-function-name">Since</span>(begin)
 </pre>
 </div></li>
 <li><p>
-Set time duration between two timestamp<br>
+Set time duration between two timestamp using <code>Sub</code><br>
 </p>
 <div class="org-src-container">
 <pre class="src src-go"><span class="org-comment-delimiter">// </span><span class="org-comment">use latest time - a timestamp set before</span>
 time.<span class="org-function-name">Now</span>().<span class="org-function-name">Sub</span>(startAt)
 </pre>
 </div></li>
-</ul>
+<li><p>
+From a time at one side of duration to get another time.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-variable-name">fiveMinsAgo</span> := time.<span class="org-function-name">Now</span>().<span class="org-function-name">Add</span>(-5 * time.Minute)
+</pre>
+</div></li>
+<li><p>
+How to multiple duration by integer?<br>
+Usually we got a variable as a number and we want to multiple it by unit of duration, such as seconds or mins. For a variable as number, we need to convert it to time.Duration explicitly.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-go"><span class="org-variable-name">start</span> := time.<span class="org-function-name">Now</span>().<span class="org-function-name">Add</span>(-time.<span class="org-function-name">Duration</span>(parsedInteger) * time.Minute)
+</pre>
+</div></li>
+</ol>
 </div>
 </div>
 
@@ -1024,8 +1066,8 @@ fmt.<span class="org-function-name">Println</span>(<span class="org-function-nam
 </div>
 </div>
 
-<div id="outline-container-orgdd08780" class="outline-3">
-<h3 id="orgdd08780"><span class="section-number-3">4.6.</span> References</h3>
+<div id="outline-container-orgfeacd15" class="outline-3">
+<h3 id="orgfeacd15"><span class="section-number-3">4.6.</span> References</h3>
 <div class="outline-text-3" id="text-4-6">
 <ul class="org-ul">
 <li><a href="https://nathanleclaire.com/blog/2014/07/19/demystifying-golangs-io-dot-reader-and-io-dot-writer-interfaces/">Demystifying Golang&rsquo;s io.Reader and io.Writer Interfaces</a> (about using pipe to switch writer for reader)<br></li>
@@ -1195,7 +1237,7 @@ signal.<span class="org-function-name">Notify</span>(interrupt, os.Interrupt)
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Sep 08, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
+  Last updated on Sep 15, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
 </div>
 </footer>
 </body>
