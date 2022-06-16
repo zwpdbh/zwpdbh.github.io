@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Common-Lisp programm in large</title>
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Common-Lisp programm in large</h1>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgd96aba6">1. Introduction</a></li>
+<li><a href="#org84c3327">2. How to organize files into packages</a>
+<ul>
+<li><a href="#org946e23e">2.1. Basics about packages</a></li>
+<li><a href="#org0abe9f9">2.2. Examples about organize files into different files as packages</a></li>
+</ul>
+</li>
+<li><a href="#orgbf5e863">3. ASDF &#x2013; an improved way to use packages</a>
+<ul>
+<li><a href="#orgeed6546">3.1. What is system defined by ASDF</a></li>
+<li><a href="#orgeb04045">3.2. How to write a system definition</a></li>
+<li><a href="#org39766af">3.3. How to use/update a system</a></li>
+</ul>
+</li>
+<li><a href="#orgbd4bd75">4. Use quickproject to setup a common-lisp project quickly</a></li>
+<li><a href="#orgc99026d">5. References</a></li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-orgd96aba6" class="outline-2">
+<h2 id="orgd96aba6"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+One of the problem during learning Common-lisp is how to<br>
+</p>
+<ul class="org-ul">
+<li>Use other function from other files.<br></li>
+<li>How to specify dependencies between different packages including external ones.<br></li>
+</ul>
+
+<p>
+Other language like Elixir has built in tools to handle all of this, like mix. But in CL, there is no offical support.<br>
+It seems the current mainstream is to use quicklisp + ASDF.<br>
+</p>
+</div>
+</section>
+
+<section id="outline-container-org84c3327" class="outline-2">
+<h2 id="org84c3327"><span class="section-number-2">2.</span> How to organize files into packages</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org946e23e" class="outline-3">
+<h3 id="org946e23e"><span class="section-number-3">2.1.</span> Basics about packages</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Packages must be registered first before their use.<br>
+<ul class="org-ul">
+<li>Use package qualifier to access symbols in other packages, such as <code>foo:bar</code> which means a symbol <code>bar</code> in package <code>foo</code>.<br></li>
+<li>This is true only if <code>bar</code> is an <b>external</b> symbol of <code>foo</code>, that is, a symbol that is supposed to be visited outside of <code>foo</code>.<br></li>
+<li>A reference to an <b>internal</b> symbol requires the  intentionally clumsier syntax <code>foo::bar</code>. So, use <code>::</code> qualifier will let us access any symbols from the named packages.<br></li>
+<li>All symbols in the current package can be accessed without a package qualifier.<br></li>
+</ul></li>
+<li>How to access the name-to-symbol mappings in a packages<br>
+<ul class="org-ul">
+<li><code>find-symbol</code><br></li>
+<li><code>intern</code><br></li>
+</ul></li>
+<li>Current package is defined in global variable <code>*package*</code>.<br></li>
+<li><b>Keywords symbols</b> are written with names starting with a colon &ldquo;:&rdquo;. They are interned in the package named <code>KEYWORD</code> and automatically exported.<br></li>
+<li><b>Uninterned symbols</b> are written with a leading <code>#:</code>.<br></li>
+<li>Reader translates textual names into symbol objects.<br></li>
+<li>A symbol can be accessible in two ways:<br>
+<ul class="org-ul">
+<li>name-to-symbol table<br>
+<ul class="org-ul">
+<li>home package<br></li>
+</ul></li>
+<li>inherits from other packages<br>
+<ul class="org-ul">
+<li>external symbols<br></li>
+</ul></li>
+</ul></li>
+<li>3 standard packages<br>
+<ul class="org-ul">
+<li>common-lisp<br></li>
+<li>common-lisp-user<br></li>
+<li>keyword<br>
+<ul class="org-ul">
+<li>Allow us to access keyword symbols without an explicit <code>keyword:</code> package qualification.<br></li>
+</ul></li>
+</ul></li>
+<li>In the REPL buffer in SLIME you can also change packages with a REPL shortcut. Type a comma <code>,</code> and then enter change-package at the Command: prompt.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0abe9f9" class="outline-3">
+<h3 id="org0abe9f9"><span class="section-number-3">2.2.</span> Examples about organize files into different files as packages</h3>
+<div class="outline-text-3" id="text-2-2">
+<ol class="org-ol">
+<li>Example-01<br>
+<ol class="org-ol">
+<li><p>
+we could group useful common functions into another package as library<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defpackage</span> <span class="org-type">:com.gigamonkeys.text-db</span>
+  (<span class="org-builtin">:use</span> <span class="org-builtin">:common-lisp</span>)
+  (<span class="org-builtin">:export</span>
+   <span class="org-builtin">:open-db</span>
+   <span class="org-builtin">:save</span>
+   <span class="org-builtin">:store</span>))
+</pre>
+</div>
+<ul class="org-ul">
+<li>The <code>:use</code> command within <code>defpackage</code> is used to inherit packages.<br>
+<ul class="org-ul">
+<li>When we inherit packages, all of the external symbols in the inherited packages will be treated as internal symbols in the package we are defining.<br></li>
+</ul></li>
+<li>The <code>:export</code> clause specifies names that will be external in <code>COM.GIGAMONKEYS.TEXT-DB</code> and thus accessible in package that <code>:use</code> it.<br>
+<ul class="org-ul">
+<li>Any package that inherits <code>com.gigamonkeys.text-db</code> can access these symbols without a package qualifier.<br></li>
+</ul></li>
+</ul></li>
+<li><p>
+our application<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defpackage</span> <span class="org-type">:com.gigamonkeys.email-db</span>
+  (<span class="org-builtin">:use</span>
+   <span class="org-builtin">:common-lisp</span>
+   <span class="org-builtin">:com.gigamonkeys.text-db</span>
+   <span class="org-builtin">:com.acme.text</span>)
+  (<span class="org-builtin">:import-from</span> <span class="org-builtin">:com.acme.email</span> <span class="org-builtin">:parse-email-address</span>)
+  (<span class="org-builtin">:shadow</span> <span class="org-builtin">:build-index</span>)
+  (<span class="org-builtin">:shadowing-import-from</span> <span class="org-builtin">:com.gigamonkeys.text-db</span> <span class="org-builtin">:save</span>))
+
+(<span class="org-keyword">in-package</span> <span class="org-builtin">:com.gigamonkeys.email-db</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Switch between packages using <code>in-package</code>.<br>
+<ul class="org-ul">
+<li>So, when we want to intern symbols in a particular package, we need to first switch to that package via <code>in-package</code> form.<br></li>
+</ul></li>
+<li>Now, code written in <code>COM.GIGAMONKEYS.EMAIL-DB</code> can use the unqualified names to refer to the exported symbols from both <code>COMMON-LISP</code> and <code>COM.GIGAMONKEYS.TEST-DB</code>.<br></li>
+<li><code>:import-from</code> is for scenario in which we just want to import only one function from a certain package.<br></li>
+<li>About shadow<br>
+<ul class="org-ul">
+<li><code>:shadow</code> is the opposite of <code>:import-from</code>, in which it specifies the only function we don&rsquo;t want to use. So we shadow it. The result is the symbol <code>build-index</code> from other packages will be ignored.<br></li>
+<li><code>:shadowing-import-from</code> solve the case in which there are two packages with same symbols and we want to shadow one of them (solve the ambiguity).<br></li>
+</ul></li>
+</ul></li>
+<li><p>
+How to export all symbols from a package<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Suppose there is package FOO</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Once the package is created, and all symbols in it created, e.g., by loading your code that implements the package</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">We can export any symbols</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(do-all-symbols (sym (find-package :foo)) (export sym))</span>
+(<span class="org-keyword">let</span> ((pack (find-package <span class="org-builtin">:foo</span>)))
+  (<span class="org-keyword">do-all-symbols</span> (sym pack)
+    (<span class="org-keyword">when</span> (eql (symbol-package sym) pack)
+      (export sym))))
+</pre>
+</div></li>
+</ol></li>
+<li><p>
+<code>use-package</code> commands is very similar to <code>:use</code> within <code>defpackage</code> <br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">With only one argument, use-package will add my-package-2 to the use list of the current package:</span>
+(use-package my-package-2)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">With two arguments, use-package will add my-package-2 to the use list of my-package-1:</span>
+(use-package my-package-1 my-package-2)
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+We can get a package&rsquo;s use list by calling <code>package-use-list</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(package-use-list <span class="org-builtin">:cl-user</span>)
+(#&lt;PACKAGE <span class="org-string">"COMMON-LISP"</span>&gt; #&lt;PACKAGE <span class="org-string">"SB-ALIEN"</span>&gt; #&lt;PACKAGE <span class="org-string">"SB-DEBUG"</span>&gt;
+           #&lt;PACKAGE <span class="org-string">"SB-EXT"</span>&gt; #&lt;PACKAGE <span class="org-string">"SB-GRAY"</span>&gt; #&lt;PACKAGE <span class="org-string">"SB-PROFILE"</span>&gt;)
+</pre>
+</div></li>
+</ul></li>
+
+<li>Example-02<br>
+<ol class="org-ol">
+<li>We will work with the following files:<br>
+<ul class="org-ul">
+<li><code>utilities.lisp</code>, it will contains some of our own user-defined functions.<br></li>
+<li><code>quant.lisp,</code> it will does some calculations and makes use of <code>utilities.lisp</code>.<br></li>
+<li><code>main.lisp</code>, a file that references the two above.<br></li>
+<li><code>packages.lisp</code>, a file that combines the above and brings everything together into a cohesive whole so that it can be run as one program.<br></li>
+</ul></li>
+<li><p>
+In <code>utilities.lisp</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">in-package</span> <span class="org-builtin">:utilities</span>)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">list-sum</span> (my-list)
+  (reduce #'+ my-list))
+</pre>
+</div></li>
+<li><p>
+In <code>quant.lisp</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">in-package</span> <span class="org-builtin">:quant</span>)
+(ql:quickload 'cl-csv)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Change the below path to where you sae your utilities file:</span>
+(load <span class="org-string">"./utilities.lisp"</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Change the below path to where you save your csv file:</span>
+(<span class="org-keyword">defparameter</span> <span class="org-variable-name">my-filename</span> <span class="org-string">"./my-csv.csv"</span>)
+(<span class="org-keyword">defparameter</span> <span class="org-variable-name">csv-file</span> (cl-csv:read-csv (pathname my-filename)))
+(<span class="org-keyword">defparameter</span> <span class="org-variable-name">my-sum</span> (list-sum (list 1 2 3 4 5)))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice, we reference the <code>list-sum</code> function in the <code>utilities</code> package without a qualifier.<br></li>
+<li>In contrast, we reference the <code>read-csv</code> function with a package qualifier. Why, see below.<br></li>
+</ul></li>
+
+<li><p>
+In <code>main.lisp</code> <br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">in-package</span> <span class="org-builtin">:main</span>)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Change the below path to where you save your quant file:</span>
+(load <span class="org-string">"./quant.lisp"</span>)
+
+(print (quant::list-sum (list 1 2 3 4 5 6 7 8 9 10)))
+(print csv-file)
+(print quant::my-sum)
+</pre>
+</div>
+<ul class="org-ul">
+<li>It loads the above quant.lisp file, which means it also indirectly loads utilities.lisp.<br></li>
+<li>Notice package qualifier with the double colon for <code>list-sum</code><br></li>
+<li>Notice the <code>csv-file</code> from quant.lisp is directly accessed without qualifier.<br></li>
+</ul></li>
+
+<li><p>
+In <code>package.lisp</code> <br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">in-package</span> <span class="org-builtin">:cl</span>)
+
+(<span class="org-keyword">defpackage</span> <span class="org-type">:utilities</span>
+  (<span class="org-builtin">:use</span> <span class="org-builtin">:cl</span>)
+  (<span class="org-builtin">:export</span> <span class="org-builtin">:list-sum</span>))
+
+(<span class="org-keyword">defpackage</span> <span class="org-type">:quant</span>
+  (<span class="org-builtin">:use</span> <span class="org-builtin">:cl</span> <span class="org-builtin">:utilities</span>)
+  (<span class="org-builtin">:export</span> <span class="org-builtin">:csv-file</span>))
+
+(<span class="org-keyword">defpackage</span> <span class="org-type">:main</span>
+  (<span class="org-builtin">:use</span> <span class="org-builtin">:cl</span> <span class="org-builtin">:quant</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Change filepath to where you save your main.lisp:</span>
+(load <span class="org-string">"./main.lisp"</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li>We define our 3 packages not in their own files.<br>
+<ul class="org-ul">
+<li>Note how we segregated package definitions from the actual code we write. This is because we need to define our packages in order, so it is easier to do this together in one place.<br></li>
+</ul></li>
+<li>Notice the this file starts with <code>(in-package :cl)</code> to mak sure we can access it since <code>defpackage</code> is defined in the CL.<br></li>
+</ul></li>
+
+<li>Summary<br>
+<ul class="org-ul">
+<li>All of our files shoud have an <code>in-package</code> form at the top.<br></li>
+<li>We can run our program by simply loading and running <code>package.lisp</code> file. (This is how we construct and run our project if we only use plain lisp files as packages. There is a more convonient way describe in ASDF.)<br></li>
+<li>It is different from <code>asdf</code>: Another thing to focus on is the difference between a system (as in asdf) and a package. These come together in asdf&rsquo;s package-inferred-systems, which infer dependencies between files using the package dependencies, at the cost of having a separate package for each file.<br></li>
+</ul></li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-orgbf5e863" class="outline-2">
+<h2 id="orgbf5e863"><span class="section-number-2">3.</span> ASDF &#x2013; an improved way to use packages</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgeed6546" class="outline-3">
+<h3 id="orgeed6546"><span class="section-number-3">3.1.</span> What is system defined by ASDF</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>A system is a collection of Lisp files that together constitute an application or a library, and that should therefore be managed as a whole.<br></li>
+<li>A system definition describes which source files make up the system, what the dependencies among them are, and the order they should be compiled and loaded in.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgeb04045" class="outline-3">
+<h3 id="orgeb04045"><span class="section-number-3">3.2.</span> How to write a system definition</h3>
+<div class="outline-text-3" id="text-3-2">
+<ol class="org-ol">
+<li>The kind of files in system<br>
+<ol class="org-ol">
+<li>Normal .lisp file<br></li>
+<li>Special .lisp file  &#x2013; package or packages.lisp<br>
+The package/packages.lisp file let us define and use different functions across different packages(files).<br>
+<ul class="org-ul">
+<li>The pupose of this is to seperate different functions into different namespaces to make them together without conflict.<br></li>
+<li>Notice, the package.lisp only let us use different functions from other packages(import) and expose functions(export). It doesn&rsquo;t automatically download packages.<br></li>
+<li>So, if we only use package.lisp in our project. It will NOT be able to<br>
+<ul class="org-ul">
+<li>Download dependencies.<br></li>
+<li>Recompile project to update changes from different files convoniently.<br></li>
+</ul></li>
+<li>The .asd file helps us to solve above problems.<br></li>
+</ul></li>
+<li>The .asd file &#x2013; defines our system.<br>
+The .asd file helps us to<br>
+<ul class="org-ul">
+<li>Solve dependencies. For example, to download missing libraries(packages) from online. Again, packages.lisp only describes what functions are imported and exported, nothing else.<br>
+<ul class="org-ul">
+<li>It is like &ldquo;using&rdquo; or &ldquo;import&rdquo; at the beginning of files in other programming language.<br></li>
+<li>How the packages(libraries or assemblies) are used to support our project is defined in &ldquo;.asd&rdquo; file (like CMakeLists.txt in C++  or .csproj in C#) with extra feature: it helps us to automatically download those dependencies if they are missing.<br></li>
+</ul></li>
+</ul></li>
+</ol></li>
+<li>The general step:<br>
+<ol class="org-ol">
+<li>Write whatever function or code in normal .lisp files as normal but with addition &ldquo;(in-package :&lt;package-name&gt;)&rdquo;. For example<br>
+<ul class="org-ul">
+<li><p>
+In a tools.lisp file<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">in-package</span> <span class="org-builtin">:tools</span>)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">another-function</span> ()
+  (print <span class="org-string">"from tool"</span>))
+</pre>
+</div></li>
+<li><p>
+In a file foobar.lisp file<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">in-package</span> <span class="org-builtin">:foobar</span>)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">some-function</span> ()
+  (tools:another-function)
+  (print <span class="org-string">"hello world1"</span>))
+</pre>
+</div></li>
+</ul></li>
+<li><p>
+Import and export different function from different packages by defining them in &ldquo;package/packages.lisp&rdquo; file. Such as:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defpackage</span> <span class="org-type">:tools</span>
+  (<span class="org-builtin">:use</span> <span class="org-comment-delimiter">#:</span><span class="org-doc">cl</span>)
+  (<span class="org-builtin">:export</span> <span class="org-comment-delimiter">#:</span><span class="org-doc">another-function</span>))
+
+(<span class="org-keyword">defpackage</span> <span class="org-type">:foobar</span>
+  (<span class="org-builtin">:use</span> <span class="org-comment-delimiter">#:</span><span class="org-doc">common-lisp</span> <span class="org-comment-delimiter">#:</span><span class="org-doc">tools</span>)
+  (<span class="org-builtin">:export</span>
+   <span class="org-comment-delimiter">#:</span><span class="org-doc">some-function</span>))
+</pre>
+</div></li>
+<li><p>
+Define dependencies and source files of our system.<br>
+In a &ldquo;.asd&rdquo; file<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(asdf:defsystem <span class="org-string">"foobar"</span>
+  <span class="org-builtin">:depends-on</span> (<span class="org-comment-delimiter">#:</span><span class="org-doc">vecto</span>)
+  <span class="org-builtin">:components</span> (
+               (<span class="org-builtin">:file</span> <span class="org-string">"package"</span>)
+               (<span class="org-builtin">:file</span> <span class="org-string">"tools"</span>)
+               (<span class="org-builtin">:file</span> <span class="org-string">"foobar"</span>)))
+</pre>
+</div></li>
+</ol></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org39766af" class="outline-3">
+<h3 id="org39766af"><span class="section-number-3">3.3.</span> How to use/update a system</h3>
+<div class="outline-text-3" id="text-3-3">
+<ol class="org-ol">
+<li>Create the system from above example<br>
+<ul class="org-ul">
+<li>As we installed SLIME in emacs, we could just slime-load file by &ldquo;C-c C-l&rdquo; to load the .asd file.<br></li>
+<li>During loading, it will install missing dependencies automatically.<br></li>
+</ul></li>
+<li>Use the system or update system after files are changed<br>
+<ul class="org-ul">
+<li>In SLIME REPL, just eval <code>(ql:quickload "foobar")</code> or re-eval a updated specific function.<br></li>
+<li>Then, invoke the functions from that package: <code>(foobar:some-function)</code>.<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orgbd4bd75" class="outline-2">
+<h2 id="orgbd4bd75"><span class="section-number-2">4.</span> Use quickproject to setup a common-lisp project quickly</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Steup a ASDF compatible project could be speed up by using quicklisp<br>
+</p>
+<ul class="org-ul">
+<li>It helps us to setup a ASDF project for us.<br></li>
+<li><p>
+Example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(ql:quickload <span class="org-string">"quickproject"</span>)
+(quickproject:make-project <span class="org-string">"~/code/common-lisp-programming/common-lisp-in-action/leetcode"</span>
+                           <span class="org-builtin">:depends-on</span> '(trivia))
+</pre>
+</div>
+<ul class="org-ul">
+<li>This will create a leetcode system as our starting point.<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgc99026d" class="outline-2">
+<h2 id="orgc99026d"><span class="section-number-2">5.</span> References</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>See practical common-lisp: chapter21<br></li>
+<li><a href="https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e">An introduction to Lisp Packages</a><br></li>
+<li>ref: <a href="https://lispcookbook.github.io/cl-cookbook/systems.html">The Common Lisp Cookbook  Defining Systems</a><br></li>
+<li>ref: <a href="https://xach.livejournal.com/278047.html">Making a small Lisp project with quickproject and Quicklisp</a><br></li>
+</ul>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
+</div>
+</footer>
+</body>
+</html>
