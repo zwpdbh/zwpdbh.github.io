@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content" class="content">
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgef5e872">1. How to use Plug</a>
+<ul>
+<li><a href="#org7cb9b32">1.1. How authentication is implemented in Rumbl application as plug</a></li>
+<li><a href="#org8626f00">1.2. Controller are module plug to be used as action fallback</a></li>
+</ul>
+</li>
+<li><a href="#org213c98a">2. Pipelines and Plugs</a>
+<ul>
+<li><a href="#org13c7506">2.1. How to create pipelines</a></li>
+</ul>
+</li>
+<li><a href="#org301680e">3. How to redirect a request</a></li>
+<li><a href="#org70d8f13">4. Controller</a>
+<ul>
+<li><a href="#org55546c8">4.1. How to pass multiple values when render a template</a></li>
+</ul>
+</li>
+<li><a href="#org7ad6f46">5. Ecto</a>
+<ul>
+<li><a href="#orgec124ea">5.1. How to create models (the data in DB)</a></li>
+<li><a href="#org8aaab80">5.2. About changeset</a></li>
+</ul>
+</li>
+<li><a href="#org1424b4a">6. Channels</a>
+<ul>
+<li><a href="#org40464a5">6.1. About channels</a></li>
+<li><a href="#org4b88514">6.2. <span class="todo TODO">TODO</span> General steps recorded from Rumbl application</a></li>
+</ul>
+</li>
+<li><a href="#org4abd433">7. Ecto Queries and Constraints</a>
+<ul>
+<li><a href="#org475f8e2">7.1. Select</a></li>
+</ul>
+</li>
+<li><a href="#org8393c07">8. Other what/how</a>
+<ul>
+<li><a href="#org402da0e">8.1. How to construct js code for channels</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<section id="outline-container-orgef5e872" class="outline-2">
+<h2 id="orgef5e872"><span class="section-number-2">1.</span> How to use Plug</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>ref: <a href="https://hexdocs.pm/phoenix/plug.html">https://hexdocs.pm/phoenix/plug.html</a><br>
+<ul class="org-ul">
+<li>For example, without using Plug, if we want to validate something in an controller, we will use nested blocks of code.<br>
+After using Plug, we could replace those nested block of code wit ha flattened series of plug transformations.<br></li>
+<li>The <code>halt(conn)</code> the is key. It tells Plug that the next plug should not be invoked.<br></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="outline-container-org7cb9b32" class="outline-3">
+<h3 id="org7cb9b32"><span class="section-number-3">1.1.</span> How authentication is implemented in Rumbl application as plug</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>In Rumbl, authentication is implemented with two plugs:<br>
+<ul class="org-ul">
+<li><p>
+One is type of function plug, <code>def authenticate_user(conn, _opts)</code>. It is used in <code>user_controller</code> module for action [:index, :show].<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">plug <span class="org-elixir-atom">:authenticate_user</span> <span class="org-keyword">when</span> action <span class="org-keyword">in</span> [<span class="org-elixir-atom">:index</span>, <span class="org-elixir-atom">:show</span>]
+</pre>
+</div></li>
+<li><p>
+Another is type of module plug, the <code>RumblWeb.Auth</code>. It is used in pipeline <code>browser</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">pipeline <span class="org-elixir-atom">:browser</span> <span class="org-keyword">do</span>
+  plug <span class="org-elixir-atom">:accepts</span>, [<span class="org-string">"html"</span>]
+  ...
+  <span class="org-comment-delimiter"># </span><span class="org-comment">our own plug</span>
+  plug <span class="org-type">RumblWeb.Auth</span>
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul></li>
+<li>The module plug makes sure the conn&rsquo;s <code>current_user</code> property exist with value equals to <code>user</code> or <code>nil</code>. This is for every connection.<br></li>
+<li>The function plug makes sure request to UserController&rsquo;s index and show path must contains <code>user</code>.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8626f00" class="outline-3">
+<h3 id="org8626f00"><span class="section-number-3">1.2.</span> Controller are module plug to be used as <a href="https://hexdocs.pm/phoenix/controllers.html#action-fallback">action fallback</a></h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Action fallback allows us to centralize error handling code in plugs which are called when a controller action fails to return a <code>%Plug.Conn{}</code> struct.<br></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org213c98a" class="outline-2">
+<h2 id="org213c98a"><span class="section-number-2">2.</span> Pipelines and Plugs</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Pipelines are a series of plugs that can be attached to specific scopes.<br></li>
+<li>Routes are defined inside scopes and scopes may pipe through multiple pipelines.<br></li>
+<li>The router invokes a pipeline on a route defined <b>within</b> a scope. Routes outside of a scope have no pipelines.<br></li>
+</ul>
+</div>
+<div id="outline-container-org13c7506" class="outline-3">
+<h3 id="org13c7506"><span class="section-number-3">2.1.</span> How to create pipelines</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Define custom pipelines anywhere in the router module.<br></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org301680e" class="outline-2">
+<h2 id="org301680e"><span class="section-number-2">3.</span> How to redirect a request</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li><p>
+For example, we want to redirect user after he/she created account.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">def</span> <span class="org-function-name">create</span>(conn, %{<span class="org-string">"user"</span> =&gt; user_params}) <span class="org-keyword">do</span>
+  <span class="org-keyword">case</span> <span class="org-type">Accounts</span>.register_user(user_params) <span class="org-keyword">do</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">Do login if we insert the newly registered user in database.</span>
+    {<span class="org-elixir-atom">:ok</span>, user} -&gt;
+      conn
+      |&gt; <span class="org-type">RumblWeb.Auth</span>.login(user)
+      |&gt; put_flash(<span class="org-elixir-atom">:info</span>, <span class="org-string">"</span><span class="org-variable-name">#{user.name}</span><span class="org-string"> created!"</span>)
+      |&gt; redirect(<span class="org-elixir-atom">to:</span> <span class="org-type">Routes</span>.user_path(conn, <span class="org-elixir-atom">:index</span>))
+
+    {<span class="org-elixir-atom">:error</span>, <span class="org-type">%Ecto.Changeset</span>{} = changeset} -&gt;
+      render(conn, <span class="org-string">"new.html"</span>, <span class="org-elixir-atom">changeset:</span> changeset)
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li><b>Notice</b>: Route helper function <code>Routes.user_path</code> is used to make sure the redirect path is correct.<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+
+<section id="outline-container-org70d8f13" class="outline-2">
+<h2 id="org70d8f13"><span class="section-number-2">4.</span> Controller</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org55546c8" class="outline-3">
+<h3 id="org55546c8"><span class="section-number-3">4.1.</span> How to pass multiple values when render a template</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>For one value, we could use key: value pair as the third argument. Such as: <code>render(conn, "show.html", messenger: messenger)</code>.<br></li>
+<li><p>
+For multiple values, we could use <code>Plug.Conn.assign</code>:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">def</span> <span class="org-function-name">show</span>(conn, %{<span class="org-string">"messenger"</span> =&gt; messenger}) <span class="org-keyword">do</span>
+  conn
+  |&gt; assign(<span class="org-elixir-atom">:messenger</span>, messenger)
+  |&gt; assign(<span class="org-elixir-atom">:receiver</span>, <span class="org-string">"Dweezil"</span>)
+  |&gt; render(<span class="org-string">"show.html"</span>)
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org7ad6f46" class="outline-2">
+<h2 id="org7ad6f46"><span class="section-number-2">5.</span> Ecto</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgec124ea" class="outline-3">
+<h3 id="orgec124ea"><span class="section-number-3">5.1.</span> How to create models (the data in DB)</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li><p>
+use phx.gen.schema<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix phx.gen.schema User users name:string email:string <span class="org-sh-escaped-newline">\</span>
+    number_of_pets:integer
+</pre>
+</div>
+<ul class="org-ul">
+<li>This will generate two files, one is the <code>user.ex</code> model with schema, another is the <code>xxx_create_user.exs</code> which contains the migration for our DB.<br></li>
+<li>After modifying them to perfectly suit our need, we run <code>mix ecto.migrate</code>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8aaab80" class="outline-3">
+<h3 id="org8aaab80"><span class="section-number-3">5.2.</span> About changeset</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>What is changeset?<br>
+<ul class="org-ul">
+<li>A changeset defines some contains/validation for our data.<br></li>
+<li>We use it by <code>import Ecto.Changeset</code> and it defines a lot of useful functions.<br></li>
+<li>Use that module, we could validate our data which we want to insert into our db.<br></li>
+<li>It will return a result with true or false, plus the changes (our validated/filtered data).<br></li>
+</ul></li>
+<li>How template and changeset are binded?<br>
+<ul class="org-ul">
+<li>A changeset could be passed into template like this: <code>render(conn, "new.html", changeset: changeset)</code>.<br></li>
+</ul></li>
+<li>What is the differences between validation and constraint<br>
+<ul class="org-ul">
+<li>Validation executed before touching the db. And constraint rely on the database.<br></li>
+<li>Therefore, validation happends before constraint.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org1424b4a" class="outline-2">
+<h2 id="org1424b4a"><span class="section-number-2">6.</span> Channels</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org40464a5" class="outline-3">
+<h3 id="org40464a5"><span class="section-number-3">6.1.</span> About channels</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>Components<br>
+<ol class="org-ol">
+<li><p>
+Endpoint, in your Phoenix app&rsquo;s <b>Endpoint</b> module<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">socket <span class="org-string">"/socket"</span>, <span class="org-type">RumblWeb.UserSocket</span>,
+  <span class="org-elixir-atom">websocket:</span> <span class="org-elixir-atom">true</span>,
+  <span class="org-elixir-atom">longpoll:</span> <span class="org-elixir-atom">false</span>
+</pre>
+</div></li>
+<li>Socket Handler<br>
+<ol class="org-ol">
+<li><p>
+On client side, we establish socket connection to the route<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">import</span> {<span class="org-type">Socket</span>} from <span class="org-string">"phoenix"</span>
+
+let <span class="org-variable-name">socket</span> = new <span class="org-type">Socket</span>(<span class="org-string">"/socket"</span>, {
+  <span class="org-elixir-atom">params:</span> {<span class="org-elixir-atom">token:</span> window.userToken},
+  <span class="org-elixir-atom">logger:</span> (kind, msg, data) =&gt; {console.log(`${kind}: ${msg}`, data)}
+})
+
+export default socket
+</pre>
+</div>
+<ul class="org-ul">
+<li>The point here is to create websocket connection to connect to <code>/socket</code> defined in RumblWeb.Endpoint module.<br></li>
+</ul></li>
+
+<li><p>
+On server side, inside RumblWeb.UserSocket module<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">RumblWeb.UserSocket</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Phoenix.Socket</span>
+
+  channel <span class="org-string">"videos:*"</span>, <span class="org-type">RumblWeb.VideoChannel</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">connect</span>(<span class="org-comment">_params</span>, socket, <span class="org-comment">_connect_info</span>) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:ok</span>, socket}
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">id</span>(<span class="org-comment">_socket</span>) <span class="org-keyword">do</span>
+    <span class="org-elixir-atom">nil</span>
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Whenever a client sends a message whose topic starts with &ldquo;videos:&rdquo;, it will be routed to our <code>VideoChannel</code>.<br></li>
+<li>Implemented two callbacks.<br></li>
+</ul></li>
+</ol></li>
+
+<li><p>
+Define <code>VideoChannel</code> module to manage messages.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">RumblWeb.VideoChannel</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">RumblWeb</span>, <span class="org-elixir-atom">:channel</span>
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">"videos:" &lt;&gt; video_id will match all topics starting with "videos:"</span>
+  <span class="org-comment-delimiter"># </span><span class="org-comment">and assign the rest of the topic to the video_id variable</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">join</span>(<span class="org-string">"videos:"</span> &lt;&gt; video_id, <span class="org-comment">_params</span>, socket) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:ok</span>, assign(socket, <span class="org-elixir-atom">:video_id</span>, <span class="org-type">String</span>.to_integer(video_id))}
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Let clients to join a given topic.<br></li>
+</ul></li>
+
+<li>Get the client and server talking<br>
+<ol class="org-ol">
+<li><p>
+Create socket and join a channel.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">socket.connect()
+<span class="org-keyword">let</span> <span class="org-variable-name">vidChannel</span> = socket.channel(<span class="org-string">"videos:"</span> + videoId)
+
+vidChannel.join()
+  .receive(<span class="org-string">"ok"</span>, resp =&gt; console.log(<span class="org-string">"joined the video channel"</span>, resp))
+  .receive(<span class="org-string">"error"</span>, reason =&gt; {
+    console.log(<span class="org-string">"join failed"</span>, reason)
+  })
+</pre>
+</div></li>
+
+<li>Sending and Receiving events<br>
+<ul class="org-ul">
+<li><p>
+On client<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-js">vidChannel.on(<span class="org-string">"ping"</span>, ({count} =&gt; console.log(<span class="org-string">"PING"</span>, count)))
+</pre>
+</div></li>
+
+<li><p>
+On server<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">RumblWeb.VideoChannel</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">RumblWeb</span>, <span class="org-elixir-atom">:channel</span>
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">"videos:" &lt;&gt; video_id will match all topics starting with "videos:"</span>
+  <span class="org-comment-delimiter"># </span><span class="org-comment">and assign the rest of the topic to the video_id variable</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">join</span>(<span class="org-string">"videos:"</span> &lt;&gt; video_id, <span class="org-comment">_params</span>, socket) <span class="org-keyword">do</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">{:ok, assign(socket, :video_id, String.to_integer(video_id))}</span>
+
+    <span class="org-elixir-atom">:timer</span>.send_interval(<span class="org-elixir-number">5000</span>, <span class="org-elixir-atom">:ping</span>)
+    {<span class="org-elixir-atom">:ok</span>, socket}
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">handle_info</span>(<span class="org-elixir-atom">:ping</span>, socket) <span class="org-keyword">do</span>
+    <span class="org-variable-name">count</span> = socket.assigns[<span class="org-elixir-atom">:count</span>] || <span class="org-elixir-number">1</span>
+
+    push(socket, <span class="org-string">"ping"</span>, %{<span class="org-elixir-atom">count:</span> count})
+    {<span class="org-elixir-atom">:noreply</span>, assign(socket, <span class="org-elixir-atom">:count</span>, count + <span class="org-elixir-number">1</span>)}
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Our server send to &ldquo;videos:&rdquo; channel a message for every 5 second.<br></li>
+<li><code>handle_info</code> callback is invoked whenever an elixir message reaches the channel.<br></li>
+</ul></li>
+</ul></li>
+</ol></li>
+</ol></li>
+</ul>
+
+
+
+<ul class="org-ul">
+<li>In general,<br>
+<ul class="org-ul">
+<li>On server<br>
+<ul class="org-ul">
+<li>Define a socket module and mount it as a socket endpoint. Inside this socket module:<br>
+<ul class="org-ul">
+<li>Implement <code>id/1</code> and <code>connect/3</code> methods.<br></li>
+<li>Define channel routes with its channel module.<br></li>
+</ul></li>
+<li>Define a channel module<br>
+<ul class="org-ul">
+<li>Define how client join a given topic by implementing <code>join/3</code>.<br></li>
+<li>Handle incoming events by using<br>
+<ul class="org-ul">
+<li><code>handle_in</code><br></li>
+<li><code>handle_out</code><br></li>
+<li><code>handle_info</code><br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>On client<br>
+<ul class="org-ul">
+<li>Import socket, connect to an socket endpoint defined by server.<br></li>
+<li>Create channel using <code>socket.channel</code>. After that join the channel(<code>someChannel.join</code>) and receive message (<code>someChannel.receive</code>).<br></li>
+<li>Handle channel&rsquo;s event like <code>someChannel.on("someEvent", callback)</code>.<br></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4b88514" class="outline-3">
+<h3 id="org4b88514"><span class="section-number-3">6.2.</span> <span class="todo TODO">TODO</span> General steps recorded from Rumbl application</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+In this application, we are using channels to build video annotation in real time.<br>
+</p>
+
+<ol class="org-ol">
+<li><p>
+Confirm we could establish the websocket connection. Here, we prepare the client and server for the channel.<br>
+</p>
+<ol class="org-ol">
+<li>Use JavaScript to build Phoenix client.<br>
+<ul class="org-ul">
+<li>Create a Video module in <code>assets/js/video.js</code>.<br></li>
+<li>Initialize it from <code>assets/js/app.js</code>.<br></li>
+</ul></li>
+<li>In <code>assets/js/user-socket.js</code>, we create socket and export this module.<br></li>
+<li>The <code>rumbl_web/channels/user_socket.ex</code> defines the <code>UserSocket</code> module which serves as the starting point for all socket connections.<br></li>
+</ol>
+
+<p>
+At this point, you should be able to connect to socket.<br>
+</p></li>
+
+<li>Create the channel<br>
+<ol class="org-ol">
+<li><p>
+Define the channel the client will join: match a topic with a channel module.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">channel <span class="org-string">"videos:*"</span>, <span class="org-type">RumblWeb.VideoChannel</span>
+</pre>
+</div></li>
+
+<li><p>
+Implement the VideoChannel module. It will alow connections through <code>join</code> function.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">def</span> <span class="org-function-name">join</span>(<span class="org-string">"videos:"</span> &lt;&gt; video_id, <span class="org-comment">_params</span>, socket) <span class="org-keyword">do</span>
+  ...
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice the pattern matching: it will match all topics starting with &ldquo;videos:&rdquo;, and assign the rest of the topic to the <code>video_id</code>.<br></li>
+</ul></li>
+
+<li>Modify the <code>video.js</code> to<br>
+<ul class="org-ul">
+<li>Create channel from the socket and give it our topic.<br></li>
+<li>Join the channel with <code>receive</code>.<br></li>
+</ul></li>
+</ol></li>
+
+<li>Sending and receiving events (socket(different endpoint) &#x2013;&gt; channel(different topic) &#x2013;&gt; different event)<br>
+<ol class="org-ol">
+<li>On server side, in our <code>RumblWeb.VideoChannel</code> module, we implement handle<sub>in</sub>, handle<sub>out</sub>, and handle<sub>info</sub>.<br>
+<ul class="org-ul">
+<li>Conceptually, we are taking a socket and returning a transformed socket.<br></li>
+<li>We could <code>push</code> some event.<br></li>
+</ul></li>
+<li>On client side, receive that message with <code>channel.on(event, callback)</code>.<br></li>
+<li>Modify server side<br>
+<ul class="org-ul">
+<li>Handle the specific event(new<sub>annotation</sub>) and broadcast it to all connected socket with event type: &ldquo;new<sub>annotation</sub>&rdquo;.<br></li>
+</ul></li>
+<li><p>
+Modify client side<br>
+</p>
+<ul class="org-ul">
+<li>When user click a button, we push annotation to channel with &ldquo;new<sub>annotation</sub>&rdquo; event type with payload.<br></li>
+<li>Listen on &ldquo;new<sub>annotation</sub>&rdquo; event and render the received message.<br></li>
+<li>Render annotation is done by creating a div with content and append that div to some element.<br></li>
+</ul>
+
+<p>
+So, user click, push event &#x2013;&gt; server, receive it and broadcast it back to all client &#x2013;&gt; client handle event and display.<br>
+</p></li>
+</ol></li>
+
+<li>Socket authentication<br>
+<ol class="org-ol">
+<li><p>
+Expose the token to the client side in &ldquo;lib/rumbl<sub>web</sub>/templates/layout/app.html.heex&rdquo;.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span class="org-function-name">script</span>&gt;window.userToken = "&lt;%= assigns[:user_token] %&gt;"&lt;/<span class="org-function-name">script</span>&gt;
+</pre>
+</div></li>
+
+<li>Add the <code>:user_token</code> to <code>conn.assigns</code> whenever we have a current user.<br></li>
+<li>Pass the user token to the <code>Socket</code> constructor on the client<br></li>
+<li>Update RumblWeb.UserSocket module using pattern matching for <code>connect/2</code> function.<br></li>
+</ol></li>
+
+<li>Persisting annotation<br>
+Extend multimedia context to attach those annotations to videos and users in DB.<br>
+<ol class="org-ol">
+<li><p>
+Use ecto to generate schema<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix phx.gen.schema Multimedia.Annotation annotations body:text <span class="org-sh-escaped-newline">\</span>
+    at:integer user_id:references:users video_id:references:videos
+
+mix ecto.migrate
+</pre>
+</div></li>
+
+<li>Wire up new relationships to Accounts.User and Multimedia.Video schemas. (Make choices!)<br>
+<ul class="org-ul">
+<li>Don&rsquo;t expose every association between modules. For example, here we don&rsquo;t want Accounts.User schema know about Multimedia.Annotations. (May revisit later)<br></li>
+<li><p>
+Add <code>has_many</code> to Multimedia.Video<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">has_many <span class="org-elixir-atom">:annotations</span>, <span class="org-type">Rumbl.Multimedia.Annotation</span>
+</pre>
+</div></li>
+</ul></li>
+<li>Update generated Annotation schema: make :user, :video fields &ldquo;belongs<sub>to</sub>&rdquo;.<br></li>
+<li>Implement read and write video annotations features from Multimedia context rather than the schema.<br>
+<ul class="org-ul">
+<li>For example:<br>
+<ul class="org-ul">
+<li><code>annotation_video</code> which create annotation for a user and video.<br></li>
+<li><code>list_annotation</code> which list all annotations for a given video.<br></li>
+</ul></li>
+<li>Head back to VideoChannel module to intergrate those features.<br></li>
+</ul></li>
+<li>If we refresh page the messages are gone even they are in the DB. We need to pass the messages to the client when a user joins the channel.<br>
+<ul class="org-ul">
+<li>Update RumblWeb.VideoChannel&rsquo;s <code>join</code> function to pass down a list of annotations. (server side)<br></li>
+<li>Update <code>vidChannel.join()</code> from <code>video.js</code> (client side)<br></li>
+</ul></li>
+<li>Schedule the annotations to appear synced up with the video playback.<br>
+<ul class="org-ul">
+<li>Instead of rendering all annotations immediately on join, we schedule them to render based on the current player time.<br></li>
+</ul></li>
+</ol></li>
+
+<li>Handling disconnects<br>
+We need to prevent client to see duplicated message when it rejoin the channel after an unstable network.<br>
+<ul class="org-ul">
+<li>General idea:<br>
+<ul class="org-ul">
+<li>The idea is we track a <code>last_seen_id</code> on the client. Then whenever we rejoin a crash or disconnect, we send our <code>last_seen_id</code> to server.<br></li>
+<li>That way server could just send the data we missed.<br></li>
+</ul></li>
+<li>On server side, we need to return annotations after the <code>last_seen_id</code>.<br>
+<ul class="org-ul">
+<li>So, we need to modify <code>list_annotations</code> function.<br></li>
+<li>Also, modify the place in VideoChannel module where calls <code>list_annotations</code>.<br></li>
+</ul></li>
+<li>On client side<br>
+<ul class="org-ul">
+<li>We need to create and pass the <code>last_seen_id</code> to video channel, so it could be extract and used from server side. This is done from the second argument of <code>socket.channel</code>. Phoenix will send those custom params when a user joins the channel.<br></li>
+<li>Track this <code>last_seen_id</code>:<br>
+<ul class="org-ul">
+<li>During join/rejoin channel: compute this last seen id from all annotations&rsquo;s ids.<br></li>
+<li>During an &ldquo;new<sub>annotation</sub>&rdquo; event, just use this new arrived resp&rsquo;s id which is the last annotation&rsquo;s id.<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li>Tracking presence on a channel<br>
+<ol class="org-ol">
+<li><p>
+Generate a presence module<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix phx.gen.presence
+</pre>
+</div>
+<ul class="org-ul">
+<li>The generated <code>lib/rumbl_web/channels/presence.ex</code> defines the functions we required for tracking presence on a channel.<br></li>
+<li>Add this module to <b>supervisor tree</b> in <code>lib/rumbl/application.ex</code>.<br></li>
+</ul></li>
+<li>On server, we ask Phoenix to track broadcast messages to our socket&rsquo;s topic about users coming and going. So, make changes on VideoChannel module<br>
+<ul class="org-ul">
+<li>Send self a message when join in <code>join</code>.<br></li>
+<li>In <code>handle_info</code>, send message to all presence socket and ask RumblWeb.Presence module to track user.<br></li>
+</ul></li>
+<li>On client<br>
+<ul class="org-ul">
+<li>Create element to hold user-lists.<br></li>
+<li>In video.js <code>import {Presence} from "phoenix"</code> and define callback function for <code>presence.onSync</code> in which we update the user-lists&rsquo; content.<br></li>
+</ul></li>
+<li>To display online users not just showing ID, we will build a context function to fetch the usernames for a list of ids.<br>
+<ul class="org-ul">
+<li>Build <code>list_users_with_ids/1</code> function in Rumbl.Accounts module.<br></li>
+<li>Use that function in RumblWeb.Presence module to decorate our presence information in <code>fetch</code> callback.<br></li>
+<li>Don&rsquo;t forget to do modification in <code>presence.onSync</code> in video.js.<br></li>
+</ul></li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+<section id="outline-container-org4abd433" class="outline-2">
+<h2 id="org4abd433"><span class="section-number-2">7.</span> Ecto Queries and Constraints</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org475f8e2" class="outline-3">
+<h3 id="org475f8e2"><span class="section-number-3">7.1.</span> Select</h3>
+<div class="outline-text-3" id="text-7-1">
+<ol class="org-ol">
+<li><p>
+Find the user whose id == 1 from User table<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">Rumbl.Repo</span>.get_by(<span class="org-type">User</span>, <span class="org-elixir-atom">id:</span> <span class="org-elixir-number">1</span>)
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-org8393c07" class="outline-2">
+<h2 id="org8393c07"><span class="section-number-2">8.</span> Other what/how</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org402da0e" class="outline-3">
+<h3 id="org402da0e"><span class="section-number-3">8.1.</span> How to construct js code for channels</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>Our js code will follow these patterns<br>
+<ul class="org-ul">
+<li>Use &ldquo;let Something = {}&rdquo; to include all the code in it, then export it as &ldquo;export default Something&rdquo;.<br></li>
+<li>It will contain &ldquo;init&rdquo; method as constructor.<br></li>
+<li>Other functions will be binded to it as &ldquo;this.someFunction&rdquo;.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
+</div>
+</footer>
+</body>
+</html>

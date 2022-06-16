@@ -1,0 +1,3465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ANSI-Common-Lisp</title>
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">ANSI-Common-Lisp</h1>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orge8baefb">1. <span class="done DONE">DONE</span> Chapter2: Welecom to lisp <code>[12/12]</code></a>
+<ul>
+<li><a href="#orga7fb401">1.1. 2.3 Data</a></li>
+<li><a href="#org7b24713">1.2. <span class="done DONE">DONE</span> quote <code>,</code> protects a whole expression, including expressions within it.</a></li>
+<li><a href="#org9eb4755">1.3. <span class="done DONE">DONE</span> <code>list</code> is a function, its arguments are evaluated since it is a function.</a></li>
+<li><a href="#org40e7ac4">1.4. <span class="done DONE">DONE</span> List operations</a></li>
+<li><a href="#org7c9f4dc">1.5. <span class="done DONE">DONE</span> Truth</a></li>
+<li><a href="#org636f0e5">1.6. <span class="done DONE">DONE</span> Input and Output</a></li>
+<li><a href="#org812d73e">1.7. <span class="done DONE">DONE</span> Declare &amp; Assign Variables</a></li>
+<li><a href="#org6260868">1.8. <span class="done DONE">DONE</span> Functional programming</a></li>
+<li><a href="#org49552f6">1.9. <span class="done DONE">DONE</span> Iteration</a></li>
+<li><a href="#org779baf4">1.10. <span class="done DONE">DONE</span> Function as Objects</a></li>
+<li><a href="#org8a472ce">1.11. <span class="done DONE">DONE</span> Types</a></li>
+</ul>
+</li>
+<li><a href="#org5f1f05c">2. <span class="done DONE">DONE</span> Chapter3: Lists <code>[10/11]</code></a>
+<ul>
+<li><a href="#orga73b507">2.1. <span class="done DONE">DONE</span> Conses, equality, building lists, access</a></li>
+<li><a href="#org9941c61">2.2. <span class="done DONE">DONE</span> Mapping functions</a></li>
+<li><a href="#orgf07ab13">2.3. <span class="done DONE">DONE</span> Trees</a></li>
+<li><a href="#orgbac92c5">2.4. <span class="done DONE">DONE</span> Understanding Recursion</a></li>
+<li><a href="#orgca53783">2.5. <span class="done DONE">DONE</span> Set</a></li>
+<li><a href="#org0af68ae">2.6. <span class="done DONE">DONE</span> Sequence</a></li>
+<li><a href="#org011c4c9">2.7. <span class="done DONE">DONE</span> Stack</a></li>
+<li><a href="#org673be1c">2.8. <span class="done DONE">DONE</span> Dotted Lists</a></li>
+<li><a href="#org8a309ab">2.9. <span class="done DONE">DONE</span> Assoc-lists</a></li>
+<li><a href="#orge89fbfd">2.10. <span class="todo TODO">TODO</span> Example: shortest path</a></li>
+<li><a href="#orgcf58054">2.11. <span class="done DONE">DONE</span> Garbage</a></li>
+</ul>
+</li>
+<li><a href="#org6bd2fb8">3. REVIEWING Chapter4: Specialized data structure <code>[3/8]</code></a>
+<ul>
+<li><a href="#org53b5ce0">3.1. <span class="done DONE">DONE</span> Array (made by vectors)</a></li>
+<li><a href="#orgd63b723">3.2. <span class="done DONE">DONE</span> Example: binary-search</a></li>
+<li><a href="#org104943d">3.3. <span class="done DONE">DONE</span> Strings and Characters</a></li>
+<li><a href="#orge7c0f5d">3.4. REVIEWING Sequence</a></li>
+<li><a href="#org0aeade8">3.5. REVIEWING Example: parsing dates</a>
+<ul>
+<li><a href="#org52de22f">3.5.1. Example: read-integer</a></li>
+</ul>
+</li>
+<li><a href="#orgbd13b2d">3.6. REVIEWING structures</a></li>
+<li><a href="#org47f2f73">3.7. REVIEWING Example: binary search trees</a></li>
+<li><a href="#org99c72f3">3.8. DOING Hash tables</a></li>
+</ul>
+</li>
+<li><a href="#orgee0073f">4. REVIEWING Chapter5: Control</a>
+<ul>
+<li><a href="#orgda81ef3">4.1. Blocks</a></li>
+<li><a href="#orgc70b244">4.2. Conditionals</a></li>
+<li><a href="#org97430dd">4.3. Interation</a></li>
+<li><a href="#org4c3c49b">4.4. Multiple Values</a></li>
+<li><a href="#org7252b27">4.5. Aborts</a></li>
+</ul>
+</li>
+<li><a href="#org5b62d6a">5. REVIEWING Chapter6: Functions</a>
+<ul>
+<li><a href="#orgd59ff34">5.1. Global functions</a></li>
+<li><a href="#org6974f7b">5.2. Local functions</a></li>
+<li><a href="#orgb61cb51">5.3. Parameter lists</a></li>
+<li><a href="#org3161c8b">5.4. <span class="todo TODO">TODO</span> Example: utilities</a></li>
+<li><a href="#org8d5ef20">5.5. DOING Closures</a></li>
+<li><a href="#org9edf82a">5.6. <span class="todo TODO">TODO</span> Function builders</a></li>
+<li><a href="#org0b2afba">5.7. Dynamic Scope</a></li>
+<li><a href="#org3b9f529">5.8. Compilation</a></li>
+<li><a href="#orgef24cb8">5.9. Using recursion</a></li>
+</ul>
+</li>
+<li><a href="#orgbcc7d7f">6. REVIEWING Chapter7: Input and Output</a>
+<ul>
+<li><a href="#org03d9a21">6.1. Streams</a></li>
+<li><a href="#orgf6a5605">6.2. 7.2 Input</a></li>
+<li><a href="#org7ef9531">6.3. 7.3 Output</a></li>
+<li><a href="#org810adee">6.4. <span class="todo TODO">TODO</span> 7.4 string substitution</a></li>
+<li><a href="#orgbc463b3">6.5. <span class="todo TODO">TODO</span> 7.5 Macro characters</a></li>
+</ul>
+</li>
+<li><a href="#org9c11db6">7. REVIEWING Chapter8: Symbols</a>
+<ul>
+<li><a href="#orgb8a21a3">7.1. 8.1 Symbol Names</a></li>
+<li><a href="#org21892d6">7.2. 8.2 Property Lists</a></li>
+<li><a href="#org0f27afb">7.3. 8.3 Symbols are Big</a></li>
+<li><a href="#org5b1fe49">7.4. 8.4 Creating Symbols</a></li>
+<li><a href="#org582d84c">7.5. 8.5 Multiple Packages</a></li>
+<li><a href="#org27d3622">7.6. 8.6 keyword</a></li>
+<li><a href="#org8788f63">7.7. 8.7 Symbols and Variables</a></li>
+<li><a href="#orga4d9453">7.8. <span class="todo TODO">TODO</span> 8.8 Example: Random Text</a></li>
+</ul>
+</li>
+<li><a href="#org23a2c81">8. REVIEWING Chapter9: Numbers</a>
+<ul>
+<li><a href="#orgb91844c">8.1. Example: ray-tracing</a></li>
+</ul>
+</li>
+<li><a href="#org7c7f2e6">9. REVIEWING Chapter10: Macro</a>
+<ul>
+<li><a href="#orgc95ed69">9.1. 10.2 Macros</a></li>
+<li><a href="#org88437b2">9.2. 10.3 Backquote</a></li>
+<li><a href="#orgac79ad2">9.3. 10.5 Macro Design</a></li>
+<li><a href="#org9e5368d">9.4. <span class="todo TODO">TODO</span> 10.6 Generalized References</a></li>
+<li><a href="#org6258b84">9.5. 10.7 Example: Macro Utilities</a></li>
+</ul>
+</li>
+<li><a href="#orgac3a0b5">10. REVIEWING Chapter 11 CLOS</a>
+<ul>
+<li><a href="#org55a5c22">10.1. Superclasses</a></li>
+<li><a href="#orgae90136">10.2. 11.5 Precedence</a></li>
+<li><a href="#orgd8562de">10.3. 11.6 Generic Functions (Polymorphism)</a></li>
+<li><a href="#orgfeceb29">10.4. 11.7 Auxiliary Methods</a></li>
+<li><a href="#orgd05e2e6">10.5. 11.8 Method combination</a></li>
+<li><a href="#org77db73d">10.6. 11.9 Encapsulation</a></li>
+<li><a href="#orgaab008f">10.7. 11.10 Two Models</a></li>
+</ul>
+</li>
+<li><a href="#orgc67c98c">11. DOING Chapter 12: Structure</a>
+<ul>
+<li><a href="#org5f6f38a">11.1. 12.1 shared structure</a></li>
+<li><a href="#org2eece17">11.2. 12.2 Modification</a></li>
+<li><a href="#org0c014fe">11.3. 12.3 Example: Queue</a></li>
+<li><a href="#org3bf7d59">11.4. 12.4 destructive functions</a></li>
+<li><a href="#orgffec6ae">11.5. 12.5 Example: binary search trees</a></li>
+<li><a href="#org903acd1">11.6. <span class="todo TODO">TODO</span> 12.6 Example: doubly-linked lists</a></li>
+<li><a href="#orgbd5b282">11.7. <span class="todo TODO">TODO</span> 12.7 Circular Structure</a></li>
+<li><a href="#orgc1b43e0">11.8. <span class="todo TODO">TODO</span> 12.8 Constant Structure</a></li>
+</ul>
+</li>
+<li><a href="#org097401b">12. DOING Chapter 13: Speed</a></li>
+<li><a href="#org8903152">13. Chatper14: Advanced Topics</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgc4b9f00">13.0.1. 14.4 Packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<section id="outline-container-orge8baefb" class="outline-2">
+<h2 id="orge8baefb"><span class="section-number-2">1.</span> <span class="done DONE">DONE</span> Chapter2: Welecom to lisp <code>[12/12]</code></h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orga7fb401" class="outline-3">
+<h3 id="orga7fb401"><span class="section-number-3">1.1.</span> 2.3 Data</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Lisp programs are expressed as lists.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7b24713" class="outline-3">
+<h3 id="org7b24713"><span class="section-number-3">1.2.</span> <span class="done DONE">DONE</span> quote <code>,</code> protects a whole expression, including expressions within it.</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+</div>
+<div id="outline-container-org9eb4755" class="outline-3">
+<h3 id="org9eb4755"><span class="section-number-3">1.3.</span> <span class="done DONE">DONE</span> <code>list</code> is a function, its arguments are evaluated since it is a function.</h3>
+<div class="outline-text-3" id="text-1-3">
+<div class="org-src-container">
+<pre class="src src-lisp">(list '(+ 2 1) (+ 2 1))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org40e7ac4" class="outline-3">
+<h3 id="org40e7ac4"><span class="section-number-3">1.4.</span> <span class="done DONE">DONE</span> List operations</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li><code>cons</code> builds lists.<br></li>
+<li><p>
+build up lists by consing new elements onto an empty list<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(cons 'a (cons 'b nil))
+(list 'a 'b)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7c9f4dc" class="outline-3">
+<h3 id="org7c9f4dc"><span class="section-number-3">1.5.</span> <span class="done DONE">DONE</span> Truth</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li><code>nil</code> and <code>t</code> evaluates to itself.<br></li>
+<li><code>(null nil)</code> returns true of the empty list.<br></li>
+<li><code>(not nil)</code> returns true, since the argument nil is false.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org636f0e5" class="outline-3">
+<h3 id="org636f0e5"><span class="section-number-3">1.6.</span> <span class="done DONE">DONE</span> Input and Output</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li><p>
+<code>format</code>, the most general output function<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(format t <span class="org-string">"~A plus ~A = ~A. ~%"</span> 2 3 (+ 2 3))
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+output<br>
+</p>
+<pre class="example" id="org4b76e41">
+2 plus 3 = 5. 
+NIL
+</pre>
+<ul class="org-ul">
+<li>First line is displayed by format.<br></li>
+<li>Second line is the value returned by the call to format.<br></li>
+</ul></li>
+<li>First argument, <code>t</code> indicates the output is to be sent to the default place.<br></li>
+<li>Second argument is a string.<br>
+<ul class="org-ul">
+<li><code>~A</code> indicates a position to be filled.<br></li>
+<li><code>%</code> indicates a newline.<br></li>
+</ul></li>
+</ul></li>
+<li><code>read</code>, the standard function for input<br>
+<ul class="org-ul">
+<li>read is a complete Lisp parser, it is very powerful. It parses what it reads, and returns the Lisp object that results.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org812d73e" class="outline-3">
+<h3 id="org812d73e"><span class="section-number-3">1.7.</span> <span class="done DONE">DONE</span> Declare &amp; Assign Variables</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li><code>let</code>, define local variables<br></li>
+<li><code>defparameter</code>, define global variable<br>
+<ul class="org-ul">
+<li>Such a variable will then be accessible everywhere, except in expressions that create a new local variable with the same name.<br></li>
+<li>It is conventional to give global variables begin and end with asterisks.<br></li>
+</ul></li>
+<li><code>defconstant</code>, define global constants<br>
+<ul class="org-ul">
+<li>No need to give distinctive name for them.<br></li>
+</ul></li>
+<li><code>boundp</code>, check if some symbol is the name of a global variable or constant.<br></li>
+<li><p>
+<code>setf</code> the <b>most general</b> assignment operator. <b>The return value is the last VAL in the list</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defparameter</span> <span class="org-variable-name">*glob*</span> 99)
+(setf *glob* 98)
+</pre>
+</div>
+<ul class="org-ul">
+<li>98<br></li>
+</ul></li>
+<li><p>
+When the first argument to setf is a symbol that is not the name of a local variable, it is taken to be a global variable.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf x (list 'a 'b 'c))
+(setf (car x) 'w)
+</pre>
+</div>
+<ul class="org-ul">
+<li><b>Create a global variable implicitly, just by assigning values</b>.<br></li>
+<li>It is a better to use explicit <code>defparameter</code>.<br></li>
+<li>The first argument to setf can be almost any expression that refers to a particular place. The value of the second argument is <b>inserted</b> in the place referred to by the first.<br></li>
+</ul></li>
+<li><p>
+Give even number of arguments to setf, is equivalent to multiple separate calls to setf in sequence.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf a b
+      c d
+      e f)
+</pre>
+</div></li>
+<li><a href="https://stackoverflow.com/questions/971734/lisp-style-setq-vs-setf/971845">setf vs setq</a><br>
+<ul class="org-ul">
+<li><b>Go with setf</b> everywhere unless you have a reason not to.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6260868" class="outline-3">
+<h3 id="org6260868"><span class="section-number-3">1.8.</span> <span class="done DONE">DONE</span> Functional programming</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>You may be surprised to discover how few you really need side-effects. And the more side-effects you do without, the better off you&rsquo;ll be.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org49552f6" class="outline-3">
+<h3 id="org49552f6"><span class="section-number-3">1.9.</span> <span class="done DONE">DONE</span> Iteration</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li><p>
+<code>do</code> macro is the fundamantal iteration operator<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">show-squares</span> (start end)
+  (<span class="org-keyword">do</span> ((i start (+ i 1)))
+      ((&gt; i end) 'done)
+    (format t <span class="org-string">"~A ~A ~%"</span> i (* i i))
+    (format t <span class="org-string">"~%"</span>)))
+(show-squares 2 5)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>do</code> <b>create variables</b><br></li>
+<li>The first argument is a list of variable specification.Each element of this list can be of the form <code>(var initial update)</code>. Here it only has one element: (i start (+ i 1)).<br></li>
+<li>The second argument should be a list containing one or more expression.<br>
+<ul class="org-ul">
+<li>The first expression is used to test whether iteration should stop. In this case, the test expression is (&gt; i end).<br></li>
+<li>The remaining expressions in the list will be evaluated in order when iteration stops, and the value of the last will be returned as the value of the <code>do</code>. So show-squares will always return &ldquo;done&rdquo;.<br></li>
+</ul></li>
+<li>The remaining arguments to do comprise the body of loop, which will be evaluated, in order, on each iteration.<br></li>
+</ul></li>
+<li><p>
+<code>dolist</code> is a simpler iteration operators to iterate through elements of a list.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">return the length of list</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">our-length</span> (lst)
+  (<span class="org-keyword">let</span> ((len 0))
+    (<span class="org-keyword">dolist</span> (obj lst)
+      (setf len (+ len 1))
+      (format t <span class="org-string">"element is ~A ~%"</span> obj))
+    len))
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>dolist</code> takes an argument of the form <code>(variable expression)</code>, followed by a body of expressions.<br></li>
+<li><code>variable</code> bound to successive elements of the list returned by <code>expression</code>.<br></li>
+<li>Loop above says, for each obj in lst, increment len.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org779baf4" class="outline-3">
+<h3 id="org779baf4"><span class="section-number-3">1.10.</span> <span class="done DONE">DONE</span> Function as Objects</h3>
+<div class="outline-text-3" id="text-1-10">
+<p>
+By default, the function named by the first element is applied to rest of the list. And the rest of the list is evaluated by normal evaluation rule. So, if we want to refer to a function not at the start of the list, we have to use <code>#'</code> notiation.<br>
+</p>
+<ul class="org-ul">
+<li><code>function</code> is <b>a special operator</b>, its abbreviation is <code>#'</code>, sharp-quote.<br>
+<ul class="org-ul">
+<li><code>(function +)</code><br></li>
+<li><code>#'+</code><br></li>
+</ul></li>
+<li><p>
+<code>apply</code> takes a function and a list of arguments for it, and returns the result of applying function to the arguments:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(apply #'+ '(1 2 3))
+(apply #'+ 1 1 '(1 1 1))
+</pre>
+</div>
+<ul class="org-ul">
+<li>It can be given any number of arguments, so long as the <b>last is a list</b>.<br></li>
+</ul></li>
+<li><p>
+<code>funcall</code> <br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(funcall #'+ 1 2 3)
+</pre>
+</div>
+<ul class="org-ul">
+<li>It does the same but does not need the argument to be packaged in a list.<br></li>
+<li>It could not handle case the argument is a list.<br></li>
+</ul></li>
+<li><b>To refer literally to a function</b>, we use what&rsquo;s called a <b>lambda expression</b>.<br>
+<ul class="org-ul">
+<li>A lambda expression is a <b>list</b> containing the <b>symbol lambda</b>, followed by a list of parameters, followed by a body of zero or more expressions.<br></li>
+<li><p>
+A lambda expression can be considered as <b>the name of a function</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">((<span class="org-keyword">lambda</span> (x) (+ x 100)) 1)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Like an ordinary function name, a lambda expression can be the first element of a function call.<br></li>
+</ul></li>
+<li><p>
+Or by affixing a sharp-quote to a lambda expression.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(funcall #'(<span class="org-keyword">lambda</span> (x) (+ x 100))
+         1)
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8a472ce" class="outline-3">
+<h3 id="org8a472ce"><span class="section-number-3">1.11.</span> <span class="done DONE">DONE</span> Types</h3>
+<div class="outline-text-3" id="text-1-11">
+<ul class="org-ul">
+<li><p>
+The built-in Common Lisp types form a hierarchy of subtypes and supertypes. The type <code>t</code> is the supertype of all types, so everything is of type <code>t</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(typep 27 'integer)
+(typep nil 't)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="outline-container-org5f1f05c" class="outline-2">
+<h2 id="org5f1f05c"><span class="section-number-2">2.</span> <span class="done DONE">DONE</span> Chapter3: Lists <code>[10/11]</code></h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orga73b507" class="outline-3">
+<h3 id="orga73b507"><span class="section-number-3">2.1.</span> <span class="done DONE">DONE</span> Conses, equality, building lists, access</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li><code>nil</code> is both an atom and a list.<br></li>
+<li>each call to <code>cons</code>, Lisp allocates a new piece of memory with room for two pointers.<br></li>
+<li>use <code>equal</code> to check if two lists had the same elements<br></li>
+<li><p>
+Why Lisp has no pointer?<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf x '(a b c))
+(setf y x)
+
+(eql x y)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>The location in memory associated with the variable x does not contain the list itself, but a pointer to it.<br></li>
+<li>Whenever you assign one variable the value of another, the two variables will have <code>eql</code> values.<br></li>
+<li>The reason Lisp has no pointers is that every value is conceptually a pointer. When you assign a value to a variable or store it in a data structure, what gets stored is actually a pointer to the value. When you ask for the contents of the data structure or the value of the variable, Lisp returns what it points to.<br></li>
+</ul></li>
+<li><code>copy-list</code>, takes a list and returns a copy of it.<br>
+<ul class="org-ul">
+<li>the return value is like a <b>new bus with the same passengers</b>.<br></li>
+<li><p>
+simple copy-list<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-copy-list</span> (lst)
+  (<span class="org-keyword">if</span> (atom lst)
+      lst 
+      (cons (car lst) (our-copy-list (cdr lst)))))
+</pre>
+</div></li>
+</ul></li>
+<li><p>
+<code>append</code> returns the concatenation of any number of lists:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(append '(a b) '(c d) '(e f))
+</pre>
+</div>
+<ul class="org-ul">
+<li>returns (A B C D E F)<br></li>
+</ul></li>
+<li><code>nthcdr</code>, find the nth cdr.<br></li>
+<li><code>nth</code>, find the element at a given position in a list.<br>
+<ul class="org-ul">
+<li>equivalent to car of nthcdr<br></li>
+</ul></li>
+<li><code>last</code>, returns the last <b>cons</b> in a list<br>
+<ul class="org-ul">
+<li>To get the last element of a list, take car of the last.<br></li>
+</ul></li>
+<li><code>caddr</code> equals car of cdr of cdr.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9941c61" class="outline-3">
+<h3 id="org9941c61"><span class="section-number-3">2.2.</span> <span class="done DONE">DONE</span> Mapping functions</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li><p>
+<code>mapcar</code>, takes a function and one or more lists, and returns the result of applying the function to elements taken from each list, until some list runs out.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(mapcar #'(<span class="org-keyword">lambda</span> (x) (+ x 10))
+        '(1 2 3))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(11 12 13)<br></li>
+</ul></li>
+<li><p>
+<code>maplist</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(maplist #'(<span class="org-keyword">lambda</span> (x) x)
+         '(a b c))
+</pre>
+</div>
+<ul class="org-ul">
+<li>((A B C) (B C) (C))<br></li>
+<li>calls the function on successive <code>cdrs</code> of the lists.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf07ab13" class="outline-3">
+<h3 id="orgf07ab13"><span class="section-number-3">2.3.</span> <span class="done DONE">DONE</span> Trees</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li><p>
+<code>copy-tree</code>, copies both the car and cdr of each cons, while <code>copy-list</code> copies only the cdr.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-copy-tree</span> (tr)
+  (<span class="org-keyword">if</span> (atom tr)
+      tr 
+      (cons (our-copy-tree (car tr))
+            (our-copy-tree (cdr tr)))))
+</pre>
+</div></li>
+<li><code>subst</code> vs <code>substitute</code><br>
+<ul class="org-ul">
+<li>substitute can replace element in list<br></li>
+<li>subst can replace element in tree<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbac92c5" class="outline-3">
+<h3 id="orgbac92c5"><span class="section-number-3">2.4.</span> <span class="done DONE">DONE</span> Understanding Recursion</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>The advantage of recursion is precisely that it lets us view algorithm in a more abstract way.<br></li>
+<li>Do not use traces of all the invocation to see a recursion is correct. Use math induction.<br>
+<ul class="org-ul">
+<li>case 0 (base case)<br></li>
+<li>case n+1, given n.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgca53783" class="outline-3">
+<h3 id="orgca53783"><span class="section-number-3">2.5.</span> <span class="done DONE">DONE</span> Set</h3>
+<div class="outline-text-3" id="text-2-5">
+<ul class="org-ul">
+<li><p>
+<code>member</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(member 'b '(a b c))
+(member 'z '(a b c)) 
+(member '(a) '((a) (z)))
+(member '(a) '((a) (z)) <span class="org-builtin">:test</span> #'equal)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Test if an element is a member of the list. When member returns true, it returns the part of the list beginning with the object it was looking for.<br></li>
+<li>Can use keyword argument <code>:test</code> to pass the equality test function. By default, member use <code>eql</code>.<br></li>
+<li><p>
+Can use keyword argument <code>:key</code> which specify a function to be applied to each element before comparison.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(member 'a '((a b) (c d)) <span class="org-builtin">:key</span> #'car)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Here, we test if there was an element whose car was <code>a</code>.<br></li>
+</ul></li>
+<li><p>
+If there an element whose car is equal to 2<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(member 2 '((1) (2)) <span class="org-builtin">:test</span> #'equal <span class="org-builtin">:key</span> #'car)
+</pre>
+</div></li>
+</ul></li>
+<li><p>
+<code>member-if</code>, to find an element satisfying an arbitary predicate. A simple implementation:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-member-if</span> (fn lst)
+  (and (consp lst)
+       (<span class="org-keyword">if</span> (funcall fn (car lst))
+           lst
+           (our-member-if fn (cdr lst)))))
+
+(our-member-if #'oddp '(2 3 4))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(3 4)<br></li>
+</ul></li>
+<li><code>adjoin</code>, conses the object onto the list only if the object is not already a member, like a conditional cons.<br></li>
+<li><p>
+<code>union</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(union '(a b c) '(c b s))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(a b c s)<br></li>
+</ul></li>
+<li><p>
+<code>intersection</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(intersection '(a b c) '(b b c))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(b c)<br></li>
+</ul></li>
+<li><p>
+<code>set-difference</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(set-difference '(a b c d e) '(b e))
+(set-difference '(a b c) '(b c e f a))
+</pre>
+</div>
+<ul class="org-ul">
+<li>return what is missing for the second list comparing with the first list<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0af68ae" class="outline-3">
+<h3 id="org0af68ae"><span class="section-number-3">2.6.</span> <span class="done DONE">DONE</span> Sequence</h3>
+<div class="outline-text-3" id="text-2-6">
+<ul class="org-ul">
+<li>sequence include <b>both list and vector</b>. It represents <b>a series of objects in a particular order</b>.<br></li>
+<li><code>length</code><br></li>
+<li><p>
+<code>subseq</code>, copy part of a sequence<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(subseq '(0 1 2 3 4 5) 2)
+</pre>
+</div>
+<ul class="org-ul">
+<li>(2 3 4 5)<br></li>
+<li>second argument is required, is the position of the first element to be included.<br></li>
+<li>third argument is optional, is the position of the first element <b>not</b> to be included.<br></li>
+</ul></li>
+<li><p>
+<code>reverse</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(reverse '(a b c))
+</pre>
+</div>
+<ul class="org-ul">
+<li>return a sequence with the same elements<br></li>
+</ul></li>
+<li><p>
+A test for <b>palindrome</b> which is a sequence tha reads the same in either direction:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">mirror?</span> (s)
+  (<span class="org-keyword">let</span> ((len (length s)))
+    (or (zerop len)
+        (equal s
+               (reverse s)))))
+
+(mirror? '(a b a))
+(mirror? '(a b b a))
+(mirror? '(a b c))
+</pre>
+</div></li>
+<li><p>
+<code>sort</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(sort '(1 2 3 4 5) #'&gt;)
+(sort '(1 4 3 2 5) #'(<span class="org-keyword">lambda</span> (x y)
+                       (&lt; x y)))
+</pre>
+</div></li>
+<li><p>
+A function which returns the nth largest element of a list:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">nthmost</span> (n lst)
+  (nth (- n 1)
+       (sort (copy-list lst) #'&gt;)))
+(nthmost 2 '(0 2 1 3 8))
+</pre>
+</div>
+<ul class="org-ul">
+<li>return 3<br></li>
+</ul></li>
+<li><p>
+<code>every</code> and <code>some</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(every #'oddp '(1 3 4))
+(every #'&gt; '(1 3 5) '(0 2 4))
+(every #'&gt; '(1 3 5) '(0 10))
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org011c4c9" class="outline-3">
+<h3 id="org011c4c9"><span class="section-number-3">2.7.</span> <span class="done DONE">DONE</span> Stack</h3>
+<div class="outline-text-3" id="text-2-7">
+<ul class="org-ul">
+<li>(push obj lst) == (setf lst (cons obj lst))<br></li>
+<li>Use dolist and push we could build iterative version of <code>reverse</code>.<br></li>
+<li><p>
+<code>pushnew</code> macrio is a variant of push that uses <code>adjoin</code> instead of <code>cons</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x '(a b)))
+  (pushnew 'c x)
+  (pushnew 'a x))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(C A B)<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org673be1c" class="outline-3">
+<h3 id="org673be1c"><span class="section-number-3">2.8.</span> <span class="done DONE">DONE</span> Dotted Lists</h3>
+<div class="outline-text-3" id="text-2-8">
+<ul class="org-ul">
+<li><p>
+Known as <b>proper lists</b><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">proper-list?</span> (x)
+  (or (null x)
+      (and (consp x)
+           (proper-list? (cdr x)))))
+</pre>
+</div>
+<ul class="org-ul">
+<li>all the list we&rsquo;ve built so far have been proper lists.<br></li>
+</ul></li>
+<li><p>
+<b>A cons that isn&rsquo;t proper list</b> is called a <code>dotted list</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf pair (cons 'a 'b))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(A . B)<br></li>
+<li>In dot nation, the car and cdr of each cons are shown separated by a period.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8a309ab" class="outline-3">
+<h3 id="org8a309ab"><span class="section-number-3">2.9.</span> <span class="done DONE">DONE</span> Assoc-lists</h3>
+<div class="outline-text-3" id="text-2-9">
+<ul class="org-ul">
+<li><b>A list of conses</b> is called an <code>assoc-list</code> or <code>alist</code>.<br></li>
+<li>It is natural to use conses to represent mappings.<br></li>
+<li><p>
+use <code>assoc</code> to retrievie the pair associated with a given key.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf trans '((+ . <span class="org-string">"add"</span>) (- . <span class="org-string">"subtract"</span>)))
+(assoc '+ trans)
+
+(assoc '+ '((+ <span class="org-string">"add"</span>) (- <span class="org-string">"subtract"</span>)))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(+ . &ldquo;add&rdquo;)<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge89fbfd" class="outline-3">
+<h3 id="orge89fbfd"><span class="section-number-3">2.10.</span> <span class="todo TODO">TODO</span> Example: shortest path</h3>
+<div class="outline-text-3" id="text-2-10">
+<ul class="org-ul">
+<li><p>
+the graph<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-dot">digraph {
+    label=<span class="org-string">"resubmit failed metering data"</span>;
+    <span class="org-string">"start"</span> [shape=doublecircle]
+}
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgcf58054" class="outline-3">
+<h3 id="orgcf58054"><span class="section-number-3">2.11.</span> <span class="done DONE">DONE</span> Garbage</h3>
+<div class="outline-text-3" id="text-2-11">
+<ul class="org-ul">
+<li>Allocating memory from the heap is somethimes generically known as consing.<br></li>
+<li>Consing will always cost something. Use destructive function which try to re-use most of the structure of the list passed to them as argument (see chapter12.4).<br></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="outline-container-org6bd2fb8" class="outline-2">
+<h2 id="org6bd2fb8"><span class="section-number-2">3.</span> REVIEWING Chapter4: Specialized data structure <code>[3/8]</code></h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org53b5ce0" class="outline-3">
+<h3 id="org53b5ce0"><span class="section-number-3">3.1.</span> <span class="done DONE">DONE</span> Array (made by vectors)</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li><p>
+<code>make-array</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf arr (make-array '(2 3) <span class="org-builtin">:initial-element</span> nil))
+</pre>
+</div></li>
+<li><p>
+<code>aref</code>, <b>retrieve array element</b><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(aref arr 0 0)
+</pre>
+</div>
+<ul class="org-ul">
+<li>retrieve an element of an unitialized array are undefined.<br></li>
+</ul></li>
+<li><p>
+Set array element<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf (aref arr 0 0) ' b)
+arr
+</pre>
+</div>
+<ul class="org-ul">
+<li>#2A((B NIL NIL) (NIL NIL NIL))<br></li>
+<li>To denote a literal array, we use the #na syntax, that n is the number of dimensions in the array, in this case it is 2.<br></li>
+</ul></li>
+<li><p>
+One dimension array is also called <code>vector</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf vec (make-array 4 <span class="org-builtin">:initial-element</span> 0))
+</pre>
+</div></li>
+<li><p>
+<b>Create an fill</b> vector in a single step by calling <code>vector</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(vector <span class="org-string">"a"</span> 'b 3)
+</pre>
+</div></li>
+<li>Set vector<br>
+<ul class="org-ul">
+<li><code>aref</code> could do the job<br></li>
+<li><p>
+<code>svref</code> is a faster option<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf (aref arr 0 0) ' b)
+(setf (svref vec 0) 100)
+vec
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd63b723" class="outline-3">
+<h3 id="orgd63b723"><span class="section-number-3">3.2.</span> <span class="done DONE">DONE</span> Example: binary-search</h3>
+<div class="outline-text-3" id="text-3-2">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">b-search</span> (obj vec)
+  (<span class="org-keyword">let</span> ((len (length vec)))
+    (<span class="org-keyword">if</span> (zerop len)
+        nil
+      (b-finder obj vec 0 (- len 1)))))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">b-finder</span> (obj vec low high)
+  (<span class="org-keyword">let</span> ((mid (round (/ (+ low high) 2))))
+    (<span class="org-keyword">cond</span> ((eql obj (aref vec mid))
+           mid)
+          ((&lt; obj (aref vec mid))
+           (b-finder obj vec low (- mid 1)))
+          ((&gt; obj (aref vec mid))
+           (b-finder obj vec (+ mid 1) high)))))
+
+(setf v #(0 1 3 4 6 7 8 9 10))
+(b-search 4 v)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice use <code>#</code> to create vector.<br></li>
+</ul>
+
+<pre class="example">
+3
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org104943d" class="outline-3">
+<h3 id="org104943d"><span class="section-number-3">3.3.</span> <span class="done DONE">DONE</span> Strings and Characters</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Strings are <b>vectors of characters</b>.<br></li>
+<li>Individual character c as <code>#\c</code>.<br></li>
+<li><p>
+<code>char-code</code> returns the number associated with a character.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(char-code #\c)
+</pre>
+</div></li>
+<li><p>
+numeric comparision on characters<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(sort <span class="org-string">"elbow"</span> #'char&lt;)
+</pre>
+</div>
+<ul class="org-ul">
+<li>&ldquo;below&rdquo;<br></li>
+</ul></li>
+<li>Both sequence functions and array functions work on them.<br>
+<ul class="org-ul">
+<li>(aref &ldquo;abc&rdquo; 1)<br></li>
+<li>Faster access, <code>(char "abc" 1)</code><br></li>
+</ul></li>
+<li><p>
+Replace/set element of string<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((str (copy-seq <span class="org-string">"Merlin"</span>)))
+  (setf (char str 3) #\K)
+  str)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Return &ldquo;MerKin&rdquo;<br></li>
+<li>Notice the copy action: <code>copy-seq</code><br></li>
+</ul></li>
+<li>Compare to strings<br>
+<ul class="org-ul">
+<li>Use the general <code>equal</code>.<br></li>
+<li><code>string-equal</code> ignores case.<br></li>
+</ul></li>
+<li>Build strings<br>
+<ul class="org-ul">
+<li>The most general way is to use <code>format</code>.<br></li>
+<li>Use <code>concatenate</code> to join several strings together.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge7c0f5d" class="outline-3">
+<h3 id="orge7c0f5d"><span class="section-number-3">3.4.</span> REVIEWING Sequence</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>Sequence in common lisp includes<br>
+<ul class="org-ul">
+<li>lists<br></li>
+<li>vectors (and therefore strings)<br></li>
+</ul></li>
+<li>Common ones:<br>
+<ul class="org-ul">
+<li>remove<br></li>
+<li>length<br></li>
+<li>subseq<br></li>
+<li>reverse<br></li>
+<li>sort<br></li>
+<li>every<br></li>
+<li>some<br></li>
+<li>mirror?<br></li>
+</ul></li>
+<li>Retriev elements of sequences:<br>
+<ul class="org-ul">
+<li><code>nth</code> for lists<br></li>
+<li><code>aref</code> and <code>svref</code> for vectors<br></li>
+<li><code>char</code> for strings<br></li>
+<li><code>elt</code> works for sequences of any kind.<br></li>
+</ul></li>
+<li><p>
+Many sequence functions take one or more keyword arguments:<br>
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">key parameter</th>
+<th scope="col" class="org-left">default</th>
+<th scope="col" class="org-left">purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">:key</td>
+<td class="org-left">identity</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:test</td>
+<td class="org-left">eql</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:from-end</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:start</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:end</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+<ul class="org-ul">
+<li><p>
+<code>position</code>, returns the position of an element in a sequence, or nil if it is not found.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(position #\a <span class="org-string">"fantasia"</span> <span class="org-builtin">:start</span> 3 <span class="org-builtin">:end</span> 5)
+</pre>
+</div></li>
+<li><p>
+<code>:key</code> argument is a function that is applied to each element of a sequence before it is considered.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(position ' a '(( c d) (a b)) <span class="org-builtin">:key</span> #'car)
+</pre>
+</div></li>
+<li><code>:test</code> <br>
+<ul class="org-ul">
+<li><p>
+Its argument could be any function with two arguments.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(position 3 '(1 0 7 5 ) <span class="org-builtin">:test</span> #'&lt;)
+</pre>
+</div></li>
+<li>When match a list, might want to use <code>equal</code> instead of <code>eql</code>.<br></li>
+</ul></li>
+<li><p>
+A function find the second word in a sentence:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">second-word</span> (str)
+  (<span class="org-keyword">let</span> ((p1 (+ (position #\  str) 1)))
+    (subseq str p1 (position #\  str <span class="org-builtin">:start</span> p1))))
+
+(second-word <span class="org-string">"one two three."</span>)
+</pre>
+</div></li>
+<li><p>
+<code>position-if</code>, find an element satisfying a predicate of one argument<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(position-if #'oddp '(2 3 4 5))
+</pre>
+</div></li>
+<li>similar to <code>position-if</code><br>
+<ul class="org-ul">
+<li><p>
+<code>find-if</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(find-if #'(<span class="org-keyword">lambda</span> (x)
+             (eql (car x) 'complete))
+         lst)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">would be better randered as</span>
+(find 'complete lst <span class="org-builtin">:key</span> #'car)
+</pre>
+</div></li>
+<li><code>member-if</code><br></li>
+</ul></li>
+<li><p>
+<code>remove-duplicates</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(remove-duplicates <span class="org-string">"abracadabra"</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>remove</code><br></li>
+<li><code>remove-if</code><br></li>
+</ul></li>
+<li><code>reduce</code> <br>
+<ul class="org-ul">
+<li>It boiling down a sequence into a single value.<br></li>
+<li><p>
+It takes at least two arguments<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(reduce #'(<span class="org-keyword">lambda</span> (a b)
+            (+ a b))
+        '(1 2 3))
+</pre>
+</div>
+<ul class="org-ul">
+<li>a function of two arguments<br></li>
+<li>a sequence.<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0aeade8" class="outline-3">
+<h3 id="org0aeade8"><span class="section-number-3">3.5.</span> REVIEWING Example: parsing dates</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+A program can take a string like &ldquo;16 Aug 1980&rdquo; and return a list of integers representing the day, month, and year<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">some general-purpose parsing functions</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">token is for extracting the tokens from a string</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Given a string a test function, it returns a list of the substrings whose characters satisfy the function.</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">tokens</span> (str test start)
+  (<span class="org-keyword">let</span> ((p1 (position-if test str <span class="org-builtin">:start</span> start)))
+    (<span class="org-keyword">if</span> p1
+        (<span class="org-keyword">let</span> ((p2 (position-if #'(<span class="org-keyword">lambda</span> (c)
+                                   (not (funcall test c)))
+                               str <span class="org-builtin">:start</span> p1)))
+          (cons (subseq str p1 p2)
+                (<span class="org-keyword">if</span> p2
+                    (tokens str test p2)
+                  nil)))
+      nil)))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">demo: (tokens "abc12 3cde.f" #'alpha-char-p 0) returns ("abc" "cde" "f")</span>
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">constituent</span> (c)
+  (and (graphic-char-p c)
+       (not (char= c #\ ))))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">(tokens "abc12 3cde.f" #'constituent 0)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">parse-date takes a date in the specified form and returns a list of integers representing its components:</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">parse-date</span> (str)
+  (<span class="org-keyword">let</span> ((toks (tokens str #'constituent 0)))
+    (list (parse-integer (first toks))
+          (parse-month (second toks))
+          (parse-integer (third toks)))))
+
+(<span class="org-keyword">defconstant</span> <span class="org-variable-name">month-names</span>
+  #(<span class="org-string">"jan"</span> <span class="org-string">"feb"</span> <span class="org-string">"mar"</span> <span class="org-string">"apr"</span> <span class="org-string">"may"</span> <span class="org-string">"jun"</span> <span class="org-string">"jul"</span> <span class="org-string">"aug"</span> <span class="org-string">"sep"</span> <span class="org-string">"oct"</span> <span class="org-string">"nov"</span> <span class="org-string">"dec"</span>))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">parse-month</span> (str)
+  (<span class="org-keyword">let</span> ((p (position str month-names <span class="org-builtin">:test</span> #'string-equal)))
+    (<span class="org-keyword">if</span> p
+        (+ p 1)
+      nil)))
+
+(parse-date <span class="org-string">"16 Aug 1980"</span>)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>graphic-char-p</code> include all the characters we can see including space character.<br></li>
+<li>Tokens will be strings seperated by whitespaces.<br></li>
+</ul>
+</div>
+
+<div id="outline-container-org52de22f" class="outline-4">
+<h4 id="org52de22f"><span class="section-number-4">3.5.1.</span> Example: read-integer</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">read-integer</span> (str)
+  (<span class="org-keyword">if</span> (every #'digit-char-p str)
+      (<span class="org-keyword">let</span> ((accum 0))
+        (<span class="org-keyword">dotimes</span> (pos (length str))
+          (setf accum (+ (* accum 10)
+                         (digit-char-p (char str pos)))))
+        accum)
+    nil))
+
+(read-integer <span class="org-string">"123"</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>char</code><br></li>
+<li><code>digit-char-p</code><br></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgbd13b2d" class="outline-3">
+<h3 id="orgbd13b2d"><span class="section-number-3">3.6.</span> REVIEWING structures</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li><p>
+define structure, will automatically defines helper functions for us:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defstruct</span> <span class="org-type">point</span>
+  x
+  y)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><p>
+<code>make-point</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf p (make-point <span class="org-builtin">:x</span> 0 <span class="org-builtin">:y</span> 0))
+</pre>
+</div></li>
+<li><code>point-p</code>, each point will be of type point, then structure, then atom, then t.<br></li>
+<li><code>copy-point</code><br></li>
+<li>access <b>functions</b><br>
+<ul class="org-ul">
+<li><code>point-x</code><br></li>
+<li><p>
+<code>point-y</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf (point-y p) 2)
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+<li><p>
+Specify default values by enclosing the field name and a default expression in a list.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defstruct</span> <span class="org-type">polemic</span>
+  (type (<span class="org-keyword">progn</span>
+          (format t <span class="org-string">"What kind of polemic was it?"</span>)
+          (read)))
+  (effect nil))
+
+(make-polemic)
+</pre>
+</div></li>
+<li><p>
+Control how struct is displayed and the prefix used in the names of the access function.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defstruct</span> (<span class="org-type">point</span> (<span class="org-builtin">:conc-name</span> p)
+                  (<span class="org-builtin">:print-function</span> print-point))
+  (x 0)
+  (y 0))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Here, the access function has been changed to px, py instead of point-x and point-y</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">print-point</span> (p stream depth)
+  (format stream <span class="org-string">"#&lt;~A, ~A&gt;"</span> (px p) (py p)))
+
+(make-point)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>:conc-name</code><br></li>
+<li><code>:print-function</code><br></li>
+</ul>
+<pre class="example">
+#&lt;0, 0&gt;
+</pre></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org47f2f73" class="outline-3">
+<h3 id="org47f2f73"><span class="section-number-3">3.7.</span> REVIEWING Example: binary search trees</h3>
+<div class="outline-text-3" id="text-3-7">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">node has 3 fields: element stored in node, left and right children of node</span>
+(<span class="org-keyword">defstruct</span> (<span class="org-type">node</span> (<span class="org-builtin">:print-function</span> (<span class="org-keyword">lambda</span> (n s d)
+                                    (format s <span class="org-string">"#&lt;~A&gt;"</span> (node-elt n)))))
+  elt
+  (l nil)
+  (r nil))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">A BST is either nil, or a node whose l and r field are BSTS.</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">bst-insert take an object, a BST, and an ordering function</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">It will ret urn a BST that contains the object. Like cons, it does not modify the BST given as the second argument.</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">bst-insert</span> (obj bst &lt;)
+  (<span class="org-keyword">if</span> (null bst)
+      (make-node <span class="org-builtin">:elt</span> obj)
+    (<span class="org-keyword">let</span> ((elt (node-elt bst)))
+      (<span class="org-keyword">if</span> (eql obj elt)
+          bst
+        (<span class="org-keyword">if</span> (funcall &lt; obj elt)
+            (make-node
+             <span class="org-builtin">:elt</span> elt
+             <span class="org-builtin">:l</span> (bst-insert obj (node-l bst))
+             <span class="org-builtin">:r</span> (node-r bst))
+          (make-node
+           <span class="org-builtin">:elt</span> elt
+           <span class="org-builtin">:r</span> (bst-insert obj (node-r bst))
+           <span class="org-builtin">:l</span> (node-l bst)))))))
+
+<span class="org-comment-delimiter">;;</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">bst-find</span> (obj bst &lt;)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">todo</span>
+  )
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">bst-min</span> (bst)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">todo</span>
+  )
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">bst-max</span> (bst)
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">todo</span>
+  )
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">bst-remove</span>)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">bst-traverse</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li><b>A Binary Search Tree(BSTs) is either nil, or a node whose left and right fields are BSTs.</b><br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org99c72f3" class="outline-3">
+<h3 id="org99c72f3"><span class="section-number-3">3.8.</span> DOING Hash tables</h3>
+<div class="outline-text-3" id="text-3-8">
+<ul class="org-ul">
+<li><p>
+<code>make-hash-table</code>, <b>create hash table</b><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf ht (make-hash-table))
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>That is it, no required arguments<br></li>
+</ul></li>
+<li><p>
+<code>gethash</code>, <b>retrieve the value associated with a given key</b><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(gethash 'color ht)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>It returns two values: NIL, NIL<br>
+<ul class="org-ul">
+<li>The first is the value associated with the key.<br></li>
+<li>The second says whether the hash table has any value stored under that key. It is nil to indicate the first nil was returned by default, not because nil was explicitly associated with color.<br></li>
+</ul></li>
+</ul></li>
+<li><p>
+<code>setf</code> + <code>gethash</code> to associat a value with a key.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf (gethash 'color ht) 'red)
+(gethash 'color ht)
+</pre>
+</div>
+<ul class="org-ul">
+<li>It returns: RED, T. The second return value proves that we get a real stored object.<br></li>
+</ul></li>
+<li><p>
+The key and the object stored in hash table can be of <b>any type</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf bugs (make-hash-table))
+(push <span class="org-string">"Does't take keyword arguments."</span>
+  (gethash #'&gt; bugs))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Use functions as keys and strings as entries to keep some kind of information about functions.<br></li>
+<li>Remember (push obj lst) == (setf lst (cons obj lst)).<br></li>
+</ul></li>
+<li><p>
+Use hash tables instead of lists to <b>represent sets</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf fruit (make-hash-table))
+(setf (gethash 'apple fruit) t)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Now to test membership, just call gethash</span>
+(gethash 'apple fruit)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Since gethash returns nil by default, <b>a new-make hash table is also, convoniently, a empty set</b>.<br></li>
+</ul></li>
+<li><p>
+<code>remhash</code>, <b>removes an entry from a hash table</b><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(remhash 'apple fruit)
+</pre>
+</div>
+<ul class="org-ul">
+<li>The return value shows if there was an entry to remove.<br></li>
+</ul></li>
+<li><code>maphash</code>, call a two arguments function on a hashtable&rsquo;s every key/value pair.<br>
+<ul class="org-ul">
+<li>It always returns nil, but you can save the values by passing a function that will accumulate them in a list.<br></li>
+</ul></li>
+<li>Key options in hashtable<br>
+<ul class="org-ul">
+<li><b>:size</b>, specify the expected elements (hashtable still could expand)<br></li>
+<li><b>:test</b>, specify the equality for keys. By default, it is <code>eql</code>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+<section id="outline-container-orgee0073f" class="outline-2">
+<h2 id="orgee0073f"><span class="section-number-2">4.</span> REVIEWING Chapter5: Control</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgda81ef3" class="outline-3">
+<h3 id="orgda81ef3"><span class="section-number-3">4.1.</span> Blocks</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li><code>progn</code><br></li>
+<li><p>
+<code>block</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">block</span> head
+  (format t <span class="org-string">"Here we go."</span>)
+  (<span class="org-keyword">return-from</span> head 'done)
+  (format t <span class="org-string">"It will not be evaluated"</span>))
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+The body of a function defined with <b>defun</b> is implicitly enclosed in a block with the same name as the function:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">foo</span> ()
+  (<span class="org-keyword">return-from</span> foo 27))
+(foo)
+</pre>
+</div></li>
+<li>Many Common Lisp operators that take a body of expressions implicitly enclose the body in a block named nil, including<br>
+<ul class="org-ul">
+<li><p>
+All iteration constructs<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">dolist</span> (x '(a b c d))
+  (format t <span class="org-string">"~A "</span> x)
+  (<span class="org-keyword">if</span> (eql x 'c)
+      (<span class="org-keyword">return</span> 'done)))
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+<li><p>
+<code>tagbody</code>, can use gotos.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">tagbody</span> 
+   (setf x 0) 
+ top 
+   (setf x (+ x 1)) 
+   (format t <span class="org-string">"~A "</span> x) 
+   (<span class="org-keyword">if</span> (&lt; x 10) (<span class="org-keyword">go</span> top)))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Atoms appearing in the body are interpreted as labels<br></li>
+<li>Giving such a label, <code>go</code> sends control to the expression following it.<br></li>
+<li>This operator is mainly something that other operators are built upon, not something you would use yourself.<br></li>
+</ul></li>
+<li>In generall, nearly all the time you will <b>use progn</b>.<br></li>
+</ul>
+
+
+<p>
+<b>*</b> Context<br>
+</p>
+<ul class="org-ul">
+<li><code>let</code> creates a new <b>lexical context</b>.<br></li>
+<li><p>
+Entering a let is conceptually equivalent to doing a function call.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x 7)
+      (y 2))
+  (format t <span class="org-string">"Number"</span>)
+  (+ x y))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This is as same as</span>
+((<span class="org-keyword">lambda</span> (x y) 
+   (format t <span class="org-string">"Number"</span>) 
+   (+ x y))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Remeber that a lambda expression is like the name of a function, we can use one, as we would a function name, as the first element in a function call.<br></li>
+</ul></li>
+<li><p>
+<code>let*</code>, is used to create variable to depend on another variable.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let*</span> ((x 1)
+       (y (+ x 1)))
+  (+ x y))
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+It is equivalent to a series of nested lets.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x 1)) 
+    (<span class="org-keyword">let</span> ((y (+ x 1))) 
+        (+ x y)))
+</pre>
+</div></li>
+</ul></li>
+<li>let and let*, their initial values default to <code>nil</code>.<br></li>
+<li><p>
+<code>destructuring-bind</code>, a generalization of <code>let</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">destructuring-bind</span>
+    (w (x y) . z)
+    '(a (b c) d e f)
+  (list w x y z))
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc70b244" class="outline-3">
+<h3 id="orgc70b244"><span class="section-number-3">4.2.</span> Conditionals</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li><code>if</code><br></li>
+<li><code>when</code><br>
+<ul class="org-ul">
+<li>The body will be evaluated only if the test expression returns <b>true</b>.<br></li>
+</ul></li>
+<li><code>unless</code><br>
+<ul class="org-ul">
+<li>The body will be evaluated only if the test expression returns <b>false</b>.<br></li>
+</ul></li>
+<li><code>cond</code><br></li>
+<li><p>
+<code>case</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">month-length</span> (mon) 
+  (<span class="org-keyword">case</span> mon 
+    ((jan mar may jul aug oct dec)
+     31) 
+    ((apr jun sept nov)
+     30) 
+    (feb
+     (<span class="org-keyword">if</span> (leap-year) 29 28)) 
+    (otherwise <span class="org-string">"unknown month"</span>)))
+</pre>
+</div>
+<ul class="org-ul">
+<li>A <code>case</code> expression begins with an argument whose value will be compared against the <b>keys</b> in <b>each clause</b>.<br>
+<ul class="org-ul">
+<li>The value of that argument is compared (using <code>eql</code>) to the <b>key/s</b> at the head of each clause.<br></li>
+</ul></li>
+<li>Each clause begin with either <b>a key, or a list of keys</b>, followed by <b>zero or more expressions</b>.<br></li>
+<li>The keys are treated as contants; they will <b>not be evaluated</b>.<br></li>
+<li>The default clause may have the key <code>t</code> or <code>otherwise</code>.<br></li>
+<li>If no clause succeeds, or the successful clause contains only keys, then the case returns nil.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org97430dd" class="outline-3">
+<h3 id="org97430dd"><span class="section-number-3">4.3.</span> Interation</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li><p>
+<code>do</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x 'a))
+  (<span class="org-keyword">do</span> ((x 1 (+ x 1))
+       (y x x))
+      ((&gt; x 5))
+    (format t <span class="org-string">"(~A ~A) "</span> x y)))
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>do</code> has 3 arguments<br>
+<ul class="org-ul">
+<li><p>
+First one, is<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">((x 1 (+ x 1))
+ (y x x))
+</pre>
+</div>
+<ul class="org-ul">
+<li>each possible of the form <code>(variable initial update)</code>.<br></li>
+</ul></li>
+<li>Second one, is a list containing one or more expressions.<br>
+<ul class="org-ul">
+<li>The first expression is used to test whether iteration should stop.<br></li>
+<li>The remaining expression will be evaluated in order when iteroation stops.<br></li>
+<li>The value of the last will be returned as the value of the do.<br></li>
+</ul></li>
+<li>Third one is body which will be evaluated during each iteration.<br></li>
+</ul></li>
+<li>(1 A) (2 1) (3 2) (4 3) (5 4)<br></li>
+<li>Here, the y get the <b>previous</b> value of x, not the current one.<br></li>
+</ul></li>
+
+<li><p>
+<code>do*</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x 'a))
+  (<span class="org-keyword">do</span> ((x 1 (+ x 1))
+       (y x x))
+      ((&gt; x 5))
+    (format t <span class="org-string">"(~A ~A) "</span> x y)))
+</pre>
+</div>
+<ul class="org-ul">
+<li>(1 1) (2 2) (3 3) (4 4) (5 5)<br></li>
+<li>Any initial or update form can refer to a variable from a previous clause, and it will get the current value.<br></li>
+</ul></li>
+<li><p>
+<code>dolist</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">dolist</span> (x '(abed) (+ 1 1)) 
+  (format t <span class="org-string">"~A "</span> x))
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>The third expression within the initial list will <b>be evaluated</b> and returned as the value of the <code>dolist</code>.<br></li>
+</ul></li>
+
+<li><p>
+<code>dotimes</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">dotimes</span> (x 5 (* x x))
+  (format t <span class="org-string">"~A "</span> x))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Interates over the <b>integers</b>.<br></li>
+<li>The third express can refer to the iteration variable.<br></li>
+</ul></li>
+<li><code>mapcar</code> vs <code>mapc</code><br>
+<ul class="org-ul">
+<li>mapc <b>doesn not cons up a new list as a return value</b>. So the only reason to use it is for side-effect.<br></li>
+<li>mapc always returns its second argument.<br></li>
+<li><p>
+They both can traverse multiple lists in parallel.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(mapcar #'cons 
+        '(1 2 3 4)
+        '(a b c d))
+
+(mapc #'(<span class="org-keyword">lambda</span> (x y)
+          (format t <span class="org-string">"~A ~A ~%"</span> x y))
+      '(1 2 3 4)
+      '(a b c d))
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4c3c49b" class="outline-3">
+<h3 id="org4c3c49b"><span class="section-number-3">4.4.</span> Multiple Values</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>Common-lisp can return multiple values.<br>
+<ul class="org-ul">
+<li>Multiple values make it possible to have lookup functions that can distinguish between finding nil and failing to find something.<br>
+<ul class="org-ul">
+<li><code>gethash</code><br></li>
+</ul></li>
+</ul></li>
+<li><p>
+<code>values</code> function <b>returns multiple values</b>. It returns exactly the values you give it as argument:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(values 'a nil (+ 2 3))
+</pre>
+</div></li>
+<li><p>
+If a values expression is the last thing to be evaluated in the body of a function, its return values become those of the function. Multiple value are passed on intact through any number of returns:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">((<span class="org-keyword">lambda</span> ()
+   ((<span class="org-keyword">lambda</span> ()
+      (values 1 2)))))
+</pre>
+</div></li>
+<li><p>
+If something is expecting only one value, all but the first will be discarded.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x (values 1 2)))
+  x)
+</pre>
+</div></li>
+<li>Using values with no argument will return no values. Something expecting one will get <code>nil</code>.<br></li>
+<li><p>
+<code>multiple-value-bind</code>, to <b>receive multiple values</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">multiple-value-bind</span> (x y z) (values 1 2)
+  (list x y z))
+
+(<span class="org-keyword">multiple-value-bind</span> (s m h) (get-decoded-time)
+  (format nil <span class="org-string">"~A:~A:~A"</span> h m s))
+</pre>
+</div></li>
+<li><p>
+<code>multiple-value-call</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(multiple-value-call #'+ (values 1 2 3 4 5))
+(multiple-value-call #'list (values 1 2 3 4 5))
+</pre>
+</div></li>
+<li><p>
+<code>multiple-value-list</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(multiple-value-list (values 'a 'b 'c '1 '2 '3))
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org7252b27" class="outline-3">
+<h3 id="org7252b27"><span class="section-number-3">4.5.</span> Aborts</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li><p>
+<code>catch</code> and <code>throw</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">super</span> ()
+  (<span class="org-keyword">catch</span> '<span class="org-constant">abort</span>
+    (sub)
+    (format t <span class="org-string">"We will never see this"</span>)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">sub</span> ()
+  (<span class="org-keyword">throw</span> '<span class="org-constant">abort</span> (+ 1 1)))
+
+(super)
+</pre>
+</div>
+<ul class="org-ul">
+<li>If there is no pending <code>catch</code> with the right tag, the <code>throw</code> causes an error.<br></li>
+</ul>
+
+<pre class="example">
+2
+</pre></li>
+
+<li><code>error</code>, interrupts execution, It transfers control to the List error handler.<br></li>
+
+<li><p>
+<code>unwind-protect</code>, like &ldquo;finally&rdquo; in other languages<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf x 1)
+(<span class="org-keyword">catch</span> '<span class="org-constant">abort</span>
+  (<span class="org-keyword">unwind-protect</span>
+       (<span class="org-keyword">throw</span> '<span class="org-constant">abort</span> 99)
+    (format t <span class="org-string">"Cleanup"</span>)
+    (setf x 3)))
+x
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>unwind-protect</code> is useful for certain actions <b>followed by cleanup or reset</b>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<section id="outline-container-org5b62d6a" class="outline-2">
+<h2 id="org5b62d6a"><span class="section-number-2">5.</span> REVIEWING Chapter6: Functions</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgd59ff34" class="outline-3">
+<h3 id="orgd59ff34"><span class="section-number-3">5.1.</span> Global functions</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li><code>fboundp</code>, decide if a symbol is bounded to a function.<br></li>
+<li><code>symbol-function</code>, retrieve the associated function from symbol<br></li>
+<li><p>
+<code>documentation</code>, retrieve documentation of a function<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(fboundp '+)
+(symbol-function '+)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">foo</span> (x)
+  <span class="org-doc">"Documentation goes here."</span>
+  x)
+(documentation 'foo 'function)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6974f7b" class="outline-3">
+<h3 id="org6974f7b"><span class="section-number-3">5.2.</span> Local functions</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li><p>
+<code>labels</code>, define local functions (<code>defun</code> defines global functions).<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">labels</span> ((add10 (x) (+ x 10))
+         (consa (x) (cons 'a x)))
+  (consa (add10 3)))
+</pre>
+</div>
+<ul class="org-ul">
+<li>It is a kind of <code>let</code> for functions.<br></li>
+<li><p>
+Local functions defined by a labels can refer to any other functions defined there, including themselves.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">labels</span> ((len (lst)
+           (<span class="org-keyword">if</span> (null lst)
+               0
+             (+ (len (cdr lst)) 1))))
+  (len '(a b c)))
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb61cb51" class="outline-3">
+<h3 id="orgb61cb51"><span class="section-number-3">5.3.</span> Parameter lists</h3>
+<div class="outline-text-3" id="text-5-3">
+<ul class="org-ul">
+<li><p>
+<code>&amp;rest</code>, make function takes varying number of arguments.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-funcall</span> (fn <span class="org-type">&amp;rest</span> args)
+  (apply fn args))
+</pre>
+</div></li>
+<li><code>&amp;optional</code>, make function take optional parameters (default to certain values). Ordinary parameters are called required parameters.<br>
+<ul class="org-ul">
+<li>If the symbol <code>&amp;optional</code> occurs in the parameter list of a function, then <b>all the arguments after it are optional, and default to nil</b>.<br></li>
+<li>The default for an optional parameter <b>can be any list expressions</b>. It will be <b>evaluated each time a default is needed</b>.<br></li>
+</ul></li>
+<li><p>
+<code>&amp;key</code> , all the parameters after it are optional. When the function is called, these parameters will be identified by symbolic tags precede theme.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">keylist</span> (a <span class="org-type">&amp;key</span> x y z)
+  (list a x y z))
+
+(keylist 1 <span class="org-builtin">:y</span> 3 <span class="org-builtin">:x</span> 2)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org3161c8b" class="outline-3">
+<h3 id="org3161c8b"><span class="section-number-3">5.4.</span> <span class="todo TODO">TODO</span> Example: utilities</h3>
+<div class="outline-text-3" id="text-5-4">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">single?</span> (lst)
+  <span class="org-doc">"Test if a list contains just a single element"</span>
+  )
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">append1</span> (lst obj)
+  <span class="org-doc">"add the obj to end end of lst"</span>
+  )
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">map-int</span> (fn n)
+  <span class="org-doc">"takes a function and a integer n, and returns a list of the results of calling the function on the integers from 0 to n-1."</span>
+  )
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">filter</span> (fn lst)
+  <span class="org-comment-delimiter">;; </span>
+  )
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">most</span> (fn lst)
+  <span class="org-comment-delimiter">;;</span>
+  )
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8d5ef20" class="outline-3">
+<h3 id="org8d5ef20"><span class="section-number-3">5.5.</span> DOING Closures</h3>
+<div class="outline-text-3" id="text-5-5">
+<ul class="org-ul">
+<li><p>
+code seg01<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">combiner</span> (x)
+  (<span class="org-keyword">typecase</span> x
+    (number #'+)
+    (list #'append)
+    (t #'list)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">assume the args are same type of data</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">combine</span> (<span class="org-type">&amp;rest</span> args)
+  (apply (combiner (car args))
+         args))
+
+(combine 2 3)
+(combine '(a b) '(c d))
+</pre>
+</div></li>
+<li>lexical variable<br>
+<ul class="org-ul">
+<li>They are only valid within the context where they are defined.<br></li>
+<li>They will continue to be valid for as long as something is using the context.<br></li>
+</ul></li>
+<li><p>
+Function returned from the scope of lexical variable still hold the context of that variable.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf fn (<span class="org-keyword">let</span> ((i 3))
+           #'(<span class="org-keyword">lambda</span> (x)
+               (+ x i))))
+
+(funcall fn 2)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Here, <code>(fn 2)</code> will report <b>error</b> &ldquo;Undefined function FN called with arguments (2) .&rdquo;<br></li>
+<li>When a function refers to a variable defined outside it, it is call a <b>free variable</b>.<br></li>
+<li><b>Definition</b>: A function that refers to a <b>free lexical variable</b> is called a <b>closure</b>.<br></li>
+<li>That variable must persist as long as the function does.<br></li>
+<li>In short: a closure is a <b>combination of a function and an environment</b>.<br></li>
+</ul></li>
+<li><b>How to create a closure?</b><br>
+<ul class="org-ul">
+<li>Closures are created implicitly whenever a function refers to something from the surrounding lexical environment.<br></li>
+</ul></li>
+<li><p>
+Identify the closure in it:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">add-to-list</span> (num lst)
+  (mapcar #'(<span class="org-keyword">lambda</span> (x)
+              (+ x num))
+          lst))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Here, since the <code>num</code> within the lambda expression is free, so we are passing a closure to <code>mapcar</code>.<br></li>
+</ul></li>
+<li><p>
+A more conspicuous example:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">make-adder</span> (n)
+  #'(<span class="org-keyword">lambda</span> (x)
+      (+ x n)))
+(funcall (make-adder 100) 100)
+</pre>
+</div>
+<ul class="org-ul">
+<li>In lambda expression, that n is free variable. So that lambda expression becomes a closure.<br></li>
+</ul></li>
+<li><p>
+Closure could replace global variable, it could protect that free variable from unintended references.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((counter 0))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">reset</span> ()
+    (setf counter 0))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">stamp</span> ()
+    (setf counter (+ counter 1))))
+
+(list (stamp) (stamp) (reset) (stamp))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Closures could <b>share free variables</b>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9edf82a" class="outline-3">
+<h3 id="org9edf82a"><span class="section-number-3">5.6.</span> <span class="todo TODO">TODO</span> Function builders</h3>
+<div class="outline-text-3" id="text-5-6">
+<ul class="org-ul">
+<li><p>
+<code>complement</code>, take a predicate and returns the opposite predicate<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-completement</span> (f)
+  #'(<span class="org-keyword">lambda</span> (<span class="org-type">&amp;rest</span> args)
+      (not (apply f args))))
+
+(mapcar (our-completement #'oddp)
+        '(1 2 3 4))
+</pre>
+</div></li>
+<li><p>
+<code>compose</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">compose</span> (<span class="org-type">&amp;rest</span> fns)
+  (<span class="org-keyword">destructuring-bind</span> (fn1 . rest) (reverse fns)
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">fn1 is #'sqrt, rest is (#'round #'list)</span>
+    #'(<span class="org-keyword">lambda</span> (<span class="org-type">&amp;rest</span> args)
+        (reduce #'(<span class="org-keyword">lambda</span> (v f)
+                    (funcall f v))
+                rest
+                <span class="org-builtin">:initial-value</span> (apply fn1 args)))))
+
+(mapcar (compose #'list #'round #'sqrt)
+        '(4 9 16 25))
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>reduce</code> <br>
+<ul class="org-ul">
+<li><code>v</code>, the first parameter takes the initial value and the accumulated result.<br></li>
+<li><code>f</code>, the second parameter takes the next item from the list <code>rest</code>.<br></li>
+</ul></li>
+</ul></li>
+<li><code>disjoin</code><br>
+&lt;&gt;<br></li>
+<li><code>conjoin</code><br></li>
+<li><code>curry</code><br></li>
+<li><code>recurry</code><br></li>
+<li><code>always</code><br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0b2afba" class="outline-3">
+<h3 id="org0b2afba"><span class="section-number-3">5.7.</span> Dynamic Scope</h3>
+<div class="outline-text-3" id="text-5-7">
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">lexical variable</th>
+<th scope="col" class="org-left">special variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">lexical scope</td>
+<td class="org-left">dynamic scope</td>
+</tr>
+</tbody>
+</table>
+<ul class="org-ul">
+<li>local variables are nearly always lexical variable (from lexical scope)<br></li>
+<li>global variables are always special variables (from dynamic scope)<br></li>
+<li><p>
+<b>Under lexical scope</b>, a symbol refers to the variable that has that name in the context where the symbol appears/defined.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x 10))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">foo</span> ()
+    x))
+
+(<span class="org-keyword">let</span> ((x 20))
+  (foo))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Local variables have lexical scope by default: the result is 10.<br></li>
+<li>We define a function in an environment where there is a variable called <code>x</code>, then the <code>x</code> in the body will refer to that variable, regardless of any <code>x</code> that might exist where <code>foo</code> is called.<br></li>
+</ul></li>
+<li><b>Under dynamic scope, we look for a variable in  the environment where the function is called, not in the environment where it is defined</b>.<br></li>
+<li><p>
+<code>special</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x 10))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">foo</span> ()
+    (<span class="org-keyword">declare</span> (special x))
+    x))
+
+(<span class="org-keyword">let</span> ((x 20))
+  (<span class="org-keyword">declare</span> (special x))
+  (foo))
+</pre>
+</div>
+<ul class="org-ul">
+<li>return 20<br></li>
+<li>To cause a variable to have dynamic scope, we must declare it to be <code>speciall</code> <b>in any context where it occurs</b>.<br></li>
+<li>Now, x refers to whatever special x exists at the time the function is called.<br></li>
+<li>A <code>declare</code> can begin any body of code where new variables are created.<br></li>
+</ul></li>
+<li><p>
+Global variables established by calling <code>setf</code> at the toplevel are implicitly special.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf x 40)
+(foo)
+</pre>
+</div>
+<ul class="org-ul">
+<li>return 40<br></li>
+<li>It is recommended to use <code>defparameter</code> to make a program clearer (explicitly special declaration).<br></li>
+</ul></li>
+<li><b>Where is dynamic scope useful</b><br>
+<ul class="org-ul">
+<li>It is used to give some global variable a new value <b>temporarily</b>.<br></li>
+<li><p>
+ex:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((*print-base* 16))
+  (princ 32))
+</pre>
+</div>
+<p>
+returns<br>
+</p>
+<pre class="example" id="org726a39e">
+20
+32 (6 bits, #x20, #o40, #b100000)
+</pre>
+<ul class="org-ul">
+<li>The two results are the same value &ldquo;32&rdquo;. The first (the output generated by <code>princ</code>) is in hexadecimal because <code>*print-base*</code> was 16 when it is printed. The second (the value it returns) in decimal because outside the <code>let</code> expression, <code>*print-base*</code> reverts to its previous value 10.<br></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org3b9f529" class="outline-3">
+<h3 id="org3b9f529"><span class="section-number-3">5.8.</span> Compilation</h3>
+<div class="outline-text-3" id="text-5-8">
+<ul class="org-ul">
+<li><p>
+<code>compiled-function-p</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(compiled-function-p #'+)
+</pre>
+</div></li>
+<li><code>compile</code><br></li>
+<li>compiled function vs interpreted function<br></li>
+<li><code>compile-file</code><br>
+<ul class="org-ul">
+<li>create a compiled version of the source file, same base name with a different extension.<br></li>
+<li>all function in that file will be compiled<br></li>
+</ul></li>
+<li><p>
+When the containing function is compiled, the inner function should also be compiled.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(compile 'make-adder)
+(compiled-function-p (make-adder 2))
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgef24cb8" class="outline-3">
+<h3 id="orgef24cb8"><span class="section-number-3">5.9.</span> Using recursion</h3>
+<div class="outline-text-3" id="text-5-9">
+<ul class="org-ul">
+<li>Functional programming: recursive algorithms are less likely to involve side-effects.<br></li>
+<li><code>Recursive data structure</code><br>
+<ul class="org-ul">
+<li>Lisp&rsquo;s implicit use of pointer makes it easy to have recursive defined data structures.<br></li>
+<li>A list is either nil, or a cons whose cdr is a list.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-orgbcc7d7f" class="outline-2">
+<h2 id="orgbcc7d7f"><span class="section-number-2">6.</span> REVIEWING Chapter7: Input and Output</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org03d9a21" class="outline-3">
+<h3 id="org03d9a21"><span class="section-number-3">6.1.</span> Streams</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>Streams are objects representing source/destinations of characters.<br></li>
+<li><code>*standard-input*</code> and <code>*standard-output*</code>.<br></li>
+<li><code>pathname</code> is a portable way of specifying a file.<br></li>
+<li><code>open</code>, open a file<br>
+<ul class="org-ul">
+<li>take a <code>pathname</code><br></li>
+<li>returns a stream that points to that file.<br></li>
+<li><code>:direction</code><br>
+<ul class="org-ul">
+<li>:output, for read<br></li>
+<li>:input, for write<br></li>
+<li>:io, for both<br></li>
+</ul></li>
+<li>:if-exists<br>
+<ul class="org-ul">
+<li>usually it should be: <code>:supersede</code><br></li>
+</ul></li>
+</ul></li>
+<li><p>
+ex01: open a file and write something<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf path (make-pathname <span class="org-builtin">:name</span> <span class="org-string">"myfile"</span>))
+(setf str (open path <span class="org-builtin">:direction</span> <span class="org-builtin">:output</span>
+                     <span class="org-builtin">:if-exists</span> <span class="org-builtin">:supersede</span>))
+(format str <span class="org-string">"Something~%"</span>)
+(close str)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Nothing is guaranteed about its a file&rsquo;s content until you <b>close</b> it.<br></li>
+</ul></li>
+<li><p>
+ex02: open a file and read from it<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf str (open path <span class="org-builtin">:direction</span> <span class="org-builtin">:input</span>))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">read a line of text</span>
+(read-line str)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">always close it</span>
+(close str)
+</pre>
+</div></li>
+<li><p>
+Use <code>with-open-file</code> instead of <code>open</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">with-open-file</span> (str path <span class="org-builtin">:direction</span> <span class="org-builtin">:output</span>
+                          <span class="org-builtin">:if-exists</span> <span class="org-builtin">:supersede</span>)
+  (format str <span class="org-string">"Something~%"</span>))
+</pre>
+</div>
+<ul class="org-ul">
+<li>In that argument (list), that <code>str</code> is bounded to a stream created by passing the remaining arguments to open.<br></li>
+<li><b>It automatically close the file</b>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgf6a5605" class="outline-3">
+<h3 id="orgf6a5605"><span class="section-number-3">6.2.</span> 7.2 Input</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li><p>
+<code>read-line</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">progn</span>
+  (format t <span class="org-string">"Please enter your name"</span>)
+  (read-line))
+</pre>
+</div>
+<ul class="org-ul">
+<li>1st argument: a stream; if the stream is omitted, it will default to <code>*standard-input*</code>.<br></li>
+<li>2nd argument: whether or not to cause an error on encountering end-of-file.<br></li>
+<li>3rd: what to return instead, if the previous argument is nil.<br></li>
+</ul></li>
+<li><p>
+Ex01:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">pseudo-cat</span> (file)
+  (<span class="org-keyword">with-open-file</span> (str file <span class="org-builtin">:direction</span> <span class="org-builtin">:input</span>)
+    (<span class="org-keyword">do</span> ((line (read-line str nil 'eof)
+               (read-line str nil 'eof)))
+        ((eql line 'eof))
+      (format t <span class="org-string">"~A~%"</span> line))))
+</pre>
+</div></li>
+<li><code>read</code>, read exactly one expression as Lisp object.<br>
+<ul class="org-ul">
+<li>Avoid using read directly to process user input.<br></li>
+</ul></li>
+<li><p>
+<code>read-from-string</code>, useful with <code>read-line</code> to process user input.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(read-from-string <span class="org-string">"123 b c"</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+returns<br>
+</p>
+<pre class="example" id="orgd54ed86">
+123 (7 bits, #x7B, #o173, #b1111011)
+4 (3 bits, #x4, #o4, #b100)
+</pre>
+<ul class="org-ul">
+<li>the first is the first expression it read<br></li>
+<li>the second indicating the position in the string at which it stopped reading.<br></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7ef9531" class="outline-3">
+<h3 id="org7ef9531"><span class="section-number-3">6.3.</span> 7.3 Output</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li><code>prin1</code>, generate output for programs.<br></li>
+<li><code>princ</code>, generate output for people.<br></li>
+<li><code>terpri</code>, print a new line.<br></li>
+<li><code>format</code> has many format directives<br>
+<ul class="org-ul">
+<li><code>~A</code>, a placeholder<br></li>
+<li><p>
+<code>~F</code>, print right-justified floating-point numbers. And Format directives can take arguments.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(format nil <span class="org-string">"~30,10,,,'_F"</span> 26.21875123132141412423232323232)
+</pre>
+</div>
+<ol class="org-ol">
+<li>the total number of characters to be printed.<br></li>
+<li>the number of digit to print after the decimal<br></li>
+<li>the number of digit to shift the decimal point to the left (thereby effectively multiplying the number by 10)<br></li>
+<li>the charaters to print instead of the number if it is too long to fit in the space allowed by the first argument.<br></li>
+<li>the charaters to print to the left before the digits start (it is blank here).<br></li>
+</ol></li>
+<li><p>
+a simply example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(format nil <span class="org-string">"~,2,,,F"</span> 26.21875)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">equals</span>
+(format nil <span class="org-string">"~,2F"</span> 26.21875)
+</pre>
+</div></li>
+<li><b>You should round the number explicitly before printing it</b>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org810adee" class="outline-3">
+<h3 id="org810adee"><span class="section-number-3">6.4.</span> <span class="todo TODO">TODO</span> 7.4 string substitution</h3>
+</div>
+
+<div id="outline-container-orgbc463b3" class="outline-3">
+<h3 id="orgbc463b3"><span class="section-number-3">6.5.</span> <span class="todo TODO">TODO</span> 7.5 Macro characters</h3>
+</div>
+</section>
+
+<section id="outline-container-org9c11db6" class="outline-2">
+<h2 id="org9c11db6"><span class="section-number-2">7.</span> REVIEWING Chapter8: Symbols</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-orgb8a21a3" class="outline-3">
+<h3 id="orgb8a21a3"><span class="section-number-3">7.1.</span> 8.1 Symbol Names</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li><p>
+<code>symbol-name</code>, get symbol&rsquo;s name<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(symbol-name 'abc)
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+By default, common-lisp is not case-sensitive.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(eql 'abc 'ABC)
+</pre>
+</div></li>
+<li><p>
+Use vertical bar as special syntax to refer to symbols whose name contain whitespaces or other things that might otherwise be significant to the reader.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(list '|Lisp 1.5| '|| '|abc| '|aBc| '|ABC|)
+</pre>
+</div>
+<ul class="org-ul">
+<li>returns: <code>(|Lisp 1.5| || |abc| |aBc| ABC)</code><br></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org21892d6" class="outline-3">
+<h3 id="org21892d6"><span class="section-number-3">7.2.</span> 8.2 Property Lists</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li><p>
+Every symbol has a property-liist, or <b>plist</b> (it is not <b>alist</b> which is a list of cons).<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(get 'alizarin 'color)
+(setf (get 'alizarin 'color) 'red)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">now the color property of alizarin is red</span>
+(get 'alizarin 'color)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">get the plist of symbol</span>
+(symbol-plist 'alizarin)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>get</code>, takes a symbol and a key of any type; returns the value associated with that key in the symbol&rsquo;s property list.<br></li>
+<li><code>symbol-plist</code><br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0f27afb" class="outline-3">
+<h3 id="org0f27afb"><span class="section-number-3">7.3.</span> 8.3 Symbols are Big</h3>
+<div class="outline-text-3" id="text-7-3">
+<ul class="org-ul">
+<li>Symbol is a substantial object, it contains<br>
+<ul class="org-ul">
+<li>name<br></li>
+<li>package<br></li>
+<li>value<br></li>
+<li>function<br></li>
+<li>plist<br></li>
+</ul></li>
+<li>When two variables are set to the same symbol, it is the same as when two variables are set to the same list: <b>both variables have pointers to the same object</b>.<br></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org5b1fe49" class="outline-3">
+<h3 id="org5b1fe49"><span class="section-number-3">7.4.</span> 8.4 Creating Symbols</h3>
+<div class="outline-text-3" id="text-7-4">
+<ul class="org-ul">
+<li><b>Packages</b> are symbol tables, mapping names(strings) to symbols.<br></li>
+<li><p>
+<code>intern</code>, A symbol that belongs to a package is said to be <b>interned</b> in that package.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(intern <span class="org-string">"foo"</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Most symbols are interned when they are read.<br></li>
+<li>So, the above expression create a symbol &ldquo;foo&rdquo; and intern it in the current package.<br></li>
+<li>The second return value shows whether the symbol already existed.<br></li>
+</ul></li>
+<li>Not all symbols are interned, unintended symbols are called <code>gensyms</code> used in macro.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org582d84c" class="outline-3">
+<h3 id="org582d84c"><span class="section-number-3">7.5.</span> 8.5 Multiple Packages</h3>
+<div class="outline-text-3" id="text-7-5">
+<ul class="org-ul">
+<li><code>export</code>, only symbols that you explicitly export will be visible in other packages.<br></li>
+<li>Those exported symbols have to be preceded (<b>qualified</b>) by the name of the packages that owns them.<br></li>
+<li><p>
+Ex01<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defpackage</span> <span class="org-string">"MY-APPLICATION"</span>
+  (<span class="org-builtin">:use</span> <span class="org-string">"common-lisp"</span> <span class="org-string">"my-utilities"</span>)
+  (<span class="org-builtin">:nicknames</span> <span class="org-string">"APP"</span>)
+  (<span class="org-builtin">:export</span> <span class="org-string">"WIN"</span> <span class="org-string">"LOSE"</span> <span class="org-string">"DRAW"</span>))
+
+(<span class="org-keyword">in-package</span> my-application)
+</pre>
+</div>
+<ul class="org-ul">
+<li>It uses two other packages which means that symbols exported by these packages will be accessible <b>without</b> package qualifiers.<br></li>
+<li>code in other package will be able to refer to them as e.g: <code>app:win</code>.<br></li>
+<li>The <code>defpackage</code> is followed by an <code>in-package</code> that makes the current package be my-application.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org27d3622" class="outline-3">
+<h3 id="org27d3622"><span class="section-number-3">7.6.</span> 8.6 keyword</h3>
+<div class="outline-text-3" id="text-7-6">
+<ul class="org-ul">
+<li>Keywords are symbols in keyword package.<br></li>
+<li>You can refer to them <b>anywhere</b> simply as <code>:x</code> instead of <code>keyword:x</code>.<br></li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org8788f63" class="outline-3">
+<h3 id="org8788f63"><span class="section-number-3">7.7.</span> 8.7 Symbols and Variables</h3>
+<div class="outline-text-3" id="text-7-7">
+<ul class="org-ul">
+<li><p>
+When a symbol is the name of a special variable, the value of the variable is stored in a field within the symbol.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf foo 123)
+(symbol-value 'foo)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>symbol-value</code> function refers to that field.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orga4d9453" class="outline-3">
+<h3 id="orga4d9453"><span class="section-number-3">7.8.</span> <span class="todo TODO">TODO</span> 8.8 Example: Random Text</h3>
+<div class="outline-text-3" id="text-7-8">
+<ul class="org-ul">
+<li>If your program operates on words, it is often a good idea to use symbol instead of string. Because symbols are conceptually atomic.<br>
+<ul class="org-ul">
+<li>symbol can be compared using <code>eql</code><br></li>
+<li>string needed to be compared character-by-character with <code>string-equal</code> or <code>string=</code>.<br></li>
+</ul></li>
+<li><p>
+Generate random text based on sample text<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defparameter</span> <span class="org-variable-name">*words*</span> (make-hash-table <span class="org-builtin">:size</span> 10000))
+
+(<span class="org-keyword">defconstant</span> <span class="org-variable-name">maxword</span> 100)
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">read-text</span> (pathname)
+  (<span class="org-keyword">with-open-file</span> (s pathname <span class="org-builtin">:direction</span> <span class="org-builtin">:input</span>)
+    (<span class="org-keyword">let</span> ((buffer (make-string maxword))
+          (pos 0))
+      (<span class="org-keyword">do</span> ((c (read-char s nil <span class="org-builtin">:eof</span>)
+              (read-char s nil <span class="org-builtin">:eof</span>)))
+          ((eql c <span class="org-builtin">:eof</span>))
+        (<span class="org-keyword">if</span> (or (alpha-char-p c)
+                (char= c #\'))
+            (<span class="org-keyword">progn</span>
+              (setf (aref buffer pos) c)
+              (incf pos))
+            (<span class="org-keyword">progn</span>
+              (<span class="org-keyword">unless</span> (zerop pos)
+                (see (intern (string-downcase (subseq buffer 0 pos))))
+                (setf pos 0))
+              (<span class="org-keyword">let</span> ((p (punc c)))
+                (<span class="org-keyword">if</span> p
+                    (see p)))))))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">punc</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">punc</span> (c)
+  (<span class="org-keyword">case</span> c
+    (#\. '|.|)
+    (#\, '|,|)
+    (#\; '|;|)
+    (#\! '|!|)
+    (#\? '|?|)))
+
+(<span class="org-keyword">let</span> ((prev '|.|))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">see</span> (symb)
+    (<span class="org-keyword">let</span> ((pair (assoc symb (gethash prev *words*))))
+      (<span class="org-keyword">if</span> (null pair)
+          (puch (cons symb 1) (gethash prev *words*))
+          (incf (cdr pair))))
+    (setf prev symb)))
+
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+
+
+<section id="outline-container-org23a2c81" class="outline-2">
+<h2 id="org23a2c81"><span class="section-number-2">8.</span> REVIEWING Chapter9: Numbers</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>4 types of numbers<br>
+<ul class="org-ul">
+<li>integers<br></li>
+<li>floating point<br></li>
+<li>ratios<br></li>
+<li>complex number<br></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="outline-container-orgb91844c" class="outline-3">
+<h3 id="orgb91844c"><span class="section-number-3">8.1.</span> Example: ray-tracing</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+<a href="examples/ray-tracing.lisp">file:~/code/capture-org/common-lisp/examples/ray-tracing.lisp</a><br>
+</p>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org7c7f2e6" class="outline-2">
+<h2 id="org7c7f2e6"><span class="section-number-2">9.</span> REVIEWING Chapter10: Macro</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Cross the line from expressions to code.<br>
+<ul class="org-ul">
+<li>generate expressions, call <code>list</code><br></li>
+<li>make lisp treat expressions as code, call <code>eval</code><br>
+<ul class="org-ul">
+<li>takes an expression, evaluates it and returns its value.<br></li>
+</ul></li>
+<li>Calling eval is one way to cross the line between lists and code. But it is not a very good way:<br>
+<ul class="org-ul">
+<li>inefficient<br></li>
+<li>no lexical context: the expression passed to eval cannot refer context.<br></li>
+</ul></li>
+<li><code>eval</code>, <code>coerce</code> and <code>compile</code> cross the line between lists and code, at <b>run-time</b>.<br></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="outline-container-orgc95ed69" class="outline-3">
+<h3 id="orgc95ed69"><span class="section-number-3">9.1.</span> 10.2 Macros</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>Crossing the line at <b>compile-time</b>.<br></li>
+<li><code>defmacro</code>, like defun function, but instead of defining the value call should produce, it <b>defines how a call should be translated</b>.<br></li>
+<li><p>
+<code>macroexpand-1</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defmacro</span> <span class="org-function-name">nil!</span> (x)
+  (list 'setf x nil))
+
+(macroexpand-1 '(nil! x))
+
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">test</span> ()
+  )
+
+(test)
+</pre>
+</div></li>
+<li><p>
+THe secret to understanding macros is to understand how they are implemented. They are just functions that transform expressions. If you pass an expression of the form <code>(nil! a)</code> to this function:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">lambda</span> (expr)
+  (apply #'(<span class="org-keyword">lambda</span> (x)
+             (list 'setf x nil))
+         (cdr expr)))
+</pre>
+</div>
+<ul class="org-ul">
+<li>It will return <code>(setf a nil)</code>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org88437b2" class="outline-3">
+<h3 id="org88437b2"><span class="section-number-3">9.2.</span> 10.3 Backquote</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li><p>
+By using backquote instead of a call to <code>list</code>, we can write macro definitions that <b>look like expansions they will produce</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defmacro</span> <span class="org-function-name">nil!</span> (x)
+  `(setf ,x nil))
+</pre>
+</div></li>
+<li><code>,@</code> is useful in macros that have rest parameters representing, for example, a body of code<br>
+<ul class="org-ul">
+<li><p>
+suppose we want a <code>while</code> macro that will evaluate its body as long as initial test expression remain true<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((x 0))
+  (<span class="org-keyword">while</span> (&lt; x 10)
+    (printc x)
+    (incf x)))
+</pre>
+</div></li>
+<li><p>
+its macro definition<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defmacro</span> <span class="org-function-name">while</span> (test <span class="org-type">&amp;rest</span> body)
+  `(<span class="org-keyword">do</span> ()
+       ((not ,test))
+     ,@body))
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgac79ad2" class="outline-3">
+<h3 id="orgac79ad2"><span class="section-number-3">9.3.</span> 10.5 Macro Design</h3>
+<div class="outline-text-3" id="text-9-3">
+<ul class="org-ul">
+<li><b>When you start writing macros, you have to start thinking like a language designer</b>.<br></li>
+<li><code>gensyms</code> usually print as symbole preceded by <code>#:</code> in macro expansions.<br></li>
+<li>Use <code>macroexpand-1</code> to learn macro design from your lisp implementation.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9e5368d" class="outline-3">
+<h3 id="org9e5368d"><span class="section-number-3">9.4.</span> <span class="todo TODO">TODO</span> 10.6 Generalized References</h3>
+</div>
+<div id="outline-container-org6258b84" class="outline-3">
+<h3 id="org6258b84"><span class="section-number-3">9.5.</span> 10.7 Example: Macro Utilities</h3>
+<div class="outline-text-3" id="text-9-5">
+<ul class="org-ul">
+<li>Have to be  written as macros: &ldquo;because all have to control  the way in which their argument are evaluated&rdquo;.<br></li>
+</ul>
+</div>
+</div>
+</section>
+
+
+<section id="outline-container-orgac3a0b5" class="outline-2">
+<h2 id="orgac3a0b5"><span class="section-number-2">10.</span> REVIEWING Chapter 11 CLOS</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+<a href="examples/CLOS.lisp">file:~/code/capture-org/common-lisp/examples/CLOS.lisp</a><br>
+</p>
+
+<ul class="org-ul">
+<li><p>
+Define class and create instances<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">circle</span> ()
+  (radius
+   center))
+
+(setf c (make-instance 'circle))
+(setf (slot-value c 'radius) 1)
+</pre>
+</div>
+<ul class="org-ul">
+<li>The 3rd argument of defclass must be <b>a list of slots</b>.<br></li>
+<li>The simplest slot definition is a symbol.<br></li>
+</ul></li>
+
+<li><p>
+A slot definition can be <b>a list of a name followed by one or more properties using keyword arguments</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">circle</span> ()
+  ((radius <span class="org-builtin">:accessor</span> circle-radius)
+   (center <span class="org-builtin">:accessor</span> circle-center)))
+
+(setf c (make-instance 'circle))
+(setf (circle-radius c) 1)
+(circle-radius c)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>:writer</code> as getter<br></li>
+<li><code>:reader</code> as setter<br></li>
+<li><code>:accessor</code> as both<br></li>
+</ul></li>
+</ul>
+
+
+<ul class="org-ul">
+<li><p>
+<code>:initform</code>, <code>:initarg</code> to speicify a default value for a slot.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">circle</span> ()
+  ((radius <span class="org-builtin">:accessor</span> circle-radius
+           <span class="org-builtin">:initarg</span> <span class="org-builtin">:radius</span>
+           <span class="org-builtin">:initform</span> 1)
+   (center <span class="org-builtin">:accessor</span> circle-center
+           <span class="org-builtin">:initarg</span> <span class="org-builtin">:center</span>
+           <span class="org-builtin">:initform</span> (cons 0 0))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Either use keyword parameter to specify init value</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">or use default value</span>
+(setf c (make-instance 'circle <span class="org-builtin">:radius</span> 3))
+</pre>
+</div></li>
+</ul>
+
+
+<ul class="org-ul">
+<li><p>
+<code>:allocation :class</code>, make slot to be <b>shared</b> by all class instance (class attribute)<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">tabloid</span> ()
+  ((top-story <span class="org-builtin">:accessor</span>  tabloid-story
+              <span class="org-builtin">:allocation</span> <span class="org-builtin">:class</span>)))
+</pre>
+</div></li>
+<li><code>:documentation</code>, specify documentation to a slot<br></li>
+<li><code>:type</code>, promise that the slot will only contain elements of that type.<br></li>
+</ul>
+</div>
+
+
+
+<div id="outline-container-org55a5c22" class="outline-3">
+<h3 id="org55a5c22"><span class="section-number-3">10.1.</span> Superclasses</h3>
+<div class="outline-text-3" id="text-10-1">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">graphic</span> ()
+  ((color <span class="org-builtin">:accessor</span> graphic-color <span class="org-builtin">:initarg</span> <span class="org-builtin">:color</span>)
+   (visible <span class="org-builtin">:accessor</span> graphic-visible <span class="org-builtin">:initarg</span> <span class="org-builtin">:visible</span>
+            <span class="org-builtin">:initform</span> t)))
+
+(<span class="org-keyword">defclass</span> <span class="org-type">screen-circle</span> (circle graphic)
+  ())
+</pre>
+</div>
+<ul class="org-ul">
+<li><b>second argument</b> is a list of superclasses.<br></li>
+<li>A class inherits the <b>union</b> of the slots of its superclasses. So, screen-circle will have four slots.<br></li>
+<li>accessors and initargs works as they would for their superclasses.<br>
+<ul class="org-ul">
+<li><p>
+we could to define initform to provide default value<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">screen-circle</span> (circle graphic)
+  ((color <span class="org-builtin">:initform</span> 'purple)))
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgae90136" class="outline-3">
+<h3 id="orgae90136"><span class="section-number-3">10.2.</span> 11.5 Precedence</h3>
+<div class="outline-text-3" id="text-10-2">
+<ul class="org-ul">
+<li>The rule of traversing to create the precedence list.<br>
+<ol class="org-ol">
+<li>Start at the bottom of the network.<br></li>
+<li>Walk upward, always taking the leftmost unexplored branch.<br></li>
+<li>If you are about to enter a node and you notice another path entering the same node from the right.<br>
+Then instead of entering the node, retrace your step until you get to a node with an unexplored path leading upward. Go back to step 2).<br></li>
+<li>When you reach the node representing t, you are done.<br></li>
+</ol></li>
+<li>The key (step 3) is no class appears in the precedence list before one of its <b>subclasses</b>.<br></li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgd8562de" class="outline-3">
+<h3 id="orgd8562de"><span class="section-number-3">10.3.</span> 11.6 Generic Functions (Polymorphism)</h3>
+<div class="outline-text-3" id="text-10-3">
+<ul class="org-ul">
+<li>A generic function is a function made up of one or more methods. Methods are defined with <code>defmethod</code>.<br>
+<ul class="org-ul">
+<li><p>
+Here, we use defmethod create a method which creates a generic function (now, it has only one method).<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defmethod</span> <span class="org-function-name">combine</span> (x y)
+  (list (x y)))
+</pre>
+</div></li>
+<li><p>
+Interesting things happened here: we can continue to add new methods for it.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span>  <span class="org-type">stuff</span> ()
+  ((name <span class="org-builtin">:accessor</span> name
+         <span class="org-builtin">:initarg</span> <span class="org-builtin">:name</span>)))
+
+(<span class="org-keyword">defclass</span> <span class="org-type">ice-cream</span> (stuff) ())
+(<span class="org-keyword">defclass</span> <span class="org-type">topping</span> (stuff) ())
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">The specialization of a method indicate the kinds of arguments to which it applies</span>
+(<span class="org-keyword">defmethod</span> <span class="org-function-name">combine</span> ((ic ice-cream)
+                    (top topping))
+  (format nil <span class="org-string">"~A ice-cream with ~A topping."</span>
+          (name ic)
+          (name top)))
+
+
+(combine (make-instance 'ice-cream <span class="org-builtin">:name</span> 'fig)
+         (make-instance 'topping <span class="org-builtin">:name</span> 'fizzz))
+(combine 23 'wwooo)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Parameters are <b>specialized</b>: each one appears in a list with the name of a <b>class</b>.<br></li>
+<li>Lisp will use the most specific method for which the classes of the arguments match the specialization of the parameters.<br></li>
+<li><p>
+Any combination of the parameters in a method can be specialized.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defmethod</span> <span class="org-function-name">combine</span> ((ic ice-cream) x)
+  (format nil <span class="org-string">"~A ice-cream with ~A."</span>
+          (name ic)
+          x))
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+<li><p>
+Methods can also be specialized on types (or more precisely, the classes that mirror types)<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defmethod</span> <span class="org-function-name">combine</span> ((x number)
+                    (y number))
+  (+ x y))
+</pre>
+</div></li>
+<li><p>
+Method can even be specialized on individual objects, as determined by <code>eql</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defmethod</span> <span class="org-function-name">combine</span> ((x (eql 'powder))
+                    (y (eql 'spark)))
+  'boom)
+</pre>
+</div></li>
+<li>The parameter lists of all the methods for a generic function must be <b>congruent</b>.<br></li>
+<li>Only <b>required</b> parameters can be specialized.<br></li>
+<li>We could overwrite a method with the same qualifiers and specializations.<br></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgfeceb29" class="outline-3">
+<h3 id="orgfeceb29"><span class="section-number-3">10.4.</span> 11.7 Auxiliary Methods</h3>
+<div class="outline-text-3" id="text-10-4">
+<ul class="org-ul">
+<li><p>
+standard method combination, callinga generic function invokes<br>
+</p>
+<ol class="org-ol">
+<li>The most specific around-method, if there is one<br>
+<ul class="org-ul">
+<li>Then, at its own discretion, the around-method may itself invoke the primary method, via <code>call-next-method</code>.<br></li>
+</ul></li>
+<li>Otherwise in order:<br>
+<ol class="org-ol">
+<li>All before-methods, <b>from most specific to least specific</b>.<br></li>
+<li>The most specific primary methods.<br></li>
+<li>All after-methods, <b>from least specific to most specific</b>.<br></li>
+</ol></li>
+</ol>
+<p>
+The value returned is the value of the around-method (case 1), or the value of the most specific primary method (case 2).<br>
+</p></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgd05e2e6" class="outline-3">
+<h3 id="orgd05e2e6"><span class="section-number-3">10.5.</span> 11.8 Method combination</h3>
+<div class="outline-text-3" id="text-10-5">
+<ul class="org-ul">
+<li>Speicify the type of method combination to be used by a generic function with a <code>:method-combine</code> clause in a call to <code>defgeneric</code>.<br></li>
+<li>The following symbols can be used as the second argument to <code>defmethod</code> or in the <code>:method-combine</code> option to <code>defgeneric</code>.<br></li>
+<li><p>
+Example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defgeneric</span> <span class="org-function-name">price</span> (x)
+  (<span class="org-builtin">:method-combination</span> +))
+
+(<span class="org-keyword">defclass</span> <span class="org-type">jacket</span> ()
+  ())
+(<span class="org-keyword">defclass</span> <span class="org-type">trousers</span> ()
+  ())
+(<span class="org-keyword">defclass</span> <span class="org-type">suit</span> (jacket trousers)
+  ())
+
+(<span class="org-keyword">defmethod</span> <span class="org-function-name">price</span> + ((jk jacket))
+  350)
+(<span class="org-keyword">defmethod</span> <span class="org-function-name">price</span> + ((tr trousers))
+  200)
+
+(price (make-instance 'suit))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Now, the price method will use <code>+</code> method combination.<br></li>
+<li>Any <code>defmethod</code> for price must have + as the second argument.<br></li>
+<li><b>Operator method combination</b> can be understood as if it resulted in the evaluation of a Lisp expression whose first element was some operator, and whose arguments are calls to the applicable primary method, in order of specificity.<br></li>
+</ul>
+
+<pre class="example">
+550
+</pre></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org77db73d" class="outline-3">
+<h3 id="org77db73d"><span class="section-number-3">10.6.</span> 11.9 Encapsulation</h3>
+<div class="outline-text-3" id="text-10-6">
+<ul class="org-ul">
+<li>In common lisp, packages are the standard way to distinguish between publich and private information.<br></li>
+<li><p>
+Example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defpackage</span> <span class="org-string">"CTR"</span>
+  (<span class="org-builtin">:use</span> <span class="org-string">"COMMON-LISP"</span>)
+  (<span class="org-builtin">:export</span> <span class="org-string">"COUNTER"</span> <span class="org-string">"INCREMENT"</span> <span class="org-string">"CLEAR"</span>))
+
+(<span class="org-keyword">in-package</span> ctr)
+
+(<span class="org-keyword">defclass</span> <span class="org-type">counter</span> ()
+  ((state <span class="org-builtin">:initform</span> 0)))
+
+(<span class="org-keyword">defmethod</span> <span class="org-function-name">increment</span> ((c counter))
+  (incf (slot-value  c 'state)))
+
+(<span class="org-keyword">defmethod</span> <span class="org-function-name">clear</span> ((c counter))
+  (setf (slot-value c 'state) 0))
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgaab008f" class="outline-3">
+<h3 id="orgaab008f"><span class="section-number-3">10.7.</span> 11.10 Two Models</h3>
+<div class="outline-text-3" id="text-10-7">
+<ul class="org-ul">
+<li>In the message-passing model, methods are of objects.<br></li>
+<li>In generic function model, they are <b>specialized</b> for objects.<br>
+<ul class="org-ul">
+<li><p>
+In message-passing, we only specialize the first parameter.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(move obj 10)
+</pre>
+</div>
+<ul class="org-ul">
+<li>that obj is the specialized first parameter.<br></li>
+</ul></li>
+</ul></li>
+<li>Message-passing model is a subset of the generic function model.<br></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orgc67c98c" class="outline-2">
+<h2 id="orgc67c98c"><span class="section-number-2">11.</span> DOING Chapter 12: Structure</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+<div id="outline-container-org5f6f38a" class="outline-3">
+<h3 id="org5f6f38a"><span class="section-number-3">11.1.</span> 12.1 shared structure</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li><p>
+<code>tailp</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-tailp</span> (x y)
+  (or (eql x y)
+      (and (consp y)
+           (our-tailp x (cdr y)))))
+</pre>
+</div>
+<ul class="org-ul">
+<li>determin if x is the tail of y<br></li>
+</ul></li>
+<li>List sharing structure vs their elements sharing structure.<br>
+<ul class="org-ul">
+<li>List sharing structure means sharing structure as lists.<br></li>
+</ul></li>
+<li><p>
+<code>copy-list</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-copy-list</span> (lst)
+  (<span class="org-keyword">if</span> (null lst)
+      nil
+      (cons (car lst) (our-copy-list (cdr lst)))))
+</pre>
+</div>
+<ul class="org-ul">
+<li>return a list doesn&rsquo;t share top-level list structure with the original<br></li>
+</ul></li>
+<li><p>
+<code>copy-tree</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">our-copy-tree</span> (tr)
+  (<span class="org-keyword">if</span> (atom tr)
+      tr
+      (cons (our-copy-tree (car tr))
+            (our-copy-tree (cdr tr)))))
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2eece17" class="outline-3">
+<h3 id="org2eece17"><span class="section-number-3">11.2.</span> 12.2 Modification</h3>
+</div>
+
+<div id="outline-container-org0c014fe" class="outline-3">
+<h3 id="org0c014fe"><span class="section-number-3">11.3.</span> 12.3 Example: Queue</h3>
+<div class="outline-text-3" id="text-11-3">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">make-queue</span> ()
+  (cons nil nil))
+
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">enqueue</span> (obj q)
+  (<span class="org-keyword">if</span> (null (car q))
+      (setf (cdr q) (setf (car q) (list obj)))
+      (setf (cdr (cdr q)) (list obj)
+            (cdr q) (cdr (cdr q))))
+  (car q))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">dequeue</span> (q)
+  (pop (car q)))
+
+(setf q1 (make-queue))
+
+(<span class="org-keyword">progn</span>
+  (enqueue 'a q1)
+  (enqueue 'b q1)
+  (enqueue 'c q1))
+
+(dequeue q1)
+(enqueue 'd q1)
+(enqueue 'z q1)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice, the return value of <code>setf</code> is the <b>last value in the setf list</b>, not the result of modified variable.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3bf7d59" class="outline-3">
+<h3 id="org3bf7d59"><span class="section-number-3">11.4.</span> 12.4 destructive functions</h3>
+<div class="outline-text-3" id="text-11-4">
+<ul class="org-ul">
+<li><b>They are not meant to be called for their side-effects</b>.<br></li>
+<li><code>delete</code> vs <code>remove</code><br></li>
+<li><code>nconc</code> vs <code>append</code><br></li>
+<li><p>
+<code>mapcan</code> vs <code>mapcar</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(mapcan #'list
+        '(a b c)
+        '(1 2 3 4))
+(mapcar #'list
+        '(a b c)
+        '(1 2 3 4))
+</pre>
+</div>
+<ul class="org-ul">
+<li>TODO: review, mapcan, mapcar, mapc, maplist<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgffec6ae" class="outline-3">
+<h3 id="orgffec6ae"><span class="section-number-3">11.5.</span> 12.5 Example: binary search trees</h3>
+</div>
+
+<div id="outline-container-org903acd1" class="outline-3">
+<h3 id="org903acd1"><span class="section-number-3">11.6.</span> <span class="todo TODO">TODO</span> 12.6 Example: doubly-linked lists</h3>
+</div>
+<div id="outline-container-orgbd5b282" class="outline-3">
+<h3 id="orgbd5b282"><span class="section-number-3">11.7.</span> <span class="todo TODO">TODO</span> 12.7 Circular Structure</h3>
+</div>
+<div id="outline-container-orgc1b43e0" class="outline-3">
+<h3 id="orgc1b43e0"><span class="section-number-3">11.8.</span> <span class="todo TODO">TODO</span> 12.8 Constant Structure</h3>
+</div>
+</section>
+
+<section id="outline-container-org097401b" class="outline-2">
+<h2 id="org097401b"><span class="section-number-2">12.</span> DOING Chapter 13: Speed</h2>
+<div class="outline-text-2" id="text-12">
+<ul class="org-ul">
+<li>A call is <b>tail call</b> if nothing remains to be done after it returns.<br>
+<ul class="org-ul">
+<li><p>
+not tail call case<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">length/r</span> (lst)
+  (<span class="org-keyword">if</span> (null lst)
+      0
+      (1+ (length/r (cdr lst)))))
+</pre>
+</div></li>
+<li><p>
+tail call case<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">length/tr</span> (lst)
+  (<span class="org-keyword">labels</span> ((len (lst acc)
+             (<span class="org-keyword">if</span> (null lst)
+                 acc
+                 (len (cdr lst) (1+ acc))))))
+  (len lst 0))
+</pre>
+</div>
+<ul class="org-ul">
+<li>The local function <code>len</code> is, because nothing more has to happen after the recursive call returns. Instead of building its return value on the way back up the recursion, like <code>length/r</code>, it accumulates the return value on the way down.<br></li>
+<li>Hence the addtional parameter <code>acc</code>, which can simply be returned at the end of the last recursive call.<br></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+
+<section id="outline-container-org8903152" class="outline-2">
+<h2 id="org8903152"><span class="section-number-2">13.</span> Chatper14: Advanced Topics</h2>
+<div class="outline-text-2" id="text-13">
+</div>
+<div id="outline-container-orgc4b9f00" class="outline-4">
+<h4 id="orgc4b9f00"><span class="section-number-4">13.0.1.</span> 14.4 Packages</h4>
+<div class="outline-text-4" id="text-13-0-1">
+<ul class="org-ul">
+<li>The <b>current package</b> is always stored in the global variable <code>*package*</code>.<br></li>
+<li><code>find-package</code>, return the package with a given name.<br></li>
+<li><code>package-name</code>, returns the name of a package.<br></li>
+<li><code>symbol-package</code>, takes a symbol and returns the package in which it is interned.<br></li>
+<li><p>
+Different symbols with the same print-name can coexist in different packages.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf sym 99)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">switch to package mine from package common-lisp-user</span>
+(setf *package*  (make-package 'mine
+                               <span class="org-builtin">:use</span> '(common-lisp)))
+
+common-lisp-user::sym
+</pre>
+</div>
+<ul class="org-ul">
+<li>switch current package<br></li>
+<li>refer symbol interned from other package<br></li>
+<li>You shouldn&rsquo;t use &ldquo;::&rdquo; to refer symbols from other packages.<br></li>
+</ul></li>
+<li><p>
+Use exported symbols from other package<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">in-package</span> common-lisp-user)
+(export 'bar)
+(setf bar 5)
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">use single ":" to refer the exported symbol from other packages </span>
+(<span class="org-keyword">in-package</span> mine)
+common-lisp-user:bar
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">go further, make current package share symbol from other package</span>
+(import 'common-lisp-user:bar)
+bar
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">get access to all symbols exported by other package</span>
+(use-package  'common-lisp-user)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Now, no qualifier is needed for symbols exported by the user package.</span>
+</pre>
+</div></li>
+<li>Operations on packages are not usually done at toplevel.More often the calls are contained in source files.<br>
+<ol class="org-ol">
+<li>Begin a file with a <code>defpackage</code> and an <code>in-package</code>.<br></li>
+<li>See <a href="#org582d84c">8.5 Multiple Packages</a></li>
+</ol></li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
+</div>
+</footer>
+</body>
+</html>

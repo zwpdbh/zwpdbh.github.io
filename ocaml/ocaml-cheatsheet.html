@@ -4,8 +4,8 @@
 <!-- Jun 16, 2022 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
-<meta name="author" content="zwpdbh" />
+<title>OCaml Cheatsheet</title>
+<meta name="author" content="Zhao Wei" />
 <meta name="generator" content="Org Mode" />
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -64,87 +64,68 @@
 </div>
 </header>
 <main id="content" class="content">
-<nav id="table-of-contents" role="doc-toc">
+<header>
+<h1 class="title">OCaml Cheatsheet</h1>
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org00d4b96">1. exercise</a></li>
+<li><a href="#orgf4b8898">1. Imperative Programming</a>
+<ul>
+<li><a href="#org49b1273">1.1. Quicksort&#xa0;&#xa0;&#xa0;<span class="tag"><span class="array">array</span></span></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
-<section id="outline-container-org00d4b96" class="outline-2">
-<h2 id="org00d4b96"><span class="section-number-2">1.</span> exercise</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-ref: <a href="https://github.com/norvig/paip-lisp/blob/master/docs/chapter1.md">chapter01</a><br>
-</p>
-<ol class="org-ol">
-<li><p>
-power(x n) where x and n are integers<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">power</span> (x n)
-  (<span class="org-keyword">cond</span> ((= n 0)
-         1)
-        ((evenp n)
-         (expt (power x (/ n 2)) 2))
-        (t
-         (* x (power x (- n 1))))))
 
-(power 2 13)
+<section id="outline-container-orgf4b8898" class="outline-2">
+<h2 id="orgf4b8898"><span class="section-number-2">1.</span> Imperative Programming</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org49b1273" class="outline-3">
+<h3 id="org49b1273"><span class="section-number-3">1.1.</span> Quicksort&#xa0;&#xa0;&#xa0;<span class="tag"><span class="array">array</span></span></h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-ocaml">let myarr = [|3;2;1;4;5|];;
+
+let swap myarr i j =
+  let tmp = myarr.(i) in
+  myarr.(i) &lt;- myarr.(j);
+  myarr.(j) &lt;- tmp;;
+
+
+let partition myarr p r =
+  let x = myarr.(r) in
+  let i = ref (p-1) in
+  for j =p to r-1 do
+    if myarr.(j) &lt; x then
+      (
+	i := !i + 1;
+	swap myarr !i j;           
+      )
+  done;
+  i := !i + 1;
+  swap myarr !i r;
+  i;;
+
+let rec qsort_aux myarr p r =
+  if p &lt; r then
+    (
+      let m = partition myarr p r in
+      qsort_aux myarr p (!m-1);
+      qsort_aux myarr (!m+1) r;
+    );;
+
+let qsort myarr =
+  qsort_aux myarr 0 ((Array.length myarr)-1);
+  myarr;;
+
+let myarr = [|1;3;5;4;2|];;
+qsort myarr;;
 </pre>
 </div>
-<p>
-<b>Notice</b>: Its execution time is not n it is log(n).<br>
-</p></li>
-
-<li><p>
-Write a function that count the number of atoms in an expression.<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">(count-atoms '(a (b) (c))) = 3</span>
-
-(<span class="org-keyword">defun</span> <span class="org-function-name">count-atoms</span> (exp)
-  (<span class="org-keyword">cond</span> ((null exp) 0)
-        ((atom exp) 1)
-        (t
-         (+ (count-atoms (first exp))
-            (count-atoms (rest exp))))))
-
-(count-atoms '(a (b) (c (d (e (f))))))
-
-</pre>
-</div></li>
-
-<li><p>
-Write a function that counts the number of times a expression occurs anywhere within another expression.<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">count-anywhere</span> (item tree)
-  (<span class="org-keyword">cond</span> ((equal item tree) 1)
-        ((atom tree) 0)
-        (t
-         (+ (count-anywhere item (first tree))
-            (count-anywhere item (rest tree))))))
-
-(count-anywhere 'a '(a ((a) b) a (a (a (a)))))
-</pre>
-</div></li>
-
-<li><p>
-compute dot product of two list<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">dot</span> (xs ys)
-  (<span class="org-keyword">if</span> (eq (length xs)
-          (length ys))
-      (apply #'+ (mapcar #'* xs ys))
-      nil))
-
-(dot '(1 2 3) '(2 3 4))
-</pre>
-</div></li>
-</ol>
+</div>
 </div>
 </section>
 </main>

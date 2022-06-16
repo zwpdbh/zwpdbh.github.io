@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Sep 15, 2021 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Practise on Golang</title>
-<meta name="generator" content="Org mode">
-<meta name="author" content="Frank Zhao">
+<meta name="author" content="Frank Zhao" />
+<meta name="generator" content="Org Mode" />
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<script type="text/javascript">
+<script>
 // @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
-<!--/*--><![CDATA[/*><!--*/
      function CodeHighlightOn(elem, id)
      {
        var target = document.getElementById(id);
@@ -32,7 +31,6 @@
          target.classList.remove("code-highlighted");
        }
      }
-    /*]]>*///-->
 // @license-end
 </script>
 </head>
@@ -65,85 +63,85 @@
   </ul>
 </div>
 </header>
-<main id="content">
+<main id="content" class="content">
 <header>
 <h1 class="title">Practise on Golang</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7d25a4b">1. Introduction</a></li>
-<li><a href="#orgc8aebf1">2. Prepare develoment environment</a>
+<li><a href="#orgbb72793">1. Introduction</a></li>
+<li><a href="#orgaeaf6a4">2. Prepare develoment environment</a>
 <ul>
-<li><a href="#orgeb8b4eb">2.1. Install Go</a></li>
-<li><a href="#org17727a4">2.2. (optional) Set Go proxy for development in China</a></li>
-<li><a href="#org3fb49cc">2.3. Setup project</a></li>
-<li><a href="#org0c943bc">2.4. About Golang SDK</a>
+<li><a href="#org3940960">2.1. Install Go</a></li>
+<li><a href="#orgbcc4cbc">2.2. (optional) Set Go proxy for development in China</a></li>
+<li><a href="#orgcf0afab">2.3. Setup project</a></li>
+<li><a href="#orge5132e6">2.4. About Golang SDK</a>
 <ul>
-<li><a href="#org18674d9">2.4.1. The Go AWS SDK convention</a></li>
-<li><a href="#orgb1b4b5c">2.4.2. Unit test with AWS SDK</a></li>
+<li><a href="#orga555171">2.4.1. The Go AWS SDK convention</a></li>
+<li><a href="#org2b36be2">2.4.2. Unit test with AWS SDK</a></li>
 </ul>
 </li>
-<li><a href="#orgdd08780">2.5. References</a></li>
+<li><a href="#orga3a7f10">2.5. References</a></li>
 </ul>
 </li>
-<li><a href="#org570d407">3. The practise from code</a>
+<li><a href="#org8d199a0">3. The practise from code</a>
 <ul>
-<li><a href="#orga1e3eff">3.1. How to get project&rsquo;s root from .git?</a></li>
-<li><a href="#org0aee9b5">3.2. How to execute external program?</a>
+<li><a href="#orga3a6dbb">3.1. How to get project&rsquo;s root from .git?</a></li>
+<li><a href="#org86bf894">3.2. How to execute external program?</a>
 <ul>
-<li><a href="#orgd5c32de">3.2.1. Prepare the cmd to execute</a></li>
-<li><a href="#orgb5e2c1d">3.2.2. Execute exec result in real-time</a></li>
+<li><a href="#org984f448">3.2.1. Prepare the cmd to execute</a></li>
+<li><a href="#org5cd736f">3.2.2. Execute exec result in real-time</a></li>
 </ul>
 </li>
-<li><a href="#org51a2a03">3.3. Process JSON</a>
+<li><a href="#orga000a33">3.3. Process JSON</a>
 <ul>
-<li><a href="#org335354e">3.3.1. Encod JSON to bytes</a></li>
-<li><a href="#orgd352396">3.3.2. Decode byte to JSON object</a></li>
-<li><a href="#orgc3ca425">3.3.3. Reference</a></li>
+<li><a href="#orge062b99">3.3.1. Encod JSON to bytes</a></li>
+<li><a href="#orgf461c10">3.3.2. Decode byte to JSON object</a></li>
+<li><a href="#org026ae4e">3.3.3. Reference</a></li>
 </ul>
 </li>
-<li><a href="#org39965b5">3.4. How to do something related with time</a>
+<li><a href="#org8b9c7a1">3.4. How to do something related with time</a>
 <ul>
-<li><a href="#org92842fa">3.4.1. How to convert from Unix timestamp to time.Time</a></li>
-<li><a href="#orgf7890c3">3.4.2. How to convert from time.Time to Unix timestamp</a></li>
-<li><a href="#org3ccb5fb">3.4.3. How to format time</a></li>
-<li><a href="#org7d0e7b5">3.4.4. How to parse a string to time.Time</a></li>
-<li><a href="#org4ae152a">3.4.5. How to format time</a></li>
-<li><a href="#org9c019f5">3.4.6. How to set duration</a></li>
-<li><a href="#orgc7fa975">3.4.7. How to postpone execution</a></li>
-<li><a href="#org2c95ec0">3.4.8. How to repeated do something with time.Duration</a></li>
+<li><a href="#orgec899d0">3.4.1. How to convert from Unix timestamp to time.Time</a></li>
+<li><a href="#org462eeae">3.4.2. How to convert from time.Time to Unix timestamp</a></li>
+<li><a href="#org939a334">3.4.3. How to format time</a></li>
+<li><a href="#org6ac4617">3.4.4. How to parse a string to time.Time</a></li>
+<li><a href="#orgc27ba6b">3.4.5. How to format time</a></li>
+<li><a href="#org8761550">3.4.6. How to set duration</a></li>
+<li><a href="#orgcd08a86">3.4.7. How to postpone execution</a></li>
+<li><a href="#org97af843">3.4.8. How to repeated do something with time.Duration</a></li>
 </ul>
 </li>
-<li><a href="#org12a3a25">3.5. How to loop each attribute of struct</a></li>
-<li><a href="#org02f60db">3.6. How to build command-line tools</a></li>
-<li><a href="#orgb1f7cb4">3.7. How to write unit test</a></li>
+<li><a href="#org561814e">3.5. How to loop each attribute of struct</a></li>
+<li><a href="#org1909b05">3.6. How to build command-line tools</a></li>
+<li><a href="#org5c55795">3.7. How to write unit test</a></li>
 </ul>
 </li>
-<li><a href="#org7790694">4. Understand Reader and Writer interface</a>
+<li><a href="#org0967dff">4. Understand Reader and Writer interface</a>
 <ul>
-<li><a href="#org1eab74a">4.1. Understand interface</a></li>
-<li><a href="#org9a4e070">4.2. Io.Reader</a></li>
-<li><a href="#org469dda9">4.3. Io.Writer</a></li>
-<li><a href="#org6d24183">4.4. Use pipe to switch from Writer to Reader</a></li>
-<li><a href="#orgf21196f">4.5. An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</a></li>
-<li><a href="#orgfeacd15">4.6. References</a></li>
+<li><a href="#orgea17a27">4.1. Understand interface</a></li>
+<li><a href="#orgc322720">4.2. Io.Reader</a></li>
+<li><a href="#orgf23accb">4.3. Io.Writer</a></li>
+<li><a href="#orgc1c819b">4.4. Use pipe to switch from Writer to Reader</a></li>
+<li><a href="#org330b429">4.5. An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</a></li>
+<li><a href="#orgf6fb81a">4.6. References</a></li>
 </ul>
 </li>
-<li><a href="#orgf5cbddf">5. Build code into executable binary file</a></li>
-<li><a href="#orgfb92d06">6. Concurrency in Go</a>
+<li><a href="#org8596ae1">5. Build code into executable binary file</a></li>
+<li><a href="#org7f417aa">6. Concurrency in Go</a>
 <ul>
-<li><a href="#orgf37ba30">6.1. How to receive signal from event, such as Ctr-C</a></li>
-<li><a href="#org8e1013b">6.2. From master spawn workers and cancel them when needed</a></li>
+<li><a href="#org8a4bfe5">6.1. How to receive signal from event, such as Ctr-C</a></li>
+<li><a href="#orgb745c8f">6.2. From master spawn workers and cancel them when needed</a></li>
 </ul>
 </li>
-<li><a href="#org35259aa">7. Summary</a></li>
+<li><a href="#org53e502b">7. Summary</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-org7d25a4b" class="outline-2">
-<h2 id="org7d25a4b"><span class="section-number-2">1.</span> Introduction</h2>
+<section id="outline-container-orgbb72793" class="outline-2">
+<h2 id="orgbb72793"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This doc records down my practise on Golang from work. It includes the problems I met when I swtiched to Golang as a 3 years experienced developer.<br>
@@ -151,12 +149,12 @@ This doc records down my practise on Golang from work. It includes the problems 
 </div>
 </section>
 
-<section id="outline-container-orgc8aebf1" class="outline-2">
-<h2 id="orgc8aebf1"><span class="section-number-2">2.</span> Prepare develoment environment</h2>
+<section id="outline-container-orgaeaf6a4" class="outline-2">
+<h2 id="orgaeaf6a4"><span class="section-number-2">2.</span> Prepare develoment environment</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgeb8b4eb" class="outline-3">
-<h3 id="orgeb8b4eb"><span class="section-number-3">2.1.</span> Install Go</h3>
+<div id="outline-container-org3940960" class="outline-3">
+<h3 id="org3940960"><span class="section-number-3">2.1.</span> Install Go</h3>
 <div class="outline-text-3" id="text-2-1">
 <ol class="org-ol">
 <li><p>
@@ -210,8 +208,8 @@ go env
 </ol>
 </div>
 </div>
-<div id="outline-container-org17727a4" class="outline-3">
-<h3 id="org17727a4"><span class="section-number-3">2.2.</span> (optional) Set Go proxy for development in China</h3>
+<div id="outline-container-orgbcc4cbc" class="outline-3">
+<h3 id="orgbcc4cbc"><span class="section-number-3">2.2.</span> (optional) Set Go proxy for development in China</h3>
 <div class="outline-text-3" id="text-2-2">
 <ol class="org-ol">
 <li>What is Go proxy?<br>
@@ -249,8 +247,8 @@ go env | grep proxy
 </div>
 </div>
 
-<div id="outline-container-org3fb49cc" class="outline-3">
-<h3 id="org3fb49cc"><span class="section-number-3">2.3.</span> Setup project</h3>
+<div id="outline-container-orgcf0afab" class="outline-3">
+<h3 id="orgcf0afab"><span class="section-number-3">2.3.</span> Setup project</h3>
 <div class="outline-text-3" id="text-2-3">
 <ol class="org-ol">
 <li>Create folder -tester<br></li>
@@ -267,24 +265,24 @@ go get -u github.com/aws/aws-sdk-go/...
 Test aws configuration(<code>~/.aws/config</code>) since this work is related with using AWS SDK.<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">package</span> main
+<pre class="src src-go">package main
 
-<span class="org-keyword">import</span> (
-  <span class="org-string">"fmt"</span>
-  <span class="org-string">"github.com/aws/aws-sdk-go/aws"</span>
-  <span class="org-string">"github.com/aws/aws-sdk-go/aws/session"</span>
+import (
+  "fmt"
+  "github.com/aws/aws-sdk-go/aws"
+  "github.com/aws/aws-sdk-go/aws/session"
 )
 
-<span class="org-keyword">func</span> <span class="org-function-name">main</span>() {
-  <span class="org-variable-name">sess</span>, <span class="org-variable-name">err</span> := session.<span class="org-function-name">NewSession</span>(&amp;<span class="org-type">aws.Config</span>{
-    <span class="org-constant">Region</span>: aws.<span class="org-function-name">String</span>(<span class="org-string">"us-east-1"</span>)},
+func main() {
+  sess, err := session.NewSession(&amp;aws.Config{
+    Region: aws.String("us-east-1")},
   )
 
-  <span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
-    fmt.<span class="org-function-name">Println</span>(<span class="org-string">"session error:"</span>, err)
+  if err != nil {
+    fmt.Println("session error:", err)
   }
 
-  fmt.<span class="org-function-name">Printf</span>(<span class="org-string">"using session: %v\n"</span>, sess)
+  fmt.Printf("using session: %v\n", sess)
 }
 </pre>
 </div></li>
@@ -293,13 +291,13 @@ Test aws configuration(<code>~/.aws/config</code>) since this work is related wi
 We will implement different packages(<code>.go</code> and <code>*_test.go</code> in one folder) under this <code>loadtest</code> module(the whole code repository). In one package, we use other packages like:<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">package</span> main
+<pre class="src src-go">package main
 
-<span class="org-keyword">import</span> (
-  <span class="org-string">"fmt"</span>
-  <span class="org-string">"loadtest/aws"</span>
-  <span class="org-string">"loadtest/cmd"</span>
-  <span class="org-string">"loadtest/tools"</span>
+import (
+  "fmt"
+  "loadtest/aws"
+  "loadtest/cmd"
+  "loadtest/tools"
     ...
 )
 </pre>
@@ -311,12 +309,12 @@ Notice: you could not import main package into other package. So, keep main pack
 </div>
 </div>
 
-<div id="outline-container-org0c943bc" class="outline-3">
-<h3 id="org0c943bc"><span class="section-number-3">2.4.</span> About Golang SDK</h3>
+<div id="outline-container-orge5132e6" class="outline-3">
+<h3 id="orge5132e6"><span class="section-number-3">2.4.</span> About Golang SDK</h3>
 <div class="outline-text-3" id="text-2-4">
 </div>
-<div id="outline-container-org18674d9" class="outline-4">
-<h4 id="org18674d9"><span class="section-number-4">2.4.1.</span> The Go AWS SDK convention</h4>
+<div id="outline-container-orga555171" class="outline-4">
+<h4 id="orga555171"><span class="section-number-4">2.4.1.</span> The Go AWS SDK convention</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <ul class="org-ul">
 <li>In AWS Go SDK document, it uses a lot of pointers. And Go SDK provides helper functions which do the convertion between values to pointers and pointers to values. See: <a href="https://docs.aws.amazon.com/sdk-for-go/api/aws/">Value and Pointer Conversion Utilities</a>.<br></li>
@@ -324,34 +322,34 @@ Notice: you could not import main package into other package. So, keep main pack
 Examples<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">var</span> <span class="org-variable-name">strPtr</span> *<span class="org-type">string</span>
+<pre class="src src-go">var strPtr *string
 
-<span class="org-comment-delimiter">// </span><span class="org-comment">Without the SDK's conversion functions</span>
-<span class="org-variable-name">str</span> := <span class="org-string">"my string"</span>
+// Without the SDK's conversion functions
+str := "my string"
 strPtr = &amp;str
 
-<span class="org-comment-delimiter">// </span><span class="org-comment">With the SDK's conversion functions</span>
-strPtr = aws.<span class="org-function-name">String</span>(<span class="org-string">"my string"</span>)
+// With the SDK's conversion functions
+strPtr = aws.String("my string")
 
-<span class="org-comment-delimiter">// </span><span class="org-comment">Convert *string to string value</span>
-str = aws.<span class="org-function-name">StringValue</span>(strPtr)
+// Convert *string to string value
+str = aws.StringValue(strPtr)
 
-<span class="org-keyword">var</span> <span class="org-variable-name">strPtrs</span> []*<span class="org-type">string</span>
-<span class="org-keyword">var</span> <span class="org-variable-name">strs</span> []<span class="org-type">string</span> = []<span class="org-type">string</span>{<span class="org-string">"Go"</span>, <span class="org-string">"Gophers"</span>, <span class="org-string">"Go"</span>}
+var strPtrs []*string
+var strs []string = []string{"Go", "Gophers", "Go"}
 
-<span class="org-comment-delimiter">// </span><span class="org-comment">Convert []string to []*string</span>
-strPtrs = aws.<span class="org-function-name">StringSlice</span>(strs)
+// Convert []string to []*string
+strPtrs = aws.StringSlice(strs)
 
-<span class="org-comment-delimiter">// </span><span class="org-comment">Convert []*string to []string</span>
-strs = aws.<span class="org-function-name">StringValueSlice</span>(strPtrs)
+// Convert []*string to []string
+strs = aws.StringValueSlice(strPtrs)
 </pre>
 </div></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb1b4b5c" class="outline-4">
-<h4 id="orgb1b4b5c"><span class="section-number-4">2.4.2.</span> Unit test with AWS SDK</h4>
+<div id="outline-container-org2b36be2" class="outline-4">
+<h4 id="org2b36be2"><span class="section-number-4">2.4.2.</span> Unit test with AWS SDK</h4>
 <div class="outline-text-4" id="text-2-4-2">
 <ul class="org-ul">
 <li>In Golang we use interface to decouple the dependencies of component. From AWS SDK, it provides a lot of useful interfaces for us to use.<br></li>
@@ -362,8 +360,8 @@ strs = aws.<span class="org-function-name">StringValueSlice</span>(strPtrs)
 </div>
 
 
-<div id="outline-container-orgdd08780" class="outline-3">
-<h3 id="orgdd08780"><span class="section-number-3">2.5.</span> References</h3>
+<div id="outline-container-orga3a7f10" class="outline-3">
+<h3 id="orga3a7f10"><span class="section-number-3">2.5.</span> References</h3>
 <div class="outline-text-3" id="text-2-5">
 <ul class="org-ul">
 <li><a href="https://blog.golang.org/using-go-modules#:~:text=A%20module%20is%20a%20collection,needed%20for%20a%20successful%20build.">Using Go modules</a><br></li>
@@ -377,8 +375,8 @@ strs = aws.<span class="org-function-name">StringValueSlice</span>(strPtrs)
 </section>
 
 
-<section id="outline-container-org570d407" class="outline-2">
-<h2 id="org570d407"><span class="section-number-2">3.</span> The practise from code</h2>
+<section id="outline-container-org8d199a0" class="outline-2">
+<h2 id="org8d199a0"><span class="section-number-2">3.</span> The practise from code</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The Golang code I am writing is a loadtest script:<br>
@@ -397,57 +395,57 @@ Basically it is a stander master-worker structure. This section records down the
 </div>
 
 
-<div id="outline-container-orga1e3eff" class="outline-3">
-<h3 id="orga1e3eff"><span class="section-number-3">3.1.</span> How to get project&rsquo;s root from .git?</h3>
+<div id="outline-container-orga3a6dbb" class="outline-3">
+<h3 id="orga3a6dbb"><span class="section-number-3">3.1.</span> How to get project&rsquo;s root from .git?</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">import</span> <span class="org-string">"os/exec"</span>
+<pre class="src src-go">import "os/exec"
 
-<span class="org-keyword">func</span> <span class="org-function-name">getCurrentProjectRoot</span>() (<span class="org-type">string</span>, <span class="org-type">error</span>) {
-  <span class="org-variable-name">cmdOut</span>, <span class="org-variable-name">err</span> := exec.<span class="org-function-name">Command</span>(<span class="org-string">"git"</span>, <span class="org-string">"rev-parse"</span>, <span class="org-string">"--show-toplevel"</span>).<span class="org-function-name">Output</span>()
-  <span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
-    <span class="org-keyword">return</span> <span class="org-string">""</span>, errors.<span class="org-function-name">New</span>(<span class="org-string">"you are not in a project"</span>)
+func getCurrentProjectRoot() (string, error) {
+  cmdOut, err := exec.Command("git", "rev-parse", "--show-toplevel").Output()
+  if err != nil {
+    return "", errors.New("you are not in a project")
   }
 
-  <span class="org-keyword">return</span> strings.<span class="org-function-name">TrimSpace</span>(<span class="org-function-name">string</span>(cmdOut)), <span class="org-constant">nil</span>
+  return strings.TrimSpace(string(cmdOut)), nil
 }
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0aee9b5" class="outline-3">
-<h3 id="org0aee9b5"><span class="section-number-3">3.2.</span> How to execute external program?</h3>
+<div id="outline-container-org86bf894" class="outline-3">
+<h3 id="org86bf894"><span class="section-number-3">3.2.</span> How to execute external program?</h3>
 <div class="outline-text-3" id="text-3-2">
 </div>
-<div id="outline-container-orgd5c32de" class="outline-4">
-<h4 id="orgd5c32de"><span class="section-number-4">3.2.1.</span> Prepare the cmd to execute</h4>
+<div id="outline-container-org984f448" class="outline-4">
+<h4 id="org984f448"><span class="section-number-4">3.2.1.</span> Prepare the cmd to execute</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">import</span> <span class="org-string">"os/exec"</span>
+<pre class="src src-go">import "os/exec"
 
-<span class="org-keyword">func</span> <span class="org-function-name">PrepareTester</span>(<span class="org-variable-name">workerVersion</span>, <span class="org-variable-name">jsonFile</span> <span class="org-type">string</span>) *<span class="org-type">exec.Cmd</span> {
-  <span class="org-variable-name">rootPath</span>, <span class="org-variable-name">err</span> := <span class="org-function-name">getCurrentProjectRoot</span>()
-  <span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
-    <span class="org-builtin">panic</span>(err)
+func PrepareTester(workerVersion, jsonFile string) *exec.Cmd {
+  rootPath, err := getCurrentProjectRoot()
+  if err != nil {
+    panic(err)
   }
 
-  <span class="org-comment-delimiter">// </span><span class="org-comment">cmd used on command-line: node index.js -j input_clouddash_dev.json -w Worker.3100 -m C -p zeus</span>
-  <span class="org-variable-name">app</span> := <span class="org-string">"node"</span>
-  <span class="org-variable-name">arg0</span> := <span class="org-string">"index.js"</span>
+  // cmd used on command-line: node index.js -j input_clouddash_dev.json -w Worker.3100 -m C -p zeus
+  app := "node"
+  arg0 := "index.js"
     ...
 
-  <span class="org-variable-name">cmd</span> := exec.<span class="org-function-name">Command</span>(app, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
-  cmd.Dir = rootPath + <span class="org-string">"/code"</span>
+  cmd := exec.Command(app, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+  cmd.Dir = rootPath + "/code"
 
-  <span class="org-keyword">return</span> cmd
+  return cmd
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb5e2c1d" class="outline-4">
-<h4 id="orgb5e2c1d"><span class="section-number-4">3.2.2.</span> Execute exec result in real-time</h4>
+<div id="outline-container-org5cd736f" class="outline-4">
+<h4 id="org5cd736f"><span class="section-number-4">3.2.2.</span> Execute exec result in real-time</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <p>
 In this work, the tester&rsquo;s execution will take for a while, and it is neccessary to view the complete output on the terminal while saving its output into files.<br>
@@ -463,31 +461,31 @@ In this work, the tester&rsquo;s execution will take for a while, and it is necc
 Code does write stderr, stdout into files<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-variable-name">cmd</span> := cmd.<span class="org-function-name">PrepareTester</span>(workerVersion, jsonFile)
-<span class="org-variable-name">cmdStdout</span> := <span class="org-builtin">make</span>(<span class="org-keyword">chan</span> <span class="org-type">string</span>, 10)
+<pre class="src src-go">cmd := cmd.PrepareTester(workerVersion, jsonFile)
+cmdStdout := make(chan string, 10)
 
-<span class="org-variable-name">outf</span>, <span class="org-variable-name">_</span> := os.<span class="org-function-name">Create</span>(filepath.<span class="org-function-name">Join</span>(logFolder, fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v-out.txt"</span>, id)))
-<span class="org-variable-name">errf</span>, <span class="org-variable-name">_</span> := os.<span class="org-function-name">Create</span>(filepath.<span class="org-function-name">Join</span>(logFolder, fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v-err.txt"</span>, id)))
-<span class="org-keyword">defer</span> outf.<span class="org-function-name">Close</span>()
-<span class="org-keyword">defer</span> errf.<span class="org-function-name">Close</span>()
+outf, _ := os.Create(filepath.Join(logFolder, fmt.Sprintf("%v-out.txt", id)))
+errf, _ := os.Create(filepath.Join(logFolder, fmt.Sprintf("%v-err.txt", id)))
+defer outf.Close()
+defer errf.Close()
 
-<span class="org-keyword">var</span> <span class="org-variable-name">wg</span> <span class="org-type">sync.WaitGroup</span>
-wg.<span class="org-function-name">Add</span>(1)
+var wg sync.WaitGroup
+wg.Add(1)
 
-<span class="org-comment-delimiter">// </span><span class="org-comment">write exec's stdout into stdout file </span>
-<span class="org-keyword">go</span> <span class="org-keyword">func</span>() {
-    <span class="org-function-name">readAndWriteToFiles</span>(stdoutIn, cmdStdout, []*<span class="org-type">os.File</span>{outf})
-    wg.<span class="org-function-name">Done</span>()
+// write exec's stdout into stdout file 
+go func() {
+    readAndWriteToFiles(stdoutIn, cmdStdout, []*os.File{outf})
+    wg.Done()
 }()
-wg.<span class="org-function-name">Add</span>(1)
+wg.Add(1)
 
-<span class="org-comment-delimiter">// </span><span class="org-comment">write exec's stderr into stderr file as well as into stdout file.</span>
-<span class="org-keyword">go</span> <span class="org-keyword">func</span>() {
-    <span class="org-function-name">readAndWriteToFiles</span>(stderrIn, cmdStdout, []*<span class="org-type">os.File</span>{outf, errf})
-    wg.<span class="org-function-name">Done</span>()
+// write exec's stderr into stderr file as well as into stdout file.
+go func() {
+    readAndWriteToFiles(stderrIn, cmdStdout, []*os.File{outf, errf})
+    wg.Done()
 }()
-wg.<span class="org-function-name">Wait</span>()
-cmd.<span class="org-function-name">Wait</span>()
+wg.Wait()
+cmd.Wait()
 </pre>
 </div>
 <ul class="org-ul">
@@ -496,21 +494,21 @@ cmd.<span class="org-function-name">Wait</span>()
 A helper function: read from io.Reader and write them to os.File and to chan string<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">readAndWriteToFiles</span>(<span class="org-variable-name">r</span> <span class="org-type">io.Reader</span>, <span class="org-variable-name">ch</span> <span class="org-keyword">chan</span>&lt;- <span class="org-type">string</span>, <span class="org-variable-name">fs</span> []*<span class="org-type">os.File</span>) {
-  <span class="org-variable-name">buf</span> := <span class="org-builtin">make</span>([]<span class="org-type">byte</span>, 512)
-  <span class="org-keyword">for</span> {
-    <span class="org-variable-name">n</span>, <span class="org-variable-name">err</span> := r.<span class="org-function-name">Read</span>(buf[:])
-    <span class="org-keyword">if</span> n &gt; 0 {
-      <span class="org-variable-name">d</span> := buf[:n]
+<pre class="src src-go">func readAndWriteToFiles(r io.Reader, ch chan&lt;- string, fs []*os.File) {
+  buf := make([]byte, 512)
+  for {
+    n, err := r.Read(buf[:])
+    if n &gt; 0 {
+      d := buf[:n]
 
-      <span class="org-keyword">for</span> <span class="org-variable-name">_</span>, <span class="org-variable-name">f</span> := <span class="org-keyword">range</span> fs {
-        f.<span class="org-function-name">Write</span>(d)
+      for _, f := range fs {
+	f.Write(d)
       }
-      ch &lt;- <span class="org-function-name">string</span>(d)
+      ch &lt;- string(d)
     }
-    <span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
-      <span class="org-keyword">if</span> err == io.EOF {
-        <span class="org-keyword">break</span>
+    if err != nil {
+      if err == io.EOF {
+	break
       }
     }
   }
@@ -522,46 +520,46 @@ A helper function: read from io.Reader and write them to os.File and to chan str
 </div>
 </div>
 
-<div id="outline-container-org51a2a03" class="outline-3">
-<h3 id="org51a2a03"><span class="section-number-3">3.3.</span> Process JSON</h3>
+<div id="outline-container-orga000a33" class="outline-3">
+<h3 id="orga000a33"><span class="section-number-3">3.3.</span> Process JSON</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 I would say the only downside of using comparing with Javascript is it is not very convenient to process JSON. In Golang, JSON object is represent as a combination of <code>map[string]interfaces{}</code> and <code>[]interface{}</code>.<br>
 </p>
 </div>
-<div id="outline-container-org335354e" class="outline-4">
-<h4 id="org335354e"><span class="section-number-4">3.3.1.</span> Encod JSON to bytes</h4>
+<div id="outline-container-orge062b99" class="outline-4">
+<h4 id="orge062b99"><span class="section-number-4">3.3.1.</span> Encod JSON to bytes</h4>
 <div class="outline-text-4" id="text-3-3-1">
 <ul class="org-ul">
 <li><p>
 For example, Golang&rsquo;s <code>net/http</code> module needs the body of http to be bytes, so we need to encode JSON object into bytes.<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-variable-name">client</span> := &amp;<span class="org-type">http.Client</span>{
-    <span class="org-constant">Timeout</span>: time.Millisecond * 2500,
+<pre class="src src-go">client := &amp;http.Client{
+    Timeout: time.Millisecond * 2500,
 }
 
-<span class="org-variable-name">contract</span> := <span class="org-keyword">map</span>[<span class="org-type">string</span>]<span class="org-keyword">interface</span>{}{
-    <span class="org-string">"workerInfo"</span>: <span class="org-keyword">map</span>[<span class="org-type">string</span>]<span class="org-type">string</span>{<span class="org-string">"workerVersion"</span>: workerVersion},
-    <span class="org-string">"userInfo"</span>:   <span class="org-keyword">map</span>[<span class="org-type">string</span>]<span class="org-type">string</span>{<span class="org-string">"userId"</span>: userId},
-    <span class="org-string">"clientInfo"</span>: <span class="org-keyword">map</span>[<span class="org-type">string</span>]<span class="org-type">string</span>{<span class="org-string">"clientId"</span>: <span class="org-string">"-tester"</span>, <span class="org-string">"clientVersion"</span>: <span class="org-string">"1.3.4"</span>},
+contract := map[string]interface{}{
+    "workerInfo": map[string]string{"workerVersion": workerVersion},
+    "userInfo":   map[string]string{"userId": userId},
+    "clientInfo": map[string]string{"clientId": "-tester", "clientVersion": "1.3.4"},
 }
-<span class="org-variable-name">body</span> := <span class="org-keyword">map</span>[<span class="org-type">string</span>]<span class="org-keyword">interface</span>{}{
-    <span class="org-string">"Contract"</span>: contract,
+body := map[string]interface{}{
+    "Contract": contract,
 }
-<span class="org-variable-name">reqBody</span>, <span class="org-variable-name">_</span> := json.<span class="org-function-name">Marshal</span>(body)
+reqBody, _ := json.Marshal(body)
 
-<span class="org-variable-name">req</span>, <span class="org-variable-name">_</span> := http.<span class="org-function-name">NewRequest</span>(<span class="org-string">"POST"</span>, url+<span class="org-string">"/init"</span>, bytes.<span class="org-function-name">NewBuffer</span>(reqBody))
-req.Header.<span class="org-function-name">Set</span>(<span class="org-string">"Content-Type"</span>, <span class="org-string">"application/json"</span>)
-req.Header.<span class="org-function-name">Set</span>(<span class="org-string">"x-ams-apiKey"</span>, apiKey)
+req, _ := http.NewRequest("POST", url+"/init", bytes.NewBuffer(reqBody))
+req.Header.Set("Content-Type", "application/json")
+req.Header.Set("x-ams-apiKey", apiKey)
 
-<span class="org-variable-name">resp</span>, <span class="org-variable-name">err</span> := client.<span class="org-function-name">Do</span>(req)
-<span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
-    log.<span class="org-function-name">Println</span>(err)
-    <span class="org-keyword">return</span> sessionResult, <span class="org-constant">false</span>
+resp, err := client.Do(req)
+if err != nil {
+    log.Println(err)
+    return sessionResult, false
 }
 
-<span class="org-keyword">defer</span> resp.Body.<span class="org-function-name">Close</span>()
+defer resp.Body.Close()
 </pre>
 </div>
 <ul class="org-ul">
@@ -570,31 +568,31 @@ req.Header.<span class="org-function-name">Set</span>(<span class="org-string">"
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd352396" class="outline-4">
-<h4 id="orgd352396"><span class="section-number-4">3.3.2.</span> Decode byte to JSON object</h4>
+<div id="outline-container-orgf461c10" class="outline-4">
+<h4 id="orgf461c10"><span class="section-number-4">3.3.2.</span> Decode byte to JSON object</h4>
 <div class="outline-text-4" id="text-3-3-2">
 <ul class="org-ul">
 <li><p>
 For example, the response we got from http post contain the<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">InitSessionResult</span> <span class="org-keyword">struct</span> {
-  SessionId <span class="org-type">string</span>
-  Expiry         <span class="org-type">int64</span> <span class="org-comment-delimiter">// </span><span class="org-comment">in Millisecond</span>
-  ExpiryTime     <span class="org-type">time.Time</span>
+<pre class="src src-go">type InitSessionResult struct {
+  SessionId string
+  Expiry         int64 // in Millisecond
+  ExpiryTime     time.Time
 }
 
-<span class="org-variable-name">resBody</span>, <span class="org-variable-name">err</span> := ioutil.<span class="org-function-name">ReadAll</span>(resp.Body)
-<span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
-    <span class="org-builtin">panic</span>(err)
+resBody, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+    panic(err)
 }
-fmt.<span class="org-function-name">Println</span>(<span class="org-string">"InitSessionId response Status:"</span>, resp.Status)
+fmt.Println("InitSessionId response Status:", resp.Status)
 
-<span class="org-keyword">var</span> <span class="org-variable-name">sessionResult</span> <span class="org-type">InitSessionResult</span>
-err = json.<span class="org-function-name">Unmarshal</span>(resBody, &amp;sessionResult)
+var sessionResult InitSessionResult
+err = json.Unmarshal(resBody, &amp;sessionResult)
 
-<span class="org-keyword">if</span> err == <span class="org-constant">nil</span> {
-    sessionResult.ExpiryTime = time.<span class="org-function-name">Unix</span>(sessionResult.Expiry/1000, 0)
+if err == nil {
+    sessionResult.ExpiryTime = time.Unix(sessionResult.Expiry/1000, 0)
 }
 </pre>
 </div>
@@ -606,8 +604,8 @@ err = json.<span class="org-function-name">Unmarshal</span>(resBody, &amp;sessio
 </div>
 </div>
 
-<div id="outline-container-orgc3ca425" class="outline-4">
-<h4 id="orgc3ca425"><span class="section-number-4">3.3.3.</span> Reference</h4>
+<div id="outline-container-org026ae4e" class="outline-4">
+<h4 id="org026ae4e"><span class="section-number-4">3.3.3.</span> Reference</h4>
 <div class="outline-text-4" id="text-3-3-3">
 <ul class="org-ul">
 <li>ref: <a href="https://blog.golang.org/json">The Go Blog: JSON and Go</a><br></li>
@@ -617,16 +615,16 @@ err = json.<span class="org-function-name">Unmarshal</span>(resBody, &amp;sessio
 </div>
 </div>
 
-<div id="outline-container-org39965b5" class="outline-3">
-<h3 id="org39965b5"><span class="section-number-3">3.4.</span> How to do something related with time</h3>
+<div id="outline-container-org8b9c7a1" class="outline-3">
+<h3 id="org8b9c7a1"><span class="section-number-3">3.4.</span> How to do something related with time</h3>
 <div class="outline-text-3" id="text-3-4">
 </div>
-<div id="outline-container-org92842fa" class="outline-4">
-<h4 id="org92842fa"><span class="section-number-4">3.4.1.</span> How to convert from Unix timestamp to time.Time</h4>
+<div id="outline-container-orgec899d0" class="outline-4">
+<h4 id="orgec899d0"><span class="section-number-4">3.4.1.</span> How to convert from Unix timestamp to time.Time</h4>
 <div class="outline-text-4" id="text-3-4-1">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-comment-delimiter">// </span><span class="org-comment">Here, the timestamp I got is Millisecond</span>
-time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
+<pre class="src src-go">// Here, the timestamp I got is Millisecond
+time.Unix(*r.Timestamp/1000, 0)
 </pre>
 </div>
 <ul class="org-ul">
@@ -634,8 +632,8 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf7890c3" class="outline-4">
-<h4 id="orgf7890c3"><span class="section-number-4">3.4.2.</span> How to convert from time.Time to Unix timestamp</h4>
+<div id="outline-container-org462eeae" class="outline-4">
+<h4 id="org462eeae"><span class="section-number-4">3.4.2.</span> How to convert from time.Time to Unix timestamp</h4>
 <div class="outline-text-4" id="text-3-4-2">
 <ul class="org-ul">
 <li><code>func (t Time) Unix() int64</code>, the number of second<br></li>
@@ -645,15 +643,15 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </div>
 </div>
 
-<div id="outline-container-org3ccb5fb" class="outline-4">
-<h4 id="org3ccb5fb"><span class="section-number-4">3.4.3.</span> How to format time</h4>
+<div id="outline-container-org939a334" class="outline-4">
+<h4 id="org939a334"><span class="section-number-4">3.4.3.</span> How to format time</h4>
 <div class="outline-text-4" id="text-3-4-3">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">fromTimeToStr</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>, <span class="org-variable-name">format</span> <span class="org-type">string</span>, <span class="org-variable-name">asUTC</span> <span class="org-type">bool</span>) <span class="org-type">string</span> {
-  <span class="org-keyword">if</span> asUTC {
-    <span class="org-keyword">return</span> fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, t.<span class="org-function-name">In</span>(time.UTC).<span class="org-function-name">Format</span>(format))
-  } <span class="org-keyword">else</span> {
-    <span class="org-keyword">return</span> fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, t.<span class="org-function-name">In</span>(time.Local).<span class="org-function-name">Format</span>(format))
+<pre class="src src-go">func fromTimeToStr(t time.Time, format string, asUTC bool) string {
+  if asUTC {
+    return fmt.Sprintf("%v", t.In(time.UTC).Format(format))
+  } else {
+    return fmt.Sprintf("%v", t.In(time.Local).Format(format))
   }
 }
 </pre>
@@ -665,17 +663,17 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </div>
 </div>
 
-<div id="outline-container-org7d0e7b5" class="outline-4">
-<h4 id="org7d0e7b5"><span class="section-number-4">3.4.4.</span> How to parse a string to time.Time</h4>
+<div id="outline-container-org6ac4617" class="outline-4">
+<h4 id="org6ac4617"><span class="section-number-4">3.4.4.</span> How to parse a string to time.Time</h4>
 <div class="outline-text-4" id="text-3-4-4">
 <ul class="org-ul">
 <li><p>
 <code>func Parse(layout, value string) (Time, error)</code><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-variable-name">startAt</span>, <span class="org-variable-name">err</span> := time.<span class="org-function-name">Parse</span>(<span class="org-string">"2006-01-02 15:04"</span>, startStr)
-<span class="org-keyword">if</span> err != <span class="org-constant">nil</span> {
-    log.<span class="org-function-name">Fatal</span>(<span class="org-string">"time format is not correct, exit..."</span>)
+<pre class="src src-go">startAt, err := time.Parse("2006-01-02 15:04", startStr)
+if err != nil {
+    log.Fatal("time format is not correct, exit...")
 }
 </pre>
 </div></li>
@@ -684,59 +682,59 @@ time.<span class="org-function-name">Unix</span>(*r.Timestamp/1000, 0)
 </div>
 </div>
 
-<div id="outline-container-org4ae152a" class="outline-4">
-<h4 id="org4ae152a"><span class="section-number-4">3.4.5.</span> How to format time</h4>
+<div id="outline-container-orgc27ba6b" class="outline-4">
+<h4 id="orgc27ba6b"><span class="section-number-4">3.4.5.</span> How to format time</h4>
 <div class="outline-text-4" id="text-3-4-5">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">formatTime</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>) <span class="org-type">string</span> {
-    <span class="org-comment-delimiter">// </span><span class="org-comment">setUTC is a global variable control whether we want is a time relative to UTC</span>
-  <span class="org-keyword">return</span> <span class="org-function-name">fromTimeToStr</span>(t, <span class="org-string">"2006-01-02 15:04:05.99-0700"</span>, setUTC)
+<pre class="src src-go">func formatTime(t time.Time) string {
+    // setUTC is a global variable control whether we want is a time relative to UTC
+  return fromTimeToStr(t, "2006-01-02 15:04:05.99-0700", setUTC)
 }
 
-<span class="org-keyword">func</span> <span class="org-function-name">fromTimeToStr</span>(<span class="org-variable-name">t</span> <span class="org-type">time.Time</span>, <span class="org-variable-name">format</span> <span class="org-type">string</span>, <span class="org-variable-name">asUTC</span> <span class="org-type">bool</span>) <span class="org-type">string</span> {
-  <span class="org-keyword">if</span> asUTC {
-    <span class="org-keyword">return</span> fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, t.<span class="org-function-name">In</span>(time.UTC).<span class="org-function-name">Format</span>(format))
-  } <span class="org-keyword">else</span> {
-    <span class="org-keyword">return</span> fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, t.<span class="org-function-name">In</span>(time.Local).<span class="org-function-name">Format</span>(format))
+func fromTimeToStr(t time.Time, format string, asUTC bool) string {
+  if asUTC {
+    return fmt.Sprintf("%v", t.In(time.UTC).Format(format))
+  } else {
+    return fmt.Sprintf("%v", t.In(time.Local).Format(format))
   }
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9c019f5" class="outline-4">
-<h4 id="org9c019f5"><span class="section-number-4">3.4.6.</span> How to set duration</h4>
+<div id="outline-container-org8761550" class="outline-4">
+<h4 id="org8761550"><span class="section-number-4">3.4.6.</span> How to set duration</h4>
 <div class="outline-text-4" id="text-3-4-6">
 <ol class="org-ol">
 <li><p>
 Set time duration for specific number, such as 30 seconds<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">var</span> <span class="org-variable-name">testerNoResponseLimit</span> <span class="org-type">time.Duration</span> = 30 * time.Second
+<pre class="src src-go">var testerNoResponseLimit time.Duration = 30 * time.Second
 </pre>
 </div></li>
 <li><p>
 Set time duration between one timestamp<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-variable-name">begin</span> := time.<span class="org-function-name">Now</span>()
-<span class="org-comment-delimiter">// </span><span class="org-comment">...do something</span>
-time.<span class="org-function-name">Since</span>(begin)
+<pre class="src src-go">begin := time.Now()
+// ...do something
+time.Since(begin)
 </pre>
 </div></li>
 <li><p>
 Set time duration between two timestamp using <code>Sub</code><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-comment-delimiter">// </span><span class="org-comment">use latest time - a timestamp set before</span>
-time.<span class="org-function-name">Now</span>().<span class="org-function-name">Sub</span>(startAt)
+<pre class="src src-go">// use latest time - a timestamp set before
+time.Now().Sub(startAt)
 </pre>
 </div></li>
 <li><p>
 From a time at one side of duration to get another time.<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-variable-name">fiveMinsAgo</span> := time.<span class="org-function-name">Now</span>().<span class="org-function-name">Add</span>(-5 * time.Minute)
+<pre class="src src-go">fiveMinsAgo := time.Now().Add(-5 * time.Minute)
 </pre>
 </div></li>
 <li><p>
@@ -744,42 +742,42 @@ How to multiple duration by integer?<br>
 Usually we got a variable as a number and we want to multiple it by unit of duration, such as seconds or mins. For a variable as number, we need to convert it to time.Duration explicitly.<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-variable-name">start</span> := time.<span class="org-function-name">Now</span>().<span class="org-function-name">Add</span>(-time.<span class="org-function-name">Duration</span>(parsedInteger) * time.Minute)
+<pre class="src src-go">start := time.Now().Add(-time.Duration(parsedInteger) * time.Minute)
 </pre>
 </div></li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-orgc7fa975" class="outline-4">
-<h4 id="orgc7fa975"><span class="section-number-4">3.4.7.</span> How to postpone execution</h4>
+<div id="outline-container-orgcd08a86" class="outline-4">
+<h4 id="orgcd08a86"><span class="section-number-4">3.4.7.</span> How to postpone execution</h4>
 <div class="outline-text-4" id="text-3-4-7">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-comment-delimiter">// </span><span class="org-comment">postpone is time.Duration</span>
-time.<span class="org-function-name">Sleep</span>(postpone)
+<pre class="src src-go">// postpone is time.Duration
+time.Sleep(postpone)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2c95ec0" class="outline-4">
-<h4 id="org2c95ec0"><span class="section-number-4">3.4.8.</span> How to repeated do something with time.Duration</h4>
+<div id="outline-container-org97af843" class="outline-4">
+<h4 id="org97af843"><span class="section-number-4">3.4.8.</span> How to repeated do something with time.Duration</h4>
 <div class="outline-text-4" id="text-3-4-8">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-comment-delimiter">// </span><span class="org-comment">First setup a ticker</span>
-<span class="org-variable-name">updateTicker</span> := time.<span class="org-function-name">NewTicker</span>(5 * time.Second)
+<pre class="src src-go">// First setup a ticker
+updateTicker := time.NewTicker(5 * time.Second)
 
-<span class="org-keyword">go</span> <span class="org-keyword">func</span>() {
-    <span class="org-comment-delimiter">// </span><span class="org-comment">stop it using defer</span>
-    <span class="org-keyword">defer</span> updateTicker.<span class="org-function-name">Stop</span>()
-    <span class="org-keyword">for</span> {
-        <span class="org-keyword">select</span>{
-        <span class="org-keyword">case</span>&lt;-updateTicker.C:
-            <span class="org-comment-delimiter">//</span><span class="org-comment">... doSomething </span>
-        <span class="org-keyword">case</span>&lt;-done:
-            <span class="org-comment-delimiter">// </span><span class="org-comment">cancel the it by close done channel</span>
-            <span class="org-keyword">return</span>
-        }
+go func() {
+    // stop it using defer
+    defer updateTicker.Stop()
+    for {
+	select{
+	case&lt;-updateTicker.C:
+	    //... doSomething 
+	case&lt;-done:
+	    // cancel the it by close done channel
+	    return
+	}
     }
 }()
 </pre>
@@ -788,50 +786,50 @@ time.<span class="org-function-name">Sleep</span>(postpone)
 </div>
 </div>
 
-<div id="outline-container-org12a3a25" class="outline-3">
-<h3 id="org12a3a25"><span class="section-number-3">3.5.</span> How to loop each attribute of struct</h3>
+<div id="outline-container-org561814e" class="outline-3">
+<h3 id="org561814e"><span class="section-number-3">3.5.</span> How to loop each attribute of struct</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 For example, we want to convert a struct into <code>[]string</code> such that it could be write into CSV files (<code>encoding/csv</code> need data to be <code>[]string</code>)<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">LoadtestRecord</span> <span class="org-keyword">struct</span> {
-  Id               <span class="org-type">int</span>
-  Timestamp        <span class="org-type">time.Time</span>
-  TesterName       <span class="org-type">string</span>
-  Guid             <span class="org-type">string</span>
-  Linetype         <span class="org-type">string</span>
-  OpenPartDuration <span class="org-type">time.Duration</span>
-  CompleteDuration <span class="org-type">time.Duration</span>
-  Text             <span class="org-type">string</span>
-  SinceBegin       <span class="org-type">time.Duration</span>
+<pre class="src src-go">type LoadtestRecord struct {
+  Id               int
+  Timestamp        time.Time
+  TesterName       string
+  Guid             string
+  Linetype         string
+  OpenPartDuration time.Duration
+  CompleteDuration time.Duration
+  Text             string
+  SinceBegin       time.Duration
 }
 
-<span class="org-keyword">func</span> (<span class="org-variable-name">l</span> <span class="org-type">LoadtestRecord</span>) <span class="org-function-name">toStrings</span>() []<span class="org-type">string</span> {
-  <span class="org-variable-name">v</span> := reflect.<span class="org-function-name">ValueOf</span>(l)
-  <span class="org-variable-name">typeOfS</span> := v.<span class="org-function-name">Type</span>()
+func (l LoadtestRecord) toStrings() []string {
+  v := reflect.ValueOf(l)
+  typeOfS := v.Type()
 
-  <span class="org-variable-name">result</span> := []<span class="org-type">string</span>{}
-  <span class="org-keyword">for</span> <span class="org-variable-name">i</span> := 0; i &lt; v.<span class="org-function-name">NumField</span>(); i++ {
+  result := []string{}
+  for i := 0; i &lt; v.NumField(); i++ {
 
-    <span class="org-variable-name">k</span> := typeOfS.<span class="org-function-name">Field</span>(i).Name
-    <span class="org-variable-name">v</span> := v.<span class="org-function-name">Field</span>(i).<span class="org-function-name">Interface</span>()
+    k := typeOfS.Field(i).Name
+    v := v.Field(i).Interface()
 
-    <span class="org-keyword">if</span> k == <span class="org-string">"Timestamp"</span> {
-      result = <span class="org-builtin">append</span>(result, <span class="org-function-name">formatTime</span>(v.(<span class="org-type">time.Time</span>)))
-    } <span class="org-keyword">else</span> <span class="org-keyword">if</span> k == <span class="org-string">"OpenPartDuration"</span> {
-      result = <span class="org-builtin">append</span>(result, fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, <span class="org-function-name">int64</span>(v.(<span class="org-type">time.Duration</span>)/time.Millisecond)))
-    } <span class="org-keyword">else</span> <span class="org-keyword">if</span> k == <span class="org-string">"CompleteDuration"</span> {
-      result = <span class="org-builtin">append</span>(result, fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v"</span>, <span class="org-function-name">int64</span>(v.(<span class="org-type">time.Duration</span>)/time.Millisecond)))
-    } <span class="org-keyword">else</span> <span class="org-keyword">if</span> k == <span class="org-string">"Id"</span> || k == <span class="org-string">"SinceBegin"</span> {
-      <span class="org-keyword">continue</span>
-    } <span class="org-keyword">else</span> {
-      <span class="org-variable-name">str</span> := v.(<span class="org-type">string</span>)
-      result = <span class="org-builtin">append</span>(result, <span class="org-function-name">removeLastStr</span>(strings.<span class="org-function-name">TrimSpace</span>(str), <span class="org-string">"\n"</span>))
+    if k == "Timestamp" {
+      result = append(result, formatTime(v.(time.Time)))
+    } else if k == "OpenPartDuration" {
+      result = append(result, fmt.Sprintf("%v", int64(v.(time.Duration)/time.Millisecond)))
+    } else if k == "CompleteDuration" {
+      result = append(result, fmt.Sprintf("%v", int64(v.(time.Duration)/time.Millisecond)))
+    } else if k == "Id" || k == "SinceBegin" {
+      continue
+    } else {
+      str := v.(string)
+      result = append(result, removeLastStr(strings.TrimSpace(str), "\n"))
     }
   }
 
-  <span class="org-keyword">return</span> result
+  return result
 }
 </pre>
 </div>
@@ -841,32 +839,32 @@ For example, we want to convert a struct into <code>[]string</code> such that it
 </div>
 </div>
 
-<div id="outline-container-org02f60db" class="outline-3">
-<h3 id="org02f60db"><span class="section-number-3">3.6.</span> How to build command-line tools</h3>
+<div id="outline-container-org1909b05" class="outline-3">
+<h3 id="org1909b05"><span class="section-number-3">3.6.</span> How to build command-line tools</h3>
 <div class="outline-text-3" id="text-3-6">
 <p>
 So easy in Golang<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">var</span> <span class="org-variable-name">n</span>, <span class="org-variable-name">p</span>, <span class="org-variable-name">t</span> <span class="org-type">int</span>
-<span class="org-keyword">var</span> <span class="org-variable-name">minNumOfEC2</span>, <span class="org-variable-name">maxNumOfEC2</span> <span class="org-type">int</span>
-<span class="org-keyword">var</span> <span class="org-variable-name">stackEnv</span>, <span class="org-variable-name">workerVersion</span>, <span class="org-variable-name">jsonFile</span> <span class="org-type">string</span>
-<span class="org-comment-delimiter">// </span><span class="org-comment">var setUTC bool</span>
-flag.<span class="org-function-name">IntVar</span>(&amp;n, <span class="org-string">"n"</span>, 1, <span class="org-string">"number of testers to launch per path"</span>)
-flag.<span class="org-function-name">IntVar</span>(&amp;p, <span class="org-string">"p"</span>, 1, <span class="org-string">"how many patch"</span>)
-flag.<span class="org-function-name">IntVar</span>(&amp;t, <span class="org-string">"t"</span>, 5, <span class="org-string">"time interval(seconds) between patch"</span>)
-flag.<span class="org-function-name">StringVar</span>(&amp;stackEnv, <span class="org-string">"e"</span>, <span class="org-string">"dev"</span>, <span class="org-string">"stack stackEnv, for example: dev, preprod...etc"</span>)
-flag.<span class="org-function-name">StringVar</span>(&amp;workerVersion, <span class="org-string">"w"</span>, <span class="org-string">"Worker.3100"</span>, <span class="org-string">"the worker version used for tester, by default it will use Worker.3100"</span>)
-flag.<span class="org-function-name">StringVar</span>(&amp;jsonFile, <span class="org-string">"j"</span>, <span class="org-string">"input_clouddash_dev.json"</span>, <span class="org-string">"the json file contains the APIs used by tester, by default it will use input_clouddash_dev.json"</span>)
-flag.<span class="org-function-name">BoolVar</span>(&amp;setUTC, <span class="org-string">"utc"</span>, <span class="org-constant">false</span>, <span class="org-string">"time displayed in log will be using UTC by default, -utc=true to set timestamp in UTC"</span>)
-flag.<span class="org-function-name">Parse</span>()
+<pre class="src src-go">var n, p, t int
+var minNumOfEC2, maxNumOfEC2 int
+var stackEnv, workerVersion, jsonFile string
+// var setUTC bool
+flag.IntVar(&amp;n, "n", 1, "number of testers to launch per path")
+flag.IntVar(&amp;p, "p", 1, "how many patch")
+flag.IntVar(&amp;t, "t", 5, "time interval(seconds) between patch")
+flag.StringVar(&amp;stackEnv, "e", "dev", "stack stackEnv, for example: dev, preprod...etc")
+flag.StringVar(&amp;workerVersion, "w", "Worker.3100", "the worker version used for tester, by default it will use Worker.3100")
+flag.StringVar(&amp;jsonFile, "j", "input_clouddash_dev.json", "the json file contains the APIs used by tester, by default it will use input_clouddash_dev.json")
+flag.BoolVar(&amp;setUTC, "utc", false, "time displayed in log will be using UTC by default, -utc=true to set timestamp in UTC")
+flag.Parse()
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb1f7cb4" class="outline-3">
-<h3 id="orgb1f7cb4"><span class="section-number-3">3.7.</span> How to write unit test</h3>
+<div id="outline-container-org5c55795" class="outline-3">
+<h3 id="org5c55795"><span class="section-number-3">3.7.</span> How to write unit test</h3>
 <div class="outline-text-3" id="text-3-7">
 <ul class="org-ul">
 <li>ref: <a href="https://medium.com/@benbjohnson/structuring-tests-in-go-46ddee7a25c">Structuring Tests in Go</a><br></li>
@@ -927,28 +925,28 @@ In anyway, we don&rsquo;t use concrate Client type, we use AWS&rsquo;s interface
 </section>
 
 
-<section id="outline-container-org7790694" class="outline-2">
-<h2 id="org7790694"><span class="section-number-2">4.</span> Understand Reader and Writer interface</h2>
+<section id="outline-container-org0967dff" class="outline-2">
+<h2 id="org0967dff"><span class="section-number-2">4.</span> Understand Reader and Writer interface</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 In Golang, io.Reader and Writer are interfaces, all methods related with I/O are just streams of bytes getting passed around.<br>
 </p>
 </div>
 
-<div id="outline-container-org1eab74a" class="outline-3">
-<h3 id="org1eab74a"><span class="section-number-3">4.1.</span> Understand interface</h3>
+<div id="outline-container-orgea17a27" class="outline-3">
+<h3 id="orgea17a27"><span class="section-number-3">4.1.</span> Understand interface</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 In Golang standard library, a lot of components are interfaces. For example<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">Example</span> <span class="org-keyword">struct</span> {
+<pre class="src src-go">type Example struct {
 
 }
-<span class="org-keyword">func</span> (<span class="org-variable-name">e</span> *<span class="org-type">Example</span>) <span class="org-function-name">Write</span>(<span class="org-variable-name">p</span> <span class="org-type">byte</span>[]) (<span class="org-variable-name">n</span> <span class="org-type">int</span>, <span class="org-variable-name">err</span> <span class="org-type">error</span>) {
+func (e *Example) Write(p byte[]) (n int, err error) {
 
 }
-<span class="org-keyword">func</span> (<span class="org-variable-name">e</span> *<span class="org-type">Example</span>) <span class="org-function-name">Read</span>(<span class="org-variable-name">p</span> <span class="org-type">byte</span>[]) (<span class="org-variable-name">n</span> <span class="org-type">int</span>, <span class="org-variable-name">err</span> <span class="org-type">error</span>) {
+func (e *Example) Read(p byte[]) (n int, err error) {
 
 }
 </pre>
@@ -961,15 +959,15 @@ In Golang standard library, a lot of components are interfaces. For example<br>
 </div>
 </div>
 
-<div id="outline-container-org9a4e070" class="outline-3">
-<h3 id="org9a4e070"><span class="section-number-3">4.2.</span> Io.Reader</h3>
+<div id="outline-container-orgc322720" class="outline-3">
+<h3 id="orgc322720"><span class="section-number-3">4.2.</span> Io.Reader</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 For a type of function as a reader, it must implement method <code>Read(p []byte)</code> from interface <code>io.Reader</code>.<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">Reader</span> <span class="org-keyword">interface</span> {
-    <span class="org-function-name">Read</span>(<span class="org-variable-name">p</span> []<span class="org-type">byte</span>) (<span class="org-variable-name">n</span> <span class="org-type">int</span>, <span class="org-variable-name">err</span> <span class="org-type">error</span>)
+<pre class="src src-go">type Reader interface {
+    Read(p []byte) (n int, err error)
 }
 </pre>
 </div>
@@ -981,12 +979,12 @@ For a type of function as a reader, it must implement method <code>Read(p []byte
 </div>
 </div>
 
-<div id="outline-container-org469dda9" class="outline-3">
-<h3 id="org469dda9"><span class="section-number-3">4.3.</span> Io.Writer</h3>
+<div id="outline-container-orgf23accb" class="outline-3">
+<h3 id="orgf23accb"><span class="section-number-3">4.3.</span> Io.Writer</h3>
 </div>
 
-<div id="outline-container-org6d24183" class="outline-3">
-<h3 id="org6d24183"><span class="section-number-3">4.4.</span> Use pipe to switch from Writer to Reader</h3>
+<div id="outline-container-orgc1c819b" class="outline-3">
+<h3 id="orgc1c819b"><span class="section-number-3">4.4.</span> Use pipe to switch from Writer to Reader</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 Sometimes a function&rsquo;s parameters only accept Writer, but we want a Reader. The solution is <code>io.Pipe()</code>.<br>
@@ -994,62 +992,62 @@ Sometimes a function&rsquo;s parameters only accept Writer, but we want a Reader
 </div>
 </div>
 
-<div id="outline-container-orgf21196f" class="outline-3">
-<h3 id="orgf21196f"><span class="section-number-3">4.5.</span> An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</h3>
+<div id="outline-container-org330b429" class="outline-3">
+<h3 id="org330b429"><span class="section-number-3">4.5.</span> An implementation of <code>io.Reader</code> which filters out non-alphabetic characters from its stream.</h3>
 <div class="outline-text-3" id="text-4-5">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">type</span> <span class="org-type">alphaReader</span> <span class="org-keyword">struct</span> {
-  src <span class="org-type">string</span>
-  cur <span class="org-type">int</span>
+<pre class="src src-go">type alphaReader struct {
+  src string
+  cur int
 }
 
-<span class="org-keyword">func</span> <span class="org-function-name">newAlphaReader</span>(<span class="org-variable-name">src</span> <span class="org-type">string</span>) *<span class="org-type">alphaReader</span> {
-  <span class="org-keyword">return</span> &amp;<span class="org-type">alphaReader</span>{<span class="org-constant">src</span>: src}
+func newAlphaReader(src string) *alphaReader {
+  return &amp;alphaReader{src: src}
 }
 
-<span class="org-keyword">func</span> <span class="org-function-name">alpha</span>(<span class="org-variable-name">r</span> <span class="org-type">byte</span>) <span class="org-type">byte</span> {
-  <span class="org-keyword">if</span> (r &gt;= <span class="org-string">'A'</span> &amp;&amp; r &lt;= <span class="org-string">'Z'</span>) || (r &gt;= <span class="org-string">'a'</span> &amp;&amp; r &lt;= <span class="org-string">'z'</span>) {
-    <span class="org-keyword">return</span> r
+func alpha(r byte) byte {
+  if (r &gt;= 'A' &amp;&amp; r &lt;= 'Z') || (r &gt;= 'a' &amp;&amp; r &lt;= 'z') {
+    return r
   }
-  <span class="org-keyword">return</span> 0
+  return 0
 }
 
-<span class="org-keyword">func</span> (<span class="org-variable-name">a</span> *<span class="org-type">alphaReader</span>) <span class="org-function-name">Read</span>(<span class="org-variable-name">p</span> []<span class="org-type">byte</span>) (<span class="org-type">int</span>, <span class="org-type">error</span>) {
-  <span class="org-keyword">if</span> a.cur &gt;= <span class="org-builtin">len</span>(a.src) {
-    <span class="org-keyword">return</span> 0, io.EOF
+func (a *alphaReader) Read(p []byte) (int, error) {
+  if a.cur &gt;= len(a.src) {
+    return 0, io.EOF
   }
 
-  <span class="org-variable-name">x</span> := <span class="org-builtin">len</span>(a.src) - a.cur
-  <span class="org-variable-name">n</span>, <span class="org-variable-name">bound</span> := 0, 0
-  <span class="org-keyword">if</span> x &gt;= <span class="org-builtin">len</span>(p) {
-    bound = <span class="org-builtin">len</span>(p)
-  } <span class="org-keyword">else</span> <span class="org-keyword">if</span> x &lt;= <span class="org-builtin">len</span>(p) {
+  x := len(a.src) - a.cur
+  n, bound := 0, 0
+  if x &gt;= len(p) {
+    bound = len(p)
+  } else if x &lt;= len(p) {
     bound = x
   }
 
-  <span class="org-variable-name">buf</span> := <span class="org-builtin">make</span>([]<span class="org-type">byte</span>, bound)
-  <span class="org-keyword">for</span> n &lt; bound {
-    <span class="org-keyword">if</span> <span class="org-variable-name">char</span> := <span class="org-function-name">alpha</span>(a.src[a.cur]); char != 0 {
+  buf := make([]byte, bound)
+  for n &lt; bound {
+    if char := alpha(a.src[a.cur]); char != 0 {
       buf[n] = char
     }
     n++
     a.cur++
   }
-  <span class="org-builtin">copy</span>(p, buf)
-  <span class="org-keyword">return</span> n, <span class="org-constant">nil</span>
+  copy(p, buf)
+  return n, nil
 }
 
-<span class="org-keyword">func</span> <span class="org-function-name">main</span>() {
-  <span class="org-variable-name">reader</span> := <span class="org-function-name">newAlphaReader</span>(<span class="org-string">"Hello! It's 9am, where is the sun?"</span>)
-  <span class="org-variable-name">p</span> := <span class="org-builtin">make</span>([]<span class="org-type">byte</span>, 4)
-  <span class="org-keyword">for</span> {
-    <span class="org-variable-name">n</span>, <span class="org-variable-name">err</span> := reader.<span class="org-function-name">Read</span>(p)
-    <span class="org-keyword">if</span> err == io.EOF {
-      <span class="org-keyword">break</span>
+func main() {
+  reader := newAlphaReader("Hello! It's 9am, where is the sun?")
+  p := make([]byte, 4)
+  for {
+    n, err := reader.Read(p)
+    if err == io.EOF {
+      break
     }
-    fmt.<span class="org-function-name">Print</span>(<span class="org-function-name">string</span>(p[:n]))
+    fmt.Print(string(p[:n]))
   }
-  fmt.<span class="org-function-name">Println</span>()
+  fmt.Println()
 }
 </pre>
 </div>
@@ -1058,16 +1056,16 @@ Sometimes a function&rsquo;s parameters only accept Writer, but we want a Reader
 Notice the display of <code>[]byte</code> as <code>string</code> in different terminal shows different result:<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-go">fmt.<span class="org-function-name">Println</span>(<span class="org-function-name">string</span>([]<span class="org-type">byte</span>{111, 73})) <span class="org-comment-delimiter">// </span><span class="org-comment">on terminal, it is displayed as oI</span>
-fmt.<span class="org-function-name">Println</span>(<span class="org-function-name">string</span>([]<span class="org-type">byte</span>{111, 0, 0, 0, 0, 73})) <span class="org-comment-delimiter">// </span><span class="org-comment">on terminal it is displayed as oI, but for some other terminal, it is displayed as o&#0;&#0;&#0;&#0;I</span>
+<pre class="src src-go">fmt.Println(string([]byte{111, 73})) // on terminal, it is displayed as oI
+fmt.Println(string([]byte{111, 0, 0, 0, 0, 73})) // on terminal it is displayed as oI, but for some other terminal, it is displayed as o    I
 </pre>
 </div></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgfeacd15" class="outline-3">
-<h3 id="orgfeacd15"><span class="section-number-3">4.6.</span> References</h3>
+<div id="outline-container-orgf6fb81a" class="outline-3">
+<h3 id="orgf6fb81a"><span class="section-number-3">4.6.</span> References</h3>
 <div class="outline-text-3" id="text-4-6">
 <ul class="org-ul">
 <li><a href="https://nathanleclaire.com/blog/2014/07/19/demystifying-golangs-io-dot-reader-and-io-dot-writer-interfaces/">Demystifying Golang&rsquo;s io.Reader and io.Writer Interfaces</a> (about using pipe to switch writer for reader)<br></li>
@@ -1080,8 +1078,8 @@ fmt.<span class="org-function-name">Println</span>(<span class="org-function-nam
 </section>
 
 
-<section id="outline-container-orgf5cbddf" class="outline-2">
-<h2 id="orgf5cbddf"><span class="section-number-2">5.</span> Build code into executable binary file</h2>
+<section id="outline-container-org8596ae1" class="outline-2">
+<h2 id="org8596ae1"><span class="section-number-2">5.</span> Build code into executable binary file</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 While the <code>go run</code> command is a useful shortcut for compiling and running a program when you&rsquo;re making frequent changes, it doesn&rsquo;t generate a binary executable. (See: <a href="https://golang.org/doc/tutorial/compile-install">Compile and install the application</a>)<br>
@@ -1142,72 +1140,72 @@ mLoadTest.go-windows-amd64.exe
 </div>
 </section>
 
-<section id="outline-container-orgfb92d06" class="outline-2">
-<h2 id="orgfb92d06"><span class="section-number-2">6.</span> Concurrency in Go</h2>
+<section id="outline-container-org7f417aa" class="outline-2">
+<h2 id="org7f417aa"><span class="section-number-2">6.</span> Concurrency in Go</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 I choose go to do this loadtest job because of this. There are several common patterns.<br>
 </p>
 </div>
-<div id="outline-container-orgf37ba30" class="outline-3">
-<h3 id="orgf37ba30"><span class="section-number-3">6.1.</span> How to receive signal from event, such as Ctr-C</h3>
+<div id="outline-container-org8a4bfe5" class="outline-3">
+<h3 id="org8a4bfe5"><span class="section-number-3">6.1.</span> How to receive signal from event, such as Ctr-C</h3>
 <div class="outline-text-3" id="text-6-1">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-variable-name">interrupt</span> := <span class="org-builtin">make</span>(<span class="org-keyword">chan</span> <span class="org-type">os.Signal</span>, 1)
-signal.<span class="org-function-name">Notify</span>(interrupt, os.Interrupt)
+<pre class="src src-go">interrupt := make(chan os.Signal, 1)
+signal.Notify(interrupt, os.Interrupt)
 
-<span class="org-variable-name">done</span> := <span class="org-builtin">make</span>(<span class="org-keyword">chan</span> <span class="org-keyword">interface</span>{})
+done := make(chan interface{})
 
-<span class="org-keyword">go</span> <span class="org-keyword">func</span>() {
-    <span class="org-keyword">select</span> {
-    <span class="org-keyword">case</span> &lt;-time.<span class="org-function-name">After</span>(globalTimeoutLimit):
-        fmt.<span class="org-function-name">Println</span>(<span class="org-string">"timeout globablly, cancel all"</span>)
-        <span class="org-builtin">close</span>(done)
-    <span class="org-keyword">case</span> &lt;-interrupt:
-        <span class="org-comment-delimiter">// </span><span class="org-comment">use interrupt to gracefully cancel all tester jobs</span>
-        fmt.<span class="org-function-name">Println</span>(<span class="org-string">"interrupt, cancel all"</span>)
-        <span class="org-builtin">close</span>(done)
+go func() {
+    select {
+    case &lt;-time.After(globalTimeoutLimit):
+	fmt.Println("timeout globablly, cancel all")
+	close(done)
+    case &lt;-interrupt:
+	// use interrupt to gracefully cancel all tester jobs
+	fmt.Println("interrupt, cancel all")
+	close(done)
     }
 }()
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8e1013b" class="outline-3">
-<h3 id="org8e1013b"><span class="section-number-3">6.2.</span> From master spawn workers and cancel them when needed</h3>
+<div id="outline-container-orgb745c8f" class="outline-3">
+<h3 id="orgb745c8f"><span class="section-number-3">6.2.</span> From master spawn workers and cancel them when needed</h3>
 <div class="outline-text-3" id="text-6-2">
 <div class="org-src-container">
-<pre class="src src-go"><span class="org-keyword">func</span> <span class="org-function-name">observingEC2Instances</span>(<span class="org-variable-name">done</span> &lt;-<span class="org-keyword">chan</span> <span class="org-keyword">interface</span>{}, <span class="org-variable-name">stackEnv</span> <span class="org-type">string</span>, <span class="org-variable-name">minNumOfEC2</span>, <span class="org-variable-name">maxNumOfEC2</span> *<span class="org-type">int</span>) {
-  <span class="org-comment-delimiter">// </span><span class="org-comment">observing the changes of EC2</span>
-  <span class="org-variable-name">observeEC2Ticker</span> := time.<span class="org-function-name">NewTicker</span>(10 * time.Second)
-  <span class="org-variable-name">fname</span> := filepath.<span class="org-function-name">Join</span>(logFolder, fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"number-of-EC2-instance.txt"</span>))
-  <span class="org-variable-name">f</span>, <span class="org-variable-name">_</span> := os.<span class="org-function-name">Create</span>(fname)
+<pre class="src src-go">func observingEC2Instances(done &lt;-chan interface{}, stackEnv string, minNumOfEC2, maxNumOfEC2 *int) {
+  // observing the changes of EC2
+  observeEC2Ticker := time.NewTicker(10 * time.Second)
+  fname := filepath.Join(logFolder, fmt.Sprintf("number-of-EC2-instance.txt"))
+  f, _ := os.Create(fname)
 
-  <span class="org-keyword">defer</span> observeEC2Ticker.<span class="org-function-name">Stop</span>()
-  <span class="org-keyword">defer</span> f.<span class="org-function-name">Close</span>()
-  fmt.<span class="org-function-name">Println</span>(<span class="org-string">"Observing number of EC2 instances"</span>)
+  defer observeEC2Ticker.Stop()
+  defer f.Close()
+  fmt.Println("Observing number of EC2 instances")
 
-  <span class="org-variable-name">num</span> := aws.<span class="org-function-name">GetNumOfEC2</span>(fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"ecs-%v"</span>, stackEnv))
-  f.<span class="org-function-name">Write</span>([]<span class="org-function-name">byte</span>(fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"NumEC2s\tTime\n"</span>)))
+  num := aws.GetNumOfEC2(fmt.Sprintf("ecs-%v", stackEnv))
+  f.Write([]byte(fmt.Sprintf("NumEC2s\tTime\n")))
 
-  <span class="org-variable-name">tStr</span> := <span class="org-function-name">formatTime</span>(time.<span class="org-function-name">Now</span>())
-  f.<span class="org-function-name">Write</span>([]<span class="org-function-name">byte</span>(fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v\t%v\n"</span>, num, tStr)))
+  tStr := formatTime(time.Now())
+  f.Write([]byte(fmt.Sprintf("%v\t%v\n", num, tStr)))
 
   *minNumOfEC2 = num
   *maxNumOfEC2 = num
-  <span class="org-keyword">for</span> {
-    <span class="org-keyword">select</span> {
-    <span class="org-keyword">case</span> &lt;-done:
-      <span class="org-keyword">return</span>
-    <span class="org-keyword">case</span> &lt;-observeEC2Ticker.C:
-      num = aws.<span class="org-function-name">GetNumOfEC2</span>(fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"ecs-%v"</span>, stackEnv))
-      tStr = <span class="org-function-name">formatTime</span>(time.<span class="org-function-name">Now</span>())
-      f.<span class="org-function-name">Write</span>([]<span class="org-function-name">byte</span>(fmt.<span class="org-function-name">Sprintf</span>(<span class="org-string">"%v\t%v\n"</span>, num, tStr)))
-      <span class="org-keyword">if</span> num &gt; *maxNumOfEC2 {
-        *maxNumOfEC2 = num
+  for {
+    select {
+    case &lt;-done:
+      return
+    case &lt;-observeEC2Ticker.C:
+      num = aws.GetNumOfEC2(fmt.Sprintf("ecs-%v", stackEnv))
+      tStr = formatTime(time.Now())
+      f.Write([]byte(fmt.Sprintf("%v\t%v\n", num, tStr)))
+      if num &gt; *maxNumOfEC2 {
+	*maxNumOfEC2 = num
       }
-      <span class="org-keyword">if</span> num &lt; *minNumOfEC2 {
-        *minNumOfEC2 = num
+      if num &lt; *minNumOfEC2 {
+	*minNumOfEC2 = num
       }
     }
   }
@@ -1223,8 +1221,8 @@ signal.<span class="org-function-name">Notify</span>(interrupt, os.Interrupt)
 </div>
 </section>
 
-<section id="outline-container-org35259aa" class="outline-2">
-<h2 id="org35259aa"><span class="section-number-2">7.</span> Summary</h2>
+<section id="outline-container-org53e502b" class="outline-2">
+<h2 id="org53e502b"><span class="section-number-2">7.</span> Summary</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li>The biggest thought about Golang is its standard library can do so many things. A lot of them need third party library in Javascript.<br></li>
@@ -1237,7 +1235,7 @@ signal.<span class="org-function-name">Notify</span>(interrupt, os.Interrupt)
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Sep 15, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
 </div>
 </footer>
 </body>

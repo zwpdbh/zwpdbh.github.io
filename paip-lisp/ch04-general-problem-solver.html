@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 17, 2021 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Ch04: The general problem solver (GPS)</title>
-<meta name="generator" content="Org mode">
-<meta name="author" content="DESKTOP-TTOPQ58">
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
      function CodeHighlightOn(elem, id)
      {
        var target = document.getElementById(id);
@@ -32,7 +31,6 @@
          target.classList.remove("code-highlighted");
        }
      }
-    /*]]>*///-->
 // @license-end
 </script>
 </head>
@@ -65,29 +63,29 @@
   </ul>
 </div>
 </header>
-<main id="content">
+<main id="content" class="content">
 <header>
 <h1 class="title">Ch04: The general problem solver (GPS)</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgcf6733c">1. Introduction</a></li>
-<li><a href="#org4c2b904">2. Five stages in the development of an AI program.</a></li>
-<li><a href="#org360b87e">3. How to specify?</a></li>
-<li><a href="#orgd82618c">4. Implementation01</a></li>
-<li><a href="#org9156280">5. Differences between AI programming vs traditional notion of programming</a></li>
-<li><a href="#orgc366a5e">6. Problems of implementation01</a></li>
-<li><a href="#orgfc05ccd">7. Implementation02</a></li>
-<li><a href="#org36609be">8. Problems of implementation02</a></li>
-<li><a href="#org32875de">9. About semipredicates</a></li>
-<li><a href="#org7f04b28">10. My notes</a></li>
+<li><a href="#org78518fb">1. Introduction</a></li>
+<li><a href="#orga79ef58">2. Five stages in the development of an AI program.</a></li>
+<li><a href="#org644a3ee">3. How to specify?</a></li>
+<li><a href="#org812638c">4. Implementation01</a></li>
+<li><a href="#orgfe4a833">5. Differences between AI programming vs traditional notion of programming</a></li>
+<li><a href="#orgdd87490">6. Problems of implementation01</a></li>
+<li><a href="#orgc7d3911">7. Implementation02</a></li>
+<li><a href="#org573bc6b">8. Problems of implementation02</a></li>
+<li><a href="#org2366fab">9. About semipredicates</a></li>
+<li><a href="#org1434d5a">10. My notes</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-orgcf6733c" class="outline-2">
-<h2 id="orgcf6733c"><span class="section-number-2">1</span> Introduction</h2>
+<section id="outline-container-org78518fb" class="outline-2">
+<h2 id="org78518fb"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The GPS illustrates the idea of solving a problem using a process called <b>means-ends</b> analysis, where the problem is stated in terms of what we want to happen. We can solve a problem if we can find some ways to eliminate &ldquo;the difference between what I have and what I want&rdquo;.<br>
@@ -103,8 +101,8 @@ In means-ends analysis, the problem solver begins by evisioning the end (the ult
 </div>
 </section>
 
-<section id="outline-container-org4c2b904" class="outline-2">
-<h2 id="org4c2b904"><span class="section-number-2">2</span> Five stages in the development of an AI program.</h2>
+<section id="outline-container-orga79ef58" class="outline-2">
+<h2 id="orga79ef58"><span class="section-number-2">2.</span> Five stages in the development of an AI program.</h2>
 <div class="outline-text-2" id="text-2">
 <ol class="org-ol">
 <li>describe<br></li>
@@ -116,8 +114,8 @@ In means-ends analysis, the problem solver begins by evisioning the end (the ult
 </div>
 </section>
 
-<section id="outline-container-org360b87e" class="outline-2">
-<h2 id="org360b87e"><span class="section-number-2">3</span> How to specify?</h2>
+<section id="outline-container-org644a3ee" class="outline-2">
+<h2 id="org644a3ee"><span class="section-number-2">3.</span> How to specify?</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li>Represent <b>state</b> of world (&ldquo;what I have&rdquo;) or the goal state (&ldquo;what I want&rdquo;) as set of <b>conditions</b>.<br></li>
@@ -169,11 +167,11 @@ Where, an operator is appropriate if it adds the goal into the current state(goa
 </div>
 </section>
 
-<section id="outline-container-orgd82618c" class="outline-2">
-<h2 id="orgd82618c"><span class="section-number-2">4</span> Implementation01</h2>
+<section id="outline-container-org812638c" class="outline-2">
+<h2 id="org812638c"><span class="section-number-2">4.</span> Implementation01</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a href="ch04-gps-v01.lisp#org63c2495">GPS-v01</a><br>
+<a href="ch04-gps-v01.lisp#org09fbcfe">GPS-v01</a><br>
 Notice the recursion between <code>achieve</code> and <code>apply-op</code>. That is the key point to understand mean-end anaylsis. A goad could be achieved if:<br>
 </p>
 <ul class="org-ul">
@@ -183,8 +181,8 @@ Notice the recursion between <code>achieve</code> and <code>apply-op</code>. Tha
 </div>
 </section>
 
-<section id="outline-container-org9156280" class="outline-2">
-<h2 id="org9156280"><span class="section-number-2">5</span> Differences between AI programming vs traditional notion of programming</h2>
+<section id="outline-container-orgfe4a833" class="outline-2">
+<h2 id="orgfe4a833"><span class="section-number-2">5.</span> Differences between AI programming vs traditional notion of programming</h2>
 <div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li>AI programming is more about discover more about the problem area. The problem definition is not clear.<br></li>
@@ -192,8 +190,8 @@ Notice the recursion between <code>achieve</code> and <code>apply-op</code>. Tha
 </ul>
 </div>
 </section>
-<section id="outline-container-orgc366a5e" class="outline-2">
-<h2 id="orgc366a5e"><span class="section-number-2">6</span> Problems of implementation01</h2>
+<section id="outline-container-orgdd87490" class="outline-2">
+<h2 id="orgdd87490"><span class="section-number-2">6.</span> Problems of implementation01</h2>
 <div class="outline-text-2" id="text-6">
 <ol class="org-ol">
 <li>The clobbered sibling goal problem.<br>
@@ -245,8 +243,8 @@ If we add this extra operator, the GPS could goes into loop infinite.<br>
 </section>
 
 
-<section id="outline-container-orgfc05ccd" class="outline-2">
-<h2 id="orgfc05ccd"><span class="section-number-2">7</span> Implementation02</h2>
+<section id="outline-container-orgc7d3911" class="outline-2">
+<h2 id="orgc7d3911"><span class="section-number-2">7.</span> Implementation02</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Main changes differ from version01:<br>
@@ -259,12 +257,12 @@ Main changes differ from version01:<br>
 </div>
 </section>
 
-<section id="outline-container-org36609be" class="outline-2">
-<h2 id="org36609be"><span class="section-number-2">8</span> Problems of implementation02</h2>
+<section id="outline-container-org573bc6b" class="outline-2">
+<h2 id="org573bc6b"><span class="section-number-2">8.</span> Problems of implementation02</h2>
 </section>
 
-<section id="outline-container-org32875de" class="outline-2">
-<h2 id="org32875de"><span class="section-number-2">9</span> About semipredicates</h2>
+<section id="outline-container-org2366fab" class="outline-2">
+<h2 id="org2366fab"><span class="section-number-2">9.</span> About semipredicates</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 Functions that return nil as an indication of failure and return some useful value otherwise are known as <b>semipredicates</b>. They are error prone when nil might be constructed as a useful value. 3 constraints must be considered to prevent this:<br>
@@ -277,8 +275,8 @@ Functions that return nil as an indication of failure and return some useful val
 </div>
 </section>
 
-<section id="outline-container-org7f04b28" class="outline-2">
-<h2 id="org7f04b28"><span class="section-number-2">10</span> My notes</h2>
+<section id="outline-container-org1434d5a" class="outline-2">
+<h2 id="org1434d5a"><span class="section-number-2">10.</span> My notes</h2>
 <div class="outline-text-2" id="text-10">
 <ul class="org-ul">
 <li>I think GPS is basically doing graphical search.<br>
@@ -294,7 +292,7 @@ Functions that return nil as an indication of failure and return some useful val
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
 </div>
 </footer>
 </body>

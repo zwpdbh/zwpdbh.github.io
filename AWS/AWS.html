@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 17, 2021 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AWS Notes</title>
-<meta name="generator" content="Org mode">
-<meta name="author" content="DESKTOP-TTOPQ58">
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
      function CodeHighlightOn(elem, id)
      {
        var target = document.getElementById(id);
@@ -32,7 +31,6 @@
          target.classList.remove("code-highlighted");
        }
      }
-    /*]]>*///-->
 // @license-end
 </script>
 </head>
@@ -65,84 +63,83 @@
   </ul>
 </div>
 </header>
-<main id="content">
+<main id="content" class="content">
 <header>
 <h1 class="title">AWS Notes</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf0b268e">1. ECS</a>
+<li><a href="#orgfd213b8">1. ECS</a>
 <ul>
-<li><a href="#org433fbff">1.1. Refs</a></li>
-<li><a href="#orgc631439">1.2. Concepts</a>
+<li><a href="#org5570237">1.1. Refs</a></li>
+<li><a href="#org9896ad6">1.2. Concepts</a>
 <ul>
-<li><a href="#orgf34e8d2">1.2.1. ECS</a></li>
-<li><a href="#org2837d84">1.2.2. EC2</a></li>
-<li><a href="#orgcc6f1ca">1.2.3. Farget and EC2</a></li>
-<li><a href="#org315aa8a">1.2.4. Task Definitions</a></li>
-<li><a href="#org79cc9d9">1.2.5. Cluster</a></li>
+<li><a href="#org915ad76">1.2.1. ECS</a></li>
+<li><a href="#org8b2fe0e">1.2.2. EC2</a></li>
+<li><a href="#orgf7622b9">1.2.3. Farget and EC2</a></li>
+<li><a href="#org2909760">1.2.4. Task Definitions</a></li>
+<li><a href="#orgd2f9056">1.2.5. Cluster</a></li>
 </ul>
 </li>
-<li><a href="#org46c242e">1.3. Features of ECS</a></li>
-<li><a href="#org94abdb8">1.4. Steps to use ECS</a></li>
-<li><a href="#org66b4650">1.5. <span class="todo TODO">TODO</span> About AutoScaling of EC2</a>
+<li><a href="#orgc785fa3">1.3. Features of ECS</a></li>
+<li><a href="#org88b0c8b">1.4. Steps to use ECS</a></li>
+<li><a href="#org92df0d8">1.5. <span class="todo TODO">TODO</span> About AutoScaling of EC2</a>
 <ul>
-<li><a href="#org1fa6c64">1.5.1. Similar example from App-worker-manager</a></li>
+<li><a href="#org61e24fe">1.5.1. Similar example from App-worker-manager</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orga5de3e5">2. Route53</a>
+<li><a href="#org35d151a">2. Route53</a>
 <ul>
-<li><a href="#orga36f34e">2.1. Switch traffic to different domain name as failover</a></li>
-<li><a href="#org77166a0">2.2. LoadBalancer in ECS</a></li>
+<li><a href="#org04649ce">2.1. Switch traffic to different domain name as failover</a></li>
+<li><a href="#orgc3b9a94">2.2. LoadBalancer in ECS</a></li>
 </ul>
 </li>
-<li><a href="#org76ae6ca">3. AWS Security</a>
+<li><a href="#org7ca6ecb">3. AWS Security</a>
 <ul>
-<li><a href="#org764026e">3.1. refs</a></li>
-<li><a href="#org97b5dc9">3.2. My notes</a>
+<li><a href="#orgf1bb40f">3.1. refs</a></li>
+<li><a href="#orgd218468">3.2. My notes</a>
 <ul>
-<li><a href="#org4aa8aa9">3.2.1. Office building analogy</a></li>
-<li><a href="#org8002ff9">3.2.2. VPC</a></li>
-<li><a href="#org0e5a67e">3.2.3. Subnets</a></li>
-<li><a href="#org7743252">3.2.4. Security Group</a></li>
-<li><a href="#org79116f7">3.2.5. Launch instance into VPC</a></li>
-<li><a href="#orga151e6a">3.2.6. Bastion host</a></li>
+<li><a href="#org3b71cbe">3.2.1. Office building analogy</a></li>
+<li><a href="#orgf9979e2">3.2.2. VPC</a></li>
+<li><a href="#org7c285df">3.2.3. Subnets</a></li>
+<li><a href="#org2c19200">3.2.4. Security Group</a></li>
+<li><a href="#orgd0f78fe">3.2.5. Launch instance into VPC</a></li>
+<li><a href="#org6d38559">3.2.6. Bastion host</a></li>
 </ul>
 </li>
-<li><a href="#org6c5a8e2">3.3. My summary</a></li>
+<li><a href="#org586cb5f">3.3. My summary</a></li>
 </ul>
 </li>
-<li><a href="#org7a706ee">4. ECR</a></li>
-<li><a href="#org41c41cd">5. Troubleshootings</a></li>
-<li><a href="#org49b7962">6. <span class="todo TODO">TODO</span> VPC</a>
+<li><a href="#orgb49eb63">4. ECR</a></li>
+<li><a href="#orgfe26e7c">5. <span class="todo TODO">TODO</span> VPC</a>
 <ul>
-<li><a href="#orge07b813">6.1. Refs</a></li>
-<li><a href="#org24ac0e8">6.2. VPC networking components</a></li>
+<li><a href="#orgfbb91f3">5.1. Refs</a></li>
+<li><a href="#org83bd93f">5.2. VPC networking components</a></li>
 </ul>
 </li>
-<li><a href="#orgd35a805">7. CloudFormation Skills</a>
+<li><a href="#orgf933da0">6. CloudFormation Skills</a>
 <ul>
-<li><a href="#orgc8db5f0">7.1. Use FindInMap to customize environment variables based on keys</a></li>
+<li><a href="#org7994896">6.1. Use FindInMap to customize environment variables based on keys</a></li>
 </ul>
 </li>
-<li><a href="#org4eaf172">8. My notes</a>
+<li><a href="#orged76b6f">7. My notes</a>
 <ul>
-<li><a href="#org9f09469">8.1. Network Fundamentals</a></li>
+<li><a href="#org3ef9200">7.1. Network Fundamentals</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-orgf0b268e" class="outline-2">
-<h2 id="orgf0b268e"><span class="section-number-2">1</span> ECS</h2>
+<section id="outline-container-orgfd213b8" class="outline-2">
+<h2 id="orgfd213b8"><span class="section-number-2">1.</span> ECS</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org433fbff" class="outline-3">
-<h3 id="org433fbff"><span class="section-number-3">1.1</span> Refs</h3>
+<div id="outline-container-org5570237" class="outline-3">
+<h3 id="org5570237"><span class="section-number-3">1.1.</span> Refs</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li><a href="https://stackoverflow.com/questions/42960678/what-is-the-difference-between-a-task-and-a-service-in-aws-ecs">What is the difference between a task and a service in AWS ECS?</a><br></li>
@@ -150,12 +147,12 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc631439" class="outline-3">
-<h3 id="orgc631439"><span class="section-number-3">1.2</span> Concepts</h3>
+<div id="outline-container-org9896ad6" class="outline-3">
+<h3 id="org9896ad6"><span class="section-number-3">1.2.</span> Concepts</h3>
 <div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-orgf34e8d2" class="outline-4">
-<h4 id="orgf34e8d2"><span class="section-number-4">1.2.1</span> ECS</h4>
+<div id="outline-container-org915ad76" class="outline-4">
+<h4 id="org915ad76"><span class="section-number-4">1.2.1.</span> ECS</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
 <li>abbreviation  for <b>Elastic Container Service</b>. It is a container <b>management</b> service for containers on a cluster.<br></li>
@@ -166,16 +163,16 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org2837d84" class="outline-4">
-<h4 id="org2837d84"><span class="section-number-4">1.2.2</span> EC2</h4>
+<div id="outline-container-org8b2fe0e" class="outline-4">
+<h4 id="org8b2fe0e"><span class="section-number-4">1.2.2.</span> EC2</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <ul class="org-ul">
 <li>Short for <b>Elastic Compute Cloud (Amazon EC2)</b> <br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcc6f1ca" class="outline-4">
-<h4 id="orgcc6f1ca"><span class="section-number-4">1.2.3</span> Farget and EC2</h4>
+<div id="outline-container-orgf7622b9" class="outline-4">
+<h4 id="orgf7622b9"><span class="section-number-4">1.2.3.</span> Farget and EC2</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <ul class="org-ul">
 <li>Both are cluster service types.<br></li>
@@ -184,8 +181,8 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org315aa8a" class="outline-4">
-<h4 id="org315aa8a"><span class="section-number-4">1.2.4</span> <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definitions</a></h4>
+<div id="outline-container-org2909760" class="outline-4">
+<h4 id="org2909760"><span class="section-number-4">1.2.4.</span> <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definitions</a></h4>
 <div class="outline-text-4" id="text-1-2-4">
 <ul class="org-ul">
 <li>describes one or more <b>containers</b>, up to 10<br></li>
@@ -203,8 +200,8 @@
 </div>
 </div>
 
-<div id="outline-container-org79cc9d9" class="outline-4">
-<h4 id="org79cc9d9"><span class="section-number-4">1.2.5</span> Cluster</h4>
+<div id="outline-container-orgd2f9056" class="outline-4">
+<h4 id="orgd2f9056"><span class="section-number-4">1.2.5.</span> Cluster</h4>
 <div class="outline-text-4" id="text-1-2-5">
 <ul class="org-ul">
 <li>A logical grouping of resources.<br></li>
@@ -215,8 +212,8 @@
 </div>
 </div>
 
-<div id="outline-container-org46c242e" class="outline-3">
-<h3 id="org46c242e"><span class="section-number-3">1.3</span> Features of ECS</h3>
+<div id="outline-container-orgc785fa3" class="outline-3">
+<h3 id="orgc785fa3"><span class="section-number-3">1.3.</span> Features of ECS</h3>
 <div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
 <li>provide high available manner for<br>
@@ -233,8 +230,8 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org94abdb8" class="outline-3">
-<h3 id="org94abdb8"><span class="section-number-3">1.4</span> Steps to use ECS</h3>
+<div id="outline-container-org88b0c8b" class="outline-3">
+<h3 id="org88b0c8b"><span class="section-number-3">1.4.</span> Steps to use ECS</h3>
 <div class="outline-text-3" id="text-1-4">
 <ul class="org-ul">
 <li>Define VPC<br></li>
@@ -252,16 +249,16 @@
 </div>
 </div>
 
-<div id="outline-container-org66b4650" class="outline-3">
-<h3 id="org66b4650"><span class="section-number-3">1.5</span> <span class="todo TODO">TODO</span> About AutoScaling of EC2</h3>
+<div id="outline-container-org92df0d8" class="outline-3">
+<h3 id="org92df0d8"><span class="section-number-3">1.5.</span> <span class="todo TODO">TODO</span> About AutoScaling of EC2</h3>
 <div class="outline-text-3" id="text-1-5">
 <ul class="org-ul">
 <li>ref: <a href="https://aws.amazon.com/blogs/containers/deep-dive-on-amazon-ecs-cluster-auto-scaling/">Deep Dive on Amazon ECS Cluster Auto Scaling</a><br></li>
 </ul>
 </div>
 
-<div id="outline-container-org1fa6c64" class="outline-4">
-<h4 id="org1fa6c64"><span class="section-number-4">1.5.1</span> Similar example from App-worker-manager</h4>
+<div id="outline-container-org61e24fe" class="outline-4">
+<h4 id="org61e24fe"><span class="section-number-4">1.5.1.</span> Similar example from App-worker-manager</h4>
 <div class="outline-text-4" id="text-1-5-1">
 <p>
 Worker manager relies on two tables.<br>
@@ -359,15 +356,15 @@ Worker manager relies on two tables.<br>
 </div>
 </div>
 </section>
-<section id="outline-container-orga5de3e5" class="outline-2">
-<h2 id="orga5de3e5"><span class="section-number-2">2</span> Route53</h2>
+<section id="outline-container-org35d151a" class="outline-2">
+<h2 id="org35d151a"><span class="section-number-2">2.</span> Route53</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>To make Route53 works, you need to create 2 records: one is type A, another is CNAME which is created during validate certificate.<br></li>
 </ul>
 </div>
-<div id="outline-container-orga36f34e" class="outline-3">
-<h3 id="orga36f34e"><span class="section-number-3">2.1</span> Switch traffic to different domain name as failover</h3>
+<div id="outline-container-org04649ce" class="outline-3">
+<h3 id="org04649ce"><span class="section-number-3">2.1.</span> Switch traffic to different domain name as failover</h3>
 <div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
 <li>Task description<br>
@@ -478,8 +475,8 @@ Resolve <code>dev.acs.app.com</code><br>
 </div>
 </div>
 
-<div id="outline-container-org77166a0" class="outline-3">
-<h3 id="org77166a0"><span class="section-number-3">2.2</span> LoadBalancer in ECS</h3>
+<div id="outline-container-orgc3b9a94" class="outline-3">
+<h3 id="orgc3b9a94"><span class="section-number-3">2.2.</span> LoadBalancer in ECS</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
 <pre class="src src-yaml"><span class="org-variable-name">AppService</span>:
@@ -590,12 +587,12 @@ Resolve <code>dev.acs.app.com</code><br>
 </div>
 </div>
 </section>
-<section id="outline-container-org76ae6ca" class="outline-2">
-<h2 id="org76ae6ca"><span class="section-number-2">3</span> AWS Security</h2>
+<section id="outline-container-org7ca6ecb" class="outline-2">
+<h2 id="org7ca6ecb"><span class="section-number-2">3.</span> AWS Security</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org764026e" class="outline-3">
-<h3 id="org764026e"><span class="section-number-3">3.1</span> refs</h3>
+<div id="outline-container-orgf1bb40f" class="outline-3">
+<h3 id="orgf1bb40f"><span class="section-number-3">3.1.</span> refs</h3>
 <div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
 <li><a href="https://cloudacademy.com/blog/aws-shared-responsibility-model-security/">AWS Shared Responsibility Model: Cloud Security</a><br></li>
@@ -608,8 +605,8 @@ Resolve <code>dev.acs.app.com</code><br>
 </div>
 </div>
 
-<div id="outline-container-org97b5dc9" class="outline-3">
-<h3 id="org97b5dc9"><span class="section-number-3">3.2</span> My notes</h3>
+<div id="outline-container-orgd218468" class="outline-3">
+<h3 id="orgd218468"><span class="section-number-3">3.2.</span> My notes</h3>
 <div class="outline-text-3" id="text-3-2">
 <ul class="org-ul">
 <li>Different models have differences on how security responsibility are devided (where AWS and customer responsibility start and end)<br>
@@ -633,8 +630,8 @@ Resolve <code>dev.acs.app.com</code><br>
 </ul>
 </div>
 
-<div id="outline-container-org4aa8aa9" class="outline-4">
-<h4 id="org4aa8aa9"><span class="section-number-4">3.2.1</span> Office building analogy</h4>
+<div id="outline-container-org3b71cbe" class="outline-4">
+<h4 id="org3b71cbe"><span class="section-number-4">3.2.1.</span> Office building analogy</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <ul class="org-ul">
 <li>Think of your office as a multi-story building<br></li>
@@ -733,8 +730,8 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 </div>
 
 
-<div id="outline-container-org8002ff9" class="outline-4">
-<h4 id="org8002ff9"><span class="section-number-4">3.2.2</span> VPC</h4>
+<div id="outline-container-orgf9979e2" class="outline-4">
+<h4 id="orgf9979e2"><span class="section-number-4">3.2.2.</span> VPC</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <ul class="org-ul">
 <li>What is it?<br>
@@ -748,7 +745,7 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 <ul class="org-ul">
 <li>Every VPC is associated with an IP address range that is part of a <b>Classless Inter-Domain Routing (CIDR)</b> block which will be used to allocated private IP addresses to EC2 instances.<br></li>
 </ul></li>
-<li><a href="#org0e5a67e">Subnets</a><br>
+<li><a href="#org7c285df">Subnets</a><br>
 <ul class="org-ul">
 <li>a subnet is associated with only one availability zone (can not span multiple zones)<br></li>
 <li>However, a zone can host multiple subnets.<br></li>
@@ -766,7 +763,7 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 <li>If the association is not explicitly defined, then a subnet will be implicitly associated with the main route table.<br></li>
 </ul></li>
 <li>Network access control lists (ACLs)<br></li>
-<li><a href="#org7743252">Security Group</a><br></li>
+<li><a href="#org2c19200">Security Group</a><br></li>
 <li>VPC endpoint<br></li>
 </ul></li>
 <li>AWS provides security mechanisms for your instances in the form of <b>network ACLs and security groups</b>.<br></li>
@@ -774,8 +771,8 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 </div>
 </div>
 
-<div id="outline-container-org0e5a67e" class="outline-4">
-<h4 id="org0e5a67e"><span class="section-number-4">3.2.3</span> Subnets</h4>
+<div id="outline-container-org7c285df" class="outline-4">
+<h4 id="org7c285df"><span class="section-number-4">3.2.3.</span> Subnets</h4>
 <div class="outline-text-4" id="text-3-2-3">
 <ul class="org-ul">
 <li>A subnet is a distinct network segment with its own IP address range within the larger VPC CIDR (Classless Inter-Domain Routing) range.<br></li>
@@ -816,8 +813,8 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 </div>
 </div>
 
-<div id="outline-container-org7743252" class="outline-4">
-<h4 id="org7743252"><span class="section-number-4">3.2.4</span> Security Group</h4>
+<div id="outline-container-org2c19200" class="outline-4">
+<h4 id="org2c19200"><span class="section-number-4">3.2.4.</span> Security Group</h4>
 <div class="outline-text-4" id="text-3-2-4">
 <ul class="org-ul">
 <li>AWS security groups (SGs) are associated with <b>EC2 instances</b> and provide security at the <b>protocol and port access level</b>.<br></li>
@@ -830,8 +827,8 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 </div>
 </div>
 
-<div id="outline-container-org79116f7" class="outline-4">
-<h4 id="org79116f7"><span class="section-number-4">3.2.5</span> Launch instance into VPC</h4>
+<div id="outline-container-orgd0f78fe" class="outline-4">
+<h4 id="orgd0f78fe"><span class="section-number-4">3.2.5.</span> Launch instance into VPC</h4>
 <div class="outline-text-4" id="text-3-2-5">
 <ul class="org-ul">
 <li>Before launch<br>
@@ -850,8 +847,8 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 </div>
 
 
-<div id="outline-container-orga151e6a" class="outline-4">
-<h4 id="orga151e6a"><span class="section-number-4">3.2.6</span> Bastion host</h4>
+<div id="outline-container-org6d38559" class="outline-4">
+<h4 id="org6d38559"><span class="section-number-4">3.2.6.</span> Bastion host</h4>
 <div class="outline-text-4" id="text-3-2-6">
 <ul class="org-ul">
 <li>Bastion hosts are instances that sit within your public subnet and are typically accessed using SSH or RDP, as jump server.<br></li>
@@ -871,8 +868,8 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 </div>
 
 
-<div id="outline-container-org6c5a8e2" class="outline-3">
-<h3 id="org6c5a8e2"><span class="section-number-3">3.3</span> My summary</h3>
+<div id="outline-container-org586cb5f" class="outline-3">
+<h3 id="org586cb5f"><span class="section-number-3">3.3.</span> My summary</h3>
 <div class="outline-text-3" id="text-3-3">
 <ul class="org-ul">
 <li>EC2 instance level security is controled by security groups which applies restrictions on instance&rsquo;s protocol and port level.<br></li>
@@ -882,8 +879,8 @@ When company assign desk to employee vs Launch AWS EC2 instance<br>
 </div>
 </section>
 
-<section id="outline-container-org7a706ee" class="outline-2">
-<h2 id="org7a706ee"><span class="section-number-2">4</span> ECR</h2>
+<section id="outline-container-orgb49eb63" class="outline-2">
+<h2 id="orgb49eb63"><span class="section-number-2">4.</span> ECR</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><p>
@@ -899,34 +896,23 @@ pull image from ECR<br>
 </ul>
 </div>
 </section>
-<section id="outline-container-org41c41cd" class="outline-2">
-<h2 id="org41c41cd"><span class="section-number-2">5</span> Troubleshootings</h2>
+
+
+<section id="outline-container-orgfe26e7c" class="outline-2">
+<h2 id="orgfe26e7c"><span class="section-number-2">5.</span> <span class="todo TODO">TODO</span> VPC</h2>
 <div class="outline-text-2" id="text-5">
-<ul class="org-ul">
-<li><a href="file:///home/zw/code/capture-org/siemens/work-notes.html#org0d87864">Cloudfront distribution: the domain name assigned by aws could be visited, but the cname used is not avaiable.</a><br></li>
-<li><a href="file:///home/zw/code/capture-org/siemens/work-notes.html#orgbdbc6eb">Cloudfront distribution: The certificate that is attached to your distribution doesn&rsquo;t cover the alternate domain name (CNAME) that you&rsquo;re trying to add.</a><br></li>
-</ul>
 </div>
-</section>
-
-
-
-
-<section id="outline-container-org49b7962" class="outline-2">
-<h2 id="org49b7962"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> VPC</h2>
-<div class="outline-text-2" id="text-6">
-</div>
-<div id="outline-container-orge07b813" class="outline-3">
-<h3 id="orge07b813"><span class="section-number-3">6.1</span> Refs</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-orgfbb91f3" class="outline-3">
+<h3 id="orgfbb91f3"><span class="section-number-3">5.1.</span> Refs</h3>
+<div class="outline-text-3" id="text-5-1">
 <ul class="org-ul">
 <li><a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">Amazon Virtual Private Cloud</a><br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org24ac0e8" class="outline-3">
-<h3 id="org24ac0e8"><span class="section-number-3">6.2</span> VPC networking components</h3>
-<div class="outline-text-3" id="text-6-2">
+<div id="outline-container-org83bd93f" class="outline-3">
+<h3 id="org83bd93f"><span class="section-number-3">5.2.</span> VPC networking components</h3>
+<div class="outline-text-3" id="text-5-2">
 <ul class="org-ul">
 <li>Networking interfaces<br></li>
 <li>Route tables<br></li>
@@ -946,13 +932,13 @@ pull image from ECR<br>
 </div>
 </section>
 
-<section id="outline-container-orgd35a805" class="outline-2">
-<h2 id="orgd35a805"><span class="section-number-2">7</span> CloudFormation Skills</h2>
-<div class="outline-text-2" id="text-7">
+<section id="outline-container-orgf933da0" class="outline-2">
+<h2 id="orgf933da0"><span class="section-number-2">6.</span> CloudFormation Skills</h2>
+<div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orgc8db5f0" class="outline-3">
-<h3 id="orgc8db5f0"><span class="section-number-3">7.1</span> Use FindInMap to customize environment variables based on keys</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-org7994896" class="outline-3">
+<h3 id="org7994896"><span class="section-number-3">6.1.</span> Use FindInMap to customize environment variables based on keys</h3>
+<div class="outline-text-3" id="text-6-1">
 <ul class="org-ul">
 <li>Goal: we want to form a aws resources string from environment map based on different conditions.<br></li>
 <li><p>
@@ -1003,12 +989,12 @@ Example:<br>
 </div>
 </div>
 </section>
-<section id="outline-container-org4eaf172" class="outline-2">
-<h2 id="org4eaf172"><span class="section-number-2">8</span> My notes</h2>
-<div class="outline-text-2" id="text-8">
+<section id="outline-container-orged76b6f" class="outline-2">
+<h2 id="orged76b6f"><span class="section-number-2">7.</span> My notes</h2>
+<div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org9f09469" class="outline-3">
-<h3 id="org9f09469"><span class="section-number-3">8.1</span> Network Fundamentals</h3>
+<div id="outline-container-org3ef9200" class="outline-3">
+<h3 id="org3ef9200"><span class="section-number-3">7.1.</span> Network Fundamentals</h3>
 </div>
 </section>
 </main>
@@ -1016,7 +1002,7 @@ Example:<br>
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
 </div>
 </footer>
 </body>

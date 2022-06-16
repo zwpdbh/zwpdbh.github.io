@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content" class="content">
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org90047d0">1. A simple ServerProcess (ch06 from Elixir in Action)</a>
+<ul>
+<li><a href="#org577134a">1.1. How to understand OTP server</a></li>
+</ul>
+</li>
+<li><a href="#org3f551e0">2. GenServer (ch06 from Elixir in Action)</a>
+<ul>
+<li><a href="#orgfb888f8">2.1. How to use GenServer in our module</a></li>
+<li><a href="#orgbdee3b0">2.2. What is the context of state in GenServer</a></li>
+<li><a href="#orgbd6c6e8">2.3. How to handle plain messages</a></li>
+<li><a href="#org85cdc6e">2.4. Understand the GenServer-powered processes.</a></li>
+</ul>
+</li>
+<li><a href="#orgbfa455d">3. Building concurrency system (ch07 from Elixir in Action)</a>
+<ul>
+<li><a href="#org3275ed7">3.1. General rules</a></li>
+<li><a href="#org2e906ce">3.2. How to build a concurrency system (to-do lists example)</a></li>
+</ul>
+</li>
+<li><a href="#org34d570b">4. Fault-tolerance basics (ch08 from Elixir in Action)</a>
+<ul>
+<li><a href="#org869f8cd">4.1. Rumtime error types</a></li>
+<li><a href="#orgd163c64">4.2. Linking processes (<b>bidirectional</b>)</a></li>
+<li><a href="#orgc0a551c">4.3. Monitors (<b>unidirectional</b>)</a></li>
+<li><a href="#orge7f3192">4.4. Supervisors</a></li>
+<li><a href="#org0c72ca1">4.5. Other notes</a></li>
+<li><a href="#org6173083">4.6. Current questions</a></li>
+</ul>
+</li>
+<li><a href="#org9564773">5. Nodes &#x2013; ch16 in Programming Elixir</a></li>
+<li><a href="#orgb262732">6. OTP: Servers &#x2013; ch17 in Programming Elixir</a></li>
+<li><a href="#orgd7bae86">7. Task and Agents &#x2013; ch21 in Programming Elixir</a>
+<ul>
+<li><a href="#orgffe678a">7.1. Tasks</a></li>
+<li><a href="#org98a44c4">7.2. Agents</a></li>
+<li><a href="#orgb88afbd">7.3. Tasks vs Spawn process</a></li>
+<li><a href="#org78ed103">7.4. Task, or Agent, or GenServer</a></li>
+</ul>
+</li>
+<li><a href="#org2132485">8. How to save a GenServer&rsquo;s process</a></li>
+<li><a href="#orgef318b9">9. About Process Naming</a>
+<ul>
+<li><a href="#orgb41ccf2">9.1. Three types of accepted values when naming a process</a></li>
+<li><a href="#orgdf9876e">9.2. The problem of using atoms to name a process.</a></li>
+<li><a href="#org7990c48">9.3. The Registry</a></li>
+<li><a href="#org7bfc142">9.4. How to use Registry</a></li>
+</ul>
+</li>
+<li><a href="#orgcb186e3">10. About Supervisor Module</a></li>
+<li><a href="#orgfa82982">11. About GenStage</a>
+<ul>
+<li><a href="#org4d659fd">11.1. Why and when we use GenStage</a></li>
+<li><a href="#orgbd29d0a">11.2. Concepts to understand</a></li>
+<li><a href="#orgb97eff9">11.3. Different dispatcher</a></li>
+<li><a href="#orgba11eda">11.4. Understand the events and state in GenStage module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<section id="outline-container-org90047d0" class="outline-2">
+<h2 id="org90047d0"><span class="section-number-2">1.</span> A simple ServerProcess (ch06 from Elixir in Action)</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org577134a" class="outline-3">
+<h3 id="org577134a"><span class="section-number-3">1.1.</span> How to understand OTP server</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>A <b>server process</b> is a beam process that use recurive call (loop) to handle different messages.<br>
+<ul class="org-ul">
+<li>Instead of directly handle different message in that server process, we provide the server process with a <b>callback module</b>.<br></li>
+</ul></li>
+
+<li>The key to understand ServerProcess and callback module is:<br>
+<ul class="org-ul">
+<li><b>The state related with our custom module is maintained inside server process, not by callback module(client) itself</b>.<br></li>
+<li>Therefore, the callback module is a group of <code>pure functions</code>.<br></li>
+<li>For example in KeyValueStore, the state which is a map of key and value is updated not in the KeyValueStore module but in the ServerProcess module, in its recursive loop.<br></li>
+<li><b>callback functions</b> are always invoked in the server process., such as <code>init/0</code> and <code>handle_call/2</code>.<br></li>
+<li><b>interface functions</b> are run in the client processes.<br></li>
+</ul></li>
+</ol>
+
+
+<ol class="org-ol">
+<li>The generic server process does<br>
+<ol class="org-ol">
+<li>use endless recursive call to loop<br></li>
+<li>in loop, <b>maintain state</b><br></li>
+<li>provide 2 type of interface functions to let callback module handle messages: one for sync, another for async.<br></li>
+</ol></li>
+
+<li>The callback module receive and handle&rsquo;s the specific message.<br>
+<ol class="org-ol">
+<li>callback module call <code>ServerProcess.start</code> to register itself<br></li>
+<li>callback module handle messages by calling <code>ServerProcess.call</code> or <code>ServerProcess.cast</code>.<br>
+<ul class="org-ul">
+<li>So, those messages are sent into server process in which the state could be updated.<br></li>
+<li>The <code>ServerProcess.call</code> or <code>ServerProcess.cast</code> will send message to server<sub>pid</sub>, so the messages are process in recursive <code>loop</code>.<br></li>
+</ul></li>
+<li><code>ServerProcess.call/cast</code> goes into server process&rsquo;s loop.<br>
+In ServerProcess&rsquo;s recursive loop:<br>
+<ul class="org-ul">
+<li>The message is processed by <b>callback module</b>&rsquo;s <code>:handle_call</code> or <code>:handle_cast</code> which all need to return a new state.<br></li>
+<li>For <code>:call</code>, we need to send message back before loop with new state.<br>
+<ul class="org-ul">
+<li>Because the <code>ServerProcess.call</code> is blocking to receive this message.<br></li>
+</ul></li>
+<li>After <code>ServerProcess.call</code> or <code>ServerProcess.cast</code> return. This goes back to in callback module 2).<br></li>
+</ul></li>
+</ol></li>
+</ol>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org3f551e0" class="outline-2">
+<h2 id="org3f551e0"><span class="section-number-2">2.</span> GenServer (ch06 from Elixir in Action)</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgfb888f8" class="outline-3">
+<h3 id="orgfb888f8"><span class="section-number-3">2.1.</span> How to use GenServer in our module</h3>
+<div class="outline-text-3" id="text-2-1">
+<ol class="org-ol">
+<li>Define server callback functions:<br>
+<ul class="org-ul">
+<li><code>init/1</code><br></li>
+<li><code>handle_cast/2</code><br></li>
+<li><code>handle_call/3</code><br></li>
+</ul></li>
+<li>Define client API:<br>
+<ul class="org-ul">
+<li>Use <code>GenServer.start/2</code> to start the process.<br></li>
+<li>Use <code>GenServer.cast/2</code>, <code>GenServer.call/2</code> to issue requests.<br></li>
+</ul></li>
+<li>Some notes<br>
+<ul class="org-ul">
+<li>The client is any process that invokes the client/interface functions.<br></li>
+<li>The server is always the process identify or process name that we explicitly pass as argument to the client API.<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgbdee3b0" class="outline-3">
+<h3 id="orgbdee3b0"><span class="section-number-3">2.2.</span> What is the context of state in GenServer</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>During loop in server process, it needs to maintain state. So the state needed to be carried in loop as argument.<br></li>
+<li>This also means, the callback module called inside the loop need to accept that state as argument.<br></li>
+<li>So, in GenServer, the state is carried as<br>
+<ul class="org-ul">
+<li>the last argument for server all callbacks<br></li>
+<li>the last element in the return tuple<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbd6c6e8" class="outline-3">
+<h3 id="orgbd6c6e8"><span class="section-number-3">2.3.</span> How to handle plain messages</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>We may need to handle messages that aren&rsquo;t specific to GenServer.<br>
+<ul class="org-ul">
+<li>For example, periodically send message by <code>:timer.send_interval(5000, :cleanup)</code>.<br></li>
+</ul></li>
+<li><p>
+Use GenServer callback <code>handle_info</code> to handle it:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">def</span> <span class="org-function-name">handle_info</span>(<span class="org-elixir-atom">:cleanup</span>, state) <span class="org-keyword">do</span>
+  <span class="org-type">IO</span>.puts <span class="org-string">"performance cleanup"</span>
+  {<span class="org-elixir-atom">:noreply</span>, state}
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org85cdc6e" class="outline-3">
+<h3 id="org85cdc6e"><span class="section-number-3">2.4.</span> Understand the GenServer-powered processes.</h3>
+<div class="outline-text-3" id="text-2-4">
+<ol class="org-ol">
+<li>A client process starts the server by calling <code>GenServer.start</code> and providing the callback module. This creates the new server process which is powered by <code>GenServer</code>.<br></li>
+<li>When a message is received, <code>GenServer</code> invokes callback functions to handle it. Therefore, callback functions are always executed in server process.<br></li>
+<li>The client process state is maintained in the GenServer loop but it is defined and manipulated by the callback functions:<br>
+<ul class="org-ul">
+<li>It starts with <code>init/1</code> which defines the initial state that is then passed to subsequent <code>handle_*</code> callbacks.<br></li>
+<li>Each of those callbacks receive the current state and must return its new version, which is used by the GenServer loop in place of the old one.<br></li>
+</ul></li>
+<li>A <a href="https://elixir-lang.org/downloads/cheatsheets/gen-server.pdf">GenServer cheat sheet</a><br></li>
+</ol>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orgbfa455d" class="outline-2">
+<h2 id="orgbfa455d"><span class="section-number-2">3.</span> Building concurrency system (ch07 from Elixir in Action)</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org3275ed7" class="outline-3">
+<h3 id="org3275ed7"><span class="section-number-3">3.1.</span> General rules</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>Make server process do things in sequential way.<br></li>
+<li>Spawn multiple server processes to handle concurrency.<br></li>
+<li>In general,<br>
+<ul class="org-ul">
+<li>if we need to do synchronization between multiple processes, we let one dedicate process to handle these.<br></li>
+<li>make concurrent process run independently.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2e906ce" class="outline-3">
+<h3 id="org2e906ce"><span class="section-number-3">3.2.</span> How to build a concurrency system (to-do lists example)</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>Goal: a distributed HTTP server than can handle many end users who are simultaneously manipulating many to-do lists.<br></li>
+<li>Component<br>
+<ul class="org-ul">
+<li>A pure functional Todo.List abstraction.<br></li>
+<li>A to-do server process that can be used to manage one to-do list for a long time.<br></li>
+<li><p>
+A cache for managing a map: we create Todo.Server instances or fetch the existing ones.<br>
+</p>
+<ul class="org-ul">
+<li>key is the to-do list name<br></li>
+<li>value is the to-do server pid.<br></li>
+</ul>
+
+<p>
+This is how we work with multple to-do lists: run one instance of the existing to-do server for each to-do list.<br>
+</p></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org34d570b" class="outline-2">
+<h2 id="org34d570b"><span class="section-number-2">4.</span> Fault-tolerance basics (ch08 from Elixir in Action)</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org869f8cd" class="outline-3">
+<h3 id="org869f8cd"><span class="section-number-3">4.1.</span> Rumtime error types</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+BEAM distinguish 3 types of runtime errors <code>:error</code>, <code>:exit</code>, or <code>:throw</code>.<br>
+</p>
+<ol class="org-ol">
+<li>For <code>:error</code><br>
+<ul class="org-ul">
+<li>For example, invalid arithmetic expression, call a nonexistent function, patter-matching error.<br></li>
+<li>You can <b>raise</b> your own error by using <code>raise/1</code> macro. If a function eplicitly raises an error, it should be appended with the <code>!</code> character to its name, for instance, <code>File.open!</code>.<br></li>
+</ul></li>
+<li>For <code>:exit</code><br>
+<ul class="org-ul">
+<li>Use <code>exit/1</code> to exit the current process.<br></li>
+</ul></li>
+<li>For <code>:throw</code><br>
+<ul class="org-ul">
+<li><code>throw(:thrown_value)</code><br></li>
+<li>The purpose of throws is allow nonlocal returns.<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgd163c64" class="outline-3">
+<h3 id="orgd163c64"><span class="section-number-3">4.2.</span> Linking processes (<b>bidirectional</b>)</h3>
+<div class="outline-text-3" id="text-4-2">
+<ol class="org-ol">
+<li>If two processes are linked, and one of the terminates, the other process receives a <b>exit signal</b>, a notification that a process has crashed.<br>
+<ul class="org-ul">
+<li>A exit signal contains the pid of the crashed process and the <b>exit reasion</b>.<br></li>
+</ul></li>
+
+<li>When a process terminates abnormally, the linked process is also take down.<br></li>
+<li>How to create linked process<br>
+<ul class="org-ul">
+<li>If a link is created when you start a process, use <code>spawn_link/1</code>.<br></li>
+<li>Otherwise, use <code>Process.link/1</code> which connect the current process with another process.<br></li>
+</ul></li>
+<li><p>
+Usually we don&rsquo;t want a linked process to crash. We could detect the process crash using <b>trapping exits</b>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">spawn(<span class="org-keyword">fn</span> -&gt;
+  <span class="org-type">Process</span>.flag(<span class="org-elixir-atom">:trap_exit</span>, <span class="org-elixir-atom">true</span>)
+  spawn_link(<span class="org-keyword">fn</span> -&gt; <span class="org-keyword">raise</span>(<span class="org-string">"something went wrong"</span>) <span class="org-keyword">end</span>)
+
+  <span class="org-type">Process</span>.sleep(<span class="org-elixir-number">1000</span>)
+  <span class="org-keyword">receive</span> <span class="org-keyword">do</span>
+    msg -&gt; <span class="org-type">IO</span>.inspect(msg)
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Format of the exit singal message is: <code>{:EXIT, from_pid, exit_reason}</code>.<br>
+<ul class="org-ul">
+<li>If a process is terminated due to a throw or an error, the exit reason is a tuple in the form <code>{reason, where}</code>.<br></li>
+<li>If a process is terminated due to an exit, the reason is a term provided to <code>exit/1</code>.<br></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgc0a551c" class="outline-3">
+<h3 id="orgc0a551c"><span class="section-number-3">4.3.</span> Monitors (<b>unidirectional</b>)</h3>
+<div class="outline-text-3" id="text-4-3">
+<ol class="org-ol">
+<li><p>
+Make the current process monitor the target process.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">monitor_ref</span> = <span class="org-type">Proccess</span>.monitor(target_pid)
+</pre>
+</div>
+<ul class="org-ul">
+<li>If the monitored process dies, your process receives a message in the format:<br>
+<code>{:DOWN, monitor_ref, :process, from_pid, exit_reasion}</code>.<br></li>
+</ul></li>
+<li><p>
+Stop the monitor<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">Process</span>.demonitor(monitor_ref)
+</pre>
+</div></li>
+
+<li>Exits are propagated through GenServer calls.<br>
+When you issue a synchronous request via <code>GenServer.call</code>, if a server process crashes, an exit signal will occur in your client process.<br></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge7f3192" class="outline-3">
+<h3 id="orge7f3192"><span class="section-number-3">4.4.</span> Supervisors</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>A supervisor is a generic process whose only responsibility is to receive links and monitor notifications, and do something when a process crashes.<br></li>
+<li>Processes that aren&rsquo;t supervisors are called <b>workers</b>.<br></li>
+<li>When invoke <code>Supervisor.start_link(child_specs, options)</code>, the following happens:<br>
+<ol class="org-ol">
+<li>The new process is started, powered by the <code>Supervisor</code> module.<br></li>
+<li>The supervisor process goes through the list of child specifications and starts each child, one by one.<br></li>
+<li>Each specification is resolved, if needed, by invoking <code>child_spec/1</code> from the corresponding module.<br>
+<ul class="org-ul">
+<li>The <code>child_spec/1</code> function is automatically defined when we use Agent, GenServer and Supervisor, etc.<br></li>
+</ul></li>
+<li>The supervisor starts the child process, according to the <code>:start</code> filed of the child specification.<br></li>
+</ol></li>
+
+<li><p>
+Start the supervisor as a module<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Todo.System</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">start_link</span> <span class="org-keyword">do</span>
+    <span class="org-type">Supervisor</span>.start_link(
+      [<span class="org-type">Todo.Cache</span>],
+      <span class="org-elixir-atom">strategy:</span> <span class="org-elixir-atom">:one_for_one</span>
+    )
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Todo.System.start_link()</span>
+</pre>
+</div>
+
+<p>
+Another callback module way to use supervisor<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Todo.System</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Supervisor</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">start_link</span> <span class="org-keyword">do</span>
+    <span class="org-type">Supervisor</span>.start_link(<span class="org-constant">__MODULE__</span>, <span class="org-elixir-atom">nil</span>)
+  <span class="org-keyword">end</span>
+
+  <span class="org-elixir-attribute">@impl</span> <span class="org-elixir-atom">true</span> 
+  <span class="org-keyword">def</span> <span class="org-function-name">init</span>(<span class="org-constant">_</span>) <span class="org-keyword">do</span>
+    <span class="org-type">Supervisor</span>.init([<span class="org-type">Todo.Cache</span>], <span class="org-elixir-atom">strategy:</span> <span class="org-elixir-atom">:one_for_one</span>)
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+
+<p>
+<code>Note</code>: A general guideline is to use the supervisor without a callback module only at the top of your supervision tree, generally in the Application.start/2 callback. We recommend using module-based supervisors for any other supervisor in your application, so they can run as a child of another supervisor in the tree.<br>
+</p></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0c72ca1" class="outline-3">
+<h3 id="org0c72ca1"><span class="section-number-3">4.5.</span> Other notes</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>Every time you add a new child to a supervisor, it is important to evaluate if the supervisor strategy is correct as well as the order of child processes.<br></li>
+
+<li><p>
+Learned functions<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-comment-delimiter"># </span><span class="org-comment">Get the pid from registered name</span>
+<span class="org-variable-name">cache_pid</span> = <span class="org-type">Process</span>.whereis(<span class="org-type">Todo.Cache</span>)
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Kill the process</span>
+<span class="org-type">Process</span>.exit(cache_pid, <span class="org-elixir-atom">:kill</span>)
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Verify what the injected implementation of child_spec/1 returns:</span>
+<span class="org-type">Todo.Cache</span>.child_spec(<span class="org-elixir-atom">nil</span>)
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">check the number of running processes:</span>
+<span class="org-elixir-atom">:erlang</span>.system_info(<span class="org-elixir-atom">:process_count</span>)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6173083" class="outline-3">
+<h3 id="org6173083"><span class="section-number-3">4.6.</span> Current questions</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>Explain <code>start_link</code>, <code>child_spec</code>,<br></li>
+<li>Why use ETS?<br>
+<ul class="org-ul">
+<li>Notice that before our changes KV.Registry.lookup/2 sent requests to the server, but now it reads directly from the ETS table, which is shared across all processes. That&rsquo;s also the main idea behind the cache mechanism we are implementing.<br></li>
+</ul></li>
+<li>Differences between task, agents, generic servers, and supervisors.<br>
+<ul class="org-ul">
+<li>Common<br></li>
+<li>Different<br></li>
+</ul></li>
+
+<li>About task<br>
+<ul class="org-ul">
+<li>Pass a two-element tuple as child specification, which in turn will invoke Task.start<sub>link</sub>/1.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="outline-container-org9564773" class="outline-2">
+<h2 id="org9564773"><span class="section-number-2">5.</span> Nodes &#x2013; ch16 in Programming Elixir</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>A common pattern: we have a module that is responsible both for spawning a process and for providing the external interface to that process.<br></li>
+<li>The general rue is to register your process names when your application starts.<br></li>
+<li>About input, output, pid and nodes (p227)<br>
+<ul class="org-ul">
+<li>In elixir, you identify an open file or device by the pid of its I/O server.<br></li>
+<li>The default device used by IO.puts is returned by the function <code>:erlang.group_leader</code>.<br></li>
+<li>So, by register the pid returned by <code>group_leader</code> under a global name, such as our node name. We can pass it to IO.puts. The output appears in the registered node terminal window.<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgb262732" class="outline-2">
+<h2 id="orgb262732"><span class="section-number-2">6.</span> OTP: Servers &#x2013; ch17 in Programming Elixir</h2>
+<div class="outline-text-2" id="text-6">
+<ol class="org-ol">
+<li><code>start_link</code> function asks GenServer to start a new process and link to us.<br>
+<ul class="org-ul">
+<li>The second argument to <code>start_link</code> is the state which comes from the GenServer&rsquo;s callback function <code>init</code>.<br></li>
+<li>You can think of <code>init</code> as being like the constructor in an OOP language.<br>
+<ul class="org-ul">
+<li>A constructor takes values and creates the object&rsquo;s initial state.<br></li>
+<li><code>init</code> takes some initial value and uses it to construct the state of the server.<br></li>
+</ul></li>
+</ul></li>
+<li>Tracing a server&rsquo;s execution<br>
+<ul class="org-ul">
+<li><p>
+In the third parameter to <code>start_link</code> is a set of options<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">GenServer</span>.start_link(<span class="org-type">Sequence.Server</span>, state, [<span class="org-elixir-atom">debug:</span> [<span class="org-elixir-atom">:trace</span>]])
+</pre>
+</div></li>
+<li><p>
+We could also include <code>:statistic</code>  to the debug list<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">{<span class="org-elixir-atom">:ok</span>,pid} = <span class="org-type">GenServer</span>.start_link(<span class="org-type">Sequence.Server</span>, <span class="org-elixir-number">100</span>, [<span class="org-elixir-atom">debug:</span> [<span class="org-elixir-atom">:statistics</span>]])
+
+iex&gt; <span class="org-elixir-atom">:sys</span>.statistics pid, <span class="org-elixir-atom">:get</span>
+{<span class="org-elixir-atom">:ok</span>,
+ [
+   <span class="org-elixir-atom">start_time:</span> {{<span class="org-elixir-number">2017</span>, <span class="org-elixir-number">12</span>, <span class="org-elixir-number">23</span>}, {<span class="org-elixir-number">14</span>, <span class="org-elixir-number">6</span>, <span class="org-elixir-number">7</span>}},
+   <span class="org-elixir-atom">current_time:</span> {{<span class="org-elixir-number">2017</span>, <span class="org-elixir-number">12</span>, <span class="org-elixir-number">23</span>}, {<span class="org-elixir-number">14</span>, <span class="org-elixir-number">6</span>, <span class="org-elixir-number">24</span>}},
+   <span class="org-elixir-atom">reductions:</span> <span class="org-elixir-number">36</span>,
+   <span class="org-elixir-atom">messages_in:</span> <span class="org-elixir-number">2</span>,
+   <span class="org-elixir-atom">messages_out:</span> <span class="org-elixir-number">0</span>
+ ]}
+</pre>
+</div></li>
+</ul></li>
+<li><code>sys</code> module is our interface to the world of system messages.<br>
+<ul class="org-ul">
+<li>The list associated with the debug parameter you give to GenServer is simply the names of functions to call in the sys module.<br></li>
+<li><p>
+We can turn things on and off after you have started a server.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">iex&gt; <span class="org-elixir-atom">:sys</span>.trace pid, <span class="org-elixir-atom">true</span>
+<span class="org-elixir-atom">:ok</span>
+iex&gt; <span class="org-type">GenServer</span>.call(pid, <span class="org-elixir-atom">:next_number</span>) *<span class="org-type">DBG</span>* &lt;<span class="org-elixir-number">0</span>.<span class="org-elixir-number">69</span>.<span class="org-elixir-number">0</span>&gt; got call next_number from &lt;<span class="org-elixir-number">0</span>.<span class="org-elixir-number">25</span>.<span class="org-elixir-number">0</span>&gt;
+*<span class="org-type">DBG</span>* &lt;<span class="org-elixir-number">0</span>.<span class="org-elixir-number">69</span>.<span class="org-elixir-number">0</span>&gt; sent <span class="org-elixir-number">105</span> to &lt;<span class="org-elixir-number">0</span>.<span class="org-elixir-number">25</span>.<span class="org-elixir-number">0</span>&gt;, new state <span class="org-elixir-number">106</span>
+<span class="org-elixir-number">105</span>
+iex&gt; <span class="org-elixir-atom">:sys</span>.trace pid, <span class="org-elixir-atom">false</span>
+<span class="org-elixir-atom">:ok</span>
+iex&gt; <span class="org-type">GenServer</span>.call(pid, <span class="org-elixir-atom">:next_number</span>)
+<span class="org-elixir-number">106</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>pid</code> is the result of <code>GenServer.start_link</code>.<br></li>
+</ul></li>
+<li>Other useful function<br>
+<ul class="org-ul">
+<li><code>:sys.get_status pid</code>.<br>
+<ul class="org-ul">
+<li><p>
+We could customize the formatting of the status message GenServer provides.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">def</span> <span class="org-function-name">format_status</span>(<span class="org-comment">_reason</span>, [ <span class="org-comment">_pdict</span>, state ]) <span class="org-keyword">do</span>
+  [<span class="org-elixir-atom">data:</span> [{<span class="org-string">'State'</span>, <span class="org-string">"My current state is '</span><span class="org-variable-name">#{inspect state}</span><span class="org-string">', and I'm happy"</span>}]]
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li><p>
+GenServer Callbacks and corresponding caller. (p238, ch17)<br>
+</p>
+<ul class="org-ul">
+<li><code>init(start_argument)</code>, &lt;&#x2013; GenServer.start<sub>link</sub> or GenServer.start (Note: The parameter is the second argument passed to GenServer.start<sub>link</sub> or GenServer.start)<br></li>
+<li><code>handle_call(request, from, state)</code>, &lt;&#x2013; GenServer.call(pid, request)<br></li>
+<li><code>handle_cast(request, state)</code>, &lt;&#x2013; GenServer.cast(pid, request)<br></li>
+<li><code>handle_info(info, state)</code>, message send by pass GenServer will be routed to this function.<br></li>
+</ul>
+
+<p>
+Responses are common between call and cast:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">{<span class="org-elixir-atom">:noreply</span>, new_state [, <span class="org-elixir-atom">:hibernate</span> | timeout]}
+{<span class="org-elixir-atom">:stop</span>, reason, new_state}
+</pre>
+</div>
+
+<p>
+Only <code>handle_call</code> can use:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">{<span class="org-elixir-atom">:reply</span>, response, new_state [, <span class="org-elixir-atom">:hibernate</span> | timeout]}
+{<span class="org-elixir-atom">:stop</span>, reason, reply, new_state}
+</pre>
+</div></li>
+
+<li>Naming a process<br>
+<ul class="org-ul">
+<li><p>
+Local naming, use the <code>name:</code> option (unique for all OTP processes on our node.)<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">iex&gt; { <span class="org-elixir-atom">:ok</span>, pid } = <span class="org-type">GenServer</span>.start_link(<span class="org-type">Sequence.Server</span>, <span class="org-elixir-number">100</span>, <span class="org-elixir-atom">name:</span> <span class="org-elixir-atom">:seq</span>)
+{<span class="org-elixir-atom">:ok</span>,<span class="org-comment-delimiter">#</span><span class="org-comment">PID&lt;0.58.0&gt;}</span>
+iex&gt; <span class="org-type">GenServer</span>.call(<span class="org-elixir-atom">:seq</span>, <span class="org-elixir-atom">:next_number</span>)
+<span class="org-elixir-number">100</span>
+</pre>
+</div></li>
+</ul></li>
+</ol>
+</div>
+</section>
+
+<section id="outline-container-orgd7bae86" class="outline-2">
+<h2 id="orgd7bae86"><span class="section-number-2">7.</span> Task and Agents &#x2013; ch21 in Programming Elixir</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-orgffe678a" class="outline-3">
+<h3 id="orgffe678a"><span class="section-number-3">7.1.</span> Tasks</h3>
+<div class="outline-text-3" id="text-7-1">
+<ol class="org-ol">
+<li><p>
+Different ways to execute Tasks<br>
+Given the existing module.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Fib</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">of</span>(<span class="org-elixir-number">0</span>), <span class="org-elixir-atom">do:</span> <span class="org-elixir-number">0</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">of</span>(<span class="org-elixir-number">1</span>), <span class="org-elixir-atom">do:</span> <span class="org-elixir-number">1</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">of</span>(n), <span class="org-elixir-atom">do:</span> <span class="org-type">Fib</span>.of(n-<span class="org-elixir-number">1</span>) + <span class="org-type">Fib</span>.of(n-<span class="org-elixir-number">2</span>)
+<span class="org-keyword">end</span> 
+</pre>
+</div>
+<ol class="org-ol">
+<li><p>
+Execute Tasks from annonymous function<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">IO</span>.puts <span class="org-string">"Start the task"</span>
+<span class="org-variable-name">worker</span> = <span class="org-type">Task</span>.async(<span class="org-keyword">fn</span> -&gt; <span class="org-type">Fib</span>.of(<span class="org-elixir-number">20</span>) <span class="org-keyword">end</span>)
+<span class="org-type">IO</span>.puts <span class="org-string">"Do something else"</span>
+<span class="org-variable-name">result</span> = <span class="org-type">Task</span>.await(worker)
+</pre>
+</div></li>
+<li><p>
+Execute Tasks directly by specify module, function and arguments<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">worker</span> = <span class="org-type">Task</span>.async(<span class="org-type">Fib</span>, <span class="org-elixir-atom">:of</span>, [<span class="org-elixir-number">20</span>])
+<span class="org-variable-name">result</span> = <span class="org-type">Task</span>.await(worker)
+<span class="org-type">IO</span>.puts <span class="org-string">"The result is </span><span class="org-variable-name">#{result}</span><span class="org-string">"</span>
+</pre>
+</div></li>
+</ol></li>
+
+<li>How to suppervise Tasks<br>
+Because Tasks are implemented as OTP servers, they can be added to application&rsquo;s suppervision tree.<br>
+<ol class="org-ol">
+<li><p>
+Use Task.Supervisor<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-comment-delimiter"># </span><span class="org-comment">1. Add the task supervisor to the supervision tree</span>
+<span class="org-type">Supervisor</span>.start_link([
+  {<span class="org-type">Task.Supervisor</span>, <span class="org-elixir-atom">name:</span> <span class="org-type">MyApp.TaskSupervisor</span>}
+], <span class="org-elixir-atom">strategy:</span> <span class="org-elixir-atom">:one_for_one</span>)
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">2. Use async/await by passing the name of the supervisor</span>
+<span class="org-type">Task.Supervisor</span>.async(<span class="org-type">MyApp.TaskSupervisor</span>, <span class="org-keyword">fn</span> -&gt;
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Do something</span>
+<span class="org-keyword">end</span>)
+|&gt; <span class="org-type">Task</span>.await()
+</pre>
+</div></li>
+
+<li>By calling <code>Task.start_link</code> instead of <code>Task.asyn</code>. (For fire-and-forget tasks).<br></li>
+<li><p>
+Wrap Task in its own module similar to how we would do with a GenServer. (For fire-and-forget tasks).<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">MyTask</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Task</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">start_link</span>(arg) <span class="org-keyword">do</span>
+    <span class="org-type">Task</span>.start_link(<span class="org-constant">__MODULE__</span>, <span class="org-elixir-atom">:run</span>, [arg])
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">run</span>(arg) <span class="org-keyword">do</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">...</span>
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Then passing it to the supervisor</span>
+<span class="org-type">Supervisor</span>.start_link([
+  {<span class="org-type">MyTask</span>, arg}
+], <span class="org-elixir-atom">strategy:</span> <span class="org-elixir-atom">:one_for_one</span>)
+</pre>
+</div></li>
+</ol></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org98a44c4" class="outline-3">
+<h3 id="org98a44c4"><span class="section-number-3">7.2.</span> Agents</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>Agents are a simple abstraction around state.<br></li>
+<li>The Agent module provides a basic server implementation that allows state to be retrieved and updated via a simple API.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb88afbd" class="outline-3">
+<h3 id="orgb88afbd"><span class="section-number-3">7.3.</span> Tasks vs Spawn process</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+What is the point of task if we could spawn and receive message so easily.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-comment-delimiter"># </span><span class="org-comment">using spawn </span>
+<span class="org-variable-name">current</span> = self()
+<span class="org-variable-name">child</span> = spawn(<span class="org-keyword">fn</span> -&gt; <span class="org-keyword">send</span>(current, {self(), <span class="org-elixir-number">1</span> + <span class="org-elixir-number">2</span>}) <span class="org-keyword">end</span>)
+
+<span class="org-keyword">receive</span> <span class="org-keyword">do</span>
+  value -&gt; value 
+<span class="org-keyword">end</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">using task</span>
+<span class="org-variable-name">task</span> = <span class="org-type">Task</span>.async(<span class="org-keyword">fn</span> -&gt; {self(), <span class="org-elixir-number">1</span> + <span class="org-elixir-number">2</span>} <span class="org-keyword">end</span>)
+<span class="org-type">Task</span>.await(task)
+</pre>
+</div>
+<ul class="org-ul">
+<li>There is less in the primary functionality of starting another process, but much more in the surrounding context.<br></li>
+<li>Spawned proccess neither implement common OTP functionality nor are they supervisied.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org78ed103" class="outline-3">
+<h3 id="org78ed103"><span class="section-number-3">7.4.</span> Task, or Agent, or GenServer</h3>
+<div class="outline-text-3" id="text-7-4">
+<ul class="org-ul">
+<li>Use the simplest approach that works.<br></li>
+<li>Wrapping your agents and tasks in modules. Such that, you can always switch from them to the full-blown GenServer without affecting the rest of the code.<br></li>
+<li>Some key points of GenServer.<br>
+<ul class="org-ul">
+<li>A GenServer process is a general purpose server process which maintains some state.<br></li>
+<li>When we start a GenServer process, we start it on a different process from the current one.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="outline-container-org2132485" class="outline-2">
+<h2 id="org2132485"><span class="section-number-2">8.</span> How to save a GenServer&rsquo;s process</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+For example, we have multple GenServer process(Sequence.Server) which may crash and we want to save a GenServer process&rsquo;s state and recover it later from that process. How to do this?<br>
+</p>
+<ul class="org-ul">
+<li>The answer is obvious: whenever we need to refer state in OTP, we need to think about GenServer process. So, we just save state into another GenServer process, say Sequence.Stash<br></li>
+<li>Two things to be done:<br>
+<ol class="org-ol">
+<li>Update the Sequence.Server&rsquo;s call back <code>terminate/2</code> to save our state into Sequence.Stash.<br></li>
+<li>Update the Sequence.Server&rsquo;s interface module such that when it is started, use the state from Sequence.Stash.<br></li>
+</ol></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgef318b9" class="outline-2">
+<h2 id="orgef318b9"><span class="section-number-2">9.</span> About Process Naming</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-orgb41ccf2" class="outline-3">
+<h3 id="orgb41ccf2"><span class="section-number-3">9.1.</span> Three types of accepted values when naming a process</h3>
+<div class="outline-text-3" id="text-9-1">
+<ol class="org-ol">
+<li>an atom<br>
+<ul class="org-ul">
+<li>This includes module names.<br></li>
+</ul></li>
+<li>a {:global, term} tuple, like {:global, :job<sub>runner</sub>}<br>
+<ul class="org-ul">
+<li>This registers the process globally. Useful for distributed applications.<br></li>
+</ul></li>
+<li>a {:via, module, term} tuple<br>
+<ul class="org-ul">
+<li>where module is an Elixir module that would take care of the registration process, using the value term.<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdf9876e" class="outline-3">
+<h3 id="orgdf9876e"><span class="section-number-3">9.2.</span> The problem of using atoms to name a process.</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>Atoms are note garbage collected by the Erlang VM, and there are soft limits.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7990c48" class="outline-3">
+<h3 id="org7990c48"><span class="section-number-3">9.3.</span> The Registry</h3>
+<div class="outline-text-3" id="text-9-3">
+<ul class="org-ul">
+<li>It allows us to use strings, rather than atoms, which don&rsquo;t have the same limitation.<br></li>
+<li>Each Registry works as a process which we have to include in our application supervision tree.<br></li>
+<li>The usage of Registry (see: <a href="https://hexdocs.pm/elixir/1.13/Registry.html">Registry &#x2013; Hex docs</a>)<br>
+<ol class="org-ol">
+<li>Using in <code>:via</code>, it can be used to register and access named process.<br>
+<ul class="org-ul">
+<li>In this case, we specify the key as &ldquo;:unique&rdquo;.<br></li>
+</ul></li>
+<li>Using as a dispatcher and PubSub<br>
+<ul class="org-ul">
+<li>In this case, we specify the keys as &ldquo;:duplicate&rdquo;<br></li>
+<li>Use Registry.dispatch/3 to invoke callbacks<br></li>
+</ul></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7bfc142" class="outline-3">
+<h3 id="org7bfc142"><span class="section-number-3">9.4.</span> How to use Registry</h3>
+<div class="outline-text-3" id="text-9-4">
+<ul class="org-ul">
+<li><p>
+Example01<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-comment-delimiter"># </span><span class="org-comment">First, in application when specify children of supervision tree</span>
+<span class="org-variable-name">children</span> = [
+  {<span class="org-type">Registry</span>, <span class="org-elixir-atom">keys:</span> unique, <span class="org-elixir-atom">name:</span> <span class="org-type">Jobber.JobRegistry</span>}
+  ...
+]
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Then, in GenServer' start_link</span>
+<span class="org-type">GenServer</span>.start_link(<span class="org-constant">__MODULE__</span>, args, <span class="org-elixir-atom">name:</span> {<span class="org-elixir-atom">:via</span>, <span class="org-type">Registry</span>, {<span class="org-type">Jobber.JobRegistry</span>, key, value}})
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="outline-container-orgcb186e3" class="outline-2">
+<h2 id="orgcb186e3"><span class="section-number-2">10.</span> About Supervisor Module</h2>
+<div class="outline-text-2" id="text-10">
+<ol class="org-ol">
+<li>ref: <a href="https://blog.appsignal.com/2021/08/23/using-supervisors-to-organize-your-elixir-application.html">Using Supervisors to Organize Your Elixir Application</a><br></li>
+<li>How to add worker to a custom supervisor module at runtime<br>
+<ul class="org-ul">
+<li>Given<br>
+<ul class="org-ul">
+<li>Currently, our supervision tree looks like this<br>
+<ul class="org-ul">
+<li>OurNewApp.Supervisor<br>
+<ul class="org-ul">
+<li>OurNewApp.CounterSup<br>
+<ul class="org-ul">
+<li>{OurNewApp.Counter, 10000}<br></li>
+<li>{OurNewApp.Counter, 20000}<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>WE want to add an exra OurNewApp.Counter under OurNewApp.CounterSup<br></li>
+</ul></li>
+<li><p>
+General steps<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">new_child_spec</span> = <span class="org-type">Supervisor</span>.child_spec({<span class="org-type">OurNewApp.Counter</span>, <span class="org-elixir-number">30000</span>}, <span class="org-elixir-atom">id:</span> <span class="org-elixir-number">30000</span>)
+<span class="org-type">Supervisor</span>.start_child(<span class="org-type">OurNewApp.CounterSup</span>, new_child_spec)
+</pre>
+</div></li>
+<li>Notes:<br>
+<ul class="org-ul">
+<li>Supervisor.start<sub>child</sub>/2<br></li>
+<li>Supervisor.delete<sub>child</sub>/2<br></li>
+<li>Supervisor.restart<sub>child</sub>/2<br></li>
+</ul></li>
+</ul></li>
+<li><p>
+How to add a new subtree with its own children (without creating a special module for the subtree supervisor)<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">children_specs</span> = [<span class="org-elixir-number">10000</span>, <span class="org-elixir-number">20000</span>, <span class="org-elixir-number">30000</span>] |&gt; <span class="org-type">Enum</span>.map(<span class="org-keyword">fn</span> x -&gt;
+    <span class="org-type">Supervisor</span>.child_spec({<span class="org-type">OurNewApp.Counter</span>, x}, <span class="org-elixir-atom">id:</span> x)
+  <span class="org-keyword">end</span>)
+
+<span class="org-variable-name">hand_crafted_sup_spec</span> = %{
+  <span class="org-elixir-atom">id:</span> <span class="org-elixir-atom">:hand_crafted_sup</span>,
+  <span class="org-elixir-atom">start:</span> {<span class="org-type">Supervisor</span>, <span class="org-elixir-atom">:start_link</span>, [children_specs, [<span class="org-elixir-atom">strategy:</span> <span class="org-elixir-atom">:one_for_one</span>]]},
+  <span class="org-elixir-atom">type:</span> <span class="org-elixir-atom">:supervisor</span>,
+  <span class="org-elixir-atom">restart:</span> <span class="org-elixir-atom">:permanent</span>,
+  <span class="org-elixir-atom">shutdown:</span> <span class="org-elixir-number">5000</span>
+}
+
+<span class="org-type">Supervisor</span>.start_child(<span class="org-type">OurNewApp.Supervisor</span>, hand_crafted_sup_spec)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Now, the supervision tree becomes<br>
+<ul class="org-ul">
+<li>OurNewApp.Supervisor (the root of our supervision tree)<br>
+<ul class="org-ul">
+<li>OurNewApp.CounterSup<br>
+<ul class="org-ul">
+<li>{OurNewApp.Counter, 10000}<br></li>
+<li>{OurNewApp.Counter, 20000}<br></li>
+</ul></li>
+<li>:hand<sub>crafted</sub><sub>sup</sub> <br>
+<ul class="org-ul">
+<li>{OurNewApp.Counter, 10000}<br></li>
+<li>{OurNewApp.Counter, 20000}<br></li>
+<li>{OurNewApp.Counter, 30000}<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>
+We could stop our application by<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">Application</span>.stop(<span class="org-elixir-atom">:our_new_app</span>)
+</pre>
+</div></li>
+</ul></li>
+<li><p>
+How to terminate a GenServer process with customization<br>
+</p>
+<ol class="org-ol">
+<li>Modify the state it holds to hold a marker which is used to indicate if the process has been ordered to terminate.<br></li>
+<li>Through interface function, invoke GenServer.call and send message to indicate this process need to be terminated.<br></li>
+<li>During handle<sub>call</sub> for that message, set the termination marker.<br></li>
+<li>User timer to send periodic info to self()<br></li>
+<li>During handle<sub>info</sub>, check if the termination mark is present and whether the desired condition is reached.<br>
+<ul class="org-ul">
+<li>If so, {:stop, :normal, state}<br></li>
+<li>Otherwise, update state (and timer)<br></li>
+</ul></li>
+</ol>
+
+<p>
+Note: during init/1, we also need to set flag<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">Process</span>.flag(<span class="org-elixir-atom">:trap_exit</span>, <span class="org-elixir-atom">true</span>)
+</pre>
+</div></li>
+
+<li>Beased on we could terminate a GenServer process, how to terminate a group of GenServer worker processes when we stop the application.<br>
+<ul class="org-ul">
+<li>To do this, we must implement the callbacks <code>prep_stop/1</code>.<br></li>
+<li><p>
+For example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-elixir-attribute">@impl</span> <span class="org-elixir-atom">true</span>
+<span class="org-keyword">def</span> <span class="org-function-name">prep_stop</span>(st) <span class="org-keyword">do</span>
+  <span class="org-variable-name">stop_tasks</span> =
+    <span class="org-type">Supervisor</span>.which_children(<span class="org-type">OurNewApp.CounterSup</span>)
+    |&gt; <span class="org-type">Enum</span>.map(<span class="org-keyword">fn</span> {<span class="org-constant">_</span>, pid, <span class="org-constant">_</span>, <span class="org-constant">_</span>} -&gt;
+      <span class="org-type">Task</span>.async(<span class="org-keyword">fn</span> -&gt;
+        <span class="org-elixir-atom">:ok</span> = <span class="org-type">OurNewApp.Counter</span>.stop_gracefully(pid)
+      <span class="org-keyword">end</span>)
+    <span class="org-keyword">end</span>)
+
+  <span class="org-type">Task</span>.await_many(stop_tasks)
+
+  st
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul></li>
+<li>Some note<br>
+<ul class="org-ul">
+<li><code>Supervisor.child_spec/2</code><br></li>
+<li><code>Supervisor.start_link</code><br></li>
+<li><code>Supervisor.init</code> (used in custom supervisor)<br></li>
+<li><code>start_link</code> (usered in custom supervisor and custom GenServer module)<br></li>
+</ul></li>
+</ol>
+</div>
+</section>
+
+
+
+<section id="outline-container-orgfa82982" class="outline-2">
+<h2 id="orgfa82982"><span class="section-number-2">11.</span> About GenStage</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+<div id="outline-container-org4d659fd" class="outline-3">
+<h3 id="org4d659fd"><span class="section-number-3">11.1.</span> Why and when we use GenStage</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>You only add stages acoording to the runtime needs, typically when we need to provide back-pressure or leverage concurrency.<br></li>
+<li>Rule of thumb<br>
+<ul class="org-ul">
+<li>Always start with plain functions.<br></li>
+<li>When you recognize the need for using back-pressure, create a 2-stage data pipeline first.<br></li>
+<li>Gradually extend pipeline when spot an opportunity for improvement.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbd29d0a" class="outline-3">
+<h3 id="orgbd29d0a"><span class="section-number-3">11.2.</span> Concepts to understand</h3>
+<div class="outline-text-3" id="text-11-2">
+<ul class="org-ul">
+<li>What is back-pressure mechanism.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb97eff9" class="outline-3">
+<h3 id="orgb97eff9"><span class="section-number-3">11.3.</span> Different dispatcher</h3>
+<div class="outline-text-3" id="text-11-3">
+<ol class="org-ol">
+<li>one-to-one, GenStage.DemandDispatcher<br></li>
+<li>one-to-many, GenStage.BroadcastDispatcher<br>
+<ul class="org-ul">
+<li>Let each consumer how to do the futher processing.<br></li>
+</ul></li>
+<li>one-to-many, GenStage.PartitionDispatcher<br>
+<ul class="org-ul">
+<li>Let producer examines each event, and assigns it to a partition (like bucket).<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgba11eda" class="outline-3">
+<h3 id="orgba11eda"><span class="section-number-3">11.4.</span> Understand the events and state in GenStage module</h3>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
+</div>
+</footer>
+</body>
+</html>

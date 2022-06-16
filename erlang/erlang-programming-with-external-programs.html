@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Aug 15, 2021 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Erlang Programming with external programs</title>
-<meta name="generator" content="Org mode">
-<meta name="author" content="Zhao Wei">
+<meta name="author" content="Zhao Wei" />
+<meta name="generator" content="Org Mode" />
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<script type="text/javascript">
+<script>
 // @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
-<!--/*--><![CDATA[/*><!--*/
      function CodeHighlightOn(elem, id)
      {
        var target = document.getElementById(id);
@@ -32,7 +31,6 @@
          target.classList.remove("code-highlighted");
        }
      }
-    /*]]>*///-->
 // @license-end
 </script>
 </head>
@@ -65,33 +63,33 @@
   </ul>
 </div>
 </header>
-<main id="content">
+<main id="content" class="content">
 <header>
 <h1 class="title">Erlang Programming with external programs</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orge1eb39a">1. Introduction</a></li>
-<li><a href="#org890a9a1">2. How Erlang communicates with external programs</a></li>
-<li><a href="#org520ad87">3. Erlang with C</a>
+<li><a href="#org5090a48">1. Introduction</a></li>
+<li><a href="#org61c81f5">2. How Erlang communicates with external programs</a></li>
+<li><a href="#org9424816">3. Erlang with C</a>
 <ul>
-<li><a href="#org479f0b3">3.1. Define how to want to use C code</a></li>
-<li><a href="#orge228872">3.2. Define protocal</a></li>
-<li><a href="#org10df696">3.3. The C program</a></li>
-<li><a href="#org0205ac1">3.4. Comments for C Code</a></li>
-<li><a href="#org009a777">3.5. The Erlang program</a></li>
-<li><a href="#org27dbef5">3.6. <span class="todo TODO">TODO</span> Comment for Erlang code</a></li>
+<li><a href="#org7df1806">3.1. Define how to want to use C code</a></li>
+<li><a href="#org76d5405">3.2. Define protocal</a></li>
+<li><a href="#orgd9d396d">3.3. The C program</a></li>
+<li><a href="#org9880f80">3.4. Comments for C Code</a></li>
+<li><a href="#org56666ed">3.5. The Erlang program</a></li>
+<li><a href="#orge52c9f0">3.6. <span class="todo TODO">TODO</span> Comment for Erlang code</a></li>
 </ul>
 </li>
-<li><a href="#org29ffe64">4. References</a></li>
+<li><a href="#orgff6af85">4. References</a></li>
 </ul>
 </div>
 </nav>
 
 
-<section id="outline-container-orge1eb39a" class="outline-2">
-<h2 id="orge1eb39a"><span class="section-number-2">1.</span> Introduction</h2>
+<section id="outline-container-org5090a48" class="outline-2">
+<h2 id="org5090a48"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 When I learn Erlang, it always bother me about its speed. Surely, it is not as fast as C/C++, but it has unique advantages for doing distributed programming. Luckly, Erlang has multiple ways of doing interface techniques.<br>
@@ -111,8 +109,8 @@ Here, we will only consider interfacing Erlang using ports and OS commands.<br>
 </section>
 
 
-<section id="outline-container-org890a9a1" class="outline-2">
-<h2 id="org890a9a1"><span class="section-number-2">2.</span> How Erlang communicates with external programs</h2>
+<section id="outline-container-org61c81f5" class="outline-2">
+<h2 id="org61c81f5"><span class="section-number-2">2.</span> How Erlang communicates with external programs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Erlang communicates with external programs through <b>ports</b>. It is not the port used with address for socket programming. Ports provide a byte-oriented interface to an external program. Erlang can communicate with it by sending and receiving lists of bytes (not Erlang terms).<br>
@@ -136,12 +134,12 @@ It is like a pipe, we send a message to a port, the message will be sent to the 
 </div>
 </section>
 
-<section id="outline-container-org520ad87" class="outline-2">
-<h2 id="org520ad87"><span class="section-number-2">3.</span> Erlang with C</h2>
+<section id="outline-container-org9424816" class="outline-2">
+<h2 id="org9424816"><span class="section-number-2">3.</span> Erlang with C</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org479f0b3" class="outline-3">
-<h3 id="org479f0b3"><span class="section-number-3">3.1.</span> Define how to want to use C code</h3>
+<div id="outline-container-org7df1806" class="outline-3">
+<h3 id="org7df1806"><span class="section-number-3">3.1.</span> Define how to want to use C code</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Suppose we defined the following functions in C program.<br>
@@ -176,8 +174,8 @@ We need to hide the detail of the interface to the C program. To do so, we need 
 </div>
 </div>
 
-<div id="outline-container-orge228872" class="outline-3">
-<h3 id="orge228872"><span class="section-number-3">3.2.</span> Define protocal</h3>
+<div id="outline-container-org76d5405" class="outline-3">
+<h3 id="org76d5405"><span class="section-number-3">3.2.</span> Define protocal</h3>
 <div class="outline-text-3" id="text-3-2">
 <ul class="org-ul">
 <li>All packets start with a 2 bytes which specifies the length of data immidiately followed.<br></li>
@@ -192,8 +190,8 @@ C program and Erlang program must follow this protocol.<br>
 </div>
 </div>
 
-<div id="outline-container-org10df696" class="outline-3">
-<h3 id="org10df696"><span class="section-number-3">3.3.</span> The C program</h3>
+<div id="outline-container-orgd9d396d" class="outline-3">
+<h3 id="orgd9d396d"><span class="section-number-3">3.3.</span> The C program</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 3 files<br>
@@ -209,8 +207,8 @@ Has routines for reading and writing memory buffers.<br></li>
 </div>
 </div>
 
-<div id="outline-container-org0205ac1" class="outline-3">
-<h3 id="org0205ac1"><span class="section-number-3">3.4.</span> Comments for C Code</h3>
+<div id="outline-container-org9880f80" class="outline-3">
+<h3 id="org9880f80"><span class="section-number-3">3.4.</span> Comments for C Code</h3>
 <div class="outline-text-3" id="text-3-4">
 <ol class="org-ol">
 <li><p>
@@ -309,18 +307,18 @@ As opposite of read from stream, we have to write stream with <b>appending 2-byt
 </div>
 
 
-<div id="outline-container-org009a777" class="outline-3">
-<h3 id="org009a777"><span class="section-number-3">3.5.</span> The Erlang program</h3>
+<div id="outline-container-org56666ed" class="outline-3">
+<h3 id="org56666ed"><span class="section-number-3">3.5.</span> The Erlang program</h3>
 </div>
 
-<div id="outline-container-org27dbef5" class="outline-3">
-<h3 id="org27dbef5"><span class="section-number-3">3.6.</span> <span class="todo TODO">TODO</span> Comment for Erlang code</h3>
+<div id="outline-container-orge52c9f0" class="outline-3">
+<h3 id="orge52c9f0"><span class="section-number-3">3.6.</span> <span class="todo TODO">TODO</span> Comment for Erlang code</h3>
 </div>
 </section>
 
 
-<section id="outline-container-org29ffe64" class="outline-2">
-<h2 id="org29ffe64"><span class="section-number-2">4.</span> References</h2>
+<section id="outline-container-orgff6af85" class="outline-2">
+<h2 id="orgff6af85"><span class="section-number-2">4.</span> References</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="http://erlang.org/doc/tutorial/introduction.html">Interoperability Tutorial</a><br></li>
@@ -333,7 +331,7 @@ As opposite of read from stream, we have to write stream with <b>appending 2-byt
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on Aug 15, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.6).
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
 </div>
 </footer>
 </body>

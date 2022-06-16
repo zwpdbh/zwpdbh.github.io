@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content" class="content">
+<nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgbf7f860">1. How to organize code</a></li>
+<li><a href="#orgbeac686">2. How to call functions from other module</a></li>
+<li><a href="#org3bc942c">3. How to compile the code</a></li>
+<li><a href="#org87603ad">4. How to do type specification</a></li>
+<li><a href="#org8f6d948">5. How to get the integer from div</a></li>
+<li><a href="#org273e52a">6. How to define constant</a></li>
+<li><a href="#org263a6e4">7. How to use Tuples&#xa0;&#xa0;&#xa0;<span class="tag"><span class="DataStructure">DataStructure</span></span></a></li>
+<li><a href="#orgfad1a02">8. How to use List&#xa0;&#xa0;&#xa0;<span class="tag"><span class="DataStructure">DataStructure</span></span></a></li>
+<li><a href="#orge2a69de">9. Tuples, keywork lists, map and struct&#xa0;&#xa0;&#xa0;<span class="tag"><span class="DataStructure">DataStructure</span></span></a>
+<ul>
+<li><a href="#orgebe07f8">9.1. Mixing lists and tuples</a></li>
+<li><a href="#orgdd41147">9.2. Keyword lists</a></li>
+<li><a href="#org71ee951">9.3. Map</a></li>
+<li><a href="#orgdc8509c">9.4. Struct (tagged map)</a></li>
+</ul>
+</li>
+<li><a href="#org49b9410">10. Protocols</a></li>
+<li><a href="#org26ddbc6">11. How to process binary</a>
+<ul>
+<li><a href="#orga88c6b7">11.1. How to view a string&rsquo;s binary representation</a></li>
+<li><a href="#org87588fa">11.2. How to match on a binary of unknown size</a></li>
+<li><a href="#org953ce98">11.3. How to match n bytes in a binary</a></li>
+<li><a href="#orgae7a4b4">11.4. How to pattern match on string with multibyte characters</a></li>
+<li><a href="#orgd9babd4">11.5. Example: chunk from PNG</a></li>
+</ul>
+</li>
+<li><a href="#org14b2a66">12. How to represent string</a></li>
+<li><a href="#org126f163">13. How to convert between binary string to character list</a></li>
+<li><a href="#orgfb4854b">14. How to define Lambda function and use it</a></li>
+<li><a href="#orga939b18">15. How to use other types</a></li>
+<li><a href="#org88e8746">16. How to use lib from mix</a></li>
+<li><a href="#org9081c57">17. How to check the and load additional code paths</a></li>
+<li><a href="#org3dbd5aa">18. How to dynamically call a function</a></li>
+<li><a href="#orge51e765">19. How to run a single script</a></li>
+<li><a href="#orgc1acaa2">20. How to get current time</a></li>
+<li><a href="#org27b7378">21. How to handle exception error in guard</a></li>
+<li><a href="#orga78e5dc">22. How to match the content of variable</a></li>
+<li><a href="#orgafcb562">23. How to check the type of a variable</a></li>
+<li><a href="#org67d2555">24. How to chain multiple pattern matching</a></li>
+<li><a href="#org6ee77f0">25. How to build abstraction</a></li>
+<li><a href="#org778ba7f">26. How to update hierachical data</a></li>
+<li><a href="#org73cfa66">27. How to register a process</a></li>
+<li><a href="#orgeac0ae6">28. How to handle unlimited process mailbox problem</a></li>
+<li><a href="#org6d21806">29. How to implement a general server process</a></li>
+<li><a href="#org3c2666e">30. How to debug</a></li>
+<li><a href="#orge051850">31. How to get the number of currently running process</a></li>
+<li><a href="#org5896f71">32. How state is maintained in server process</a></li>
+<li><a href="#org477448f">33. How to create a singleton of a module</a></li>
+<li><a href="#org337f074">34. How to use elixir to request access token</a></li>
+<li><a href="#orga429907">35. How to do OAuth</a></li>
+<li><a href="#orgcefbfeb">36. How to check a module&rsquo;s available functions</a></li>
+<li><a href="#org1a0294b">37. How to represent a grid</a></li>
+<li><a href="#org2af2e49">38. How to produce permutation and combination from list</a></li>
+<li><a href="#orgf59ba2f">39. Difference between alias, use, require and import in Elixir</a></li>
+<li><a href="#orge5cf494">40. Elixir with Phoenix notes</a>
+<ul>
+<li><a href="#orgca96a75">40.1. 02-24</a></li>
+<li><a href="#orgdb6f62e">40.2. 02-27</a></li>
+<li><a href="#orgea2e617">40.3. 02-28</a></li>
+<li><a href="#orgac2dcce">40.4. 03-01</a></li>
+<li><a href="#org0699149">40.5. 03-02</a></li>
+<li><a href="#org11e329e">40.6. 03-04</a></li>
+<li><a href="#orgd557776">40.7. 03-05</a></li>
+<li><a href="#orgc796835">40.8. 03-06</a></li>
+<li><a href="#orgc04057e">40.9. 03-07</a></li>
+<li><a href="#org21c7cf6">40.10. 03-10</a></li>
+<li><a href="#orgbba06ee">40.11. 03-12</a></li>
+<li><a href="#orgeb12fec">40.12. 03-18</a></li>
+<li><a href="#org19e0021">40.13. 03-19</a></li>
+<li><a href="#orgf9dcd4c">40.14. 03-21</a></li>
+</ul>
+</li>
+<li><a href="#org53b0f6a">41. Some notes</a></li>
+</ul>
+</div>
+</nav>
+<section id="outline-container-orgbf7f860" class="outline-2">
+<h2 id="orgbf7f860"><span class="section-number-2">1.</span> How to organize code</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>A module is a collection of functions, like namespace. Functions must be defined inside a module.<br></li>
+<li>A file can contain multiple module.<br></li>
+<li>Rules<br>
+<ul class="org-ul">
+<li>Module name starts with uppercase letter and is usually formated as CamelCase style.<br></li>
+<li>Use <code>.</code> in module to represent herachichy. We could also define child module inside module.<br></li>
+<li>Function name are like abc<sub>def</sub>.<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgbeac686" class="outline-2">
+<h2 id="orgbeac686"><span class="section-number-2">2.</span> How to call functions from other module</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>We could import other module into current module, to allow us to call functions without module prefix.<br></li>
+<li><p>
+We could use change the module&rsquo;s name<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-text">alias IO, as: MyIO
+</pre>
+</div></li>
+<li><p>
+For example, you have a Geometry.Rectangle module. You can alias it in your client module and use a shorter name<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">MyModule</span> <span class="org-keyword">do</span> 
+  <span class="org-keyword">alias</span> <span class="org-type">Geometry.Rectangle</span>, <span class="org-elixir-atom">as:</span> <span class="org-type">Rectange</span> 
+
+  <span class="org-keyword">def</span> <span class="org-function-name">my_fun</span> <span class="org-keyword">do</span>
+    <span class="org-type">Rectange</span>.area(...)
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org3bc942c" class="outline-2">
+<h2 id="org3bc942c"><span class="section-number-2">3.</span> How to compile the code</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>In Emacs, <code>M-x alchemist-iex-send-last-sexp</code>.<br></li>
+<li>In terminal, <code>iex geometry.ex</code>.<br></li>
+</ul>
+
+<p>
+The code will be compiled and resulting module is loaded into the runtime.<br>
+</p>
+</div>
+</section>
+
+<section id="outline-container-org87603ad" class="outline-2">
+<h2 id="org87603ad"><span class="section-number-2">4.</span> How to do type specification</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Circle</span> <span class="org-keyword">do</span>
+  <span class="org-elixir-attribute">@pi</span> <span class="org-elixir-number">3</span>.<span class="org-elixir-number">14</span>
+
+  <span class="org-elixir-attribute">@spec</span> area(number) :: number 
+  <span class="org-keyword">def</span> <span class="org-function-name">area</span>(r) <span class="org-keyword">do</span>
+    r * r * <span class="org-elixir-attribute">@pi</span>
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org8f6d948" class="outline-2">
+<h2 id="org8f6d948"><span class="section-number-2">5.</span> How to get the integer from div</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>The division operator <code>/</code> always return float.<br></li>
+<li>To get integer use<br>
+<ul class="org-ul">
+<li><code>div</code> to get the integer part.<br></li>
+<li><code>rem</code> to get the remainder<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org273e52a" class="outline-2">
+<h2 id="org273e52a"><span class="section-number-2">6.</span> How to define constant</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li><b>Atom</b>, like <code>:this_is_an_atom</code><br></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org263a6e4" class="outline-2">
+<h2 id="org263a6e4"><span class="section-number-2">7.</span> How to use Tuples&#xa0;&#xa0;&#xa0;<span class="tag"><span class="DataStructure">DataStructure</span></span></h2>
+<div class="outline-text-2" id="text-7">
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">person</span> = {<span class="org-string">"bob"</span>, <span class="org-elixir-number">25</span>}
+
+<span class="org-variable-name">age</span> = elem(persion, <span class="org-elixir-number">1</span>) <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; 25</span>
+put_elem(person, <span class="org-elixir-number">1</span>, <span class="org-elixir-number">100</span>) <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; {"bob", 100}</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Untyped structure, or record, group a <b>fixed</b> number of element together.<br></li>
+</ul>
+</div>
+</section>
+<section id="outline-container-orgfad1a02" class="outline-2">
+<h2 id="orgfad1a02"><span class="section-number-2">8.</span> How to use List&#xa0;&#xa0;&#xa0;<span class="tag"><span class="DataStructure">DataStructure</span></span></h2>
+<div class="outline-text-2" id="text-8">
+<div class="org-src-container">
+<pre class="src src-elixir">iex(<span class="org-elixir-number">11</span>)&gt;<span class="org-variable-name">prime_numbers</span> = [<span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">7</span>]
+[<span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">7</span>]
+iex(<span class="org-elixir-number">12</span>)&gt; length(prime_numbers)
+length(prime_numbers)
+<span class="org-elixir-number">4</span>
+iex(<span class="org-elixir-number">13</span>)&gt; <span class="org-type">Enum</span>.at(prime_numbers, <span class="org-elixir-number">1</span>)
+<span class="org-type">Enum</span>.at(prime_numbers, <span class="org-elixir-number">1</span>)
+<span class="org-elixir-number">3</span>
+iex(<span class="org-elixir-number">14</span>)&gt; <span class="org-elixir-number">100</span> <span class="org-keyword">in</span> prime_numbers
+<span class="org-elixir-number">100</span> <span class="org-keyword">in</span> prime_numbers
+<span class="org-elixir-atom">false</span>
+iex(<span class="org-elixir-number">15</span>)&gt; <span class="org-type">List</span>.replace_at(prime_numbers, <span class="org-elixir-number">0</span> , <span class="org-elixir-number">11</span>)
+<span class="org-type">List</span>.replace_at(prime_numbers, <span class="org-elixir-number">0</span> , <span class="org-elixir-number">11</span>)
+[<span class="org-elixir-number">11</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">7</span>]
+iex(<span class="org-elixir-number">16</span>)&gt; prime_numbers
+prime_numbers
+[<span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">7</span>]
+iex(<span class="org-elixir-number">17</span>)&gt; <span class="org-variable-name">new_primes</span> = <span class="org-type">List</span>.replace_at(prime_numbers, <span class="org-elixir-number">0</span> , <span class="org-elixir-number">11</span>)
+<span class="org-variable-name">new_primes</span> = <span class="org-type">List</span>.replace_at(prime_numbers, <span class="org-elixir-number">0</span> , <span class="org-elixir-number">11</span>)
+[<span class="org-elixir-number">11</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">7</span>]
+iex(<span class="org-elixir-number">18</span>)&gt; <span class="org-variable-name">new_primes</span> = <span class="org-type">List</span>.insert_at(new_primes, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">13</span>)
+<span class="org-variable-name">new_primes</span> = <span class="org-type">List</span>.insert_at(new_primes, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">13</span>)
+[<span class="org-elixir-number">11</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">13</span>, <span class="org-elixir-number">7</span>]
+iex(<span class="org-elixir-number">19</span>)&gt; new_primes
+new_primes
+[<span class="org-elixir-number">11</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">13</span>, <span class="org-elixir-number">7</span>]
+iex(<span class="org-elixir-number">20</span>)&gt; <span class="org-variable-name">new_primes</span> = <span class="org-type">List</span>.insert_at(new_primes, -<span class="org-elixir-number">1</span>, <span class="org-elixir-number">103</span>)
+<span class="org-variable-name">new_primes</span> = <span class="org-type">List</span>.insert_at(new_primes, -<span class="org-elixir-number">1</span>, <span class="org-elixir-number">103</span>)
+[<span class="org-elixir-number">11</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-number">13</span>, <span class="org-elixir-number">7</span>, <span class="org-elixir-number">103</span>]
+iex(<span class="org-elixir-number">21</span>)&gt; [<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>] ++ [<span class="org-elixir-number">4</span>, <span class="org-elixir-number">5</span>]
+[<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>] ++ [<span class="org-elixir-number">4</span>, <span class="org-elixir-number">5</span>]
+[<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>, <span class="org-elixir-number">5</span>]
+iex(<span class="org-elixir-number">22</span>)&gt; hd([<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>])
+hd([<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>])
+<span class="org-elixir-number">1</span>
+
+iex(<span class="org-elixir-number">23</span>)&gt; tl([<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>])
+tl([<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>])
+[<span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>]
+
+iex(<span class="org-elixir-number">24</span>)&gt; <span class="org-variable-name">a_list</span> = [<span class="org-elixir-number">5</span>, <span class="org-elixir-atom">:value</span>, <span class="org-elixir-atom">true</span>]
+<span class="org-variable-name">a_list</span> = [<span class="org-elixir-number">5</span>, <span class="org-elixir-atom">:value</span>, <span class="org-elixir-atom">true</span>]
+[<span class="org-elixir-number">5</span>, <span class="org-elixir-atom">:value</span>, <span class="org-elixir-atom">true</span>]
+iex(<span class="org-elixir-number">25</span>)&gt; <span class="org-variable-name">new_list</span> = [<span class="org-elixir-atom">:new_element</span> | a_list]
+<span class="org-variable-name">new_list</span> = [<span class="org-elixir-atom">:new_element</span> | a_list]
+[<span class="org-elixir-atom">:new_element</span>, <span class="org-elixir-number">5</span>, <span class="org-elixir-atom">:value</span>, <span class="org-elixir-atom">true</span>]
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orge2a69de" class="outline-2">
+<h2 id="orge2a69de"><span class="section-number-2">9.</span> Tuples, keywork lists, map and struct&#xa0;&#xa0;&#xa0;<span class="tag"><span class="DataStructure">DataStructure</span></span></h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Two key pieces missing from tuples and lists:<br>
+</p>
+<ul class="org-ul">
+<li>Tuples are relatively annonymous structures. Relying on specific order and number of components in tuples can create maintainance headaches.<br></li>
+<li>Lists have similar problems: the usual appraoches to list processing assume that lists are just sequences of similar parts.<br></li>
+</ul>
+
+<p>
+Sometimes we want to call things out by name instead of number, or pattern matching to a specific location.<br>
+</p>
+</div>
+
+<div id="outline-container-orgebe07f8" class="outline-3">
+<h3 id="orgebe07f8"><span class="section-number-3">9.1.</span> Mixing lists and tuples</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li><p>
+How to convert two lists into a single list of tuples or vice versa?<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">list1</span> = [<span class="org-string">"Hydrogen"</span>, <span class="org-string">"Helium"</span>, <span class="org-string">"Lithium"</span>]
+<span class="org-variable-name">list2</span> = [<span class="org-string">"H"</span>, <span class="org-string">"He"</span>, <span class="org-string">"Li"</span>]
+<span class="org-variable-name">list3</span> = [<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span> ,<span class="org-elixir-number">3</span>]
+
+<span class="org-variable-name">element_list</span> = <span class="org-type">Enum</span>.zip(list1, list2) <span class="org-comment-delimiter"># </span><span class="org-comment">[{"Hydrogen", "H"}, {"Helium", "He"}, {"Lithium", "Li"}]</span>
+<span class="org-variable-name">seperate_lists</span> = <span class="org-type">Enum</span>.unzip(element_list) <span class="org-comment-delimiter"># </span><span class="org-comment">{["Hydrogen", "Helium", "Lithium"], ["H", "He", "Li"]}</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdd41147" class="outline-3">
+<h3 id="orgdd41147"><span class="section-number-3">9.2.</span> Keyword lists</h3>
+<div class="outline-text-3" id="text-9-2">
+<ol class="org-ol">
+<li>It is used to process lists of tuples containing two elements that can be considered as &ldquo;key and value&rdquo; pair, where the key is an atom.<br></li>
+<li>Elixir display them in keywork list format.<br></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org71ee951" class="outline-3">
+<h3 id="org71ee951"><span class="section-number-3">9.3.</span> Map</h3>
+<div class="outline-text-3" id="text-9-3">
+<p>
+From lists to map: Keyword lists are a convenient way to address content stored in lists by key, but underneath, Elixir is still walking through the list. That might be OK if you have other plans for that list requiring walking through all of it, but it can be unnecessary overhead if you’re planning to use keys as your only approach to the data.<br>
+</p>
+
+<ol class="org-ol">
+<li><p>
+As key/value store<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-comment-delimiter"># </span><span class="org-comment">Dynamically sized map </span>
+<span class="org-variable-name">empty_map</span> = %{}
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">map with value</span>
+<span class="org-variable-name">squares</span> = %{<span class="org-elixir-number">1</span> =&gt; <span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span> =&gt; <span class="org-elixir-number">4</span>, <span class="org-elixir-number">3</span> =&gt; <span class="org-elixir-number">9</span>}
+<span class="org-comment-delimiter"># </span><span class="org-comment">or </span>
+<span class="org-variable-name">squares</span> = <span class="org-type">Map</span>.new([{<span class="org-elixir-number">1</span>, <span class="org-elixir-number">1</span>}, {<span class="org-elixir-number">2</span>, <span class="org-elixir-number">4</span>}, {<span class="org-elixir-number">3</span>, <span class="org-elixir-number">9</span>}])
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">fetch value for a given key </span>
+squares[<span class="org-elixir-number">2</span>] <span class="org-comment-delimiter"># </span><span class="org-comment">where 1 is the key, =&gt; 4</span>
+squares[<span class="org-elixir-number">7</span>] <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; nil</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">or </span>
+<span class="org-type">Map</span>.get(squares, <span class="org-elixir-number">2</span>) <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; 4</span>
+<span class="org-type">Map</span>.get(squares, <span class="org-elixir-number">8</span>, <span class="org-elixir-atom">:not_found</span>) <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; :not_found, use this to specify default value.</span>
+<span class="org-type">Map</span>.fetch(squares, <span class="org-elixir-number">5</span>) <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; :error  This will distinguishly produce  </span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">or raise exception </span>
+<span class="org-type">Map</span>.fetch!(squares, <span class="org-elixir-number">5</span>)
+</pre>
+</div></li>
+<li><p>
+Power dynamically sized key/value structures, overlap Tuples&rsquo; feature but let you to access fields by name<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">bob</span> = %{<span class="org-elixir-atom">:name</span> =&gt; <span class="org-string">"Bob"</span>, <span class="org-elixir-atom">:age</span> =&gt; <span class="org-elixir-number">25</span>, <span class="org-elixir-atom">:works_at</span> =&gt; <span class="org-string">"Initech"</span>}
+<span class="org-comment-delimiter"># </span><span class="org-comment">if keys are atom, we could short as </span>
+<span class="org-variable-name">bob</span> = %{<span class="org-elixir-atom">name:</span> <span class="org-string">"Bob"</span>, <span class="org-elixir-atom">age:</span> <span class="org-elixir-number">25</span>, <span class="org-elixir-atom">works_at:</span> <span class="org-string">"Initech"</span>}
+
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">fetch </span>
+bob[<span class="org-elixir-atom">:works_at</span>] <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; Initech</span>
+bod[<span class="org-elixir-atom">:non_exist_key</span>] <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; nil </span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">or use short syntax if key is atom </span>
+bob.age <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; 25</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">though it will get KeyError if the key is not exist</span>
+
+
+<span class="org-variable-name">next_bob</span> = %{bob | <span class="org-elixir-atom">age:</span> <span class="org-elixir-number">26</span>}
+<span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; %{age: 26, name: "Bob", works_at: "Initech"}</span>
+<span class="org-variable-name">next_bob</span> = %{bob | <span class="org-elixir-atom">age:</span> <span class="org-elixir-number">26</span>, <span class="org-elixir-atom">works_at:</span> <span class="org-string">"no_where"</span>} <span class="org-comment-delimiter"># </span><span class="org-comment">change multiple key/value</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Can only update keys exist in map!<br></li>
+<li><b>Use map to hold structured</b> data is very common.<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdc8509c" class="outline-3">
+<h3 id="orgdc8509c"><span class="section-number-3">9.4.</span> Struct (tagged map)</h3>
+<div class="outline-text-3" id="text-9-4">
+<p>
+From maps to structs: Structs are extensions built on top of maps that provide compile-time checks and default values.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Microsoft.Azure.Storage</span> <span class="org-keyword">do</span>
+  <span class="org-elixir-attribute">@derive</span> {<span class="org-type">Inspect</span>, <span class="org-elixir-atom">except:</span> [<span class="org-elixir-atom">:account_key</span>]}
+  <span class="org-keyword">defstruct</span> [
+    <span class="org-elixir-atom">:account_name</span>,
+    <span class="org-elixir-atom">:account_key</span>,
+    <span class="org-elixir-atom">:aad_token_provider</span>,
+    <span class="org-elixir-atom">:cloud_environment_suffix</span>,
+    <span class="org-elixir-atom">:is_development_factory</span>
+  ]
+  ...
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>It is only possible to define a struct per module, as the struct it tied to the module itself<br></li>
+<li>Its fields:<br>
+<ul class="org-ul">
+<li>could be a keyword list<br></li>
+<li>or, a list of atoms as in this example: in this case, the atoms in the list will be used as the struct&rsquo;s field names and they will all default to <code>nil</code>.<br></li>
+</ul></li>
+<li>About <code>@derive</code> <br>
+<ul class="org-ul">
+<li>ref: <a href="https://hexdocs.pm/elixir/Protocol.html#derive/3">derive/3</a><br></li>
+<li>It is used with <code>defstruct</code>, see <a href="https://hexdocs.pm/elixir/Kernel.html#defstruct/1-deriving">deriving</a>.<br></li>
+</ul></li>
+<li>Here, we define a custom strcut and make it could be inspected, except <code>:account_key</code> field.<br></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org49b9410" class="outline-2">
+<h2 id="org49b9410"><span class="section-number-2">10.</span> Protocols</h2>
+<div class="outline-text-2" id="text-10">
+<ol class="org-ol">
+<li>What is a protocol<br>
+<ul class="org-ul">
+<li>It is a module in which you declare functions without implementing them.<br></li>
+</ul></li>
+<li>Why we need protocol if we already could achieve polymorphism using patter matching?<br>
+(Remember: polymorphism means you want behavior to vary depending on the data type.)<br>
+<ol class="org-ol">
+<li><p>
+Consider this example, we have a simple Utility module to tell use the types of input variable:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Utility</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">type</span>(value) <span class="org-keyword">when</span> is_binary(value), <span class="org-elixir-atom">do:</span> <span class="org-string">"string"</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">type</span>(value) <span class="org-keyword">when</span> is_integer(value), <span class="org-elixir-atom">do:</span> <span class="org-string">"integer"</span>
+  <span class="org-comment-delimiter"># </span><span class="org-comment">... other implementations ...</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>This only works well if we implement this code and this code is not shared by multiple apps. Because there would be no easy way to extend its features.<br></li>
+</ul></li>
+<li>Protocol can help us:<br>
+<ul class="org-ul">
+<li>The protocol implementation doesn&rsquo;t need to be part of any module. It means: you can implement a protocol for a type even if you can&rsquo;t modify the type&rsquo;s source code.<br></li>
+<li>Dispatching on a protocol is available to any data type that has implemented the protocol and a protocol can be implemented by anyone, at any time.<br></li>
+<li><p>
+So, rewrite those features as a protocol<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defprotocol</span> <span class="org-type">Utility</span> <span class="org-keyword">do</span>
+  <span class="org-elixir-attribute">@spec</span> type(t) :: <span class="org-type">String</span>.t()
+  <span class="org-keyword">def</span> <span class="org-function-name">type</span>(value)
+<span class="org-keyword">end</span>
+
+<span class="org-comment-delimiter">#  </span><span class="org-comment">spread them over multiple files as needed</span>
+<span class="org-keyword">defimpl</span> <span class="org-type">Utility</span>, <span class="org-elixir-atom">for:</span> <span class="org-type">BitString</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">type</span>(<span class="org-comment">_value</span>), <span class="org-elixir-atom">do:</span> <span class="org-string">"string"</span>
+<span class="org-keyword">end</span>
+
+<span class="org-keyword">defimpl</span> <span class="org-type">Utility</span>, <span class="org-elixir-atom">for:</span> <span class="org-type">Integer</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">type</span>(<span class="org-comment">_value</span>), <span class="org-elixir-atom">do:</span> <span class="org-string">"integer"</span>
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+<li>Functions defined in a protocol may have more than one input, but the dispatching will always be based on the data type of the first input.<br></li>
+</ul></li>
+</ol></li>
+<li>The power of Elixir’s extensibility comes when protocols and structs are used together.<br></li>
+<li><a href="https://elixir-lang.org/getting-started/protocols.html#deriving">Deriving</a><br></li>
+</ol>
+</div>
+</section>
+
+
+<section id="outline-container-org26ddbc6" class="outline-2">
+<h2 id="org26ddbc6"><span class="section-number-2">11.</span> How to process binary</h2>
+<div class="outline-text-2" id="text-11">
+<ul class="org-ul">
+<li>A binary is a chunk of byte<br></li>
+<li><p>
+Create binary by enclosing the byte sequence<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>&gt;&gt;
+</pre>
+</div>
+<ul class="org-ul">
+<li>Each number represent the value of the corresponding byte.<br></li>
+<li><p>
+If the value is bigger than 255, it is truncated to the byte size<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;<span class="org-elixir-number">257</span>&gt;&gt; <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; &lt;&lt;1&gt;&gt;</span>
+</pre>
+</div></li>
+</ul></li>
+<li><p>
+Specify the size of each value and tell the compiler how many bits to use for that particular value<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;234::16&gt;&gt; <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; &lt;&lt;0, 234&gt;&gt;, used 2 bytes, the first has value 0, the second is 234 </span>
+&lt;&lt;1234::32&gt;&gt; <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; &lt;&lt;0, 0, 4, 210&gt;&gt;</span>
+</pre>
+</div></li>
+<li><p>
+The size specifier is in <b>bits</b> and not needed to be a multiple of 8!!<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;1::4, 15::4&gt;&gt; <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; &lt;&lt;31&gt;&gt;</span>
+</pre>
+</div></li>
+<li><p>
+If the total size of all values is not a multiple of 8, it is called a bitstring &#x2013; a sequence of bits<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;1::1, 0::1, 1::1&gt;&gt; <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; &lt;&lt;5::size(3)&gt;&gt;</span>
+</pre>
+</div></li>
+<li><p>
+Concatenate two binaries with <code>&lt;&gt;</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>&gt;&gt; &lt;&gt; &lt;&lt;<span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>&gt;&gt; <span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; &lt;&lt;1, 2, 3, 4&gt;&gt;</span>
+</pre>
+</div></li>
+</ul>
+</div>
+<div id="outline-container-orga88c6b7" class="outline-3">
+<h3 id="orga88c6b7"><span class="section-number-3">11.1.</span> How to view a string&rsquo;s binary representation</h3>
+<div class="outline-text-3" id="text-11-1">
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-comment-delimiter"># </span><span class="org-comment">A common trick in Elixir when you want to see the inner binary representation of a string is to concatenate the null byte &lt;&lt;0&gt;&gt; to it:</span>
+iex&gt; <span class="org-string">"he&#322;&#322;o"</span> &lt;&gt; &lt;&lt;<span class="org-elixir-number">0</span>&gt;&gt;
+&lt;&lt;<span class="org-elixir-number">104</span>, <span class="org-elixir-number">101</span>, <span class="org-elixir-number">197</span>, <span class="org-elixir-number">130</span>, <span class="org-elixir-number">197</span>, <span class="org-elixir-number">130</span>, <span class="org-elixir-number">111</span>, <span class="org-elixir-number">0</span>&gt;&gt;
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Alternatively, you can view a string&#8217;s binary representation by using IO.inspect/2:</span>
+iex&gt; <span class="org-type">IO</span>.inspect(<span class="org-string">"he&#322;&#322;o"</span>, <span class="org-elixir-atom">binaries:</span> <span class="org-elixir-atom">:as_binaries</span>)
+&lt;&lt;<span class="org-elixir-number">104</span>, <span class="org-elixir-number">101</span>, <span class="org-elixir-number">197</span>, <span class="org-elixir-number">130</span>, <span class="org-elixir-number">197</span>, <span class="org-elixir-number">130</span>, <span class="org-elixir-number">111</span>&gt;&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org87588fa" class="outline-3">
+<h3 id="org87588fa"><span class="section-number-3">11.2.</span> How to match on a binary of unknown size</h3>
+<div class="outline-text-3" id="text-11-2">
+<div class="org-src-container">
+<pre class="src src-elixir">iex&gt; &lt;&lt;<span class="org-elixir-number">0</span>, <span class="org-elixir-number">1</span>, x::binary&gt;&gt; = &lt;&lt;<span class="org-elixir-number">0</span>, <span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>&gt;&gt;
+&lt;&lt;<span class="org-elixir-number">0</span>, <span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>&gt;&gt;
+iex&gt; x
+&lt;&lt;<span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>&gt;&gt;
+</pre>
+</div>
+<ul class="org-ul">
+<li>Matching on arbitrary length can only be done at end of the pattern and not anywhere else.<br></li>
+<li><p>
+If you have the data which can be arbitrary bit length then you can add <code>bitstring</code> instead, so the pattern now looks like.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;header :: size(<span class="org-elixir-number">8</span>), data :: bitstring&gt;&gt;
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org953ce98" class="outline-3">
+<h3 id="org953ce98"><span class="section-number-3">11.3.</span> How to match n bytes in a binary</h3>
+<div class="outline-text-3" id="text-11-3">
+<div class="org-src-container">
+<pre class="src src-elixir">iex&gt; &lt;&lt;head::binary-size(<span class="org-elixir-number">2</span>), rest::binary&gt;&gt; = &lt;&lt;<span class="org-elixir-number">0</span>, <span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>&gt;&gt;
+&lt;&lt;<span class="org-elixir-number">0</span>, <span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>&gt;&gt;
+iex&gt; head
+&lt;&lt;<span class="org-elixir-number">0</span>, <span class="org-elixir-number">1</span>&gt;&gt;
+iex&gt; rest
+&lt;&lt;<span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>&gt;&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgae7a4b4" class="outline-3">
+<h3 id="orgae7a4b4"><span class="section-number-3">11.4.</span> How to pattern match on string with multibyte characters</h3>
+<div class="outline-text-3" id="text-11-4">
+<div class="org-src-container">
+<pre class="src src-elixir">iex&gt; &lt;&lt;x::utf8, rest::binary&gt;&gt; = <span class="org-string">"&#252;ber"</span>
+<span class="org-string">"&#252;ber"</span>
+iex&gt; x == <span class="org-negation-char">?&#252;</span>
+<span class="org-elixir-atom">true</span>
+iex&gt; rest
+<span class="org-string">"ber"</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Therefore, when pattern matching on strings, it is important to use the utf8 modifier.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd9babd4" class="outline-3">
+<h3 id="orgd9babd4"><span class="section-number-3">11.5.</span> Example: chunk from PNG</h3>
+<div class="outline-text-3" id="text-11-5">
+<ul class="org-ul">
+<li><p>
+Chunk format<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-text">+--------------+----------------+-------------------+
+|  Length (32) | Chunk type (32)| Data (Length size)|
++--------------+----------------+-------------------+
+|   CRC (32)   |
++--------------+
+</pre>
+</div></li>
+<li><p>
+Pattern matching the chunk format<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">&lt;&lt;length     :: size(<span class="org-elixir-number">32</span>),
+  chunk_type :: size(<span class="org-elixir-number">32</span>),
+  chunk_data :: binary - size(length),
+  crc        :: size(<span class="org-elixir-number">32</span>),
+  chunks     :: binary&gt;&gt;
+</pre>
+</div>
+<ul class="org-ul">
+<li>Another way of defining n byte length is <code>binary - size(n)</code>.<br></li>
+<li><code>Note</code>: we matched <code>length</code> in pattern and used in the pattern as well. In Elixir pattern matching you can use the assigned variable in the pattern following it, thats why we are able to extract the <code>chunk_data</code> based on the <code>length</code>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="outline-container-org14b2a66" class="outline-2">
+<h2 id="org14b2a66"><span class="section-number-2">12.</span> How to represent string</h2>
+<div class="outline-text-2" id="text-12">
+<ul class="org-ul">
+<li>String in elixir is either a binary or a list type.<br></li>
+<li><p>
+String inter &#x2013; evaluate values in string template<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-string">"embedded expression: </span><span class="org-variable-name">#{1 + 3}</span><span class="org-string">"</span> <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt;"embedded expression: 4"</span>
+</pre>
+</div></li>
+<li><p>
+How to include quote inside string<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-builtin">~s</span>(<span class="org-string">"embedded expression": #{1 + 3}</span>) <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; "\"embedded expression\": 4"</span>
+
+<span class="org-string">""" </span>
+<span class="org-string">embedded expression: "</span><span class="org-variable-name">#{1 + 3}</span><span class="org-string">" </span>
+<span class="org-string">"""</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; "embedded expression: \"4\"\n"</span>
+</pre>
+</div></li>
+<li><p>
+Aother way to represent string is use single-quote<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-string">'ABC'</span>
+[<span class="org-elixir-number">65</span>, <span class="org-elixir-number">66</span>, <span class="org-elixir-number">67</span>] 
+<span class="org-comment-delimiter"># </span><span class="org-comment">=&gt; they both produce 'ABC'</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>The runtime doesn&rsquo;t distinguish between a list of integers and a character list.<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org126f163" class="outline-2">
+<h2 id="org126f163"><span class="section-number-2">13.</span> How to convert between binary string to character list</h2>
+<div class="outline-text-2" id="text-13">
+<ul class="org-ul">
+<li>binary string is represent using <code>""</code> while character list is represent as <code>''</code>.<br></li>
+<li>Use binary string as much as possbile<br></li>
+<li><p>
+Convert<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">String</span>.to_charlist(<span class="org-string">"ABC"</span>)       
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgfb4854b" class="outline-2">
+<h2 id="orgfb4854b"><span class="section-number-2">14.</span> How to define Lambda function and use it</h2>
+<div class="outline-text-2" id="text-14">
+<ul class="org-ul">
+<li><p>
+basic lambda<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">square</span> = <span class="org-keyword">fn</span> x -&gt;
+  x * x
+<span class="org-keyword">end</span>
+
+iex(<span class="org-elixir-number">2</span>)&gt; square.(<span class="org-elixir-number">24</span>)
+square.(<span class="org-elixir-number">24</span>)
+<span class="org-elixir-number">576</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>The dot operator is to make the code explicit such that you know an anonymous function is being called.<br></li>
+<li><code>square(5)</code> will be a named function defined somewhere in the module.<br></li>
+</ul></li>
+<li><p>
+<b>Capture</b> makes us to make full function qualifier as lambda<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">Enum</span>.each([<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>], <span class="org-type">&amp;IO</span>.puts/<span class="org-elixir-number">1</span>)
+
+iex(<span class="org-elixir-number">4</span>)&gt; <span class="org-type">Enum</span>.each([<span class="org-elixir-number">1</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">4</span>], <span class="org-type">&amp;IO</span>.puts/<span class="org-elixir-number">1</span>)
+<span class="org-elixir-number">1</span>
+<span class="org-elixir-number">2</span>
+<span class="org-elixir-number">3</span>
+<span class="org-elixir-number">4</span>
+<span class="org-elixir-atom">:ok</span>
+</pre>
+</div></li>
+
+<li><p>
+The closure capture <b>doesn&rsquo;t</b> affect the previous defined lambda that references the same symbolic name<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">outside_var</span> = <span class="org-elixir-number">5</span>
+<span class="org-variable-name">lambda</span> = <span class="org-keyword">fn</span> -&gt; <span class="org-type">IO</span>.puts(outside_var) <span class="org-keyword">end</span>
+<span class="org-variable-name">outside_var</span> = <span class="org-elixir-number">6</span>
+lambda.() <span class="org-comment-delimiter">#</span><span class="org-comment">=&gt; 5</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orga939b18" class="outline-2">
+<h2 id="orga939b18"><span class="section-number-2">15.</span> How to use other types</h2>
+<div class="outline-text-2" id="text-15">
+<ol class="org-ol">
+<li>range<br></li>
+<li>keyword list<br>
+<ul class="org-ul">
+<li>A list of pair, where the first one is atom.<br></li>
+<li>Often used for small key-value structures.<br></li>
+<li>Often used as the last optional argument when define a function.<br></li>
+</ul></li>
+<li>MapSet, a set implementation<br></li>
+<li><p>
+Time and date<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">date</span> = <span class="org-builtin">~D</span>[<span class="org-string">2008-09-30</span>]
+<span class="org-variable-name">time</span> = <span class="org-builtin">~T</span>[<span class="org-string">11:59:12</span>]
+<span class="org-variable-name">naive_datetime</span> = <span class="org-builtin">~N</span>[<span class="org-string">2018-01-31 11:59:12.000007</span>]
+</pre>
+</div></li>
+<li><b>IO lists</b><br>
+<ul class="org-ul">
+<li>Special for incrementally building output that will be forwarded to an I/O service.<br></li>
+<li><p>
+Appending to an IO list is O(1), very useful to incrementally build a stream of bytes<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">iolist</span> = []
+<span class="org-variable-name">iolist</span> = [iolist, <span class="org-string">"This"</span>]
+<span class="org-variable-name">iolist</span> = [iolist, <span class="org-string">"is"</span>]
+<span class="org-variable-name">iolist</span> = [iolist, <span class="org-string">"Amazing"</span>]
+
+iex(<span class="org-elixir-number">20</span>)&gt; <span class="org-variable-name">iolist</span> = []
+iex(<span class="org-elixir-number">21</span>)&gt; [[], <span class="org-string">"This"</span>]
+iex(<span class="org-elixir-number">22</span>)&gt; [[[], <span class="org-string">"This"</span>], <span class="org-string">"is"</span>]
+iex(<span class="org-elixir-number">23</span>)&gt; [[[[], <span class="org-string">"This"</span>], <span class="org-string">"is"</span>], <span class="org-string">"Amazing"</span>]
+iex(<span class="org-elixir-number">24</span>)&gt; <span class="org-type">IO</span>.puts(iolist)
+<span class="org-type">IO</span>.puts(iolist)
+<span class="org-type">ThisisAmazing</span>
+<span class="org-elixir-atom">:ok</span>
+</pre>
+</div></li>
+</ul></li>
+</ol>
+</div>
+</section>
+
+<section id="outline-container-org88e8746" class="outline-2">
+<h2 id="org88e8746"><span class="section-number-2">16.</span> How to use lib from mix</h2>
+<div class="outline-text-2" id="text-16">
+<ol class="org-ol">
+<li>In mix.exs, add the lib into <code>deps</code>.<br></li>
+<li>In iex, run <code>recompile()</code> or disconnect from iex and re-run alchemist-iex-project-run: &ldquo;C-c a i p&rdquo;.<br></li>
+<li>Test the example of lib in iex shell.<br></li>
+<li>If we want to shortcut the name, we could use <code>alias</code> to create short name.<br></li>
+</ol>
+</div>
+</section>
+<section id="outline-container-org9081c57" class="outline-2">
+<h2 id="org9081c57"><span class="section-number-2">17.</span> How to check the and load additional code paths</h2>
+<div class="outline-text-2" id="text-17">
+<ul class="org-ul">
+<li><p>
+load additional code path from command-line when started erlang runtime<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">$ iex -pa my/code/path -pa another/code/path <span class="org-comment-delimiter"># </span><span class="org-comment">from command-line to load additional code path </span>
+</pre>
+</div></li>
+<li><p>
+once start runtime, check current loaded path<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-elixir-atom">:code</span>.get_path <span class="org-comment-delimiter"># </span><span class="org-comment">check path </span>
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org3dbd5aa" class="outline-2">
+<h2 id="org3dbd5aa"><span class="section-number-2">18.</span> How to dynamically call a function</h2>
+<div class="outline-text-2" id="text-18">
+<div class="org-src-container">
+<pre class="src src-elixir">apply(<span class="org-type">IO</span>, <span class="org-elixir-atom">:puts</span>, [<span class="org-string">"Dynamic function call."</span>])
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orge51e765" class="outline-2">
+<h2 id="orge51e765"><span class="section-number-2">19.</span> How to run a single script</h2>
+<div class="outline-text-2" id="text-19">
+<ul class="org-ul">
+<li><p>
+Create <code>.exs</code> file<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">MyModule</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">run</span>  <span class="org-keyword">do</span>
+    <span class="org-type">IO</span>.puts(<span class="org-string">"Called Mymodule.run"</span>)
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Code outside of a module is executed immediately</span>
+<span class="org-type">MyModule</span>.run
+</pre>
+</div></li>
+
+<li><p>
+On terminal<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">elixir script.exs
+</pre>
+</div>
+<ul class="org-ul">
+<li>With <code>--no-halt</code>, it will make the BEAM instance keep running. Useful when your script start other concurrent tasks.<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgc1acaa2" class="outline-2">
+<h2 id="orgc1acaa2"><span class="section-number-2">20.</span> How to get current time</h2>
+<div class="outline-text-2" id="text-20">
+<div class="org-src-container">
+<pre class="src src-elixir">iex(<span class="org-elixir-number">28</span>)&gt; {<span class="org-constant">_</span>, time} = <span class="org-elixir-atom">:calendar</span>.local_time()
+{{<span class="org-elixir-number">2022</span>, <span class="org-elixir-number">2</span>, <span class="org-elixir-number">11</span>}, {<span class="org-elixir-number">13</span>, <span class="org-elixir-number">32</span>, <span class="org-elixir-number">10</span>}}
+iex(<span class="org-elixir-number">29</span>)&gt; time 
+time 
+{<span class="org-elixir-number">13</span>, <span class="org-elixir-number">32</span>, <span class="org-elixir-number">10</span>}
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org27b7378" class="outline-2">
+<h2 id="org27b7378"><span class="section-number-2">21.</span> How to handle exception error in guard</h2>
+<div class="outline-text-2" id="text-21">
+<ul class="org-ul">
+<li>If an error is raised from inside the guard, it won&rsquo;t be propagated. And the guard expression will return false. The corresponding clause won&rsquo;t match.<br></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orga78e5dc" class="outline-2">
+<h2 id="orga78e5dc"><span class="section-number-2">22.</span> How to match the content of variable</h2>
+<div class="outline-text-2" id="text-22">
+<div class="org-src-container">
+<pre class="src src-elixir">iex(<span class="org-elixir-number">30</span>)&gt; <span class="org-variable-name">expected_name</span> = <span class="org-string">"bob"</span>
+<span class="org-variable-name">expected_name</span> = <span class="org-string">"bob"</span>
+<span class="org-string">"bob"</span>
+iex(<span class="org-elixir-number">31</span>)&gt; {^expected_name, age} = {<span class="org-string">"bob"</span>, <span class="org-elixir-number">25</span>}
+{^expected_name, age} = {<span class="org-string">"bob"</span>, <span class="org-elixir-number">25</span>}
+{<span class="org-string">"bob"</span>, <span class="org-elixir-number">25</span>}
+iex(<span class="org-elixir-number">32</span>)&gt; age 
+age 
+<span class="org-elixir-number">25</span>
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-orgafcb562" class="outline-2">
+<h2 id="orgafcb562"><span class="section-number-2">23.</span> How to check the type of a variable</h2>
+<div class="outline-text-2" id="text-23">
+<ul class="org-ul">
+<li><p>
+From REPL<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">iex(<span class="org-elixir-number">10</span>)&gt; i x
+i x
+<span class="org-type">Term</span>
+  <span class="org-elixir-number">1</span>
+<span class="org-type">Data</span> type
+  <span class="org-type">Integer</span>
+<span class="org-type">Reference</span> modules
+  <span class="org-type">Integer</span>
+<span class="org-type">Implemented</span> protocols
+  <span class="org-type">IEx.Info</span>, <span class="org-type">Inspect</span>, <span class="org-type">List.Chars</span>, <span class="org-type">String.Chars</span>
+</pre>
+</div></li>
+<li><p>
+From code<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Util</span> <span class="org-keyword">do</span>
+    <span class="org-keyword">def</span> <span class="org-function-name">typeof</span>(a) <span class="org-keyword">do</span>
+        <span class="org-keyword">cond</span> <span class="org-keyword">do</span>
+            is_float(a)    -&gt; <span class="org-string">"float"</span>
+            is_number(a)   -&gt; <span class="org-string">"number"</span>
+            is_atom(a)     -&gt; <span class="org-string">"atom"</span>
+            is_boolean(a)  -&gt; <span class="org-string">"boolean"</span>
+            is_binary(a)   -&gt; <span class="org-string">"binary"</span>
+            is_function(a) -&gt; <span class="org-string">"function"</span>
+            is_list(a)     -&gt; <span class="org-string">"list"</span>
+            is_tuple(a)    -&gt; <span class="org-string">"tuple"</span>
+            <span class="org-elixir-atom">true</span>           -&gt; <span class="org-string">"idunno"</span>
+        <span class="org-keyword">end</span>    
+    <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+<span class="org-variable-name">cases</span> = [
+    <span class="org-elixir-number">1</span>.<span class="org-elixir-number">337</span>, 
+    <span class="org-elixir-number">1337</span>, 
+    :<span class="org-string">'1337'</span>, 
+    <span class="org-elixir-atom">true</span>, 
+    &lt;&lt;<span class="org-elixir-number">1</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">7</span>&gt;&gt;, 
+    (<span class="org-keyword">fn</span>(x) -&gt; x <span class="org-keyword">end</span>), 
+    {<span class="org-elixir-number">1</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">3</span>, <span class="org-elixir-number">7</span>}
+]
+
+<span class="org-type">Enum</span>.each cases, <span class="org-keyword">fn</span>(<span class="org-keyword">case</span>) -&gt; 
+    <span class="org-type">IO</span>.puts (inspect <span class="org-keyword">case</span>) &lt;&gt; <span class="org-string">" is a "</span> &lt;&gt; (<span class="org-type">Util</span>.typeof <span class="org-keyword">case</span>)
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org67d2555" class="outline-2">
+<h2 id="org67d2555"><span class="section-number-2">24.</span> How to chain multiple pattern matching</h2>
+<div class="outline-text-2" id="text-24">
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">ChainPattern</span> <span class="org-keyword">do</span>
+  <span class="org-comment-delimiter"># </span><span class="org-comment">define some helper function</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">extract_login</span>(%{<span class="org-string">"login"</span> =&gt; login}) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:ok</span>, login}
+  <span class="org-keyword">end</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">extract_login</span>(<span class="org-constant">_</span>) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:error</span>, <span class="org-string">"login missed"</span>}
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">extract_email</span>(%{<span class="org-string">"email"</span> =&gt; email}) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:ok</span>, email}
+  <span class="org-keyword">end</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">extract_email</span>(<span class="org-constant">_</span>) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:error</span>, <span class="org-string">"email missed"</span>}
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">extract_password</span>(%{<span class="org-string">"password"</span> =&gt; password}) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:ok</span>, password}
+  <span class="org-keyword">end</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">extract_password</span>(<span class="org-constant">_</span>) <span class="org-keyword">do</span>
+    {<span class="org-elixir-atom">:error</span>, <span class="org-string">"password missed"</span>}
+  <span class="org-keyword">end</span>
+
+
+  <span class="org-keyword">def</span> <span class="org-function-name">extract_info</span>(submitted) <span class="org-keyword">do</span>
+    <span class="org-keyword">with</span> {<span class="org-elixir-atom">:ok</span>, login} &lt;-extract_login(submitted),
+      {<span class="org-elixir-atom">:ok</span>, email} &lt;-extract_email(submitted),
+      {<span class="org-elixir-atom">:ok</span>, password} &lt;-extract_password(submitted) <span class="org-keyword">do</span>
+      {<span class="org-elixir-atom">:ok</span>, %{<span class="org-elixir-atom">login:</span> login, <span class="org-elixir-atom">email:</span> email, <span class="org-elixir-atom">password:</span> password}}
+    <span class="org-keyword">end</span>
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+<span class="org-variable-name">submitted</span> = %{
+  <span class="org-string">"login"</span> =&gt; <span class="org-string">"alice"</span>,
+  <span class="org-string">"email"</span> =&gt; <span class="org-string">"some_email"</span>,
+  <span class="org-string">"password"</span> =&gt; <span class="org-string">"password"</span>,
+  <span class="org-string">"other_field"</span> =&gt; <span class="org-string">"some_value"</span>,
+  <span class="org-string">"yet_another_not_wanted_field"</span> =&gt; <span class="org-string">"..."</span>
+}
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">iex(20)&gt; ChainPattern.extract_info(submitted)</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">ChainPattern.extract_info(submitted)</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">{:ok, %{email: "some_email", login: "alice", password: "password"}}</span>
+</pre>
+</div>
+</div>
+</section>
+<section id="outline-container-org6ee77f0" class="outline-2">
+<h2 id="org6ee77f0"><span class="section-number-2">25.</span> How to build abstraction</h2>
+<div class="outline-text-2" id="text-25">
+<ul class="org-ul">
+<li>Princple<br>
+<ul class="org-ul">
+<li>Module is used as the abstraction over the data type.<br></li>
+<li>Modifier functions should return data of the same type.<br></li>
+<li>Query functions expect an instance of the data abstraction as the first argument and return another type of information.<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="outline-container-org778ba7f" class="outline-2">
+<h2 id="org778ba7f"><span class="section-number-2">26.</span> How to update hierachical data</h2>
+<div class="outline-text-2" id="text-26">
+<ul class="org-ul">
+<li>In general<br>
+<ul class="org-ul">
+<li>We can&rsquo;t directly modify part of it that resides deep in its tree.<br></li>
+<li>We have to walk down the tree to particular part that needs to be modified, and then transform it and all of its ancestors.<br></li>
+<li>The result is a copy of the entire model.<br></li>
+</ul></li>
+<li>Useful macros from Kernel:<br>
+<ul class="org-ul">
+<li><code>put_in/2</code><br></li>
+<li><code>put_in/3</code><br></li>
+<li><code>get_in/2</code><br></li>
+<li><code>update_in/2</code><br></li>
+<li><code>get_and_update_in/2</code><br></li>
+</ul></li>
+<li>Those macros rely on the <b>Access</b> module. So, if we want our custom data to work with Access, we need to implement a couple of function required by <b>Access</b> contract. See: <a href="https://hexdocs.pm/elixir/Access.html">Access behaviour</a><br></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org73cfa66" class="outline-2">
+<h2 id="org73cfa66"><span class="section-number-2">27.</span> How to register a process</h2>
+<div class="outline-text-2" id="text-27">
+<ul class="org-ul">
+<li>If you know there will always be only one instance of some type of server, you can give the process a local name and use that name to send messages to the process. The name is called local because it has meaning only in the currently running BEAM instance.<br></li>
+<li>Using the registered server is much simpler becaue we don&rsquo;t need to pass server pid around through interface.<br></li>
+<li><p>
+Example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">Process</span>.register(self(), <span class="org-elixir-atom">:some_name</span>)
+
+<span class="org-keyword">send</span>(<span class="org-elixir-atom">:some_name</span>, <span class="org-elixir-atom">:msg</span>)
+<span class="org-keyword">receive</span> <span class="org-keyword">do</span>
+  msg -&gt; <span class="org-type">IO</span>.puts(<span class="org-string">"received </span><span class="org-variable-name">#{msg}</span><span class="org-string">"</span>)
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="outline-container-orgeac0ae6" class="outline-2">
+<h2 id="orgeac0ae6"><span class="section-number-2">28.</span> How to handle unlimited process mailbox problem</h2>
+<div class="outline-text-2" id="text-28">
+<ul class="org-ul">
+<li>If a message is not match, it will be stored in mailbox with unlimited number. If we don&rsquo;t process them, they will slow down the system and even crash the system when all memory is consumed.<br></li>
+<li>For each server process, we should introduce a <b>match-all</b> receive clause that deals with unexpected kind of messages.<br></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org6d21806" class="outline-2">
+<h2 id="org6d21806"><span class="section-number-2">29.</span> How to implement a general server process</h2>
+<div class="outline-text-2" id="text-29">
+<ul class="org-ul">
+<li>In general, there are 5 things to do<br>
+<ul class="org-ul">
+<li>spawn a seperate process<br></li>
+<li>loop to infinite in that process<br></li>
+<li>receive message<br></li>
+<li>send message back to the caller<br></li>
+<li>maintain state<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org3c2666e" class="outline-2">
+<h2 id="org3c2666e"><span class="section-number-2">30.</span> How to debug</h2>
+<div class="outline-text-2" id="text-30">
+<ul class="org-ul">
+<li><p>
+Check the representation of a struct<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">Fraction</span>.new(<span class="org-elixir-number">1</span>,<span class="org-elixir-number">4</span>)
+|&gt; <span class="org-type">IO</span>.inspect() 
+|&gt; <span class="org-type">Fraction</span>.add(<span class="org-type">Fraction</span>.new(<span class="org-elixir-number">1</span>,<span class="org-elixir-number">4</span>))
+|&gt; <span class="org-type">IO</span>.inspect()
+|&gt; <span class="org-type">Fraction</span>.value()
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">%Fraction{a: 1, b: 4}</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">iex(70)&gt; %Fraction{a: 1, b: 4}</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">%Fraction{a: 1, b: 4}</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">iex(71)&gt; %Fraction{a: 8, b: 16}</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">iex(72)&gt; %Fraction{a: 8, b: 16}</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">%Fraction{a: 8, b: 16}</span>
+<span class="org-comment-delimiter"># </span><span class="org-comment">iex(73)&gt; 0.5</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orge051850" class="outline-2">
+<h2 id="orge051850"><span class="section-number-2">31.</span> How to get the number of currently running process</h2>
+<div class="outline-text-2" id="text-31">
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-elixir-atom">:erlang</span>.system_info(<span class="org-elixir-atom">:process_count</span>)
+</pre>
+</div>
+</div>
+</section>
+<section id="outline-container-org5896f71" class="outline-2">
+<h2 id="org5896f71"><span class="section-number-2">32.</span> How state is maintained in server process</h2>
+<div class="outline-text-2" id="text-32">
+<ul class="org-ul">
+<li>In plain server process implementation<br>
+<ul class="org-ul">
+<li>State is passed as argument in loop clause. State is modified (new state) as the result of callback module&rsquo;s message handling.<br></li>
+<li>This means the callback module&rsquo;s <code>handle_call/2</code> and <code>handle_cast/2</code> need to pass state as argument<br></li>
+</ul></li>
+<li>In GenServer<br>
+<ul class="org-ul">
+<li>state is passed in from callback module&rsquo;s interface as argument<br></li>
+<li>state is passed in in <code>handle_cast/2</code> as argument<br></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org477448f" class="outline-2">
+<h2 id="org477448f"><span class="section-number-2">33.</span> How to create a singleton of a module</h2>
+<div class="outline-text-2" id="text-33">
+<ul class="org-ul">
+<li><p>
+Implement <code>GenServer</code> in your module<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">def</span> <span class="org-function-name">start</span> <span class="org-keyword">do</span>
+  <span class="org-comment-delimiter"># </span><span class="org-comment">locally register the process, make sure only one instance of the database process.</span>
+  <span class="org-type">GenServer</span>.start(<span class="org-constant">__MODULE__</span>, <span class="org-elixir-atom">nil</span>, <span class="org-elixir-atom">name:</span> <span class="org-constant">__MODULE__</span>)
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="outline-container-org337f074" class="outline-2">
+<h2 id="org337f074"><span class="section-number-2">34.</span> How to use elixir to request access token</h2>
+<div class="outline-text-2" id="text-34">
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Script</span> <span class="org-keyword">do</span>
+  <span class="org-elixir-attribute">@secret</span> <span class="org-string">"84G7Q~JiELHPu3XuNKqckEB1eavVnMpHmnoZh"</span>
+  <span class="org-elixir-attribute">@client_id</span> <span class="org-string">"2470ca86-3843-4aa2-95b8-97d3a912ff69"</span>
+  <span class="org-elixir-attribute">@tenant</span> <span class="org-string">"72f988bf-86f1-41af-91ab-2d7cd011db47"</span>
+  <span class="org-elixir-attribute">@scope</span> <span class="org-string">"https://microsoft.onmicrosoft.com/3b4ae08b-9919-4749-bb5b-7ed4ef15964d/.default"</span>  
+  <span class="org-elixir-attribute">@moduledoc</span> <span class="org-doc">"""</span>
+<span class="org-doc">  A HTTP client for doing RESTful action for DeploymentService.</span>
+<span class="org-doc">  """</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">request_access_token</span>() <span class="org-keyword">do</span>
+    <span class="org-variable-name">url</span> = <span class="org-string">"https://login.microsoftonline.com/</span><span class="org-variable-name">#{@tenant}</span><span class="org-string">/oauth2/v2.0/token"</span>
+
+    <span class="org-keyword">case</span> <span class="org-type">HTTPoison</span>.post(url, urlencoded_body(), header()) <span class="org-keyword">do</span>
+      {<span class="org-elixir-atom">:ok</span>, <span class="org-type">%HTTPoison.Response</span>{<span class="org-elixir-atom">status_code:</span> <span class="org-elixir-number">200</span>, <span class="org-elixir-atom">body:</span> body}}  -&gt;
+
+        body
+        |&gt; <span class="org-type">Poison</span>.decode
+        |&gt; fetch_access_token
+        <span class="org-comment-delimiter"># </span><span class="org-comment">|&gt; IO.puts</span>
+
+      {<span class="org-elixir-atom">:ok</span>, <span class="org-type">%HTTPoison.Response</span>{<span class="org-elixir-atom">status_code:</span> <span class="org-elixir-number">404</span>}} -&gt;
+        <span class="org-type">IO</span>.puts <span class="org-string">"Not found :("</span>
+      {<span class="org-elixir-atom">:error</span>, <span class="org-type">%HTTPoison.Error</span>{<span class="org-elixir-atom">reason:</span> reason}} -&gt;
+        <span class="org-type">IO</span>.inspect reason      
+    <span class="org-keyword">end</span>
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">trigger_workflow</span>(token) <span class="org-keyword">do</span>
+    <span class="org-variable-name">definition_name</span> = <span class="org-string">"AuroraK8sDynamicCsi"</span>
+    <span class="org-variable-name">url</span> = <span class="org-string">"https://xscndeploymentservice.westus2.cloudapp.azure.com/api/Workflow?definitionName=</span><span class="org-variable-name">#{definition_name}</span><span class="org-string">"</span>
+    <span class="org-type">HTTPoison</span>.post(
+      url,
+      json_body(),
+      [
+        {<span class="org-string">"Content-type"</span>, <span class="org-string">"application/json"</span>},
+        {<span class="org-string">"Authorization"</span>, <span class="org-string">"Bearer </span><span class="org-variable-name">#{token}</span><span class="org-string">"</span>},
+        {<span class="org-string">"accept"</span>, <span class="org-string">"text/plain"</span>}])
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">test</span>() <span class="org-keyword">do</span>
+    request_access_token()
+    |&gt; trigger_workflow
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">fetch_access_token</span>({<span class="org-elixir-atom">:ok</span>, %{<span class="org-string">"access_token"</span> =&gt; access_token}}) <span class="org-keyword">do</span>
+    access_token
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">header</span>() <span class="org-keyword">do</span>
+    [{<span class="org-string">"Content-type"</span>, <span class="org-string">"application/x-www-form-urlencoded"</span>}]
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">urlencoded_body</span>() <span class="org-keyword">do</span>
+    %{<span class="org-string">"client_id"</span> =&gt; <span class="org-elixir-attribute">@client_id</span>,
+      <span class="org-string">"client_secret"</span> =&gt; <span class="org-elixir-attribute">@secret</span>,
+      <span class="org-string">"scope"</span> =&gt; <span class="org-elixir-attribute">@scope</span>,
+      <span class="org-string">"grant_type"</span> =&gt; <span class="org-string">"client_credentials"</span>}
+    |&gt; <span class="org-type">URI</span>.encode_query
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">json_body</span>() <span class="org-keyword">do</span>
+    %{
+      <span class="org-elixir-atom">SubscriptionId:</span> <span class="org-string">"33922553-c28a-4d50-ac93-a5c682692168"</span>,
+      <span class="org-elixir-atom">DeploymentLocation:</span> <span class="org-string">"East US 2 EUAP"</span>,
+      <span class="org-elixir-atom">Counter:</span> <span class="org-string">"1"</span>,
+      <span class="org-elixir-atom">AzureDiskStorageClassAsk:</span> <span class="org-string">"Random"</span>,
+      <span class="org-elixir-atom">AzureDiskPvcSize:</span> <span class="org-string">"13"</span>
+    }
+    |&gt; <span class="org-type">Poison</span>.encode!
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+</div>
+</section>
+<section id="outline-container-orga429907" class="outline-2">
+<h2 id="orga429907"><span class="section-number-2">35.</span> How to do OAuth</h2>
+<div class="outline-text-2" id="text-35">
+<ul class="org-ul">
+<li>ref: <a href="https://github.com/danschultzer/pow">Pow is a robust, modular, and extendable authentication and user management solution for Phoenix and Plug-based apps.</a><br></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-orgcefbfeb" class="outline-2">
+<h2 id="orgcefbfeb"><span class="section-number-2">36.</span> How to check a module&rsquo;s available functions</h2>
+<div class="outline-text-2" id="text-36">
+<ul class="org-ul">
+<li>&lt;ModuleName&gt;._<sub>info</sub>_<sub>(:functions)</sub><br></li>
+<li><p>
+Example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-type">KeyValueStore.__info__</span>(<span class="org-elixir-atom">:functions</span>)
+[<span class="org-elixir-atom">get:</span> <span class="org-elixir-number">2</span>, <span class="org-elixir-atom">handle_call:</span> <span class="org-elixir-number">2</span>, <span class="org-elixir-atom">handle_cast:</span> <span class="org-elixir-number">2</span>, <span class="org-elixir-atom">init:</span> <span class="org-elixir-number">0</span>, <span class="org-elixir-atom">put:</span> <span class="org-elixir-number">3</span>, <span class="org-elixir-atom">start:</span> <span class="org-elixir-number">0</span>]
+</pre>
+</div></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org1a0294b" class="outline-2">
+<h2 id="org1a0294b"><span class="section-number-2">37.</span> How to represent a grid</h2>
+<div class="outline-text-2" id="text-37">
+<ul class="org-ul">
+<li>ref: <a href="https://blog.danielberkompas.com/2016/04/23/multidimensional-arrays-in-elixir/">Multidimensional Arrays in Elixir</a><br></li>
+<li>ref: <a href="https://elixirforum.com/t/how-to-make-proper-two-dimensional-data-structures-in-elixir/872/16">https://elixirforum.com/t/how-to-make-proper-two-dimensional-data-structures-in-elixir/872/16</a><br></li>
+<li>My solution01<br>
+<ul class="org-ul">
+<li>Represent grid as a map<br>
+<ul class="org-ul">
+<li>key is the {x, y} coordinate<br></li>
+<li>value is the stored information<br></li>
+</ul></li>
+<li><p>
+Init grid from list of list numbers, here each {x, y} stores {value, visited?}<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">BingoGrid</span> <span class="org-keyword">do</span>
+  <span class="org-comment-delimiter"># </span><span class="org-comment">each grid_inputs is a row of the grid, so grid_inputs is a list of list number</span>
+  <span class="org-keyword">def</span> <span class="org-function-name">init</span>(grid_inputs) <span class="org-keyword">do</span>
+    <span class="org-comment-delimiter"># </span><span class="org-comment">how to represent the grid</span>
+    <span class="org-variable-name">grid</span> = grid_inputs
+    |&gt; <span class="org-type">Enum</span>.with_index
+    |&gt; <span class="org-type">Enum</span>.reduce(%{}, <span class="org-keyword">fn</span> x, acc -&gt; add_row_elements_to_map(x, acc) <span class="org-keyword">end</span>)
+
+    {<span class="org-elixir-atom">:ok</span>, grid}
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">defp</span> <span class="org-function-name">add_row_elements_to_map</span>({row_nums, r}, grid) <span class="org-keyword">do</span>
+    row_nums
+    |&gt; <span class="org-type">Enum</span>.with_index
+    |&gt; <span class="org-type">Enum</span>.reduce(grid, <span class="org-keyword">fn</span> {num, c}, acc -&gt;
+      <span class="org-type">Map</span>.put_new(acc, {r, c}, {num, <span class="org-elixir-atom">false</span>})
+    <span class="org-keyword">end</span>)
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+<span class="org-type">BingoGrid</span>.init([[<span class="org-elixir-number">1</span>,<span class="org-elixir-number">2</span>,<span class="org-elixir-number">3</span>], [<span class="org-elixir-number">4</span>,<span class="org-elixir-number">5</span>,<span class="org-elixir-number">6</span>]])
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice, we need to use Enum.reduce to change some value. Assign variable inside Enum.each will not work.<br></li>
+</ul>
+
+<pre class="example">
+{:ok,
+ %{
+   {0, 0} =&gt; {1, false},
+   {0, 1} =&gt; {2, false},
+   {0, 2} =&gt; {3, false},
+   {1, 0} =&gt; {4, false},
+   {1, 1} =&gt; {5, false},
+   {1, 2} =&gt; {6, false}
+ }}
+</pre></li>
+</ul></li>
+</ul>
+</div>
+</section>
+
+<section id="outline-container-org2af2e49" class="outline-2">
+<h2 id="org2af2e49"><span class="section-number-2">38.</span> How to produce permutation and combination from list</h2>
+<div class="outline-text-2" id="text-38">
+<ul class="org-ul">
+<li>ref: <a href="https://github.com/tallakt/comb">Comb</a><br></li>
+</ul>
+</div>
+</section>
+<section id="outline-container-orgf59ba2f" class="outline-2">
+<h2 id="orgf59ba2f"><span class="section-number-2">39.</span> Difference between alias, use, require and import in Elixir</h2>
+<div class="outline-text-2" id="text-39">
+<ol class="org-ol">
+<li><code>alias</code> is used to give shortcut names for a model.<br></li>
+<li><code>import</code>: Aliases are great for shortening module names but what if we use functions from given module extensively and want to skip using module name part?<br>
+<code>import</code> imports all public functions and macros from given module.<br></li>
+<li><code>require</code> is like import + alias while different from either <code>import</code> or <code>alias</code>.<br>
+<ul class="org-ul">
+<li>It is used like <code>alias</code>, but different from it that it will compile module first.<br></li>
+<li>So, if a module contains a macro, and we want to use as SomeModule.SomeMacro, <code>require</code> will work but not <code>alias</code>.<br></li>
+</ul></li>
+<li><code>use</code> allow us to <b>inject</b> any code in the current module.<br></li>
+</ol>
+</div>
+</section>
+
+<section id="outline-container-orge5cf494" class="outline-2">
+<h2 id="orge5cf494"><span class="section-number-2">40.</span> Elixir with Phoenix notes</h2>
+<div class="outline-text-2" id="text-40">
+</div>
+<div id="outline-container-orgca96a75" class="outline-3">
+<h3 id="orgca96a75"><span class="section-number-3">40.1.</span> 02-24</h3>
+<div class="outline-text-3" id="text-40-1">
+<ul class="org-ul">
+<li><p>
+create a project and start<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix phx.new hello
+<span class="org-builtin">cd</span> hello/
+<span class="org-builtin">cd</span> assets/
+npm install
+<span class="org-builtin">cd</span> ..
+mix ecto.create <span class="org-comment-delimiter"># </span><span class="org-comment">create db configuration</span>
+mix phx.server
+<span class="org-comment-delimiter"># </span><span class="org-comment">or </span>
+iex -S mix phx.server
+</pre>
+</div>
+<ul class="org-ul">
+<li>visit <a href="http://localhost:4000">http://localhost:4000</a><br></li>
+</ul></li>
+<li>A new feature: print a string when you load a specific URL<br>
+All actions is done in <code>lib/hello_web</code><br>
+<ol class="org-ol">
+<li>Map requests coming in to a specific URL<br>
+<ul class="org-ul">
+<li>Edit router, specify the controller, and a action name.<br></li>
+</ul></li>
+<li>tie a URL to a function on a controller<br>
+<ul class="org-ul">
+<li>Define a function in controller<br></li>
+<li>The name of the function should match the action name specified on router<br></li>
+</ul></li>
+<li>Tie that function to a view<br>
+<ul class="org-ul">
+<li>But how how bind controller with view?<br>
+<ul class="org-ul">
+<li>We defined a module <code>HelloWeb.HelloView</code><br></li>
+<li>That file doesn閳ユ獩 actually do any work beyond tying the view for world with some code to render a template. We閳ユ獟l rely on the defaults to render a template.<br></li>
+</ul></li>
+<li>Inside the action function from controller, we specify the render with a template<br></li>
+</ul></li>
+<li>About request parameters<br>
+<ul class="org-ul">
+<li>Defined in router<br></li>
+<li>Extract out in controller with patter matching<br>
+<ul class="org-ul">
+<li>Notice the convention from string to atom<br></li>
+</ul></li>
+<li>Use it template(&lt;action<sub>name</sub>&gt;.html.eex) with &ldquo;@&lt;parameter<sub>name</sub>&gt;&rdquo;.<br></li>
+</ul></li>
+</ol></li>
+<li><p>
+About pattern matching, string and atom<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-comment-delimiter"># </span><span class="org-comment">from top to bottom, be shorthanded</span>
+[{<span class="org-elixir-atom">:name</span>, name}]
+[<span class="org-elixir-atom">:name</span> =&gt; name]
+[<span class="org-elixir-atom">name:</span> name]
+<span class="org-elixir-atom">name:</span> name <span class="org-comment-delimiter"># </span><span class="org-comment">if it is used as the last argument of a function</span>
+</pre>
+</div></li>
+<li>Problems about starts project as <code>iex -S mix phx.server</code> from Emacs<br>
+<ul class="org-ul">
+<li>Make sure the Emacs is running as Administrator.<br></li>
+<li>If it has postgres issue, go to the project root, and re-run <code>mix ecto.create</code>.<br></li>
+<li>When start Phoenix project from Emacs using alchemist, the default command is <code>iex -S mix</code>, we need to edit to <code>iex -S mix phx.server</code><br></li>
+</ul></li>
+
+<li><p>
+How to check Phoenix version<br>
+cd into mix project root folder, run<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix phx.new --version
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgdb6f62e" class="outline-3">
+<h3 id="orgdb6f62e"><span class="section-number-3">40.2.</span> 02-27</h3>
+<div class="outline-text-3" id="text-40-2">
+<ul class="org-ul">
+<li>A view in Phoenix is just a module, and templates are just functions.<br></li>
+<li>How to persistent out model data with database?<br>
+<ol class="org-ol">
+<li>Modify models from lib: for example, <code>lib/rumbl/accounts/user.ex</code>.<br>
+<ul class="org-ul">
+<li>This is for schema definition.<br></li>
+</ul></li>
+<li><p>
+run <code>ecto.gen.migration</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix ecto.gen.migration create_users
+</pre>
+</div>
+<ul class="org-ul">
+<li>This will create migration <code>&lt;timesteamp&gt;_create_users.exs</code> file in path <code>priv/migrations/</code>.<br></li>
+<li>Edit the generated <code>.exs</code> file to define. This is for use code to operator database to create corresponding tables.<br></li>
+<li>In general, we write elixir code to create/update table schema.<br></li>
+</ul></li>
+<li>run <code>mix ecto.migrate</code><br>
+<ul class="org-ul">
+<li>In this step, the actual table is created.<br></li>
+</ul></li>
+</ol></li>
+</ul>
+
+
+<p>
+In general, 3 steps<br>
+</p>
+<ul class="org-ul">
+<li>In lib modify our model<br>
+<ul class="org-ul">
+<li>Define schema using <code>Ecto.Schema</code><br></li>
+<li>Define corresponding changeset.<br></li>
+</ul></li>
+<li>Generate migration file, in which we define database operations.<br></li>
+<li>Execute migration, by <code>mix ecto.migrate</code>.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgea2e617" class="outline-3">
+<h3 id="orgea2e617"><span class="section-number-3">40.3.</span> 02-28</h3>
+<div class="outline-text-3" id="text-40-3">
+<ul class="org-ul">
+<li>After<br></li>
+<li>Use <code>mix phx.routes</code> to check all available routes in our web application.<br></li>
+</ul>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orgac2dcce" class="outline-3">
+<h3 id="orgac2dcce"><span class="section-number-3">40.4.</span> 03-01</h3>
+<div class="outline-text-3" id="text-40-4">
+<ul class="org-ul">
+<li><p>
+After migration (create user table, we could test it from iex shell)<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">alias</span> <span class="org-type">Rumbl.Repo</span>
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Accounts.User</span>
+
+<span class="org-type">Repo</span>.insert(<span class="org-type">%User</span>{<span class="org-elixir-atom">name:</span> <span class="org-string">"Jose"</span>, <span class="org-elixir-atom">username:</span> <span class="org-string">"josevalim"</span>})
+<span class="org-type">Repo</span>.insert(<span class="org-type">%User</span>{<span class="org-elixir-atom">name:</span> <span class="org-string">"Bruce"</span>, <span class="org-elixir-atom">username:</span> <span class="org-string">"redrapids"</span>})
+<span class="org-type">Repo</span>.insert(<span class="org-type">%User</span>{<span class="org-elixir-atom">name:</span> <span class="org-string">"Chris"</span>, <span class="org-elixir-atom">username:</span> <span class="org-string">"mccord"</span>})
+</pre>
+</div></li>
+
+<li>Check <code>Phoenix.HTML.FormData</code> contract to understand how the changes in the changeset available to the form.<br></li>
+
+<li>How to refer to specific routes in the application<br>
+<ul class="org-ul">
+<li>Use <code>YourApplication.Router.Helpers</code>. In fact, phx help use with <code>alias RumblWeb.Router.Helpers, as: Routes</code>.<br></li>
+<li>So, we can get any route through <code>Routes.some_path</code>.<br></li>
+</ul></li>
+
+<li>Install application as dependencies<br>
+<ul class="org-ul">
+<li>edit <code>mix.exs</code><br></li>
+
+<li><code>mix deps.get</code><br></li>
+</ul></li>
+
+<li>Check point01<br>
+<ol class="org-ol">
+<li>Install password feature dependencies<br></li>
+<li>In <code>user.ex</code><br>
+<ul class="org-ul">
+<li>define schema for password and password<sub>hash</sub><br></li>
+<li>create our <code>registration_changeset</code><br></li>
+</ul></li>
+<li><p>
+Test in iex shell<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">alias</span> <span class="org-type">Rumbl.Accounts.User</span>
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.RumblWeb.Router.Helpers</span>, <span class="org-elixir-atom">as:</span> <span class="org-type">Routes</span>
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">this one is not valid </span>
+<span class="org-variable-name">changeset</span> = <span class="org-type">User</span>.registration_changeset(<span class="org-type">%User</span>{}, %{<span class="org-elixir-atom">username:</span> <span class="org-string">"max"</span>, <span class="org-elixir-atom">name:</span> <span class="org-string">"Max"</span>, <span class="org-elixir-atom">password:</span> <span class="org-string">"123"</span>})
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">this one is valid </span>
+<span class="org-variable-name">changeset</span> = <span class="org-type">User</span>.registration_changeset(<span class="org-type">%User</span>{}, %{<span class="org-elixir-atom">username:</span> <span class="org-string">"max"</span>, <span class="org-elixir-atom">name:</span> <span class="org-string">"Max"</span>, <span class="org-elixir-atom">password:</span> <span class="org-string">"asecret"</span>})
+</pre>
+</div></li>
+</ol></li>
+
+<li>Check point02<br>
+<ul class="org-ul">
+<li><p>
+To fix already existing user to make them have valid password<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">recompile()
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Repo</span>
+
+<span class="org-keyword">for</span> u &lt;- <span class="org-type">Repo</span>.all(<span class="org-type">User</span>) <span class="org-keyword">do</span> 
+    <span class="org-type">Repo</span>.update!(<span class="org-type">User</span>.registration_changeset(u, %{<span class="org-elixir-atom">password:</span> <span class="org-string">"gghh3344"</span>}))
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li></li>
+</ul></li>
+</ul></li>
+
+<li>Check point03<br>
+<ol class="org-ol">
+<li>At this point, all users shall meet the requirement: new user registration need to have passworld.<br></li>
+<li>In Account module, use User module&rsquo;s registration changeset. (model)<br></li>
+<li>In user<sub>controller</sub>, use exposed function from Account module.<br></li>
+<li>Modify new user html to provide slot for pasword. (view)<br></li>
+</ol></li>
+
+<li>Check point04<br>
+Check if there is a new user in the session and store it in <code>conn.assigns</code> for every incoming request. In other words, we need to prevent user to access certain action when there is no session record.<br>
+<ul class="org-ul">
+<li>loading data from session<br></li>
+<li>use it to restric user access<br></li>
+</ul></li>
+
+<li>Check point05<br>
+Add a mechanism to log the users in.<br>
+<ul class="org-ul">
+<li>create login function in auth.ex<br>
+<ul class="org-ul">
+<li>assigns current user<br></li>
+<li>put session and configuration<sub>session</sub> to reuse.<br></li>
+</ul></li>
+<li>use login function in user controller<br></li>
+</ul></li>
+</ul>
+
+
+<ul class="org-ul">
+<li><p>
+Problem01<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-text">lib/rumbl/accounts.ex:48: Users.__struct__/1 is undefined, cannot expand struct Users. Make sure the struct name is correct. If the struct name exists and is correct but it still cannot be found, you likely have cyclic module usage in your code
+</pre>
+</div>
+<ul class="org-ul">
+<li>When I add a new user, it shows this.<br></li>
+<li>Following error message, I could solve this: there is a typo in accounts.ex which I use <code>%Users{}</code> instead of should use <code>%User{}</code>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0699149" class="outline-3">
+<h3 id="org0699149"><span class="section-number-3">40.5.</span> 03-02</h3>
+<div class="outline-text-3" id="text-40-5">
+<ul class="org-ul">
+<li>Check Point 01<br>
+<ul class="org-ul">
+<li>Expose a function to validate username and password.<br></li>
+<li>Use RESTful session API for<br>
+<ul class="org-ul">
+<li>GET for new session login form<br></li>
+<li>POST for login<br></li>
+<li>DELETE for logout<br></li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+<ul class="org-ul">
+<li>Check Point 02<br>
+<ul class="org-ul">
+<li>Change the layout of the application to handle the new user features<br></li>
+</ul></li>
+
+<li>Problem01<br>
+<ul class="org-ul">
+<li><p>
+When I go home to execute steps from check point02. I got error:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-text">iex(3)&gt; for u &lt;- Repo.all(User) do 
+    Repo.update!(User.registration_changeset(u, %{password: "tmppass"}))
+end
+...(3)&gt; ...(3)&gt; ** (Protocol.UndefinedError) protocol Ecto.Queryable not implemented for User of type Atom, the given module does not exist. This protocol is implemented for the following type(s): Atom, BitString, Ecto.Query, Ecto.SubQuery, Tuple
+    (ecto 3.7.1) lib/ecto/queryable.ex:40: Ecto.Queryable.Atom.to_query/1
+    (ecto 3.7.1) lib/ecto/repo/queryable.ex:16: Ecto.Repo.Queryable.all/3
+</pre>
+</div>
+<ul class="org-ul">
+<li>Here, I forgot to refer User as <code>alias Rumbl.Accounts.User</code>. After execute <code>alias Rumbl.Accounts.User</code>. The problem solved.<br></li>
+</ul></li>
+</ul></li>
+
+<li>What is the differences between pipeline and plugs?<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org11e329e" class="outline-3">
+<h3 id="org11e329e"><span class="section-number-3">40.6.</span> 03-04</h3>
+<div class="outline-text-3" id="text-40-6">
+<ol class="org-ol">
+<li>What is user registration<br>
+<ul class="org-ul">
+<li>Apply changeset to Repo user.<br></li>
+<li>User has username and password<br></li>
+</ul></li>
+<li>What happended when user do a registration<br>
+<ul class="org-ul">
+<li>We create a <code>new(conn, _params_)</code> in our controller to handle the get request to our url <code>/users/new</code>.<br>
+<ul class="org-ul">
+<li>In which we use <code>Accounts.change_registration</code> which is an wrapper for <code>user.registration_changeset</code>.<br>
+<ul class="org-ul">
+<li>In which the user&rsquo;s params like username, passoword are validate by changeset and applyied with <code>put_change</code>.<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li>What is the differences between <code>new</code> and <code>create</code> from user<sub>controller.ex</sub><br>
+<ul class="org-ul">
+<li><code>new</code> is used in controller to handle request to <code>/users/new</code>, it is used for rendering the form.<br></li>
+<li><code>create</code> is used in form <code>Routes.user_path(@conn, :create)</code>, it is used for submiting the form.<br></li>
+</ul></li>
+<li>What is login for a user<br>
+<ul class="org-ul">
+<li>A user is login when the session contains the user&rsquo;s username.<br></li>
+</ul></li>
+<li>How to implement authentication feature (login and logout)<br>
+<ul class="org-ul">
+<li>We implement authentication as a plug. So, we can add it to a plug pipeline for our router.<br></li>
+<li>There are two kinds of plugs, one is function plugs and another is module plugs. When to prefer module plug over function plug?<br>
+<ul class="org-ul">
+<li>When we want to share a plug across more than one module.<br></li>
+</ul></li>
+<li><p>
+In module plug, there are two methods matters:<br>
+</p>
+<ul class="org-ul">
+<li>init<br></li>
+<li>call<br>
+<ul class="org-ul">
+<li>its second argument is the result of <code>init</code>.<br></li>
+<li>its first argument is the <code>conn</code> which is <code>Plug.Conn</code> struct.<br></li>
+</ul></li>
+</ul>
+<p>
+So, we need to import <code>import Plug.Conn</code>.<br>
+</p></li>
+<li>The plug for authentication implementation:<br>
+<ul class="org-ul">
+<li>Store the user ID in the session every time a user registers or a user login.<br></li>
+<li>Check if there is a new user in the session and store it in the conn.assign for every incoming request.<br>
+<ul class="org-ul">
+<li>Do this in our plug <code>call</code>.<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgd557776" class="outline-3">
+<h3 id="orgd557776"><span class="section-number-3">40.7.</span> 03-05</h3>
+<div class="outline-text-3" id="text-40-7">
+<ol class="org-ol">
+<li>What is a context?<br>
+<ul class="org-ul">
+<li>A context in Phoenix is just a module that groups functions with a shared purpose.<br></li>
+<li>A context encapsulates all business logic for a common purpose.<br></li>
+<li>This way, we can interact with our business logic from controllers, channels, or remote APIs, <b>without</b> having to duplicate code.<br></li>
+<li>In other words, a controller exists to work with context functions.<br></li>
+<li>A controller parses end user requests, calls context functions, and translates those results into something the end user can understand. In other words, <b>the controller&rsquo;s job is to translate whatever our business logic returns into something meaningfull for the user</b>.<br></li>
+<li>The context doesn&rsquo;t know about the controller, and the controller doesn&rsquo;t know about the business rules.<br></li>
+<li>When build a context, think about the way of how the context is available to the controller.<br></li>
+</ul></li>
+
+<li>How to make a function plug available across controller and views?<br>
+<ul class="org-ul">
+<li><p>
+In <code>rumbl_web.ex</code> import the plug function in both controller and router<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">def</span> <span class="org-function-name">router</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">quote</span> <span class="org-keyword">do</span>
+    <span class="org-keyword">use</span> <span class="org-type">Phoenix.Router</span>
+    ...
+    <span class="org-keyword">import</span> <span class="org-type">RumblWeb.Auth</span>, <span class="org-elixir-atom">only:</span> [<span class="org-elixir-atom">authenticate_user:</span> <span class="org-elixir-number">2</span>]
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+<span class="org-keyword">def</span> <span class="org-function-name">controller</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">quote</span> <span class="org-keyword">do</span>
+    <span class="org-keyword">use</span> <span class="org-type">Phoenix.Controller</span>, <span class="org-elixir-atom">namespace:</span> <span class="org-type">RumblWeb</span>
+    ...
+    <span class="org-keyword">import</span> <span class="org-type">RumblWeb.Auth</span>, <span class="org-elixir-atom">only:</span> [<span class="org-elixir-atom">authenticate_user:</span> <span class="org-elixir-number">2</span>]
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>Where the <code>2</code> is the number of arguments expected by the <code>authenticate_user</code>.<br></li>
+</ul></li>
+</ul></li>
+
+<li>What is the relationship between view and templates<br>
+<ul class="org-ul">
+<li>A view pick all its corresponding templates and transform them into functions.<br></li>
+<li>If a view is <code>rumbl_web/view/video_view.ex</code>, then the templates are located at <code>rumbl_web/templates/video/</code>.<br></li>
+</ul></li>
+
+<li><p>
+How to find a video&rsquo;s associated user without creating the bundling data:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">query</span> = <span class="org-type">Ecto</span>.assoc(video, <span class="org-elixir-atom">:user</span>)
+<span class="org-type">Repo</span>.one(query)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice, here we avoid including a complete user info into video to find out this answer.<br></li>
+</ul></li>
+<li>When building relationship between module, we generally to avoid having cyclic dependencies. That is, prefer the one-way relationship. Here, the Video schema depends on User.<br></li>
+
+<li>How to use query to restrict CRUD operation of Video are limited to current user?<br></li>
+
+<li>Problems<br>
+<ul class="org-ul">
+<li><p>
+`Rumbl.Multimedia.Video` that was not loaded when try to associate a video with a user<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">{<span class="org-elixir-atom">:ok</span>, video} = <span class="org-type">Rumbl.Multimedia</span>.create_video(%{<span class="org-elixir-atom">title:</span> <span class="org-string">"new video"</span>, <span class="org-elixir-atom">url:</span> <span class="org-string">"http://example.com"</span>,
+
+<span class="org-keyword">alias</span> <span class="org-type">Ecto.Changeset</span>
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Repo</span>
+
+<span class="org-variable-name">user</span> = <span class="org-type">Rumbl.Accounts</span>.get_user_by(<span class="org-elixir-atom">username:</span> <span class="org-string">"zhaowei"</span>)
+<span class="org-variable-name">changeset</span> = video |&gt; <span class="org-type">Changeset</span>.change() |&gt; <span class="org-type">Changeset</span>.put_assoc(<span class="org-elixir-atom">:user</span>, user)
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+Error message<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-text">** (RuntimeError) attempting to cast or change association `user` from `Rumbl.Multimedia.Video` that was not loaded. Please preload your associations before manipulating them through changesets
+</pre>
+</div>
+<ul class="org-ul">
+<li>The error message says the Video.user is not loaded.<br></li>
+</ul></li>
+
+<li><p>
+Solution, we need to preload it:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">video</span> = <span class="org-type">Rumbl.Repo</span>.preload(video, <span class="org-elixir-atom">:user</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li>The <code>preload</code> accepts one name or a collection of association names. After Ecto tries to fetch the association, we can reference the video.user. It is great for boundling data (we include a complete user info into the video).<br></li>
+<li>Now, we could do the associate now.<br></li>
+</ul></li>
+<li><p>
+At last, don&rsquo;t forget to make changeset take effect<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">video</span> = <span class="org-type">Repo</span>.update!(changeset)
+<span class="org-comment-delimiter"># </span><span class="org-comment">check user binded to that video</span>
+video.user
+</pre>
+</div></li>
+<li><p>
+The above shows the steps to create an association between video and user. We could also do the following without the <code>put_assoc</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-variable-name">video</span> = video
+|&gt; <span class="org-type">Changeset</span>.change()
+|&gt; <span class="org-type">Changeset</span>.put_change(<span class="org-elixir-atom">:user_id</span>, user.id)
+|&gt; <span class="org-type">Repo</span>.update!()
+
+<span class="org-variable-name">video</span> = <span class="org-type">Repo</span>.preload(video, <span class="org-elixir-atom">:user</span>)
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc796835" class="outline-3">
+<h3 id="orgc796835"><span class="section-number-3">40.8.</span> 03-06</h3>
+<div class="outline-text-3" id="text-40-8">
+<ol class="org-ol">
+<li><p>
+What is context generator<br>
+Currently, we have met the following kind of generators<br>
+</p>
+<ol class="org-ol">
+<li>mix.ecto.gen.migration, generate only migration files<br></li>
+<li>mix phx.gen.html, generate migrations, schemas, context, as well as controllers, views, and templates.<br></li>
+<li>mix phx.gen.context,useful for generating a resource with all of its context function.<br></li>
+<li>mix phx.gen.schema, useful for creating a resource when we want to define the context functions by ourselves.<br></li>
+</ol>
+
+<p>
+For more information, type <code>mix help GENERATOR_NAME</code> in the terminal.<br>
+</p></li>
+
+<li><p>
+How to add category into existing video?<br>
+</p>
+<ol class="org-ol">
+<li><p>
+We choose to use <code>mix phx.gen.schema</code> to generate schema.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix phx.gen.schema Multimedia.Category categories name:string
+</pre>
+</div>
+<ul class="org-ul">
+<li>We choose this because we probably don&rsquo;t need most of the generated context function.<br></li>
+<li>It produces two related files<br>
+<ul class="org-ul">
+<li><code>category.ex</code><br></li>
+<li><code>xxx_create_categories.exs</code>. This file contains the migration which will create tables in db.<br></li>
+</ul></li>
+</ul></li>
+<li>Edit the generated migration file to fit our need.<br>
+<ul class="org-ul">
+<li>Edit the &ldquo;name&rdquo; field as NOT NULL and create a unique index for it.<br></li>
+<li>At this stage, we also edit the corresponding video schema from Video.ex to create a belongs-to relationship.<br></li>
+</ul></li>
+<li><p>
+Use <code>mix ecto.gen.migration</code> to generate a migration to add the category<sub>id</sub> to our video table.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix ecto.gen.migration add_category_id_to_video
+</pre>
+</div>
+<ul class="org-ul">
+<li>This command generate a migration with empty content left for us to fill.<br></li>
+<li><p>
+Define the database contraint between videos and categories.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Rumbl.Repo.Migrations.AddCategoryIdToVideo</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Ecto.Migration</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">change</span> <span class="org-keyword">do</span>
+    alter table(<span class="org-elixir-atom">:videos</span>) <span class="org-keyword">do</span>
+      add <span class="org-elixir-atom">:category_id</span>, references(<span class="org-elixir-atom">:categories</span>)
+    <span class="org-keyword">end</span>
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+</ul></li>
+<li><p>
+Finally, migrate our database with our new migrations.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix ecto.migrate
+</pre>
+</div></li>
+</ol>
+
+<p>
+In general, we defines two migrations, one is to create categories table, another is to add the constrains on the existing video table.<br>
+</p></li>
+
+<li>How to regret a just did migration?<br>
+<ul class="org-ul">
+<li>We could use <code>mix ecto.rollback</code> to migration down.<br></li>
+<li>For example, we just did some migration. But we found we need to add an extra field for our just created table.<br></li>
+<li>We could use <code>mix ecto.rollback</code> to revert the migration. Edit the change, then do <code>mix ecto.migrate</code> to apply the changes.<br></li>
+</ul></li>
+<li>Seeding and associating categories<br>
+<ul class="org-ul">
+<li>How to use script to populate our data while maintain database constrains<br></li>
+<li>How to associate videos and categories<br>
+<ul class="org-ul">
+<li>Fetch all categories name and IDs from db.<br></li>
+<li>Sort them by name<br></li>
+<li>Pass them into view as &ldquo;select&rdquo; input.<br></li>
+</ul></li>
+</ul></li>
+<li>Problem: my categories currently don&rsquo;t have unique value even when I already specify the unique contraint from schema.<br>
+<ul class="org-ul">
+<li><p>
+The way I created table categories using migration<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Rumbl.Repo.Migrations.RecreateCategory</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Ecto.Migration</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">change</span> <span class="org-keyword">do</span>
+    create table(<span class="org-elixir-atom">:categories</span>) <span class="org-keyword">do</span>
+      add <span class="org-elixir-atom">:name</span>, <span class="org-elixir-atom">:string</span>, <span class="org-elixir-atom">null:</span> <span class="org-elixir-atom">false</span>
+
+      timestamps()
+    <span class="org-keyword">end</span>
+
+    create unique_index(<span class="org-elixir-atom">:categories</span>, [<span class="org-elixir-atom">:name</span>])
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+
+<li>The way how I add Category using changeset<br>
+<ul class="org-ul">
+<li><p>
+In multimedia.ex<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">alias</span> <span class="org-type">Rumbl.Multimedia.Category</span>
+
+<span class="org-keyword">def</span> <span class="org-function-name">create_category!</span>(name) <span class="org-keyword">do</span>
+  <span class="org-type">%Category</span>{}
+  |&gt; <span class="org-type">Category</span>.changeset(%{<span class="org-elixir-atom">name:</span> name})
+
+  <span class="org-type">Repo</span>.insert!(<span class="org-type">%Category</span>{<span class="org-elixir-atom">name:</span> name}, <span class="org-elixir-atom">on_conflict:</span> <span class="org-elixir-atom">:nothing</span>)
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+
+<li><p>
+In category.ex<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Rumbl.Multimedia.Category</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Ecto.Schema</span>
+
+  <span class="org-keyword">import</span> <span class="org-type">Ecto.Changeset</span>
+  <span class="org-keyword">import</span> <span class="org-type">Ecto.Query</span>
+
+  schema <span class="org-string">"categories"</span> <span class="org-keyword">do</span>
+    field <span class="org-elixir-atom">:name</span>, <span class="org-elixir-atom">:string</span>
+
+    timestamps()
+  <span class="org-keyword">end</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">changeset</span>(category, attrs) <span class="org-keyword">do</span>
+    category
+    |&gt; cast(attrs, [<span class="org-elixir-atom">:name</span>])
+    |&gt; validate_required([<span class="org-elixir-atom">:name</span>])
+    |&gt; unique_constraint(<span class="org-elixir-atom">:name</span>)    
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgc04057e" class="outline-3">
+<h3 id="orgc04057e"><span class="section-number-3">40.9.</span> 03-07</h3>
+<div class="outline-text-3" id="text-40-9">
+<ul class="org-ul">
+<li>How to delete all created categories<br>
+<ul class="org-ul">
+<li>Currently, there are multiple duplicated values. I plan to delete all of them and create some values.<br></li>
+<li><p>
+Delete existing categories<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">alias</span> <span class="org-type">Rumbl.Repo</span>
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Multimedia.Category</span>
+
+<span class="org-keyword">import</span> <span class="org-type">Ecto.Query</span>, <span class="org-elixir-atom">only:</span> [<span class="org-elixir-atom">from:</span> <span class="org-elixir-number">2</span>]
+
+<span class="org-variable-name">query</span> = <span class="org-type">Category</span>
+<span class="org-type">Rumbl.Repo</span>.delete_all(<span class="org-type">Category</span>)
+</pre>
+</div></li>
+<li><p>
+Populate category<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">alias</span> <span class="org-type">Rumbl.Multimedia</span>
+
+<span class="org-keyword">for</span> category &lt;- <span class="org-builtin">~w</span>(<span class="org-string">Action Drama Romance Comedy Sci-fi</span>) <span class="org-keyword">do</span>
+  <span class="org-type">Multimedia</span>.create_category!(category)
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+<li><p>
+Why my changeset doesn&rsquo;t impose constraint?<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">import</span> <span class="org-type">Ecto.Changeset</span>
+
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Repo</span>
+
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Multimedia.Video</span>
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Multimedia.Category</span>
+
+<span class="org-keyword">def</span> <span class="org-function-name">create_category!</span>(name) <span class="org-keyword">do</span>
+  <span class="org-type">%Category</span>{}
+  |&gt; create_category_changeset(%{<span class="org-elixir-atom">name:</span> name})
+  <span class="org-type">Repo</span>.insert!(<span class="org-type">%Category</span>{<span class="org-elixir-atom">name:</span> name}, <span class="org-elixir-atom">on_conflict:</span> <span class="org-elixir-atom">:nothing</span>)
+<span class="org-keyword">end</span>
+
+<span class="org-keyword">def</span> <span class="org-function-name">create_category_changeset</span>(category, attrs) <span class="org-keyword">do</span>
+  category
+  |&gt; cast(attrs, [<span class="org-elixir-atom">:name</span>])
+  |&gt; validate_required([<span class="org-elixir-atom">:name</span>])
+  |&gt; unique_constraint(<span class="org-elixir-atom">:name</span>)
+<span class="org-keyword">end</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li><p>
+Test it with<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">alias</span> <span class="org-type">Rumbl.Multimedia</span>
+<span class="org-type">Multimedia</span>.create_category!(<span class="org-string">"Action"</span>)
+
+<span class="org-keyword">alias</span> <span class="org-type">Rumbl.Multimedia.Category</span>
+<span class="org-type">Multimedia</span>.create_category_changeset(<span class="org-type">%Category</span>{}, %{<span class="org-elixir-atom">name:</span> <span class="org-string">"Action"</span>})
+</pre>
+</div>
+<ul class="org-ul">
+<li>It should shows false, but the valid is true&#x2026;<br></li>
+</ul></li>
+</ul></li>
+</ul></li>
+
+<li>How to delete the category table and create it again?<br>
+<ul class="org-ul">
+<li>ref: <a href="https://elixirforum.com/t/how-to-delete-drop-table/40018/6">How to delete/drop table?</a><br></li>
+<li>Steps<br>
+<ol class="org-ol">
+<li><p>
+Generate a migration<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix ecto.gen.migration drop_category
+</pre>
+</div>
+<ul class="org-ul">
+<li>This command will contain a <code>change</code> function. By adding our custom logic into that <code>change</code> function, we could apply custom changes.<br></li>
+</ul></li>
+<li><p>
+Add change function to the migration<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Rumbl.Repo.Migrations.DropCategory</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Ecto.Migration</span>
+
+  <span class="org-keyword">def</span> <span class="org-function-name">change</span> <span class="org-keyword">do</span>
+    drop table(<span class="org-string">"categories"</span>), <span class="org-elixir-atom">mode:</span> <span class="org-elixir-atom">:cascade</span>
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+<li><p>
+Apply those changes<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix ecto.migrate
+</pre>
+</div></li>
+</ol></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org21c7cf6" class="outline-3">
+<h3 id="org21c7cf6"><span class="section-number-3">40.10.</span> 03-10</h3>
+<div class="outline-text-3" id="text-40-10">
+<ul class="org-ul">
+<li>After we define our model using schema, how migration understand that model?<br>
+<ul class="org-ul">
+<li>It doesn&rsquo;t. We have to define the migration content by ourselves.<br></li>
+<li>For example:<br>
+<ul class="org-ul">
+<li><p>
+In our account/user.ex, we defined the following models<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir"><span class="org-keyword">defmodule</span> <span class="org-type">Rumbl.Accounts.User</span> <span class="org-keyword">do</span>
+  <span class="org-keyword">use</span> <span class="org-type">Ecto.Schema</span>
+  <span class="org-keyword">import</span> <span class="org-type">Ecto.Changeset</span>
+
+  schema <span class="org-string">"users"</span> <span class="org-keyword">do</span>
+    field(<span class="org-elixir-atom">:name</span>, <span class="org-elixir-atom">:string</span>)
+    field(<span class="org-elixir-atom">:username</span>, <span class="org-elixir-atom">:string</span>)
+    timestamps()
+  <span class="org-keyword">end</span>
+<span class="org-keyword">end</span>
+</pre>
+</div></li>
+<li>mix ecto.gen.migration create<sub>users</sub><br>
+<ul class="org-ul">
+<li>This will generate migration file named like: creating priv/repo/migrations/20180315023132<sub>create</sub><sub>users.exs</sub><br></li>
+</ul></li>
+<li>In that create<sub>users.exs</sub>, the change is empty. We have to define how to operation the database.<br>
+So, we have to define how to create table, create attributes, and create indexes.<br></li>
+<li>At last, we use <code>mix ecto.migrate</code> to migrate up the database.<br></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbba06ee" class="outline-3">
+<h3 id="orgbba06ee"><span class="section-number-3">40.11.</span> 03-12</h3>
+<div class="outline-text-3" id="text-40-11">
+<ul class="org-ul">
+<li>How the test cases could know our helper functions?<br>
+<ul class="org-ul">
+<li>We define our helper functions in Rumbl.TestHelpers module.<br></li>
+<li>We then import them globally in Rumbl.DataCase module in <code>test/support/data_case.ex</code>.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgeb12fec" class="outline-3">
+<h3 id="orgeb12fec"><span class="section-number-3">40.12.</span> 03-18</h3>
+<div class="outline-text-3" id="text-40-12">
+<ul class="org-ul">
+<li>How to drop a entire dev database and recreate all associated tables?<br>
+<ol class="org-ol">
+<li>mix ecto.drop rumbl<sub>dev</sub> &#x2013;force-drop<br></li>
+<li>mix ecto.create<br></li>
+<li>mix ecto.migrations (Use this command to check the current migrations available.)<br></li>
+<li>mix ecto.migrate<br></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org19e0021" class="outline-3">
+<h3 id="org19e0021"><span class="section-number-3">40.13.</span> 03-19</h3>
+<div class="outline-text-3" id="text-40-13">
+<ul class="org-ul">
+<li>How the js code in <code>assets/js</code> folder are available to the pages(template)<br></li>
+<li>See, chapter10<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf9dcd4c" class="outline-3">
+<h3 id="orgf9dcd4c"><span class="section-number-3">40.14.</span> 03-21</h3>
+<div class="outline-text-3" id="text-40-14">
+<ul class="org-ul">
+<li><p>
+How to quickly generate model (including schema and database change migration)<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">mix phx.gen.schema Multimedia.Annotation annotations <span class="org-sh-escaped-newline">\</span>
+    body:text at:integer <span class="org-sh-escaped-newline">\</span>
+    user_id:references:users <span class="org-sh-escaped-newline">\</span>
+    video_id:references:videos
+</pre>
+</div>
+<ul class="org-ul">
+<li>This command is create model annotation which including 4 fields<br>
+<ul class="org-ul">
+<li>body<br></li>
+<li>at<br></li>
+<li>user<sub>id</sub><br></li>
+<li>video<sub>id</sub><br></li>
+</ul></li>
+<li>The result of running this command are two files one is migration<sub>change</sub>. Another is annotation.ex file which changeset and schema.<br></li>
+<li><b>Notice</b>, the schema here doesn&rsquo;t wire annotation with user or video.<br></li>
+<li>To bind relationship between annotation with user and video. We need to do it with manually with careful decision.<br></li>
+<li><b>Don&rsquo;t forgot</b> to modify the corresponding video or user&rsquo;s schema to make space for annotation.<br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org53b0f6a" class="outline-2">
+<h2 id="org53b0f6a"><span class="section-number-2">41.</span> Some notes</h2>
+<div class="outline-text-2" id="text-41">
+<ul class="org-ul">
+<li>Always keep in mind that a Boolean is just an atom that has a value of true or false.<br></li>
+<li>short-circuit operators: <code>||</code>, <code>&amp;&amp;</code>, <code>!</code>.<br>
+<ul class="org-ul">
+<li><code>||</code> returns the first expression that isn&rsquo;t falsy.<br>
+<ul class="org-ul">
+<li><p>
+Use for like<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elixir">read_cache || read_from_disk || read_from_database
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
+</div>
+</footer>
+</body>
+</html>

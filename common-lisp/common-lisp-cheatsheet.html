@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Common-lisp Cheatsheet</title>
+<meta name="author" content="Zhao Wei" />
+<meta name="generator" content="Org Mode" />
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="intro">
+  <img
+    src="/images/Lisplogo_alien_256.png"
+    alt="Land of Lisp"
+    class="no-border"
+  />
+  <h1>
+    <span class="gray">Zhao</span>
+    <span class="black">Wei</span>
+  </h1>
+  <p>
+    How can man die better than facing fearful odds, for the ashes of his
+    fathers and the temples of his Gods? -- By Horatius.
+  </p>
+</div>
+
+<div class="nav">
+  <ul>
+    <li><a href="/">Posts</a>.</li>
+    <li><a href="/about/">About</a>.</li>
+  </ul>
+</div>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Common-lisp Cheatsheet</h1>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgd360d5b">1. Introduction</a></li>
+<li><a href="#orgf0a990b">2. Basic data structure</a>
+<ul>
+<li><a href="#org88dc287">2.1. Array</a></li>
+<li><a href="#org0488075">2.2. Vector as one-dimensional array (its size is <b>FIXED</b>)</a></li>
+<li><a href="#org3cae18f">2.3. Dynamic array</a></li>
+<li><a href="#orgf3ca1e8">2.4. Dynamic 2D array</a></li>
+<li><a href="#org4fce375">2.5. List</a></li>
+<li><a href="#orgd287663">2.6. Sequence</a></li>
+<li><a href="#org47be2c6">2.7. String and Characters</a></li>
+<li><a href="#org2620666">2.8. Hashtable(Map)</a></li>
+<li><a href="#org0c9201c">2.9. Struct</a></li>
+<li><a href="#org8a37fc2">2.10. Class</a></li>
+</ul>
+</li>
+<li><a href="#org5572689">3. HOWTOs</a>
+<ul>
+<li><a href="#org1d6a105">3.1. How to execute a function from <code>.lisp</code> file on terminal?</a></li>
+<li><a href="#org7e1393c">3.2. How to check equality?</a></li>
+<li><a href="#org64b103b">3.3. How to return multiple values?</a></li>
+<li><a href="#org733b13a">3.4. How to loop over a given list?</a></li>
+<li><a href="#orgd7fefc4">3.5. How to loop over a given vector?</a></li>
+<li><a href="#org20c7f20">3.6. How to loop over array?</a></li>
+<li><a href="#orgb00b3ad">3.7. How to process string?</a></li>
+<li><a href="#org0929f6c">3.8. How to sort array?</a></li>
+<li><a href="#org0cde7ba">3.9. How to sort map by its key?</a></li>
+<li><a href="#org409e563">3.10. How to add one element to the head of list?</a></li>
+<li><a href="#orga5d6404">3.11. How to append elements to the end of a list?</a></li>
+<li><a href="#org2cddb02">3.12. How to append elements to vector?</a></li>
+<li><a href="#orgfe99715">3.13. How to convert list to vector and vector to list?</a></li>
+<li><a href="#orgbba5f4e">3.14. How to concatenate sequence?</a></li>
+<li><a href="#orgd1e480f">3.15. How to slice a sequence then concatenate the result with other sequence?</a></li>
+<li><a href="#org8091715">3.16. How to create a copy of sequence?</a></li>
+<li><a href="#org6ec7d4c">3.17. How to map over vector?</a></li>
+<li><a href="#orgc580305">3.18. How to do tail-recusive Fib?</a></li>
+<li><a href="#orgedd56b4">3.19. How to implement queue using list?</a></li>
+<li><a href="#org9b0906f">3.20. How to generate a sequence from x to y with step z?</a></li>
+<li><a href="#org666a350">3.21. How to read file line by line</a></li>
+<li><a href="#org52700b5">3.22. How to replace a part of sequence other sequence</a></li>
+</ul>
+</li>
+<li><a href="#orgf1e65f5">4. Be careful</a></li>
+<li><a href="#org7657742">5. Practise using leetcode problems</a></li>
+</ul>
+</div>
+</nav>
+
+
+<section id="outline-container-orgd360d5b" class="outline-2">
+<h2 id="orgd360d5b"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This document is my note for using Common-Lisp(CL) to solve leetcode problems. It covers very basic usage of CL to solve algorithm tasks.<br>
+</p>
+</div>
+</section>
+
+<section id="outline-container-orgf0a990b" class="outline-2">
+<h2 id="orgf0a990b"><span class="section-number-2">2.</span> Basic data structure</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org88dc287" class="outline-3">
+<h3 id="org88dc287"><span class="section-number-3">2.1.</span> Array</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Createa one-dimentional array. </span>
+(setf myarray (make-array '(5))) <span class="org-comment">; createed a one dimensional array with length 5</span>
+(setf myarray (make-array '5 <span class="org-builtin">:initial-element</span> 10)) <span class="org-comment">; created a one dimensional array with length 5 and inital value is 10. When the dimension is one, we could just use one integer to specify instead of a list of one element.</span>
+(setf myarray (make-array '(3) <span class="org-builtin">:initial-contents</span> '(1 2 3))) <span class="org-comment">; created a one dimensional array with length 3 and filled it with 1, 2, and 3.</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Create array with multiple dimensions</span>
+(setf myarray (make-array '(4 3) <span class="org-builtin">:initial-element</span> -1)) <span class="org-comment">; created a two dimensional array with row = 4, and column is 3</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0488075" class="outline-3">
+<h3 id="org0488075"><span class="section-number-3">2.2.</span> Vector as one-dimensional array (its size is <b>FIXED</b>)</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+To convoniently create one-dimensional array, we use <code>vector</code>:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">A simple vector is a simple array of one dimension that can contain elements of any type.</span>
+(vector 1 <span class="org-string">"zw"</span> 'b)
+(setf myvec (vector 1 2 3))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">access vector element</span>
+(aref myvec 1)
+(svref myvec 0) <span class="org-comment">; faster</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>It consistutes the type <code>vector</code> which is a subtype of <code>array</code>.<br></li>
+<li>While it takes O(1) to access element in vector, it takes O(n) to add a new element to the front of a vector.<br></li>
+<li>To create vector that could be extended, we <b>must</b> use array construct. See <a href="#org3cae18f">dynamic array</a>.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3cae18f" class="outline-3">
+<h3 id="org3cae18f"><span class="section-number-3">2.3.</span> Dynamic array</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Create dynamic array: </span>
+(setf myarray (make-array 0 <span class="org-builtin">:fill-pointer</span> 0 <span class="org-builtin">:adjustable</span> t)) <span class="org-comment">; created a one dimentional array with size 0</span>
+(vector-push-extend 100 myarray)
+(vector-push-extend 101 myarray)
+myarray
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>adjustable</code> make our array&rsquo;s capacity increase if it is enough.<br></li>
+<li>The fill pointer is a non-negative integer no larger than the total number of elements in the vector (as returned by array-dimension); it is the number of ``active&rsquo;&rsquo; or ``filled-in&rsquo;&rsquo; elements in the vector.<br></li>
+<li>Only vectors (one-dimensional arrays) may have fill pointers.<br></li>
+</ul>
+
+<table>
+
+
+<colgroup>
+<col  class="org-right">
+
+<col  class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">100</td>
+<td class="org-right">101</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgf3ca1e8" class="outline-3">
+<h3 id="orgf3ca1e8"><span class="section-number-3">2.4.</span> Dynamic 2D array</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">How to create dynamic 2D array: means each row can have different number of elements</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">make-row-resizeable-array</span> (rows max-columns)
+  (make-array rows
+              <span class="org-builtin">:initial-contents</span> (<span class="org-keyword">loop</span> for i from 0 below rows
+                                     collect (make-array max-columns <span class="org-builtin">:fill-pointer</span> 0))))
+
+(<span class="org-keyword">let</span> ((array (make-row-resizeable-array 6 5)))
+  (vector-push 'x (aref array 2))
+  (vector-push 'y (aref array 2))
+  (vector-push 'z (aref array 2))
+  (vector-push 'a (aref array 3))
+  (vector-push 'b (aref array 3))
+  (<span class="org-keyword">let</span> ((row 3)
+        (col 1))
+    (aref (aref array row) col)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4fce375" class="outline-3">
+<h3 id="org4fce375"><span class="section-number-3">2.5.</span> List</h3>
+</div>
+
+<div id="outline-container-orgd287663" class="outline-3">
+<h3 id="orgd287663"><span class="section-number-3">2.6.</span> Sequence</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Sequence is include both list and one-dimensional array(vector).<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf myarr (make-array 0 <span class="org-builtin">:adjustable</span> t <span class="org-builtin">:fill-pointer</span> 0))
+(<span class="org-keyword">dotimes</span> (i 5)
+  (vector-push-extend i myarr))
+
+(setf myvec (vector 0 1 2 3 4))
+(setf mylst (list 0 1 2 3 4))
+
+myarr
+myvec
+mylst
+
+(length myarr)
+(length myvec)
+(length mylst)
+
+(reverse myarr)
+(reverse myvec)
+(reverse mylst)
+
+(setf myarr02 (subseq myarr 3))
+myarr02
+myarr <span class="org-comment">; not changed</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">setf with subset to replace subseq in sequence</span>
+(setf (subseq myvec 3 5) #(-1 -2 -3 -4 -5))
+myvec <span class="org-comment">; =&gt; #(0 1 2 -1 -2) notice the additional values are cut off.</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org47be2c6" class="outline-3">
+<h3 id="org47be2c6"><span class="section-number-3">2.7.</span> String and Characters</h3>
+<div class="outline-text-3" id="text-2-7">
+<ul class="org-ul">
+<li>Strings are vectors of characters.<br></li>
+<li>Because strings are vectors, both sequence functions and array functions work on them.<br></li>
+<li>A single char &rsquo;x&rsquo; is denoted as <code>#\x</code>.<br></li>
+<li><p>
+Examples<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">build string</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">1) the most general way is to use format</span>
+(setf str (format nil <span class="org-string">"~A or ~A"</span> <span class="org-string">"true"</span> <span class="org-string">"false"</span>))
+<span class="org-comment-delimiter">;; </span><span class="org-comment">2) join several strings together</span>
+(setf str01 (concatenate 'string str <span class="org-string">" is not a question"</span>))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">a function which get the second word from a sentence</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">second-word</span> (str)
+  (<span class="org-keyword">let</span> ((p1 (+ (position #\  str) 1)))
+    (<span class="org-keyword">if</span> (char= #\ (char str p1)) <span class="org-comment">; char is faster than aref for string </span>
+        (second-word (subseq str (1+ p1)))
+        (subseq str p1 (position #\  str <span class="org-builtin">:start</span> p1)))))
+(second-word <span class="org-string">"one   two  tree."</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>char</code><br></li>
+<li><code>char=</code><br></li>
+<li><code>position</code><br></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2620666" class="outline-3">
+<h3 id="org2620666"><span class="section-number-3">2.8.</span> Hashtable(Map)</h3>
+<div class="outline-text-3" id="text-2-8">
+<ol class="org-ol">
+<li><p>
+create hashtable, create key and values<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">How to create an empty map?</span>
+(<span class="org-keyword">let</span> ((ht (make-hash-table)))
+  (<span class="org-keyword">multiple-value-bind</span> (val ok) (gethash <span class="org-string">"zw"</span> ht)
+    (<span class="org-keyword">if</span> (not ok)
+        (format t <span class="org-string">"no record~%"</span>)
+        (format t <span class="org-string">"val: ~A~%"</span> val))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">How to add element into map?</span>
+(<span class="org-keyword">let</span> ((ht (make-hash-table)))
+  (setf (gethash 'zw ht) <span class="org-string">"pdbh"</span>)
+  (<span class="org-keyword">multiple-value-bind</span> (val ok) (gethash 'zw ht)
+    (<span class="org-keyword">if</span> (not ok)
+        (format t <span class="org-string">"no record~%"</span>)
+        (format t <span class="org-string">"val: ~A~%"</span> val))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">use :test to specify equality test function, by defaut it is "eql"</span>
+(<span class="org-keyword">let</span> ((ht (make-hash-table <span class="org-builtin">:test</span> #'equal)))
+  (setf (gethash <span class="org-string">"zw"</span> ht) <span class="org-string">"pdbh"</span>)
+  (<span class="org-keyword">multiple-value-bind</span> (val ok) (gethash <span class="org-string">"zw"</span> ht)
+    (<span class="org-keyword">if</span> (not ok)
+        (format t <span class="org-string">"no record~%"</span>)
+        (format t <span class="org-string">"val: ~A~%"</span> val))))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">How to decide if a key is valid in map?</span>
+</pre>
+</div></li>
+
+<li><p>
+Remove member from hashtable<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((ht (make-hash-table)))
+  (setf (gethash 'zw ht) <span class="org-string">"pdbh"</span>)
+  (format t <span class="org-string">"key: ~A, value: ~A~%"</span> 'zw (gethash 'zw ht))
+  (remhash 'zw ht)
+  (format t <span class="org-string">"key: ~A, value: ~A~%"</span> 'zw (gethash 'zw ht)))
+</pre>
+</div></li>
+
+<li><p>
+Loop through hashtable<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((ht (make-hash-table)))
+  (setf (gethash 1 ht) <span class="org-string">"pdbh"</span>)
+  (setf (gethash 2 ht) <span class="org-string">"wei"</span>)
+  (setf (gethash 3 ht) <span class="org-string">"fox"</span>)
+
+  (maphash #'(<span class="org-keyword">lambda</span> (k v)
+               (format t <span class="org-string">"~A = ~A~%"</span> k v))
+           ht)
+
+  (terpri)
+  (<span class="org-keyword">let</span> ((keys ()))
+    (maphash #'(<span class="org-keyword">lambda</span> (k v)
+                 (format t <span class="org-string">"~A = ~A~%"</span> k v)
+                 <span class="org-comment-delimiter">;; </span><span class="org-comment">(setf keys (cons k keys))</span>
+                 (push k keys))
+             ht)
+    (format t <span class="org-string">"~A~%"</span> keys)
+    (setf keys (sort keys #'&gt;))
+    (format t <span class="org-string">"~A~%"</span> keys)
+    (terpri)
+
+    (mapcar #'(<span class="org-keyword">lambda</span> (x)
+                (format t <span class="org-string">"~A = ~A~%"</span> x (gethash x ht)))
+            keys)))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">sort hashtable</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">1) collect keys</span>
+(sort '(2 1 3) #'&lt;)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">2) loop through keys and retrieve value </span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org0c9201c" class="outline-3">
+<h3 id="org0c9201c"><span class="section-number-3">2.9.</span> Struct</h3>
+<div class="outline-text-3" id="text-2-9">
+<ol class="org-ol">
+<li><p>
+A basic example<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defstruct</span> <span class="org-type">point</span>
+  x
+  y) <span class="org-comment">; type order:  point -&gt; structure -&gt; atom -&gt; t</span>
+
+(setf p (make-point <span class="org-builtin">:x</span> 0 <span class="org-builtin">:y</span> 0)) <span class="org-comment">; make-point </span>
+(point-x p) <span class="org-comment">;access function</span>
+
+(point-p p) <span class="org-comment">; using point-p to test whether something is a point</span>
+(typep p 'point) <span class="org-comment">; using general-purpose function to test its type</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>By default, the default value is <code>NIL</code>.<br></li>
+</ul></li>
+
+<li><p>
+specify default values for structure field<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defstruct</span> <span class="org-type">polemic</span>
+  (type (<span class="org-keyword">progn</span>
+          (format t <span class="org-string">"what kind of polemic was it?"</span>)
+          (read)))
+  (effect nil))
+</pre>
+</div></li>
+
+<li><p>
+control how a structure is displayed and the prefix used in the name of the access function it creates<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defstruct</span> (<span class="org-type">point</span> (<span class="org-builtin">:conc-name</span> p)
+                  (<span class="org-builtin">:print-function</span> print-point))
+  (x 0)
+  (y 0))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">for print-function, the third argument could be ignored for most of time</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">print-point</span> (p stream depth)
+  (format stream <span class="org-string">"#&lt;~A, ~A&gt;"</span> (px p) (py p)))
+(setf p (make-point))
+</pre>
+</div>
+<ul class="org-ul">
+<li>We specify the default value.<br></li>
+<li>We specify the access-prefix.<br></li>
+<li>We specify the print-function which <b>must</b> takes 3 argument.<br></li>
+</ul></li>
+
+<li>Related questions<br>
+<ul class="org-ul">
+<li>How to create custom struct with zero value as simple as possible?<br>
+<ul class="org-ul">
+<li>The default value is <code>NIL</code>.<br></li>
+<li>We could specify the inital value when <code>defstruct</code>.<br></li>
+</ul></li>
+<li>How to access struct&rsquo;s attributes<br>
+<ul class="org-ul">
+<li><code>defstruct</code> create accessor functions automatically.<br></li>
+<li>By default, it is the <code>xxx-yy</code> format, where <code>xxx</code> is the struct name, and <code>yy</code> is the attribute name.<br></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org8a37fc2" class="outline-3">
+<h3 id="org8a37fc2"><span class="section-number-3">2.10.</span> Class</h3>
+<div class="outline-text-3" id="text-2-10">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defclass</span> <span class="org-type">rectangle</span> ()
+  (height width))
+
+(<span class="org-keyword">defclass</span> <span class="org-type">circle</span> ()
+  (radius))
+
+(<span class="org-keyword">defmethod</span> <span class="org-function-name">area</span> ((x rectangle))
+  (* (slot-value x 'height)
+     (slot-value x 'width)))
+
+(<span class="org-keyword">defmethod</span> <span class="org-function-name">area</span> ((x circle))
+  (* pi
+     (expt (slot-value x 'radius) 2)))
+
+(<span class="org-keyword">let</span> ((r (make-instance 'rectangle)))
+  (setf (slot-value r 'height) 20)
+  (setf (slot-value r 'width) 30)
+  (area r))
+</pre>
+</div>
+</div>
+</div>
+</section>
+
+<section id="outline-container-org5572689" class="outline-2">
+<h2 id="org5572689"><span class="section-number-2">3.</span> HOWTOs</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org1d6a105" class="outline-3">
+<h3 id="org1d6a105"><span class="section-number-3">3.1.</span> How to execute a function from <code>.lisp</code> file on terminal?</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li><p>
+Suppose we have a file called <code>playground.lisp</code>.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">main</span> ()
+  (print 'hello-world))
+</pre>
+</div></li>
+<li><p>
+Execute main function as<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">sbcl --noinform --load playground --eval <span class="org-string">'(progn (main) (sb-ext:quit))'</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7e1393c" class="outline-3">
+<h3 id="org7e1393c"><span class="section-number-3">3.2.</span> How to check equality?</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li><code>eq</code> return true only if two object are implementationnally identical.<br></li>
+<li><code>eql</code> is the same as <code>eq</code>, except that if the arguments are characters or numbers or numbers of the same type then their values are compared. It is the default comparision predicate when need equality check in common-lisp code (such :test).<br></li>
+<li><code>equal</code>, The equal predicate is true if its arguments are structurally similar (isomorphic) objects. A rough rule of thumb is that two objects are equal if and only if their printed representations are the same.<br></li>
+<li><code>equalp</code> return true if its argument would print the same with. <code>case-insensitive</code><br></li>
+<li>Some cases<br>
+<ol class="org-ol">
+<li><p>
+numbers<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(eql 5.0 5)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(equal 5 5.0)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(equalp 5 5.0)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-lisp">(= 5 5.0)
+</pre>
+</div></li>
+
+<li><p>
+List, String and Vector<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">list </span>
+(<span class="org-keyword">let</span> ((l1 (list 1 2 3))
+      (l2 (list 1 2 3)))
+  (format t <span class="org-string">"l1 is l2: ~A~%"</span> (eql l1 l2)) <span class="org-comment">; nil </span>
+  (format t <span class="org-string">"l1 has same content as l2: ~A~%"</span> (equal l1 l2)) <span class="org-comment">; t</span>
+  (format t <span class="org-string">"l1 has same content as l2: ~A~%"</span> (equalp l1 l2))) <span class="org-comment">; t</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">string </span>
+(<span class="org-keyword">let</span> ((s1 <span class="org-string">"abc"</span>)
+      (s2 <span class="org-string">"ABC"</span>))
+  (format t <span class="org-string">"s1 is s2: ~A~%"</span> (eql s1 s2)) <span class="org-comment">; nil </span>
+  (format t <span class="org-string">"s1 has same content as s2: ~A~%"</span> (equal s1 s2)) <span class="org-comment">; nil </span>
+  (format t <span class="org-string">"s1 has same content as s2: ~A~%"</span> (equalp s1 s2))) <span class="org-comment">; t</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">we have to use equalp to compare contents for list and array</span>
+(<span class="org-keyword">let</span> ((arr1 (make-array 3 <span class="org-builtin">:initial-contents</span> (list 1 2 3)))
+      (arr2 (make-array 3 <span class="org-builtin">:initial-contents</span> (list 1 2 3))))
+  (format t <span class="org-string">"arr1 is arr2: ~A~%"</span> (eql arr1 arr2)) <span class="org-comment">; nil </span>
+  (format t <span class="org-string">"arr1 has same content as arr2: ~A~%"</span> (equal arr1 arr2)) <span class="org-comment">; nil </span>
+  (format t <span class="org-string">"arr1 has same content as arr2: ~A~%"</span> (equalp arr1 arr2))) <span class="org-comment">; t</span>
+
+(<span class="org-keyword">let</span> ((v1 (vector 1 2 3))
+      (v2 (vector 1 2 3)))
+  (format t <span class="org-string">"v1 is v2: ~A~%"</span> (eql v1 v2)) <span class="org-comment">; nil</span>
+  (format t <span class="org-string">"v1 has same content as v2: ~A~%"</span> (equal v1 v2)) <span class="org-comment">; nil </span>
+  (format t <span class="org-string">"v1 has same content as v2: ~A~%"</span> (equalp v1 v2))) <span class="org-comment">; t</span>
+</pre>
+</div></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org64b103b" class="outline-3">
+<h3 id="org64b103b"><span class="section-number-3">3.3.</span> How to return multiple values?</h3>
+<div class="outline-text-3" id="text-3-3">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">return-values</span> ()
+  (values <span class="org-string">"zhao"</span> 86 t)) <span class="org-comment">; use values to return multiple values </span>
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">use-multiple-values</span> ()
+  (<span class="org-keyword">multiple-value-bind</span> (x y z) (return-values) <span class="org-comment">; use multiple-value-bind to receive</span>
+    (list x y z)))
+
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org733b13a" class="outline-3">
+<h3 id="org733b13a"><span class="section-number-3">3.4.</span> How to loop over a given list?</h3>
+<div class="outline-text-3" id="text-3-4">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">loop</span> for i in '(1 2 3 4 5) collect (* i i))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd7fefc4" class="outline-3">
+<h3 id="orgd7fefc4"><span class="section-number-3">3.5.</span> How to loop over a given vector?</h3>
+<div class="outline-text-3" id="text-3-5">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">loop</span> for i in (coerce (vector 1 2 3 4 5) 'list) collect (+ i i))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org20c7f20" class="outline-3">
+<h3 id="org20c7f20"><span class="section-number-3">3.6.</span> How to loop over array?</h3>
+<div class="outline-text-3" id="text-3-6">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let</span> ((myarr (make-array 5 <span class="org-builtin">:initial-contents</span> '(1 2 3 4 5))))
+  (<span class="org-keyword">loop</span> for i from 0 to (1- (length myarr))
+        do (<span class="org-keyword">progn</span>
+             (format t <span class="org-string">"myarr[~A]=~A~%"</span> i (aref myarr i)))))
+
+(<span class="org-keyword">loop</span> for i in (coerce (make-array 5 <span class="org-builtin">:initial-contents</span> '(1 2 3 4 5))
+                       'list)
+      collect (* 3 i))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb00b3ad" class="outline-3">
+<h3 id="orgb00b3ad"><span class="section-number-3">3.7.</span> How to process string?</h3>
+<div class="outline-text-3" id="text-3-7">
+<ol class="org-ol">
+<li><p>
+process string one character a time (loop over string)<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">loop</span> for c across <span class="org-string">"abcd"</span>
+      collect c)
+(<span class="org-keyword">loop</span> for c in (coerce <span class="org-string">"abcd"</span> 'list)
+      collect c)
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org0929f6c" class="outline-3">
+<h3 id="org0929f6c"><span class="section-number-3">3.8.</span> How to sort array?</h3>
+<div class="outline-text-3" id="text-3-8">
+<div class="org-src-container">
+<pre class="src src-lisp">(setf myarr (make-array 5 <span class="org-builtin">:initial-contents</span> '(5 4 3 1 2)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">swap-arr</span> (arr i j)
+  (<span class="org-keyword">let</span> ((tmp (aref arr i)))
+    (setf (aref arr i) (aref arr j))
+    (setf (aref arr j) tmp)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">qsort</span> (arr fnp)
+  (<span class="org-keyword">when</span> (&gt; (length arr) 0)
+    (<span class="org-keyword">labels</span> ((qsort-partition (arr p r)
+               (<span class="org-keyword">let*</span> ((i (1- p))
+                      (x (aref arr r)))
+                 (<span class="org-keyword">loop</span> for j from p to r
+                       do (<span class="org-keyword">when</span> (apply fnp (list (aref arr j) x))
+                            (setf i (1+ i))
+                            (swap-arr arr i j)))
+                 (swap-arr arr (1+ i) r)
+                 (1+ i)))
+             (qsort-aux (arr p r)
+               (<span class="org-keyword">when</span> (&lt; p r)
+                 (<span class="org-keyword">let</span> ((i (qsort-partition arr p r)))
+                   (qsort-aux arr p (1- i))
+                   (qsort-aux arr (1+ i) r)))))
+      (qsort-aux arr 0 (1- (length arr))))))
+
+(<span class="org-keyword">let</span> ((myarr (make-array 5 <span class="org-builtin">:initial-contents</span> '(3 1 2 5 4))))
+  (terpri)
+  (format t <span class="org-string">"~A~%"</span> myarr)
+  (qsort myarr #'&lt;)
+  (format t <span class="org-string">"~A~%"</span> myarr)
+  myarr)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0cde7ba" class="outline-3">
+<h3 id="org0cde7ba"><span class="section-number-3">3.9.</span> How to sort map by its key?</h3>
+</div>
+<div id="outline-container-org409e563" class="outline-3">
+<h3 id="org409e563"><span class="section-number-3">3.10.</span> How to add one element to the head of list?</h3>
+<div class="outline-text-3" id="text-3-10">
+<div class="org-src-container">
+<pre class="src src-lisp">(setf lst '(1 2 3))
+(cons 0 lst)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Use <code>cons</code> to add new element to the head of a list.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga5d6404" class="outline-3">
+<h3 id="orga5d6404"><span class="section-number-3">3.11.</span> How to append elements to the end of a list?</h3>
+<div class="outline-text-3" id="text-3-11">
+<div class="org-src-container">
+<pre class="src src-lisp">(setf lst '(1 2 3))
+(setf lst1 (append lst '(100 101)))
+(setf lst2 (append '(100 101) lst))
+
+(setf (nth 2 lst2) 1000)
+lst2
+lst1
+
+(append '(1 2 3) '(4 5 6) '(7 8 9))
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>append</code> creates <b>copy</b> of sequence.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2cddb02" class="outline-3">
+<h3 id="org2cddb02"><span class="section-number-3">3.12.</span> How to append elements to vector?</h3>
+<div class="outline-text-3" id="text-3-12">
+<div class="org-src-container">
+<pre class="src src-lisp">(setf vec #(1 2 3))
+
+(concatenate 'vector vec (vector 100 101))
+(concatenate 'vector (vector 100 101) vec)
+</pre>
+</div>
+<ul class="org-ul">
+<li>We can think of <code>concatenate</code> as a general <code>append</code> for <b>sequence</b>.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfe99715" class="outline-3">
+<h3 id="orgfe99715"><span class="section-number-3">3.13.</span> How to convert list to vector and vector to list?</h3>
+<div class="outline-text-3" id="text-3-13">
+<div class="org-src-container">
+<pre class="src src-lisp">(coerce '(1 2 3) 'vector)
+(concatenate 'list  #(1 2 3))
+
+(coerce #(1 2 3) 'list)
+(concatenate 'vector '(1 2 3))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbba5f4e" class="outline-3">
+<h3 id="orgbba5f4e"><span class="section-number-3">3.14.</span> How to concatenate sequence?</h3>
+<div class="outline-text-3" id="text-3-14">
+<div class="org-src-container">
+<pre class="src src-lisp">(concatenate 'list '(1 2) (vector 3 4 5))
+
+(concatenate 'vector '(a b) #(c d e))
+(concatenate 'vector '(a b) (vector 'c 'd 'e) #(f g))
+
+(concatenate 'string <span class="org-string">"hello"</span> <span class="org-string">" "</span> <span class="org-string">"world"</span>)
+</pre>
+</div>
+<ul class="org-ul">
+<li>The type must be one of these three types: list, vector and string (<b>not</b> including array).<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd1e480f" class="outline-3">
+<h3 id="orgd1e480f"><span class="section-number-3">3.15.</span> How to slice a sequence then concatenate the result with other sequence?</h3>
+<div class="outline-text-3" id="text-3-15">
+<ol class="org-ol">
+<li><p>
+<code>subseq</code> creates copy of sequence<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(setf myvec #(a b c d e f))
+(concatenate 'vector (subseq myvec 3) (vector 1 2 3))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Here, we create a slice from myvec set it to myseq</span>
+(setf myseq (subseq myvec 4))
+
+(setf (aref myseq 1) <span class="org-string">"100"</span>)
+myseq
+myvec
+</pre>
+</div>
+<ul class="org-ul">
+<li>Remember sequence includes vector(one-dimensional array) and list.<br></li>
+<li><code>subseq</code> creates copy. We modify the myseq, and the its original vector doesn&rsquo;t change<br></li>
+</ul></li>
+<li><p>
+In case we want to achieve the same passager for different buses effect:<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(ql:quickload <span class="org-builtin">:rutils</span>)
+
+(setf myvec #(a b c d e f))
+(setf mypart (rtl:slice myvec 4))
+(setf (aref mypart 1) <span class="org-string">"100"</span>)
+mypart
+myvec
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>rtl:slice</code> (from rutils package) create &ldquo;same passager in different bus&rdquo;.<br></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org8091715" class="outline-3">
+<h3 id="org8091715"><span class="section-number-3">3.16.</span> How to create a copy of sequence?</h3>
+<div class="outline-text-3" id="text-3-16">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">copy-array</span> (arr)
+  (setf result-array (subseq arr 0)))
+(<span class="org-keyword">let</span> ((vec (vector 1 2 3 4 5)))
+  (setf cp-vec (copy-array vec))
+  cp-vec)
+</pre>
+</div>
+<ul class="org-ul">
+<li>Use <code>subseq</code>.<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org6ec7d4c" class="outline-3">
+<h3 id="org6ec7d4c"><span class="section-number-3">3.17.</span> How to map over vector?</h3>
+<div class="outline-text-3" id="text-3-17">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;;;; </span><span class="org-comment">Dynamic Vectors</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">map-vec</span> (fn vec)
+  (<span class="org-keyword">let</span> ((result-vec (make-array (length vec))))
+    (<span class="org-keyword">dotimes</span> (i (length vec))
+      (setf (aref result-vec i) (funcall fn (aref vec i))))
+    result-vec))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">map-vec</span> (fn vec)
+  (<span class="org-keyword">let</span> ((result-vec (make-array (length vec))))
+    (<span class="org-keyword">dotimes</span> (i (length vec))
+      (setf (aref result-vec i) (apply fn (list (aref vec i)))))
+    result-vec))
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">use build-in map</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">map-vec</span> (fn vec)
+  (<span class="org-keyword">let</span> ((result-vec (map 'vector fn vec)))
+    result-vec))
+</pre>
+</div>
+<ul class="org-ul">
+<li>Notice that <code>apply</code> vs <code>funcall</code>: <code>apply</code> needs the arguments to be a list.<br></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc580305" class="outline-3">
+<h3 id="orgc580305"><span class="section-number-3">3.18.</span> How to do tail-recusive Fib?</h3>
+<div class="outline-text-3" id="text-3-18">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">fib</span> (n)
+  (<span class="org-keyword">labels</span> ((fib-aux (n a b)
+             (<span class="org-keyword">if</span> (= n 0)
+                 a
+                 (fib-aux (1- n) b (+ a b)))))
+    (fib-aux n 0 1)))
+
+(time (fib 4200))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgedd56b4" class="outline-3">
+<h3 id="orgedd56b4"><span class="section-number-3">3.19.</span> How to implement queue using list?</h3>
+<div class="outline-text-3" id="text-3-19">
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">our queue will have the following list structure:</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">((a b c) c)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">make-queue</span> ()
+  (cons nil nil))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">enqueue</span> (obj q)
+  (<span class="org-keyword">if</span> (null (car q))
+      (setf (cdr q) (setf (car q) (list obj)))
+      (setf (cdr (cdr q)) (list obj)
+            (cdr q) (cdr (cdr q))))
+  (car q))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">dequeue</span> (q)
+  (pop (car q)))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9b0906f" class="outline-3">
+<h3 id="org9b0906f"><span class="section-number-3">3.20.</span> How to generate a sequence from x to y with step z?</h3>
+<div class="outline-text-3" id="text-3-20">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">range</span> (max <span class="org-type">&amp;key</span> (min 0) (step 1))
+  (<span class="org-keyword">loop</span> for i from min below max by step collect i))
+
+(range 10)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org666a350" class="outline-3">
+<h3 id="org666a350"><span class="section-number-3">3.21.</span> How to read file line by line</h3>
+<div class="outline-text-3" id="text-3-21">
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">get-file</span> (filename)
+  (<span class="org-keyword">with-open-file</span> (stream filename)
+    (<span class="org-keyword">loop</span> for line = (read-line stream nil)
+          while line
+          collect line)))
+
+(setf speed-records-list (get-file <span class="org-string">"~/code/go-projects/algorithm-in-go/interview_problems/optiver/maximum_average_speed/speed.txt"</span>))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org52700b5" class="outline-3">
+<h3 id="org52700b5"><span class="section-number-3">3.22.</span> How to replace a part of sequence other sequence</h3>
+<div class="outline-text-3" id="text-3-22">
+<div class="org-src-container">
+<pre class="src src-lisp">(setf myvec (vector 0 1 2 3 4))
+(setf (subseq myvec 3 5) #(-1 -2 -3 -4 -5))
+myvec <span class="org-comment">;=&gt; #(0 1 2 -1 -2)</span>
+
+
+(replace <span class="org-string">"abcdefghij"</span> <span class="org-string">"0123456789"</span> <span class="org-builtin">:start1</span> 4 <span class="org-builtin">:end1</span> 7 <span class="org-builtin">:start2</span> 4)
+
+(setf myvec (vector 0 1 2 3 4 5))
+(replace myvec (vector 'a 'b 'c) <span class="org-builtin">:start1</span> 2 <span class="org-builtin">:end1</span> 4 <span class="org-builtin">:start2</span> 1) <span class="org-comment">;=&gt; #(0 1 B C 4 5)</span>
+</pre>
+</div>
+</div>
+</div>
+</section>
+<section id="outline-container-orgf1e65f5" class="outline-2">
+<h2 id="orgf1e65f5"><span class="section-number-2">4.</span> Be careful</h2>
+<div class="outline-text-2" id="text-4">
+<ol class="org-ol">
+<li><p>
+<code>sort</code> is destructive!.<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(<span class="org-keyword">let*</span> ((keys '(3 4 1 2 5))
+       (backup-keys (copy-list keys)))
+  (setf new-keys  (sort keys #'&lt;))
+  (format t <span class="org-string">"~A~%"</span> keys)
+  (format t <span class="org-string">"~A~%"</span> backup-keys)
+  (format t <span class="org-string">"~A~%"</span> new-keys))
+
+
+(<span class="org-keyword">let*</span> ((keys (vector 1 2 3 4 5))
+       (backup-keys (copy-list keys)))
+  (setf new-keys  (sort keys #'&lt;))
+  (format t <span class="org-string">"~A~%"</span> keys)
+  (format t <span class="org-string">"~A~%"</span> backup-keys)
+  (format t <span class="org-string">"~A~%"</span> new-keys))
+</pre>
+</div>
+<ul class="org-ul">
+<li>The original sequence will be modified.<br></li>
+<li>If we want to keep original one, use <code>copy-list</code>.<br></li>
+</ul></li>
+<li><p>
+<code>map</code> vs <code>mapcar</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp">(mapcar #'1+ (list 1 2 3 4)) <span class="org-comment">; =&gt; (2 3 4 5)</span>
+
+(map 'vector #'1+ (list 1 2 3 4)) <span class="org-comment">;=&gt;#(2 3 4 5)</span>
+(map 'list #'1+ (list 1 2 3 4)) <span class="org-comment">; =&gt; (2 3 4 5)</span>
+(map 'string #'(<span class="org-keyword">lambda</span> (x)
+                 (<span class="org-keyword">if</span> (oddp x)
+                     #\A
+                     #\B))
+     (list 1 2 3 4)) <span class="org-comment">; =&gt; "ABAB"</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>map works on any sequence while mapcar works on only list<br></li>
+</ul></li>
+
+<li><code>while</code> will return <code>nil</code> if no case matched!<br></li>
+</ol>
+</div>
+</section>
+
+<section id="outline-container-org7657742" class="outline-2">
+<h2 id="org7657742"><span class="section-number-2">5.</span> Practise using leetcode problems</h2>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
+</div>
+</footer>
+</body>
+</html>

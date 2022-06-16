@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 17, 2021 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Terraform Note</title>
-<meta name="generator" content="Org mode">
-<meta name="author" content="DESKTOP-TTOPQ58">
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
      function CodeHighlightOn(elem, id)
      {
        var target = document.getElementById(id);
@@ -32,7 +31,6 @@
          target.classList.remove("code-highlighted");
        }
      }
-    /*]]>*///-->
 // @license-end
 </script>
 </head>
@@ -65,25 +63,25 @@
   </ul>
 </div>
 </header>
-<main id="content">
+<main id="content" class="content">
 <header>
 <h1 class="title">Terraform Note</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org60b7b45">1. Terraform module</a>
+<li><a href="#org60faf1f">1. Terraform module</a>
 <ul>
-<li><a href="#org2fb3078">1.1. Module inputs</a></li>
-<li><a href="#orgee78b72">1.2. Module output</a></li>
+<li><a href="#orgdb8e3f8">1.1. Module inputs</a></li>
+<li><a href="#orga8c2752">1.2. Module output</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-org60b7b45" class="outline-2">
-<h2 id="org60b7b45"><span class="section-number-2">1</span> Terraform module</h2>
+<section id="outline-container-org60faf1f" class="outline-2">
+<h2 id="org60faf1f"><span class="section-number-2">1.</span> Terraform module</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Any set of Terraform configuration files in a folder is a module.<br></li>
@@ -92,8 +90,8 @@
 Syntax of using module<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-terraform"><span class="org-builtin">module</span> <span class="org-terraform--resource-name">"&lt;NAME&gt;"</span> {
-  <span class="org-variable-name">source</span> = <span class="org-string">"&lt;SOURCE&gt;"</span>
+<pre class="src src-terraform">module "&lt;NAME&gt;" {
+  source = "&lt;SOURCE&gt;"
   [CONFIG ...]
 }
 </pre>
@@ -103,7 +101,7 @@ Syntax of using module<br>
 <li><p>
 a module that is responsible for creating EC2 cluster<br>
 </p>
-<pre class="example" id="org81fff40">
+<pre class="example" id="org9ecf038">
 zw@zw-dev:~/code/terraform-projects/intro-to-terraform/modules$ tree .
 .
 └── services
@@ -118,11 +116,11 @@ zw@zw-dev:~/code/terraform-projects/intro-to-terraform/modules$ tree .
 You can create a new file in <code>stage/services/webserver-cluster/main.tf</code> and use the webserver-cluster module in it as follow:<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-terraform"><span class="org-builtin">provider</span> <span class="org-terraform--resource-type">"aws"</span> {
-  <span class="org-variable-name">region</span> = <span class="org-string">"us-east-2"</span>
+<pre class="src src-terraform">provider "aws" {
+  region = "us-east-2"
 }
-<span class="org-builtin">module</span> <span class="org-terraform--resource-name">"webserver_cluster"</span> {
-  <span class="org-variable-name">source</span> = <span class="org-string">"&lt;path&gt;/modules/services/webserver-cluster"</span>
+module "webserver_cluster" {
+  source = "&lt;path&gt;/modules/services/webserver-cluster"
 }
 </pre>
 </div>
@@ -134,8 +132,8 @@ You can create a new file in <code>stage/services/webserver-cluster/main.tf</cod
 </ul>
 </div>
 
-<div id="outline-container-org2fb3078" class="outline-3">
-<h3 id="org2fb3078"><span class="section-number-3">1.1</span> Module inputs</h3>
+<div id="outline-container-orgdb8e3f8" class="outline-3">
+<h3 id="orgdb8e3f8"><span class="section-number-3">1.1.</span> Module inputs</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li>As function in general programming language which has input variables, you can add input parameters in Terraform.<br></li>
@@ -143,9 +141,9 @@ You can create a new file in <code>stage/services/webserver-cluster/main.tf</cod
 First, define variables in modules, such as <code>cluster_name</code><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-terraform"><span class="org-builtin">variable</span> <span class="org-terraform--resource-name">"cluster_name"</span> {
-  <span class="org-variable-name">description</span> = <span class="org-string">"The name to use for all the cluster resources"</span>
-  <span class="org-variable-name">type</span>        = string
+<pre class="src src-terraform">variable "cluster_name" {
+  description = "The name to use for all the cluster resources"
+  type        = string
 }
 </pre>
 </div></li>
@@ -153,9 +151,9 @@ First, define variables in modules, such as <code>cluster_name</code><br>
 Second, set the new input variable accordingly<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-terraform"><span class="org-builtin">module</span> <span class="org-terraform--resource-name">"webserver_cluster"</span> {
-  <span class="org-variable-name">source</span> = <span class="org-string">"&lt;path&gt;/modules/services/webserver-cluster"</span>
-  <span class="org-variable-name">cluster_name</span> = <span class="org-string">"webservers-prod"</span>
+<pre class="src src-terraform">module "webserver_cluster" {
+  source = "&lt;path&gt;/modules/services/webserver-cluster"
+  cluster_name = "webservers-prod"
 }
 </pre>
 </div>
@@ -166,8 +164,8 @@ Second, set the new input variable accordingly<br>
 </div>
 </div>
 
-<div id="outline-container-orgee78b72" class="outline-3">
-<h3 id="orgee78b72"><span class="section-number-3">1.2</span> Module output</h3>
+<div id="outline-container-orga8c2752" class="outline-3">
+<h3 id="orga8c2752"><span class="section-number-3">1.2.</span> Module output</h3>
 <div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
 <li>First, define output in modules,<br></li>
@@ -175,17 +173,17 @@ Second, set the new input variable accordingly<br>
 Second, refer the output as same as refering resources outputs<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-terraform"><span class="org-comment"># module.&lt;MODULE_NAME&gt;.&lt;OUTPUT_NAME&gt;</span>
-<span class="org-variable-name">autoscaling_group_name</span> = module.webserver_cluster.asg_name
+<pre class="src src-terraform"># module.&lt;MODULE_NAME&gt;.&lt;OUTPUT_NAME&gt;
+autoscaling_group_name = module.webserver_cluster.asg_name
 </pre>
 </div></li>
 <li><p>
 (optinal), you could &ldquo;pass through&rdquo; output<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-terraform"><span class="org-builtin">output</span> <span class="org-terraform--resource-name">"clb_dns_name"</span> {
-  <span class="org-variable-name">value</span>       = module.webserver_cluster.clb_dns_name
-  <span class="org-variable-name">description</span> = <span class="org-string">"The domain name of the load balancer"</span>
+<pre class="src src-terraform">output "clb_dns_name" {
+  value       = module.webserver_cluster.clb_dns_name
+  description = "The domain name of the load balancer"
 }
 </pre>
 </div></li>
@@ -199,7 +197,7 @@ Second, refer the output as same as refering resources outputs<br>
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
 </div>
 </footer>
 </body>

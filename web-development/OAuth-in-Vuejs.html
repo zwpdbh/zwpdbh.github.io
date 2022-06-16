@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- May 17, 2021 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Jun 16, 2022 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Auth-in-Vuejs</title>
-<meta name="generator" content="Org mode">
-<meta name="author" content="DESKTOP-TTOPQ58">
+<meta name="author" content="zwpdbh" />
+<meta name="generator" content="Org Mode" />
 <link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
 <link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
 <link rel='stylesheet' href='/css/custom.css' type='text/css'/>
 <link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
      function CodeHighlightOn(elem, id)
      {
        var target = document.getElementById(id);
@@ -32,7 +31,6 @@
          target.classList.remove("code-highlighted");
        }
      }
-    /*]]>*///-->
 // @license-end
 </script>
 </head>
@@ -65,39 +63,39 @@
   </ul>
 </div>
 </header>
-<main id="content">
+<main id="content" class="content">
 <header>
 <h1 class="title">Auth-in-Vuejs</h1>
-</header><nav id="table-of-contents">
+</header><nav id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org34858d1">1. Introduction</a></li>
-<li><a href="#org073d028">2. How 0Auth2.0 works?</a>
+<li><a href="#org19e1d3d">1. Introduction</a></li>
+<li><a href="#org1ac0a98">2. How 0Auth2.0 works?</a>
 <ul>
-<li><a href="#orgeac9b78">2.1. What is OAuth2.0?</a></li>
-<li><a href="#orgb28250d">2.2. An example</a></li>
-<li><a href="#org3f2390b">2.3. Authorization code grant</a></li>
-<li><a href="#org1d45740">2.4. Obtain refreshed access-token</a></li>
+<li><a href="#org3fdd2b5">2.1. What is OAuth2.0?</a></li>
+<li><a href="#org6c9521d">2.2. An example</a></li>
+<li><a href="#orgfd8186b">2.3. Authorization code grant</a></li>
+<li><a href="#org5757a72">2.4. Obtain refreshed access-token</a></li>
 </ul>
 </li>
-<li><a href="#org7e19db0">3. How authentication and authorization are implemented in Vuejs?</a>
+<li><a href="#orgf04b84c">3. How authentication and authorization are implemented in Vuejs?</a>
 <ul>
-<li><a href="#org8c4e833">3.1. Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
-<li><a href="#orga6a2ab1">3.2. Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
-<li><a href="#orgc50491e">3.3. What does OIDC provider should do?</a></li>
-<li><a href="#orgb3b0b3d">3.4. What Vuejs backend should do (provide APIs)?</a></li>
-<li><a href="#org2e3924f">3.5. What Vuejs frontend should do?</a></li>
+<li><a href="#org4462c2b">3.1. Diagram of authorization-code-grant for Vuejs-frontend and backend</a></li>
+<li><a href="#orga1894ee">3.2. Define our Role-based-access(RBA) control model in PostgreSQL</a></li>
+<li><a href="#org032cf7e">3.3. What does OIDC provider should do?</a></li>
+<li><a href="#org4083d89">3.4. What Vuejs backend should do (provide APIs)?</a></li>
+<li><a href="#orgeb5f598">3.5. What Vuejs frontend should do?</a></li>
 </ul>
 </li>
-<li><a href="#orgfef3734">4. Summary</a></li>
-<li><a href="#org84f6122">5. References</a></li>
+<li><a href="#org680d887">4. Summary</a></li>
+<li><a href="#orgdaef492">5. References</a></li>
 </ul>
 </div>
 </nav>
 
-<section id="outline-container-org34858d1" class="outline-2">
-<h2 id="org34858d1"><span class="section-number-2">1</span> Introduction</h2>
+<section id="outline-container-org19e1d3d" class="outline-2">
+<h2 id="org19e1d3d"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This article introduce how I implement authentication and authorization for Vuejs app. The whole Vuejs project consist of 4 parts:<br>
@@ -112,12 +110,12 @@ This article introduce how I implement authentication and authorization for Vuej
 </section>
 
 
-<section id="outline-container-org073d028" class="outline-2">
-<h2 id="org073d028"><span class="section-number-2">2</span> How 0Auth2.0 works?</h2>
+<section id="outline-container-org1ac0a98" class="outline-2">
+<h2 id="org1ac0a98"><span class="section-number-2">2.</span> How 0Auth2.0 works?</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgeac9b78" class="outline-3">
-<h3 id="orgeac9b78"><span class="section-number-3">2.1</span> What is OAuth2.0?</h3>
+<div id="outline-container-org3fdd2b5" class="outline-3">
+<h3 id="org3fdd2b5"><span class="section-number-3">2.1.</span> What is OAuth2.0?</h3>
 <div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
 <li>It is a delegation protocol. It enable a 3rd party application to obtain limited access to an HTTP service.<br></li>
@@ -131,8 +129,8 @@ This article introduce how I implement authentication and authorization for Vuej
 </div>
 </div>
 
-<div id="outline-container-orgb28250d" class="outline-3">
-<h3 id="orgb28250d"><span class="section-number-3">2.2</span> An example</h3>
+<div id="outline-container-org6c9521d" class="outline-3">
+<h3 id="org6c9521d"><span class="section-number-3">2.2.</span> An example</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Suppose We have a cloud photo-storage service and a photo print service. We want to use the print service to print photo stored in phote-storage. Howerver, those two services are running by different companies.<br>
@@ -177,14 +175,14 @@ Based on how the client request an access-token (step 4), there could be differe
 </div>
 </div>
 
-<div id="outline-container-org3f2390b" class="outline-3">
-<h3 id="org3f2390b"><span class="section-number-3">2.3</span> Authorization code grant</h3>
+<div id="outline-container-orgfd8186b" class="outline-3">
+<h3 id="orgfd8186b"><span class="section-number-3">2.3.</span> Authorization code grant</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 <b>Authorization code</b> is a temporary code (authorization code) that the client will exchange for an access-token. This code is obtained from authorization server when user agree on what the information(usually permissions) the client is requesting.<br>
 </p>
 
-<figure id="org0bc586e">
+<figure id="org3c9e8f2">
 <img src="authorization-code-grant.png" alt="authorization-code-grant.png"><br>
 
 </figure>
@@ -206,7 +204,7 @@ Based on how the client request an access-token (step 4), there could be differe
 <li><p>
 step6, POST request with passing its <code>client_id</code> and <code>client_secret</code> as an HTTP Basic authorization header.<br>
 </p>
-<pre class="example" id="orgf59f147">
+<pre class="example" id="orgb880e65">
 Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 </pre>
 <ul class="org-ul">
@@ -224,7 +222,7 @@ Authorization: Basic b2F1dGgtY2xpZW50LTE6b2F1dGgtY2xpZW50LXNlY3JldC0x
 <li><p>
 if the code has not been used previously and the client making this request is the same as the client that made the original request, then the authorization server generates and returns a new access token for the client<br>
 </p>
-<pre class="example" id="org83d4bb9">
+<pre class="example" id="orga415eca">
 HTTP 200 OK
 Date: Fri, 31 Jul 2015 21:19:03 GMT
 Content-type: application/json
@@ -244,7 +242,7 @@ Content-type: application/json
 <li><p>
 present the access token as <b>OAuth Bearer token</b><br>
 </p>
-<pre class="example" id="orgc2c1cf0">
+<pre class="example" id="org6d39e24">
 GET /resource HTTP/1.1
 Host: localhost:9002
 Accept: application/json
@@ -261,14 +259,14 @@ Authorization: Bearer 987tghjkiu6trfghjuytrghj
 </div>
 </div>
 
-<div id="outline-container-org1d45740" class="outline-3">
-<h3 id="org1d45740"><span class="section-number-3">2.4</span> Obtain refreshed access-token</h3>
+<div id="outline-container-org5757a72" class="outline-3">
+<h3 id="org5757a72"><span class="section-number-3">2.4.</span> Obtain refreshed access-token</h3>
 <div class="outline-text-3" id="text-2-4">
 <p>
 Client could request refreshed access-token when the access-token expired. This time, the token is never sent to the protected resources. So, the client uses the refresh token to request new access token without involving the resource owner (user or browser).<br>
 </p>
 
-<figure id="orgd965b7a">
+<figure id="org8030d7a">
 <img src="refresh-token.png" alt="refresh-token.png"><br>
 
 </figure>
@@ -277,15 +275,15 @@ Client could request refreshed access-token when the access-token expired. This 
 </section>
 
 
-<section id="outline-container-org7e19db0" class="outline-2">
-<h2 id="org7e19db0"><span class="section-number-2">3</span> How authentication and authorization are implemented in Vuejs?</h2>
+<section id="outline-container-orgf04b84c" class="outline-2">
+<h2 id="orgf04b84c"><span class="section-number-2">3.</span> How authentication and authorization are implemented in Vuejs?</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org8c4e833" class="outline-3">
-<h3 id="org8c4e833"><span class="section-number-3">3.1</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
+<div id="outline-container-org4462c2b" class="outline-3">
+<h3 id="org4462c2b"><span class="section-number-3">3.1.</span> Diagram of authorization-code-grant for Vuejs-frontend and backend</h3>
 <div class="outline-text-3" id="text-3-1">
 
-<figure id="org91971e9">
+<figure id="org039e3e2">
 <img src="vuejs-oauth.png" alt="vuejs-oauth.png"><br>
 
 </figure>
@@ -363,15 +361,15 @@ Use middleware for some endpoint<br>
 </ul>
 
 
-<figure id="orga328c6f">
+<figure id="orgbd47b04">
 <img src="vuejs-oauth.png" alt="vuejs-oauth.png"><br>
 
 </figure>
 </div>
 </div>
 
-<div id="outline-container-orga6a2ab1" class="outline-3">
-<h3 id="orga6a2ab1"><span class="section-number-3">3.2</span> Define our Role-based-access(RBA) control model in PostgreSQL</h3>
+<div id="outline-container-orga1894ee" class="outline-3">
+<h3 id="orga1894ee"><span class="section-number-3">3.2.</span> Define our Role-based-access(RBA) control model in PostgreSQL</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 We define User, Role, Permission 3 basic entities as 3 tables<br>
@@ -533,22 +531,22 @@ Delete role with transactions<br>
 </div>
 </div>
 
-<div id="outline-container-orgc50491e" class="outline-3">
-<h3 id="orgc50491e"><span class="section-number-3">3.3</span> What does OIDC provider should do?</h3>
+<div id="outline-container-org032cf7e" class="outline-3">
+<h3 id="org032cf7e"><span class="section-number-3">3.3.</span> What does OIDC provider should do?</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 For OIDC provider, I am using <a href="https://github.com/panva/node-oidc-provider">node-oidc-provider</a>. It implements the OAuth2.0 protocol.<br>
 </p>
 <ul class="org-ul">
-<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#org3f2390b">step-3</a> in authorization code grant).<br></li>
+<li>The most important thing OIDC provider need to do is to validate the username and password when resources owner log (see <a href="#orgfd8186b">step-3</a> in authorization code grant).<br></li>
 <li>Check <a href="https://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a> and <a href="https://oauth.net/2/">OAuth 2.0</a><br></li>
 <li>Check <a href="https://tools.ietf.org/html/rfc6749#section-3">OAuth2.0 &#x2013; 3.Protocol Endpoints</a><br></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb3b0b3d" class="outline-3">
-<h3 id="orgb3b0b3d"><span class="section-number-3">3.4</span> What Vuejs backend should do (provide APIs)?</h3>
+<div id="outline-container-org4083d89" class="outline-3">
+<h3 id="org4083d89"><span class="section-number-3">3.4.</span> What Vuejs backend should do (provide APIs)?</h3>
 <div class="outline-text-3" id="text-3-4">
 <ol class="org-ol">
 <li><p>
@@ -651,8 +649,8 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 </div>
 </div>
 
-<div id="outline-container-org2e3924f" class="outline-3">
-<h3 id="org2e3924f"><span class="section-number-3">3.5</span> What Vuejs frontend should do?</h3>
+<div id="outline-container-orgeb5f598" class="outline-3">
+<h3 id="orgeb5f598"><span class="section-number-3">3.5.</span> What Vuejs frontend should do?</h3>
 <div class="outline-text-3" id="text-3-5">
 <ul class="org-ul">
 <li>Register client in authorization provider for:<br>
@@ -675,8 +673,8 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 </div>
 </section>
 
-<section id="outline-container-orgfef3734" class="outline-2">
-<h2 id="orgfef3734"><span class="section-number-2">4</span> Summary</h2>
+<section id="outline-container-org680d887" class="outline-2">
+<h2 id="org680d887"><span class="section-number-2">4.</span> Summary</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li>The OAuth is not a magic:<br>
@@ -691,8 +689,8 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 </div>
 </section>
 
-<section id="outline-container-org84f6122" class="outline-2">
-<h2 id="org84f6122"><span class="section-number-2">5</span> References</h2>
+<section id="outline-container-orgdaef492" class="outline-2">
+<h2 id="orgdaef492"><span class="section-number-2">5.</span> References</h2>
 <div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li><a href="https://www.amazon.com/OAuth-2-Action-Justin-Richer/dp/161729327X/ref=sr_1_2?dchild=1&amp;keywords=oauth2+in+action&amp;qid=1618846375&amp;sr=8-2">OAuth2 in Action</a><br></li>
@@ -707,7 +705,7 @@ jwt.verify(token, getKey, {}, <span class="org-keyword">function</span> (<span c
 <div class='footer'>
   Copyright © 2020 <a href='mailto:hyperion_z@outlook.com'>Zhao Wei.</a><br>
   Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
-  Last updated on May 17, 2021. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.5).
+  Last updated on Jun 16, 2022. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.5.2).
 </div>
 </footer>
 </body>
